@@ -109,7 +109,7 @@ export function AccessibilitePage({ onNavigate }: AccessibilitePageProps) {
         </CardBody>
       </Card>
 
-      <Alert variant="info" title="Voies de recours">
+      <Alert severity="info" title="Voies de recours">
         Si vous constatez un défaut d'accessibilité vous empêchant d'accéder à un contenu ou à une
         fonctionnalité, vous pouvez nous contacter pour être orienté vers une alternative ou obtenir
         le contenu sous une autre forme.

@@ -22,7 +22,7 @@ export function DonneesPersonnellesPage({ onNavigate }: DonneesPersonnellesPageP
         </p>
       </div>
 
-      <Alert variant="info" title="En résumé">
+      <Alert severity="info" title="En résumé">
         Vos données ne sont utilisées que pour traiter vos démarches administratives. Elles ne sont
         jamais cédées à des tiers à des fins commerciales et vous disposez à tout moment d'un droit
         d'accès, de rectification et de suppression.

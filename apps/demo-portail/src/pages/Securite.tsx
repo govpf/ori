@@ -235,7 +235,7 @@ export function SecuritePage({ onNavigate }: SecuritePageProps) {
             />
           </div>
           {twoFactor && (
-            <Alert variant="info">
+            <Alert severity="info">
               La configuration sera proposée à la prochaine connexion. Conservez vos
               <strong> codes de récupération</strong> dans un endroit sûr.
             </Alert>
