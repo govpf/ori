@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Table des matières latérale avec scroll-spy. Les `headings` sont en général fournis par le compilateur MDX du framework (Astro, Next.js, Docusaurus, etc.).",
+          'Table des matières latérale avec scroll-spy. Les `headings` sont en général fournis par le compilateur MDX du framework (Astro, Next.js, Docusaurus, etc.).',
       },
     },
   },

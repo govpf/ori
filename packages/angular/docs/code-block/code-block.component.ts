@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+  signal,
+} from '@angular/core';
 
 /**
  * Bloc de code avec en-tête (langue / nom de fichier) et bouton de copie.

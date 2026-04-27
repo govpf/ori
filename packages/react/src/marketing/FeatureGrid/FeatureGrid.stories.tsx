@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Grille auto-fit de cartes de fonctionnalité. Chaque carte (`FeatureCard`) accepte une icône, un titre et une description.",
+          'Grille auto-fit de cartes de fonctionnalité. Chaque carte (`FeatureCard`) accepte une icône, un titre et une description.',
       },
     },
   },

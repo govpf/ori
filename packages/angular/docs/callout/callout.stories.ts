@@ -12,7 +12,7 @@ const meta: Meta<CalloutStoryArgs> = {
     docs: {
       description: {
         component:
-          "Bloc éditorial pour mettre en avant une information dans la doc. 4 variantes : note, tip, warning, danger.",
+          'Bloc éditorial pour mettre en avant une information dans la doc. 4 variantes : note, tip, warning, danger.',
       },
     },
   },
@@ -24,7 +24,8 @@ const meta: Meta<CalloutStoryArgs> = {
   args: {
     variant: 'note',
     title: 'À noter',
-    content: 'Cette page documente les choix structurants faits lors de la création du design system.',
+    content:
+      'Cette page documente les choix structurants faits lors de la création du design system.',
   },
   render: (args: Args) => ({
     props: args,
@@ -36,9 +37,19 @@ export default meta;
 type Story = StoryObj<CalloutStoryArgs>;
 
 export const Note: Story = {};
-export const Tip: Story = { args: { variant: 'tip', title: 'Astuce', content: 'Préférer la composition à la configuration.' } };
-export const Warning: Story = { args: { variant: 'warning', title: 'Attention', content: 'Cette API est dépréciée.' } };
-export const Danger: Story = { args: { variant: 'danger', title: 'À ne pas faire', content: 'Ne jamais désactiver la sandbox des iframes.' } };
+export const Tip: Story = {
+  args: { variant: 'tip', title: 'Astuce', content: 'Préférer la composition à la configuration.' },
+};
+export const Warning: Story = {
+  args: { variant: 'warning', title: 'Attention', content: 'Cette API est dépréciée.' },
+};
+export const Danger: Story = {
+  args: {
+    variant: 'danger',
+    title: 'À ne pas faire',
+    content: 'Ne jamais désactiver la sandbox des iframes.',
+  },
+};
 
 export const AllVariants: Story = {
   render: () => ({

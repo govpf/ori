@@ -13,13 +13,11 @@ const meta: Meta<OriFeatureGridComponent> = {
     docs: {
       description: {
         component:
-          "Grille auto-fit de cartes de fonctionnalité. Chaque carte (`<ori-feature-card>`) accepte un titre, une description et une icône projetée via `[oriFeatureIcon]`.",
+          'Grille auto-fit de cartes de fonctionnalité. Chaque carte (`<ori-feature-card>`) accepte un titre, une description et une icône projetée via `[oriFeatureIcon]`.',
       },
     },
   },
-  decorators: [
-    moduleMetadata({ imports: [OriFeatureCardComponent, LucideAngularModule] }),
-  ],
+  decorators: [moduleMetadata({ imports: [OriFeatureCardComponent, LucideAngularModule] })],
 };
 
 export default meta;

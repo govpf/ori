@@ -70,7 +70,7 @@
 
 /* Sections génériques de landing : largeur lisible, padding vertical. */
 .site-section {
-  paddingInline: 1.5rem;
+  paddinginline: 1.5rem;
   padding: 4rem 1.5rem;
 }
 

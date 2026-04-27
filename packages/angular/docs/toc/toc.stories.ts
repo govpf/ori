@@ -19,7 +19,7 @@ const meta: Meta<OriTocComponent> = {
     docs: {
       description: {
         component:
-          "Table des matières latérale avec scroll-spy. Les `headings` sont en général fournis par le compilateur MDX du framework.",
+          'Table des matières latérale avec scroll-spy. Les `headings` sont en général fournis par le compilateur MDX du framework.',
       },
     },
   },

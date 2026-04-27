@@ -24,7 +24,7 @@ const meta = {
     variant: 'note',
     title: 'À noter',
     children:
-      "Cette page documente les choix structurants faits lors de la création du design system.",
+      'Cette page documente les choix structurants faits lors de la création du design system.',
   },
 } satisfies Meta<typeof Callout>;
 
@@ -34,15 +34,28 @@ type Story = StoryObj<typeof meta>;
 export const Note: Story = {};
 
 export const Tip: Story = {
-  args: { variant: 'tip', title: 'Astuce', children: "Préférer la composition à la configuration : passer un node React via children plutôt qu'un prop spécifique." },
+  args: {
+    variant: 'tip',
+    title: 'Astuce',
+    children:
+      "Préférer la composition à la configuration : passer un node React via children plutôt qu'un prop spécifique.",
+  },
 };
 
 export const Warning: Story = {
-  args: { variant: 'warning', title: 'Attention', children: "Cette API est dépréciée et sera retirée dans la version 1.0." },
+  args: {
+    variant: 'warning',
+    title: 'Attention',
+    children: 'Cette API est dépréciée et sera retirée dans la version 1.0.',
+  },
 };
 
 export const Danger: Story = {
-  args: { variant: 'danger', title: 'À ne pas faire', children: "Ne jamais désactiver la sandbox des iframes embarquant du contenu utilisateur." },
+  args: {
+    variant: 'danger',
+    title: 'À ne pas faire',
+    children: 'Ne jamais désactiver la sandbox des iframes embarquant du contenu utilisateur.',
+  },
 };
 
 export const NoTitle: Story = {
@@ -52,10 +65,18 @@ export const NoTitle: Story = {
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-      <Callout variant="note" title="Note">Information neutre.</Callout>
-      <Callout variant="tip" title="Astuce">Conseil pratique.</Callout>
-      <Callout variant="warning" title="Attention">Point de vigilance.</Callout>
-      <Callout variant="danger" title="Danger">À éviter absolument.</Callout>
+      <Callout variant="note" title="Note">
+        Information neutre.
+      </Callout>
+      <Callout variant="tip" title="Astuce">
+        Conseil pratique.
+      </Callout>
+      <Callout variant="warning" title="Attention">
+        Point de vigilance.
+      </Callout>
+      <Callout variant="danger" title="Danger">
+        À éviter absolument.
+      </Callout>
     </div>
   ),
 };
