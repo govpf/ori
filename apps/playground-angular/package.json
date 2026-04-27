@@ -14,7 +14,7 @@
     "@angular/common": "20.3.19",
     "@angular/compiler": "20.3.19",
     "@angular/core": "20.3.19",
-    "@angular/forms": "20.3.19",
+    "@angular/forms": "21.2.10",
     "@angular/platform-browser": "20.3.19",
     "@govpf/ori-angular": "workspace:*",
     "@govpf/ori-tailwind-preset": "workspace:*",
