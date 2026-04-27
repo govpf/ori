@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Ori - design system de l'administration de la Polynésie française",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "packageManager": "pnpm@10.29.3",
   "engines": {
     "node": ">=20.11.0",
