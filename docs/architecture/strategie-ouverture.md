@@ -1,4 +1,3 @@
-
 # Stratégie d'ouverture du design system
 
 Cette page documente la position de Ori sur la question : **faut-il rendre
@@ -27,7 +26,7 @@ repo n'est pas privé sur le réseau.
 
 ## Les vrais sujets de sécurité ne sont pas dans le DS
 
-Aucune décision UI ne doit être *load-bearing* pour la sécurité. Les
+Aucune décision UI ne doit être _load-bearing_ pour la sécurité. Les
 contrôles vivent côté serveur :
 
 - authentification et fédération d'identité (Keycloak)
@@ -44,14 +43,14 @@ classe `.ori-form` ou la structure d'un écran Keycloak, c'est une faille
 
 Toutes les administrations comparables publient leur DS :
 
-| Administration | Design system | Licence |
-|---|---|---|
-| France | DSFR | MIT |
-| Royaume-Uni | GOV.UK Design System | MIT |
-| États-Unis | USWDS | Domaine public (CC0 / public.gov.uk) |
-| Canada | Canada.ca / GC Design System | MIT |
-| Australie | Australian GOV Design System | MIT |
-| Belgique | DS BOSA | EUPL |
+| Administration | Design system                | Licence                              |
+| -------------- | ---------------------------- | ------------------------------------ |
+| France         | DSFR                         | MIT                                  |
+| Royaume-Uni    | GOV.UK Design System         | MIT                                  |
+| États-Unis     | USWDS                        | Domaine public (CC0 / public.gov.uk) |
+| Canada         | Canada.ca / GC Design System | MIT                                  |
+| Australie      | Australian GOV Design System | MIT                                  |
+| Belgique       | DS BOSA                      | EUPL                                 |
 
 C'est un signal fort : en service public, le bénéfice (transparence,
 contributions externes, audits a11y/sécu communautaires, crédibilité,
@@ -105,18 +104,21 @@ Politique claire à afficher dès le début, par exemple dans le README :
 Trois zones à garder strictement internes même quand le DS est open source :
 
 ### 1. Secrets et configurations d'infra
+
 - Fichiers `.env*`, credentials, certificats, clés privées, tokens d'API
 - IPs internes, hostnames intranet, URLs d'admin Keycloak
 - Configurations Keycloak réelles (au-delà des templates FTL publics
   documentés ici)
 
 ### 2. Cartographie des consommateurs
-- Ne pas publier la liste exhaustive *"service A utilise Ori@1.2.3,
-  service B utilise Ori@1.4.0"*
+
+- Ne pas publier la liste exhaustive _"service A utilise Ori@1.2.3,
+  service B utilise Ori@1.4.0"_
 - Cela faciliterait le fingerprinting et le ciblage de campagnes
 - Le DS est public ; l'inventaire d'usage reste interne
 
 ### 3. Stratégie supply chain
+
 - Mesures de protection du compte npm (2FA, restrictions IP, audit logs)
 - Plan de réponse en cas de compromission de package
 - Liste des mainteneurs autorisés à publier
@@ -178,7 +180,7 @@ avant publication.
 - [x] Publication explicite en `--access public` (sinon les packages
       privés ne sont visibles que par l'organisation)
 - [x] Lockfile `pnpm-lock.yaml` committé et utilisé en CI (`pnpm install
-      --frozen-lockfile`)
+    --frozen-lockfile`)
 - [x] Désigner les **mainteneurs autorisés à publier** (limite la
       surface d'attaque)
 - [ ] Plan de réponse documenté en cas de compromission de package
@@ -215,7 +217,7 @@ avant publication.
       par défaut, élargir au cas par cas)
 - [x] OIDC pour les déploiements (pas de long-lived tokens)
 - [x] Si un workflow publie sur npm : isolé, avec `environment:
-      production` pour ajouter une review manuelle
+    production` pour ajouter une review manuelle
 
 ### H. Communication et lancement
 

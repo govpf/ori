@@ -1,4 +1,3 @@
-
 # Décisions de design
 
 Cette page documente les choix structurants faits lors de la création de
@@ -16,17 +15,17 @@ Ces éléments font partie de l'**identité institutionnelle de la Polynésie
 française** (et non d'un service en particulier) et n'ont pas de raison
 d'évoluer juste parce qu'on refait l'outillage.
 
-| Élément | Valeur | Source |
-|---|---|---|
-| Bleu de marque | `#073CA5` (anchor `primary.500`) | pf-ui `primary.500` |
-| Échelle bleu primary 50 → 950 | identique | pf-ui `primary.0 → 950` (renumérotée) |
-| Rouge erreur / danger | `#CF0921` (anchor `danger.500`) | pf-ui `red.500` |
-| Échelle rouge danger 50 → 950 | identique | pf-ui `red.0 → 950` |
-| Vert succès | `#0BB25A` | pf-ui `severity.success` |
-| Orange warning | `#F97316` | pf-ui `severity.warn` |
-| Info | aliasé sur primary | pf-ui `severity.info: '\{primary.color\}'` |
-| Police principale | **Inter** (variable font embarqué) | pf-ui `--default-font-family` |
-| Breakpoints | `sm: 500, md: 768, lg: 992, xl: 1200` (px) | pf-ui `breakpoints.scss` |
+| Élément                       | Valeur                                     | Source                                     |
+| ----------------------------- | ------------------------------------------ | ------------------------------------------ |
+| Bleu de marque                | `#073CA5` (anchor `primary.500`)           | pf-ui `primary.500`                        |
+| Échelle bleu primary 50 → 950 | identique                                  | pf-ui `primary.0 → 950` (renumérotée)      |
+| Rouge erreur / danger         | `#CF0921` (anchor `danger.500`)            | pf-ui `red.500`                            |
+| Échelle rouge danger 50 → 950 | identique                                  | pf-ui `red.0 → 950`                        |
+| Vert succès                   | `#0BB25A`                                  | pf-ui `severity.success`                   |
+| Orange warning                | `#F97316`                                  | pf-ui `severity.warn`                      |
+| Info                          | aliasé sur primary                         | pf-ui `severity.info: '\{primary.color\}'` |
+| Police principale             | **Inter** (variable font embarqué)         | pf-ui `--default-font-family`              |
+| Breakpoints                   | `sm: 500, md: 768, lg: 992, xl: 1200` (px) | pf-ui `breakpoints.scss`                   |
 
 ## 2. Ce qu'on a volontairement modernisé
 
@@ -35,28 +34,28 @@ mais sont aujourd'hui **datés** par rapport aux standards des design systems
 modernes (shadcn, Radix, Vercel Geist, GitHub Primer, Linear). On les a
 revisités sans mauvaise conscience :
 
-| Sujet | pf-ui legacy | Ori (notre choix) | Pourquoi |
-|---|---|---|---|
-| Border radius des boutons | `24px` (pill) | `0.375rem` ≈ `6px` | Le pill button était une mode 2018-2020. Aujourd'hui, les DS pros utilisent des angles légers. On garde du soft sans tomber dans le décoratif. |
-| Border radius cards / dialogs | `16px` (`xl`) | `8px` (`lg`) | Même logique : lisibilité avant décoration. |
-| Texte primaire (light) | noir pur `#000000` | `neutral.900` = `#18181b` | Le noir pur est trop dur sur écrans modernes (DPI élevés, OLED). Tous les DS contemporains utilisent un "near-black". |
-| Background dark | `#222222` (valeur magique) | `neutral.900` = `#18181b` | Une seule échelle neutre cohérente, pas de couleurs hors système. |
-| Surface inputs (light) | `#EFF3F8` (bleuté pâle) | `surface.base` = blanc | Le tinted-input était un héritage skeumorphique. Plat + bordure claire suffit. |
-| Échelle neutre dark | **slate** (cast bleuté) | **zinc** (neutre pur) | Continuité avec light (zinc partout). Évite le "saut" de chroma entre modes. |
-| `severity.danger` séparé de `red.500` | `#E01216` ≠ `#CF0921` | une seule échelle `danger.*` | pf-ui avait deux rouges légèrement différents (probablement une dérive historique). On unifie. |
-| Tailles de titres | tokens `--pf-h1` à `--pf-h6` (desktop + mobile) | échelle générique `font.size.xs → 4xl` | Découple typo et tag HTML. Une typo `2xl` peut être appliquée à un `<h1>` ou un `<p>` selon le contexte sémantique du composant. |
+| Sujet                                 | pf-ui legacy                                    | Ori (notre choix)                      | Pourquoi                                                                                                                                       |
+| ------------------------------------- | ----------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Border radius des boutons             | `24px` (pill)                                   | `0.375rem` ≈ `6px`                     | Le pill button était une mode 2018-2020. Aujourd'hui, les DS pros utilisent des angles légers. On garde du soft sans tomber dans le décoratif. |
+| Border radius cards / dialogs         | `16px` (`xl`)                                   | `8px` (`lg`)                           | Même logique : lisibilité avant décoration.                                                                                                    |
+| Texte primaire (light)                | noir pur `#000000`                              | `neutral.900` = `#18181b`              | Le noir pur est trop dur sur écrans modernes (DPI élevés, OLED). Tous les DS contemporains utilisent un "near-black".                          |
+| Background dark                       | `#222222` (valeur magique)                      | `neutral.900` = `#18181b`              | Une seule échelle neutre cohérente, pas de couleurs hors système.                                                                              |
+| Surface inputs (light)                | `#EFF3F8` (bleuté pâle)                         | `surface.base` = blanc                 | Le tinted-input était un héritage skeumorphique. Plat + bordure claire suffit.                                                                 |
+| Échelle neutre dark                   | **slate** (cast bleuté)                         | **zinc** (neutre pur)                  | Continuité avec light (zinc partout). Évite le "saut" de chroma entre modes.                                                                   |
+| `severity.danger` séparé de `red.500` | `#E01216` ≠ `#CF0921`                           | une seule échelle `danger.*`           | pf-ui avait deux rouges légèrement différents (probablement une dérive historique). On unifie.                                                 |
+| Tailles de titres                     | tokens `--pf-h1` à `--pf-h6` (desktop + mobile) | échelle générique `font.size.xs → 4xl` | Découple typo et tag HTML. Une typo `2xl` peut être appliquée à un `<h1>` ou un `<p>` selon le contexte sémantique du composant.               |
 
 ## 3. Tokens introduits qui n'existaient pas dans pf-ui
 
-| Token | Description |
-|---|---|
+| Token                               | Description                                                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `color.brand.*` (alias sémantiques) | `primary`, `primary-hover`, `primary-active`, `primary-subtle`, `on-primary` - décoréllation marque ↔ palette brute |
-| `color.surface.*` | `base`, `muted`, `subtle`, `inverse` - abstraction des fonds par rôle |
-| `color.text.*` | `primary`, `secondary`, `muted`, `inverse`, `disabled`, `link` - hiérarchie typographique |
-| `color.border.*` | `subtle`, `default`, `strong`, `focus` - niveaux de prominence |
-| `color.feedback.*` (+ `*-bg`) | aliases de `success`, `warning`, `danger`, `info` |
-| `motion.duration` & `motion.easing` | tokens d'animation absents de pf-ui |
-| Variables CSS dynamiques | tout le DS bascule en thème sombre via `[data-theme="dark"]`, sans recompilation |
+| `color.surface.*`                   | `base`, `muted`, `subtle`, `inverse` - abstraction des fonds par rôle                                               |
+| `color.text.*`                      | `primary`, `secondary`, `muted`, `inverse`, `disabled`, `link` - hiérarchie typographique                           |
+| `color.border.*`                    | `subtle`, `default`, `strong`, `focus` - niveaux de prominence                                                      |
+| `color.feedback.*` (+ `*-bg`)       | aliases de `success`, `warning`, `danger`, `info`                                                                   |
+| `motion.duration` & `motion.easing` | tokens d'animation absents de pf-ui                                                                                 |
+| Variables CSS dynamiques            | tout le DS bascule en thème sombre via `[data-theme="dark"]`, sans recompilation                                    |
 
 ## 4. Conséquences pratiques
 

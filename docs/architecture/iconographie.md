@@ -1,4 +1,3 @@
-
 # Iconographie
 
 Cette page documente le **choix de la bibliothèque d'icônes** pour Ori, son
@@ -27,16 +26,21 @@ Si une icône doit porter un sens sémantique fort (succès vert, danger rouge,
 etc.), c'est le **conteneur** qui porte la couleur, l'icône hérite :
 
 ```tsx
-{/* ✅ Bon : la couleur vient du conteneur sémantique */}
+{
+  /* ✅ Bon : la couleur vient du conteneur sémantique */
+}
 <span className="text-success">
-  <Check />  Tout va bien
-</span>
+  <Check /> Tout va bien
+</span>;
 
-{/* ❌ Mauvais : couleur appliquée directement sur l'icône */}
-<Check style={{ color: 'green' }} />
+{
+  /* ❌ Mauvais : couleur appliquée directement sur l'icône */
+}
+<Check style={{ color: 'green' }} />;
 ```
 
 Cette règle garantit :
+
 - une **cohérence automatique avec le thème** (light/dark sans intervention)
 - une **prédictibilité** : un dev sait que l'icône suit le texte
 - un **bundle size optimal** : pas de variantes par couleur
@@ -55,10 +59,10 @@ Les icônes sont un **choix structurant** d'un design system :
 
 Pf-ui mélange **deux bibliothèques** :
 
-| Bibliothèque | Usage dans pf-ui | Pattern |
-|---|---|---|
-| **PrimeIcons** | ~98% des icônes | `<i class="pi pi-eye"></i>` |
-| **Remixicon** | ~2% (cas isolés) | `<i class="ri-checkbox-circle-fill"></i>` |
+| Bibliothèque   | Usage dans pf-ui | Pattern                                   |
+| -------------- | ---------------- | ----------------------------------------- |
+| **PrimeIcons** | ~98% des icônes  | `<i class="pi pi-eye"></i>`               |
+| **Remixicon**  | ~2% (cas isolés) | `<i class="ri-checkbox-circle-fill"></i>` |
 
 C'est un **héritage technique**, pas un choix délibéré :
 
@@ -71,27 +75,27 @@ peut repartir d'une feuille blanche.
 
 ## Critères de choix pour Ori
 
-| Critère | Pourquoi c'est important |
-|---|---|
-| **Multi-framework** (React + Angular + SVG bruts) | Une seule lib pour nos 3 cibles, parité visuelle exacte |
-| **Tree-shaking** | Importer seulement les icônes utilisées, pas tout le set |
-| **Cohérence visuelle** | Toutes les icônes doivent partager grille, poids, métriques |
-| **Couverture** | ≥ 1000 icônes pour couvrir les besoins d'apps admin |
-| **License permissive** | MIT/ISC pour pas se retrouver coincé |
-| **Communauté active** | Maintenance et ajouts réguliers |
+| Critère                                           | Pourquoi c'est important                                    |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| **Multi-framework** (React + Angular + SVG bruts) | Une seule lib pour nos 3 cibles, parité visuelle exacte     |
+| **Tree-shaking**                                  | Importer seulement les icônes utilisées, pas tout le set    |
+| **Cohérence visuelle**                            | Toutes les icônes doivent partager grille, poids, métriques |
+| **Couverture**                                    | ≥ 1000 icônes pour couvrir les besoins d'apps admin         |
+| **License permissive**                            | MIT/ISC pour pas se retrouver coincé                        |
+| **Communauté active**                             | Maintenance et ajouts réguliers                             |
 
 ## Options évaluées
 
 ### Lucide
 
-| | |
-|---|---|
-| Volume | ~1600 icônes |
-| Style | Trait 2px, grille 24×24, design unifié et professionnel |
-| Frameworks | `lucide-react`, `lucide-angular`, `@lucide/web` (web components), SVG bruts via lucide.dev |
-| Tree-shaking | Oui (par import) |
-| License | ISC |
-| Adopté par | shadcn/ui, Vercel Geist, Linear, Cal.com, beaucoup de DS modernes 2024-2026 |
+|              |                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| Volume       | ~1600 icônes                                                                               |
+| Style        | Trait 2px, grille 24×24, design unifié et professionnel                                    |
+| Frameworks   | `lucide-react`, `lucide-angular`, `@lucide/web` (web components), SVG bruts via lucide.dev |
+| Tree-shaking | Oui (par import)                                                                           |
+| License      | ISC                                                                                        |
+| Adopté par   | shadcn/ui, Vercel Geist, Linear, Cal.com, beaucoup de DS modernes 2024-2026                |
 
 **Pour** : standard de fait moderne, design impeccable, couverture suffisante,
 la même icône s'utilise vraiment identiquement entre React, Angular, et un SVG
@@ -102,13 +106,13 @@ pasted dans GLPI.
 
 ### Phosphor
 
-| | |
-|---|---|
-| Volume | ~9000 icônes (1500 × 6 weights : thin, light, regular, bold, fill, duotone) |
-| Style | Plusieurs poids, design cohérent dans chaque weight |
-| Frameworks | `@phosphor-icons/react`, `@phosphor-icons/web` (web components), Vue, Flutter |
-| Tree-shaking | Oui |
-| License | MIT |
+|              |                                                                               |
+| ------------ | ----------------------------------------------------------------------------- |
+| Volume       | ~9000 icônes (1500 × 6 weights : thin, light, regular, bold, fill, duotone)   |
+| Style        | Plusieurs poids, design cohérent dans chaque weight                           |
+| Frameworks   | `@phosphor-icons/react`, `@phosphor-icons/web` (web components), Vue, Flutter |
+| Tree-shaking | Oui                                                                           |
+| License      | MIT                                                                           |
 
 **Pour** : volume énorme, multiples weights pour des nuances visuelles fines.
 
@@ -117,13 +121,13 @@ components ou les SVG bruts), design un peu spécifique (parfois "joueur").
 
 ### Tabler Icons
 
-| | |
-|---|---|
-| Volume | ~5800 icônes |
-| Style | Trait 2px, grille 24×24, similaire à Lucide |
-| Frameworks | `@tabler/icons-react`, `@tabler/icons-angular`, web components, SVG |
-| Tree-shaking | Oui |
-| License | MIT |
+|              |                                                                     |
+| ------------ | ------------------------------------------------------------------- |
+| Volume       | ~5800 icônes                                                        |
+| Style        | Trait 2px, grille 24×24, similaire à Lucide                         |
+| Frameworks   | `@tabler/icons-react`, `@tabler/icons-angular`, web components, SVG |
+| Tree-shaking | Oui                                                                 |
+| License      | MIT                                                                 |
 
 **Pour** : couverture massive (3× Lucide), bonne qualité, multi-framework.
 
@@ -132,14 +136,14 @@ récemment ajoutés (la communauté apporte beaucoup).
 
 ### Heroicons
 
-| | |
-|---|---|
-| Volume | ~300 icônes |
-| Style | 2 styles (outline 24×24, solid 20×20) |
-| Frameworks | `@heroicons/react`, Vue, SVG |
-| Tree-shaking | Oui |
-| License | MIT |
-| Adopté par | écosystème Tailwind |
+|              |                                       |
+| ------------ | ------------------------------------- |
+| Volume       | ~300 icônes                           |
+| Style        | 2 styles (outline 24×24, solid 20×20) |
+| Frameworks   | `@heroicons/react`, Vue, SVG          |
+| Tree-shaking | Oui                                   |
+| License      | MIT                                   |
+| Adopté par   | écosystème Tailwind                   |
 
 **Pour** : design irréprochable, soigné par l'équipe Tailwind.
 
@@ -147,13 +151,13 @@ récemment ajoutés (la communauté apporte beaucoup).
 
 ### Remixicon (continuité pf-ui)
 
-| | |
-|---|---|
-| Volume | ~3000 icônes |
-| Style | Variations possibles (line / fill) |
-| Frameworks | Font CSS principalement, SVG via téléchargement individuel |
-| Tree-shaking | Non (font globale) |
-| License | Apache 2.0 |
+|              |                                                            |
+| ------------ | ---------------------------------------------------------- |
+| Volume       | ~3000 icônes                                               |
+| Style        | Variations possibles (line / fill)                         |
+| Frameworks   | Font CSS principalement, SVG via téléchargement individuel |
+| Tree-shaking | Non (font globale)                                         |
+| License      | Apache 2.0                                                 |
 
 **Pour** : déjà présent dans pf-ui, transition douce.
 
@@ -167,14 +171,14 @@ qu'on a quitté, pas de tree-shaking.
 
 ## Tableau de synthèse
 
-| Lib | Volume | Multi-framework | Tree-shaking | Design | Recommandation |
-|---|---|---|---|---|---|
-| **Lucide** | 1600 | React + Angular + SVG | ✓ | Excellent | ⭐ **Top choice** |
-| Phosphor | 9000 | React + SVG (Angular via WC) | ✓ | Bon | Si besoin volumineux |
-| Tabler | 5800 | React + Angular + SVG | ✓ | Bon | Alternative volumineuse |
-| Heroicons | 300 | React + SVG (Angular via WC) | ✓ | Excellent | Si volume suffit |
-| Remixicon | 3000 | Font + SVG individuels | ✗ | Daté | Continuité pf-ui mais pas idéal |
-| PrimeIcons | 250 | Font | ✗ | Daté | À écarter |
+| Lib        | Volume | Multi-framework              | Tree-shaking | Design    | Recommandation                  |
+| ---------- | ------ | ---------------------------- | ------------ | --------- | ------------------------------- |
+| **Lucide** | 1600   | React + Angular + SVG        | ✓            | Excellent | ⭐ **Top choice**               |
+| Phosphor   | 9000   | React + SVG (Angular via WC) | ✓            | Bon       | Si besoin volumineux            |
+| Tabler     | 5800   | React + Angular + SVG        | ✓            | Bon       | Alternative volumineuse         |
+| Heroicons  | 300    | React + SVG (Angular via WC) | ✓            | Excellent | Si volume suffit                |
+| Remixicon  | 3000   | Font + SVG individuels       | ✗            | Daté      | Continuité pf-ui mais pas idéal |
+| PrimeIcons | 250    | Font                         | ✗            | Daté      | À écarter                       |
 
 ## Recommandation
 
@@ -207,7 +211,7 @@ sur les tokens de spacing :
 
 ```tsx
 // React
-<OriIcon name="mail" size="md" />     // size: sm (16px) | md (20px) | lg (24px)
+<OriIcon name="mail" size="md" /> // size: sm (16px) | md (20px) | lg (24px)
 ```
 
 ```html

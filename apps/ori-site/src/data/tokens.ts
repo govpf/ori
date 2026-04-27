@@ -58,7 +58,7 @@ export const palettes: Palette[] = [
   },
   {
     family: 'danger',
-    description: "Erreurs critiques, suppressions, états bloquants.",
+    description: 'Erreurs critiques, suppressions, états bloquants.',
     shades: [
       { shade: '50', hex: '#fff1f2' },
       { shade: '100', hex: '#fbd2d7' },
@@ -119,52 +119,155 @@ export const semanticGroups: SemanticGroup[] = [
     category: 'Marque',
     description: "Couleur primaire et ses déclinaisons d'état.",
     tokens: [
-      { name: 'brand / primary', varName: '--color-brand-primary', resolvesTo: '--color-primary-500' },
-      { name: 'brand / primary-hover', varName: '--color-brand-primary-hover', resolvesTo: '--color-primary-600' },
-      { name: 'brand / primary-active', varName: '--color-brand-primary-active', resolvesTo: '--color-primary-700' },
-      { name: 'brand / primary-subtle', varName: '--color-brand-primary-subtle', resolvesTo: '--color-primary-50' },
-      { name: 'brand / on-primary', varName: '--color-brand-on-primary', hint: 'texte sur fond primary', resolvesTo: '--color-neutral-0' },
+      {
+        name: 'brand / primary',
+        varName: '--color-brand-primary',
+        resolvesTo: '--color-primary-500',
+      },
+      {
+        name: 'brand / primary-hover',
+        varName: '--color-brand-primary-hover',
+        resolvesTo: '--color-primary-600',
+      },
+      {
+        name: 'brand / primary-active',
+        varName: '--color-brand-primary-active',
+        resolvesTo: '--color-primary-700',
+      },
+      {
+        name: 'brand / primary-subtle',
+        varName: '--color-brand-primary-subtle',
+        resolvesTo: '--color-primary-50',
+      },
+      {
+        name: 'brand / on-primary',
+        varName: '--color-brand-on-primary',
+        hint: 'texte sur fond primary',
+        resolvesTo: '--color-neutral-0',
+      },
     ],
   },
   {
     category: 'Surfaces',
     description: 'Fonds des conteneurs (page, cartes, sections).',
     tokens: [
-      { name: 'surface / base', varName: '--color-surface-base', hint: 'fond principal de la page', resolvesTo: '--color-neutral-0' },
-      { name: 'surface / muted', varName: '--color-surface-muted', hint: 'sections atténuées', resolvesTo: '--color-neutral-50' },
-      { name: 'surface / subtle', varName: '--color-surface-subtle', hint: 'séparation discrète', resolvesTo: '--color-neutral-100' },
-      { name: 'surface / inverse', varName: '--color-surface-inverse', hint: 'fond sombre (banner, code)', resolvesTo: '--color-neutral-900' },
+      {
+        name: 'surface / base',
+        varName: '--color-surface-base',
+        hint: 'fond principal de la page',
+        resolvesTo: '--color-neutral-0',
+      },
+      {
+        name: 'surface / muted',
+        varName: '--color-surface-muted',
+        hint: 'sections atténuées',
+        resolvesTo: '--color-neutral-50',
+      },
+      {
+        name: 'surface / subtle',
+        varName: '--color-surface-subtle',
+        hint: 'séparation discrète',
+        resolvesTo: '--color-neutral-100',
+      },
+      {
+        name: 'surface / inverse',
+        varName: '--color-surface-inverse',
+        hint: 'fond sombre (banner, code)',
+        resolvesTo: '--color-neutral-900',
+      },
     ],
   },
   {
     category: 'Texte',
     description: 'Hiérarchie de couleurs pour le texte.',
     tokens: [
-      { name: 'text / primary', varName: '--color-text-primary', hint: 'corps de texte', resolvesTo: '--color-neutral-900' },
-      { name: 'text / secondary', varName: '--color-text-secondary', hint: 'titres secondaires, métadonnées', resolvesTo: '--color-neutral-600' },
-      { name: 'text / muted', varName: '--color-text-muted', hint: 'aide, légendes', resolvesTo: '--color-neutral-500' },
-      { name: 'text / inverse', varName: '--color-text-inverse', hint: 'sur fond sombre', resolvesTo: '--color-neutral-0' },
-      { name: 'text / disabled', varName: '--color-text-disabled', hint: 'éléments désactivés', resolvesTo: '--color-neutral-400' },
-      { name: 'text / link', varName: '--color-text-link', hint: 'liens hypertexte', resolvesTo: '--color-primary-500' },
+      {
+        name: 'text / primary',
+        varName: '--color-text-primary',
+        hint: 'corps de texte',
+        resolvesTo: '--color-neutral-900',
+      },
+      {
+        name: 'text / secondary',
+        varName: '--color-text-secondary',
+        hint: 'titres secondaires, métadonnées',
+        resolvesTo: '--color-neutral-600',
+      },
+      {
+        name: 'text / muted',
+        varName: '--color-text-muted',
+        hint: 'aide, légendes',
+        resolvesTo: '--color-neutral-500',
+      },
+      {
+        name: 'text / inverse',
+        varName: '--color-text-inverse',
+        hint: 'sur fond sombre',
+        resolvesTo: '--color-neutral-0',
+      },
+      {
+        name: 'text / disabled',
+        varName: '--color-text-disabled',
+        hint: 'éléments désactivés',
+        resolvesTo: '--color-neutral-400',
+      },
+      {
+        name: 'text / link',
+        varName: '--color-text-link',
+        hint: 'liens hypertexte',
+        resolvesTo: '--color-primary-500',
+      },
     ],
   },
   {
     category: 'Bordures',
     description: 'Lignes de séparation et contours.',
     tokens: [
-      { name: 'border / subtle', varName: '--color-border-subtle', hint: 'séparation discrète', resolvesTo: '--color-neutral-200' },
-      { name: 'border / default', varName: '--color-border-default', hint: 'bordure standard (input, card)', resolvesTo: '--color-neutral-300' },
-      { name: 'border / strong', varName: '--color-border-strong', hint: 'bordure marquée', resolvesTo: '--color-neutral-500' },
-      { name: 'border / focus', varName: '--color-border-focus', hint: 'anneau de focus', resolvesTo: '--color-primary-500' },
+      {
+        name: 'border / subtle',
+        varName: '--color-border-subtle',
+        hint: 'séparation discrète',
+        resolvesTo: '--color-neutral-200',
+      },
+      {
+        name: 'border / default',
+        varName: '--color-border-default',
+        hint: 'bordure standard (input, card)',
+        resolvesTo: '--color-neutral-300',
+      },
+      {
+        name: 'border / strong',
+        varName: '--color-border-strong',
+        hint: 'bordure marquée',
+        resolvesTo: '--color-neutral-500',
+      },
+      {
+        name: 'border / focus',
+        varName: '--color-border-focus',
+        hint: 'anneau de focus',
+        resolvesTo: '--color-primary-500',
+      },
     ],
   },
   {
     category: 'Feedback',
     description: 'Couleurs sémantiques pour les états applicatifs.',
     tokens: [
-      { name: 'feedback / success', varName: '--color-feedback-success', resolvesTo: '--color-success-500' },
-      { name: 'feedback / warning', varName: '--color-feedback-warning', resolvesTo: '--color-warning-500' },
-      { name: 'feedback / danger', varName: '--color-feedback-danger', resolvesTo: '--color-danger-500' },
+      {
+        name: 'feedback / success',
+        varName: '--color-feedback-success',
+        resolvesTo: '--color-success-500',
+      },
+      {
+        name: 'feedback / warning',
+        varName: '--color-feedback-warning',
+        resolvesTo: '--color-warning-500',
+      },
+      {
+        name: 'feedback / danger',
+        varName: '--color-feedback-danger',
+        resolvesTo: '--color-danger-500',
+      },
       { name: 'feedback / info', varName: '--color-feedback-info', resolvesTo: '--color-info-500' },
     ],
   },
@@ -179,14 +282,50 @@ export interface FontSize {
 }
 
 export const fontSizes: FontSize[] = [
-  { name: '4xl', varName: '--font-size-4xl', rem: '2.25rem', px: '36px', usage: 'Titres de page (h1)' },
-  { name: '3xl', varName: '--font-size-3xl', rem: '1.875rem', px: '30px', usage: 'Titres de section (h2)' },
+  {
+    name: '4xl',
+    varName: '--font-size-4xl',
+    rem: '2.25rem',
+    px: '36px',
+    usage: 'Titres de page (h1)',
+  },
+  {
+    name: '3xl',
+    varName: '--font-size-3xl',
+    rem: '1.875rem',
+    px: '30px',
+    usage: 'Titres de section (h2)',
+  },
   { name: '2xl', varName: '--font-size-2xl', rem: '1.5rem', px: '24px', usage: 'Sous-titres (h3)' },
   { name: 'xl', varName: '--font-size-xl', rem: '1.25rem', px: '20px', usage: 'Titres de carte' },
-  { name: 'lg', varName: '--font-size-lg', rem: '1.125rem', px: '18px', usage: 'Texte mis en valeur' },
-  { name: 'base', varName: '--font-size-base', rem: '1rem', px: '16px', usage: 'Corps de texte par défaut' },
-  { name: 'sm', varName: '--font-size-sm', rem: '0.875rem', px: '14px', usage: 'Texte secondaire, formulaires' },
-  { name: 'xs', varName: '--font-size-xs', rem: '0.75rem', px: '12px', usage: 'Légendes, badges, labels' },
+  {
+    name: 'lg',
+    varName: '--font-size-lg',
+    rem: '1.125rem',
+    px: '18px',
+    usage: 'Texte mis en valeur',
+  },
+  {
+    name: 'base',
+    varName: '--font-size-base',
+    rem: '1rem',
+    px: '16px',
+    usage: 'Corps de texte par défaut',
+  },
+  {
+    name: 'sm',
+    varName: '--font-size-sm',
+    rem: '0.875rem',
+    px: '14px',
+    usage: 'Texte secondaire, formulaires',
+  },
+  {
+    name: 'xs',
+    varName: '--font-size-xs',
+    rem: '0.75rem',
+    px: '12px',
+    usage: 'Légendes, badges, labels',
+  },
 ];
 
 export interface FontWeight {
@@ -197,8 +336,18 @@ export interface FontWeight {
 }
 
 export const fontWeights: FontWeight[] = [
-  { name: 'regular', varName: '--font-weight-regular', weight: 400, usage: 'Corps de texte courant' },
-  { name: 'medium', varName: '--font-weight-medium', weight: 500, usage: 'Légère emphase, libellés' },
+  {
+    name: 'regular',
+    varName: '--font-weight-regular',
+    weight: 400,
+    usage: 'Corps de texte courant',
+  },
+  {
+    name: 'medium',
+    varName: '--font-weight-medium',
+    weight: 500,
+    usage: 'Légère emphase, libellés',
+  },
   { name: 'semibold', varName: '--font-weight-semibold', weight: 600, usage: 'Titres et boutons' },
   { name: 'bold', varName: '--font-weight-bold', weight: 700, usage: 'Emphase forte, h1' },
 ];
@@ -211,9 +360,24 @@ export interface LineHeight {
 }
 
 export const lineHeights: LineHeight[] = [
-  { name: 'tight', varName: '--font-line-height-tight', value: '1.25', usage: 'Titres, libellés courts' },
-  { name: 'normal', varName: '--font-line-height-normal', value: '1.5', usage: 'Corps de texte courant' },
-  { name: 'relaxed', varName: '--font-line-height-relaxed', value: '1.75', usage: 'Texte long, lecture longue' },
+  {
+    name: 'tight',
+    varName: '--font-line-height-tight',
+    value: '1.25',
+    usage: 'Titres, libellés courts',
+  },
+  {
+    name: 'normal',
+    varName: '--font-line-height-normal',
+    value: '1.5',
+    usage: 'Corps de texte courant',
+  },
+  {
+    name: 'relaxed',
+    varName: '--font-line-height-relaxed',
+    value: '1.75',
+    usage: 'Texte long, lecture longue',
+  },
 ];
 
 export interface Spacing {
@@ -226,12 +390,36 @@ export interface Spacing {
 
 export const spacings: Spacing[] = [
   { shade: '0', varName: '--spacing-0', rem: '0', px: '0px' },
-  { shade: '1', varName: '--spacing-1', rem: '0.25rem', px: '4px', usage: 'Gap minimal entre icône et texte' },
-  { shade: '2', varName: '--spacing-2', rem: '0.5rem', px: '8px', usage: 'Padding compact, gap intra-composant' },
+  {
+    shade: '1',
+    varName: '--spacing-1',
+    rem: '0.25rem',
+    px: '4px',
+    usage: 'Gap minimal entre icône et texte',
+  },
+  {
+    shade: '2',
+    varName: '--spacing-2',
+    rem: '0.5rem',
+    px: '8px',
+    usage: 'Padding compact, gap intra-composant',
+  },
   { shade: '3', varName: '--spacing-3', rem: '0.75rem', px: '12px' },
-  { shade: '4', varName: '--spacing-4', rem: '1rem', px: '16px', usage: 'Padding standard de carte' },
+  {
+    shade: '4',
+    varName: '--spacing-4',
+    rem: '1rem',
+    px: '16px',
+    usage: 'Padding standard de carte',
+  },
   { shade: '5', varName: '--spacing-5', rem: '1.25rem', px: '20px' },
-  { shade: '6', varName: '--spacing-6', rem: '1.5rem', px: '24px', usage: 'Padding ample, gap entre cartes' },
+  {
+    shade: '6',
+    varName: '--spacing-6',
+    rem: '1.5rem',
+    px: '24px',
+    usage: 'Padding ample, gap entre cartes',
+  },
   { shade: '8', varName: '--spacing-8', rem: '2rem', px: '32px' },
   { shade: '10', varName: '--spacing-10', rem: '2.5rem', px: '40px' },
   { shade: '12', varName: '--spacing-12', rem: '3rem', px: '48px' },
