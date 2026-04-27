@@ -1,7 +1,7 @@
 {
   "name": "@govpf/ori-tailwind-preset",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "Preset Tailwind pour Ori (tokens + plugin composants)",
   "type": "module",
   "main": "./src/index.js",
@@ -19,5 +19,8 @@
   },
   "peerDependencies": {
     "tailwindcss": "^3.4.0 || ^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

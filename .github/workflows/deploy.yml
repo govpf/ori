@@ -1,0 +1,95 @@
+name: Deploy to GitHub Pages
+
+# Build et deploiement composé du site documentaire et des Storybooks
+# vers https://ori.gov.pf/ (custom domain via CNAME, fallback
+# https://govpf.github.io/ori/ tant que le DNS Cloudflare ne propage pas).
+#
+# Structure servie :
+#   /                       -> site Astro (apps/ori-site/)
+#   /storybook/react/       -> Storybook React (test interactif)
+#   /storybook/angular/     -> Storybook Angular (test interactif)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # déclenchement manuel depuis l'UI Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write # OIDC pour deploy-pages
+
+# Annule un deploy en cours si un nouveau push arrive sur main, mais
+# ne cancel pas un deploy déjà sorti du build (skip-after-deploy false).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10.29.3'
+
+jobs:
+  build:
+    name: Build composé (site + storybooks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build packages (deps des consommateurs)
+        run: pnpm -r --filter "./packages/*" build
+
+      - name: Build site Astro
+        run: pnpm --filter @govpf/ori-site build
+
+      - name: Build Storybook React
+        run: pnpm --filter @govpf/ori-storybook-react build
+
+      - name: Build Storybook Angular
+        run: pnpm --filter @govpf/ori-storybook-angular build
+
+      - name: Compose dist composé
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cp -r apps/ori-site/dist/. dist/
+          mkdir -p dist/storybook/react dist/storybook/angular
+          cp -r apps/storybook-react/storybook-static/. dist/storybook/react/
+          cp -r apps/storybook-angular/storybook-static/. dist/storybook/angular/
+          # .nojekyll obligatoire pour servir _astro/, _next/, etc.
+          touch dist/.nojekyll
+          # CNAME pour le custom domain (Astro le copie déjà depuis public/
+          # mais on s'assure qu'il est bien à la racine de dist)
+          echo "ori.gov.pf" > dist/CNAME
+          echo "=== dist content ==="
+          ls -la dist
+          echo "=== sizes ==="
+          du -sh dist dist/storybook/react dist/storybook/angular dist/_astro 2>/dev/null || true
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

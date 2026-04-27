@@ -1,7 +1,7 @@
 {
   "name": "@govpf/ori-tokens",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "Design tokens (format W3C DTCG) pour Ori",
   "type": "module",
   "main": "./build/js/tokens.js",
@@ -30,5 +30,8 @@
   },
   "devDependencies": {
     "style-dictionary": "^4.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
