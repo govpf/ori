@@ -1,0 +1,102 @@
+name: Release npm packages
+
+# Publication des packages publishables sur npm public sous le scope
+# @govpf/. Authentification via OIDC Trusted Publishers (pas de
+# NPM_TOKEN). Provenance signature automatique.
+#
+# Déclenchement :
+#   - tag git v* poussé sur main (ex: v0.1.0)
+#   - workflow_dispatch manuel depuis l'UI (utile pour republier)
+#
+# Prérequis npm (à faire une fois) :
+#   - Trusted publisher configuré au niveau de l'org @govpf, ou par
+#     package, pointant vers ce repo et ce fichier de workflow.
+#   - Environment GitHub "npm-release" créé dans Settings → Environments,
+#     éventuellement avec des reviewers requis pour bloquer le publish
+#     accidentel.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Simuler sans publier (npm publish --dry-run)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # création GitHub Release
+  id-token: write # OIDC pour npm publish
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10.29.3'
+
+jobs:
+  release:
+    name: Build et publish
+    runs-on: ubuntu-latest
+    environment:
+      name: npm-release
+      url: https://www.npmjs.com/org/govpf
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build all publishable packages
+        run: pnpm -r --filter "./packages/*" build
+
+      - name: Verify versions are aligned
+        run: |
+          set -euo pipefail
+          echo "=== package versions ==="
+          for pkg in tokens css tailwind-preset react angular; do
+            v=$(jq -r '.version' packages/$pkg/package.json)
+            echo "@govpf/ori-$pkg: $v"
+          done
+
+      - name: Publish to npm
+        # Ordre topologique :
+        #   tokens (aucune dep)
+        #   tailwind-preset (dep tokens)
+        #   css (dep tailwind-preset + tokens)
+        #   react (dep tokens)
+        #   angular (dep tokens)
+        run: |
+          set -euo pipefail
+          DRY_RUN_FLAG=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo "Dry-run mode (workflow_dispatch input dry_run=true)"
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          for pkg in tokens tailwind-preset css react angular; do
+            echo "=== Publishing @govpf/ori-$pkg ==="
+            (cd packages/$pkg && npm publish $DRY_RUN_FLAG --provenance --access public)
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # fallback si OIDC pas encore actif
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') && github.event.inputs.dry_run != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes "Voir le CHANGELOG du repo et les notes de chaque package sur npm." \
+            --verify-tag

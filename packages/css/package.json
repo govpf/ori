@@ -1,7 +1,7 @@
 {
   "name": "@govpf/ori-css",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "Bundle CSS statique Ori (drop-in pour sites statiques, GLPI, emails)",
   "main": "./dist/ori.css",
   "style": "./dist/ori.css",
@@ -27,5 +27,8 @@
     "tailwindcss": "^3.4.14",
     "postcss": "^8.4.47",
     "autoprefixer": "^10.4.20"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

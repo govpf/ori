@@ -3,6 +3,8 @@ dist/
 build/
 .turbo/
 .cache/
+.angular/
+.astro/
 .DS_Store
 *.log
 .env
