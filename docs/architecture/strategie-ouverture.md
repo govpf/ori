@@ -1,9 +1,3 @@
----
-layout: ../../layouts/DocLayout.astro
-title: "Stratégie d'ouverture"
-current: "strategie-ouverture"
-headerCurrent: "home"
----
 
 # Stratégie d'ouverture du design system
 
@@ -138,10 +132,10 @@ L'historique git garde tout. Un secret committé puis supprimé par un
 commit suivant **reste visible** dans l'historique. Doit être traité
 avant publication.
 
-- [ ] Lancer `gitleaks detect --source . --no-git` (HEAD courant)
-- [ ] Lancer `gitleaks detect --source .` (historique complet)
+- [x] Lancer `gitleaks detect --source . --no-git` (HEAD courant)
+- [x] Lancer `gitleaks detect --source .` (historique complet)
 - [ ] Alternative : `trufflehog filesystem .` ou `trufflehog git file://.`
-- [ ] Vérifier qu'il n'y a pas de fichiers `.env*`, `*.key`, `*.pem`,
+- [x] Vérifier qu'il n'y a pas de fichiers `.env*`, `*.key`, `*.pem`,
       `id_rsa`, `credentials.json`, `secrets.yaml` dans aucun commit
 - [ ] Si un secret est trouvé : ne **jamais** se contenter d'un commit de
       suppression. Utiliser `git-filter-repo --path xxx --invert-paths`
@@ -149,77 +143,78 @@ avant publication.
 
 ### B. Audit des dépendances
 
-- [ ] `pnpm audit --prod` : zéro vulnérabilité critical/high non résolue
+- [x] `pnpm audit --prod` : zéro vulnérabilité critical/high non résolue
+      (vérifié en CI sur chaque PR via le job "Security audit (pnpm audit)")
 - [ ] Vérifier que toutes les licences des deps sont compatibles avec la
       licence du DS (MIT, Apache, ISC, BSD : OK ; GPL : à éviter pour un
       DS sous MIT)
-- [ ] Activer **Dependabot** (ou Renovate) sur le repo, avec security
+- [x] Activer **Dependabot** (ou Renovate) sur le repo, avec security
       updates activés
-- [ ] Pinner les versions critiques dans `pnpm-lock.yaml` (committed)
-- [ ] Vérifier qu'il n'y a pas de scripts `postinstall` dans nos
+- [x] Pinner les versions critiques dans `pnpm-lock.yaml` (committed)
+- [x] Vérifier qu'il n'y a pas de scripts `postinstall` dans nos
       `package.json` (vecteur classique de supply chain attack)
 
 ### C. Configuration GitHub
 
-- [ ] **Branch protection** sur `main` :
+- [x] **Branch protection** sur `main` :
   - PR obligatoire avant merge
   - 1 review requise (2 sur les changements sensibles)
   - CI verte requise
   - Pas de force push, pas de suppression de branche
 - [ ] **CODEOWNERS** : un mainteneur référent par dossier critique
 - [ ] **Required signed commits** activé si l'équipe est setup pour
-- [ ] **2FA obligatoire** pour tous les utilisateurs ayant write access
+- [x] **2FA obligatoire** pour tous les utilisateurs ayant write access
       sur l'organisation GitHub
-- [ ] **Secret scanning + push protection** activés (Settings → Code
+- [x] **Secret scanning + push protection** activés (Settings → Code
       security)
-- [ ] **Dependabot security updates** activés
-- [ ] Pas de variables `secrets.*` exposées dans les workflows publics
+- [x] **Dependabot security updates** activés
+- [x] Pas de variables `secrets.*` exposées dans les workflows publics
 
 ### D. Supply chain npm
 
-- [ ] **2FA obligatoire** sur le compte npm utilisé pour publier
-- [ ] **npm provenance** activée (signatures via GitHub Actions OIDC) :
+- [x] **2FA obligatoire** sur le compte npm utilisé pour publier
+- [x] **npm provenance** activée (signatures via GitHub Actions OIDC) :
       `npm publish --provenance`
-- [ ] Publication explicite en `--access public` (sinon les packages
+- [x] Publication explicite en `--access public` (sinon les packages
       privés ne sont visibles que par l'organisation)
-- [ ] Lockfile `pnpm-lock.yaml` committé et utilisé en CI (`pnpm install
+- [x] Lockfile `pnpm-lock.yaml` committé et utilisé en CI (`pnpm install
       --frozen-lockfile`)
-- [ ] Désigner les **mainteneurs autorisés à publier** (limite la
+- [x] Désigner les **mainteneurs autorisés à publier** (limite la
       surface d'attaque)
 - [ ] Plan de réponse documenté en cas de compromission de package
       (yank, rotation, communication)
 
 ### E. Documents légaux
 
-- [ ] **LICENSE** à la racine (recommandé : MIT pour la simplicité ; EUPL
+- [x] **LICENSE** à la racine (recommandé : MIT pour la simplicité ; EUPL
       pour aligner avec d'autres DS européens de service public)
-- [ ] **CONTRIBUTING.md** : règles de contribution, conventions de
+- [x] **CONTRIBUTING.md** : règles de contribution, conventions de
       commit, comment tester localement
-- [ ] **CODE_OF_CONDUCT.md** : standard Contributor Covenant 2.1
-- [ ] **SECURITY.md** : comment signaler une faille (email dédié,
+- [x] **CODE_OF_CONDUCT.md** : standard Contributor Covenant 2.1
+- [x] **SECURITY.md** : comment signaler une faille (email dédié,
       éventuellement clé PGP, délai de réponse promis ex 5 jours
       ouvrés, processus de divulgation responsable)
-- [ ] **README.md** cohérent avec un public externe (pas de jargon
+- [x] **README.md** cohérent avec un public externe (pas de jargon
       interne, lien vers la doc Storybook publique)
 
 ### F. Documentation publique nettoyée
 
-- [ ] Pas de mention de service administratif spécifique (DPAM, etc.) si
+- [x] Pas de mention de service administratif spécifique (DPAM, etc.) si
       la décision projet est de rester générique (cf. décision projet :
       ne pas mentionner DPAM ni l'historique legacy dans la doc)
-- [ ] Pas de captures d'écran avec données réelles d'usagers ou d'agents
-- [ ] Pas de noms d'agents PF dans les exemples
-- [ ] Pas d'IPs internes ou d'URLs `intranet.gov.pf` dans la doc ou les
+- [x] Pas de captures d'écran avec données réelles d'usagers ou d'agents
+- [x] Pas de noms d'agents PF dans les exemples
+- [x] Pas d'IPs internes ou d'URLs `intranet.gov.pf` dans la doc ou les
       stories
-- [ ] Pas de numéros de dossier ou identifiants réels dans les mocks
+- [x] Pas de numéros de dossier ou identifiants réels dans les mocks
 
 ### G. CI/CD
 
-- [ ] Pas de secrets en clair dans `.github/workflows/*.yml`
-- [ ] Permissions GITHUB_TOKEN minimales (`permissions: contents: read`
+- [x] Pas de secrets en clair dans `.github/workflows/*.yml`
+- [x] Permissions GITHUB_TOKEN minimales (`permissions: contents: read`
       par défaut, élargir au cas par cas)
-- [ ] OIDC pour les déploiements (pas de long-lived tokens)
-- [ ] Si un workflow publie sur npm : isolé, avec `environment:
+- [x] OIDC pour les déploiements (pas de long-lived tokens)
+- [x] Si un workflow publie sur npm : isolé, avec `environment:
       production` pour ajouter une review manuelle
 
 ### H. Communication et lancement

@@ -1,9 +1,3 @@
----
-layout: ../../layouts/DocLayout.astro
-title: "Iconographie"
-current: "iconographie"
-headerCurrent: "home"
----
 
 # Iconographie
 

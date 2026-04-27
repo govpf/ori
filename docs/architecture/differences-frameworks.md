@@ -1,9 +1,3 @@
----
-layout: ../../layouts/DocLayout.astro
-title: "Différences React / Angular"
-current: "differences-frameworks"
-headerCurrent: "home"
----
 
 # Différences fonctionnelles React ↔ Angular
 

@@ -59,14 +59,18 @@ jobs:
       - name: Build Storybook Angular
         run: pnpm --filter @govpf/ori-storybook-angular build
 
+      - name: Build demo-portail
+        run: pnpm --filter @govpf/ori-demo-portail build
+
       - name: Compose dist composé
         run: |
           set -euo pipefail
           mkdir -p dist
           cp -r apps/ori-site/dist/. dist/
-          mkdir -p dist/storybook/react dist/storybook/angular
+          mkdir -p dist/storybook/react dist/storybook/angular dist/demo
           cp -r apps/storybook-react/storybook-static/. dist/storybook/react/
           cp -r apps/storybook-angular/storybook-static/. dist/storybook/angular/
+          cp -r apps/demo-portail/dist/. dist/demo/
           # .nojekyll obligatoire pour servir _astro/, _next/, etc.
           touch dist/.nojekyll
           # CNAME pour le custom domain (Astro le copie déjà depuis public/
@@ -75,7 +79,7 @@ jobs:
           echo "=== dist content ==="
           ls -la dist
           echo "=== sizes ==="
-          du -sh dist dist/storybook/react dist/storybook/angular dist/_astro 2>/dev/null || true
+          du -sh dist dist/storybook/react dist/storybook/angular dist/demo dist/_astro 2>/dev/null || true
 
       - uses: actions/configure-pages@v6
 

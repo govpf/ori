@@ -1,9 +1,3 @@
----
-layout: ../../layouts/DocLayout.astro
-title: "Décisions de design"
-current: "decisions"
-headerCurrent: "home"
----
 
 # Décisions de design
 

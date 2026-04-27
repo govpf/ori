@@ -22,37 +22,88 @@ const base = import.meta.env.BASE_URL;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <title>{title} · Ori Design System</title>
     {description && <meta name="description" content={description} />}
   </head>
   <body>
     <div class="site-shell">
       <header class="ori-header site-header">
-        <a href={base} class="ori-header__brand site-header__brand">
-          <span>Ori</span>
-        </a>
-        <nav class="ori-header__nav" aria-label="Navigation principale">
-          <ul class="ori-main-nav" role="list">
-            <li class="ori-main-nav__item">
-              <a class="ori-main-nav__link" href={base} aria-current={current === 'home' ? 'page' : undefined}>Accueil</a>
-            </li>
-            <li class="ori-main-nav__item">
-              <a class="ori-main-nav__link" href={`${base}composants/`} aria-current={current === 'components' ? 'page' : undefined}>Composants</a>
-            </li>
-            <li class="ori-main-nav__item">
-              <a class="ori-main-nav__link" href={`${base}fondations/palette/`} aria-current={current === 'tokens' ? 'page' : undefined}>Fondations</a>
-            </li>
-          </ul>
-        </nav>
-        <div class="ori-header__actions">
-          <a class="ori-link" href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub</a>
+        <div class="site-header__inner">
+          <a href={base} class="ori-header__brand site-header__brand">
+            <img src={`${base}assets/logo-pf.svg`} alt="" class="site-header__logo" />
+            <span>Ori</span>
+          </a>
+          <nav class="ori-header__nav" aria-label="Navigation principale">
+            <ul class="ori-main-nav" role="list">
+              <li class="ori-main-nav__item">
+                <a class="ori-main-nav__link" href={base} aria-current={current === 'home' ? 'page' : undefined}>Accueil</a>
+              </li>
+              <li class="ori-main-nav__item">
+                <a class="ori-main-nav__link" href={`${base}composants/`} aria-current={current === 'components' ? 'page' : undefined}>Composants</a>
+              </li>
+              <li class="ori-main-nav__item">
+                <a class="ori-main-nav__link" href={`${base}fondations/palette/`} aria-current={current === 'tokens' ? 'page' : undefined}>Fondations</a>
+              </li>
+              <li class="ori-main-nav__item">
+                <a class="ori-main-nav__link" href={`${base}demo/`}>Démo</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="ori-header__actions">
+            <a class="ori-link" href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
         </div>
       </header>
       <main class:list={['site-main', `site-main--${variant}`]}>
         <slot />
       </main>
-      <footer class="site-footer">
-        Ori Design System · Polynésie française · Prototype Astro
+      <footer class="ori-footer site-footer">
+        <div class="site-footer__inner">
+          <div class="ori-footer__content">
+            <div class="ori-footer__brand">
+              <a href={base} class="site-footer__brand-link">
+                <img src={`${base}assets/logo-pf.svg`} alt="" class="site-footer__logo" />
+                <strong>Ori</strong>
+              </a>
+              <p class="site-footer__tagline">
+                Design system des services administratifs de la Polynésie
+                française.
+              </p>
+            </div>
+
+            <div class="ori-footer__columns">
+              <nav class="ori-footer__column" aria-label="Documentation">
+                <span class="ori-footer__column-title">Documentation</span>
+                <a class="ori-link ori-link--quiet" href={`${base}decouvrir/pourquoi/`}>Pourquoi Ori</a>
+                <a class="ori-link ori-link--quiet" href={`${base}composants/`}>Composants</a>
+                <a class="ori-link ori-link--quiet" href={`${base}fondations/palette/`}>Fondations</a>
+                <a class="ori-link ori-link--quiet" href={`${base}demo/`}>Portail démo</a>
+              </nav>
+
+              <nav class="ori-footer__column" aria-label="Ressources">
+                <span class="ori-footer__column-title">Ressources</span>
+                <a class="ori-link ori-link--quiet" href={`${base}ressources/licence/`}>Licence MIT</a>
+                <a class="ori-link ori-link--quiet" href={`${base}ressources/contribuer/`}>Contribuer</a>
+                <a class="ori-link ori-link--quiet" href={`${base}ressources/code-de-conduite/`}>Code de conduite</a>
+                <a class="ori-link ori-link--quiet" href={`${base}ressources/securite/`}>Sécurité</a>
+              </nav>
+
+              <nav class="ori-footer__column" aria-label="Liens externes">
+                <span class="ori-footer__column-title">Code source</span>
+                <a class="ori-link ori-link--quiet" href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub<span class="ori-link__external" aria-hidden="true">↗</span></a>
+                <a class="ori-link ori-link--quiet" href="https://www.npmjs.com/org/govpf" target="_blank" rel="noreferrer">npm @govpf<span class="ori-link__external" aria-hidden="true">↗</span></a>
+                <a class="ori-link ori-link--quiet" href={`${base}storybook/react/`}>Storybook React</a>
+                <a class="ori-link ori-link--quiet" href={`${base}storybook/angular/`}>Storybook Angular</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="ori-footer__bottom site-footer__bottom">
+          <div class="site-footer__bottom-inner">
+            <span>&copy; 2026 Gouvernement de la Polynésie française. Distribué sous licence MIT.</span>
+          </div>
+        </div>
       </footer>
     </div>
   </body>

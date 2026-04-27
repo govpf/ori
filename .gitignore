@@ -6,6 +6,7 @@ build/
 .angular/
 .astro/
 .pnpm-store/
+*.tsbuildinfo
 .DS_Store
 *.log
 .env

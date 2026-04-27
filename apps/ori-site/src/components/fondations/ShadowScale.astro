@@ -1,0 +1,72 @@
+---
+import { shadows } from '../../data/tokens';
+---
+
+<div class="shadow-scale">
+  {
+    shadows.map((s) => (
+      <article class="shadow-card">
+        <div
+          class="shadow-card__demo"
+          style={`box-shadow: var(${s.varName});`}
+        />
+        <div class="shadow-card__meta">
+          <strong class="shadow-card__name">shadow-{s.name}</strong>
+          <code class="shadow-card__var">{s.varName}</code>
+          {s.usage && <span class="shadow-card__usage">{s.usage}</span>}
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .shadow-scale {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    margin: 1.5rem 0 2rem;
+    padding: 2rem 1rem;
+    background-color: var(--color-surface-muted);
+    border-radius: 0.5rem;
+  }
+  .shadow-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.875rem;
+    text-align: center;
+  }
+  .shadow-card__demo {
+    width: 128px;
+    height: 128px;
+    background-color: var(--color-surface-base);
+    border-radius: 0.5rem;
+  }
+  .shadow-card__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1875rem;
+  }
+  .shadow-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .shadow-card__var {
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+  .shadow-card__usage {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    max-width: 14rem;
+    line-height: 1.4;
+  }
+</style>

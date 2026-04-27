@@ -11,13 +11,45 @@ const base = import.meta.env.BASE_URL;
   description="Ori, le design system des services administratifs de Polynésie française"
   variant="landing"
 >
+  <div class="site-banner">
+    <div class="site-banner__inner">
+    <aside class="ori-notification ori-notification--info site-banner__notice" role="status">
+      <svg
+        class="ori-notification__icon"
+        aria-hidden="true"
+        focusable="false"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4" />
+        <path d="M12 8h.01" />
+      </svg>
+      <p class="site-banner__text">
+        <strong>Ori est actuellement un Proof of Concept.</strong> Les API
+        peuvent évoluer sans préavis, les versions npm sont en
+        <code>0.x</code>. À ne pas utiliser en production tant qu'une
+        version <code>1.0</code> stable n'est pas publiée.
+        <a class="ori-notification__action" href={`${base}decouvrir/pourquoi/`}>En savoir plus</a>
+      </p>
+    </aside>
+    </div>
+  </div>
+
   <Hero
     eyebrow="Design system des services publics PF"
-    title="Une expérience numérique cohérente pour les 54 services administratifs"
+    title="Une expérience numérique cohérente pour les services administratifs du Pays"
     subtitle="Ori fournit les tokens, composants et patterns nécessaires pour bâtir des portails, des espaces agents et des sites institutionnels conformes aux standards d'accessibilité et à l'identité visuelle de la Polynésie française."
   >
-    <a class="ori-btn ori-btn--primary" href={`${base}decouvrir/strategie-ouverture/`}>
+    <a class="ori-btn ori-btn--primary" href={`${base}decouvrir/pourquoi/`}>
       Démarrer avec Ori
+    </a>
+    <a class="ori-btn ori-btn--secondary" href={`${base}demo/`}>
+      Voir le portail démo
     </a>
     <a class="ori-btn ori-btn--ghost" href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">
       Voir sur GitHub

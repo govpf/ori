@@ -4,47 +4,20 @@ title: "Rayons"
 current: "rayons"
 headerCurrent: "tokens"
 ---
+import RadiusScale from '../../components/fondations/RadiusScale.astro';
 
-export const wrapStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 32,
-  padding: 24,
-  fontFamily: 'Inter, system-ui, sans-serif',
-  color: 'var(--color-text-primary)',
-  backgroundColor: 'var(--color-surface-base)',
-};
+# Rayons d'arrondi
 
-export const radii = ['none', 'sm', 'md', 'lg', 'xl', '2xl', 'full'];
+Échelle de `border-radius` pour les éléments d'interface. Ori privilégie
+des arrondis modérés (`md` et `lg` par défaut) pour un rendu sobre et
+institutionnel.
 
-<div style={wrapStyle}>
+<RadiusScale />
 
-# Radii
+## Bonnes pratiques
 
-Rayons d'arrondi des éléments (boutons, cards, inputs, dialogs…).
-
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-    gap: 16,
-  }}
->
-  {radii.map((r) => (
-    <div key={r} style={{ textAlign: 'center' }}>
-      <div
-        style={{
-          width: 100,
-          height: 100,
-          margin: '0 auto 8px',
-          backgroundColor: 'var(--color-brand-primary-subtle)',
-          border: '1px solid var(--color-brand-primary)',
-          borderRadius: `var(--radius-${r})`,
-        }}
-      />
-      <code style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>radius-{r}</code>
-    </div>
-  ))}
-</div>
-
-</div>
+- **`radius-md`** est la valeur par défaut pour les boutons et les inputs.
+- **`radius-lg`** s'applique aux cartes, dialogs et conteneurs principaux.
+- **`radius-full`** est réservé aux pastilles, avatars et tags ronds.
+- Éviter de mélanger trop de rayons dans une même vue ; on privilégie
+  `md` ou `lg` selon la nature du composant.
