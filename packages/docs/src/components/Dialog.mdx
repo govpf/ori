@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Composants/Dialog" />
+
+# Dialog (modale)
+
+Le **dialog** affiche un contenu temporaire au-dessus de l'interface principale
+afin d'attirer l'attention de l'utilisateur et bloquer temporairement
+l'interaction avec la page courante.
+
+Il est utilisé pour :
+
+- **confirmer une action** importante ou destructive
+- afficher un **formulaire court** sans changer de page
+- présenter une **information complémentaire** liée au contexte courant
+- afficher un **flow guidé** (assistant en plusieurs étapes)
+
+## Structure
+
+Le composant expose 3 régions :
+
+| Région | Contenu |
+|---|---|
+| Header | Titre du dialog + bouton de fermeture (optionnel) |
+| Body | Contenu principal (texte, formulaire, image…) |
+| Footer | Actions (Annuler, Valider, Supprimer…), alignées à droite |
+
+## Accessibilité
+
+Le dialog applique les règles ARIA standard :
+
+- `role="dialog"` + `aria-modal="true"`
+- `aria-labelledby` pointant sur le titre
+- Touche `Escape` ferme le dialog
+- Clic sur le **backdrop** ferme le dialog (sauf à le désactiver)
+
+Côté React, le composant utilise **Radix UI Dialog** qui gère également :
+
+- focus trap (le clavier reste dans le dialog tant qu'il est ouvert)
+- restauration du focus au déclencheur quand fermé
+- scroll lock sur la page de fond
+
+Côté Angular, l'implémentation actuelle gère ESC + backdrop. Pour un focus-trap
+complet, wrapper avec `@angular/cdk/dialog` côté application.
+
+## Bonnes pratiques
+
+- Le titre doit être **explicite et bref**. "Confirmer la suppression" plutôt
+  que "Confirmation".
+- Le bouton primaire du footer doit décrire l'action (`Supprimer`, `Envoyer`)
+  plutôt qu'un générique `OK`.
+- Pour les actions destructives, le bouton primary doit utiliser la variante
+  `danger`.
+- Garder le contenu **court**. Si le dialog est plus long que l'écran, c'est
+  probablement le signe qu'une page dédiée serait plus appropriée.
+- Ne pas empiler plusieurs dialogs (un dialog qui ouvre un dialog) - c'est
+  un signal de design à revoir.
+
+## Voir le playground
+
+Pour les variantes interactives, voir la page **Composants / Dialog** de cette
+même instance Storybook.
+
+## Lien avec le design system
+
+<a
+  href="https://www.figma.com/design/RlnpT40Fzn1Spagj51GTKB/DSPF---Composants---V2.3.0?node-id=318-1456"
+  target="_blank"
+  rel="noreferrer"
+>
+  📐 Voir sur Figma
+</a>

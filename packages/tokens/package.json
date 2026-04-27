@@ -1,0 +1,34 @@
+{
+  "name": "@govpf/ori-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design tokens (format W3C DTCG) pour Ori",
+  "type": "module",
+  "main": "./build/js/tokens.js",
+  "module": "./build/js/tokens.js",
+  "types": "./build/js/tokens.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/js/tokens.js",
+      "types": "./build/js/tokens.d.ts"
+    },
+    "./css": "./build/css/tokens.css",
+    "./dark": "./src/dark.css",
+    "./fonts": "./src/fonts.css",
+    "./scss": "./build/scss/_tokens.scss",
+    "./json": "./build/json/tokens.json",
+    "./tailwind": "./build/js/tailwind.js"
+  },
+  "files": [
+    "build",
+    "src",
+    "assets"
+  ],
+  "scripts": {
+    "build": "node ./build.js",
+    "clean": "rm -rf build"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.2.0"
+  }
+}

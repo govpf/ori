@@ -1,0 +1,12 @@
+{
+  "name": "@govpf/ori-docs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Documentation transverse de Ori (MDX partagé entre les Storybooks React et Angular) + thème Storybook partagé",
+  "scripts": {
+    "build": "echo 'pas de build - fichiers MDX statiques consommés par les Storybooks'"
+  },
+  "devDependencies": {
+    "@storybook/theming": "^8.6.18"
+  }
+}

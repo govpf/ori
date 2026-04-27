@@ -1,0 +1,41 @@
+{
+  "color": {
+    "brand": {
+      "primary": { "$value": "{color.primary.500}", "$type": "color" },
+      "primary-hover": { "$value": "{color.primary.600}", "$type": "color" },
+      "primary-active": { "$value": "{color.primary.700}", "$type": "color" },
+      "primary-subtle": { "$value": "{color.primary.50}", "$type": "color" },
+      "on-primary": { "$value": "{color.neutral.0}", "$type": "color" }
+    },
+    "surface": {
+      "base": { "$value": "{color.neutral.0}", "$type": "color" },
+      "muted": { "$value": "{color.neutral.50}", "$type": "color" },
+      "subtle": { "$value": "{color.neutral.100}", "$type": "color" },
+      "inverse": { "$value": "{color.neutral.900}", "$type": "color" }
+    },
+    "text": {
+      "primary": { "$value": "{color.neutral.900}", "$type": "color" },
+      "secondary": { "$value": "{color.neutral.600}", "$type": "color" },
+      "muted": { "$value": "{color.neutral.500}", "$type": "color" },
+      "inverse": { "$value": "{color.neutral.0}", "$type": "color" },
+      "disabled": { "$value": "{color.neutral.400}", "$type": "color" },
+      "link": { "$value": "{color.primary.500}", "$type": "color" }
+    },
+    "border": {
+      "subtle": { "$value": "{color.neutral.200}", "$type": "color" },
+      "default": { "$value": "{color.neutral.300}", "$type": "color" },
+      "strong": { "$value": "{color.neutral.500}", "$type": "color" },
+      "focus": { "$value": "{color.primary.500}", "$type": "color" }
+    },
+    "feedback": {
+      "success": { "$value": "{color.success.500}", "$type": "color" },
+      "success-bg": { "$value": "{color.success.50}", "$type": "color" },
+      "warning": { "$value": "{color.warning.500}", "$type": "color" },
+      "warning-bg": { "$value": "{color.warning.50}", "$type": "color" },
+      "danger": { "$value": "{color.danger.500}", "$type": "color" },
+      "danger-bg": { "$value": "{color.danger.50}", "$type": "color" },
+      "info": { "$value": "{color.info.500}", "$type": "color" },
+      "info-bg": { "$value": "{color.info.50}", "$type": "color" }
+    }
+  }
+}

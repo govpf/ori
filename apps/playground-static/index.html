@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ori - playground statique</title>
+    <!--
+      Démo "zero-build" : on charge uniquement ori.css et on utilise les classes
+      sémantiques .ori-* directement dans le HTML. Aucun framework, aucun bundler.
+      Cette page sert aussi de preuve de parité visuelle avec le Storybook React :
+      les deux consomment le même CSS et doivent rendre rigoureusement la même chose.
+    -->
+    <!-- ori.css est copié ici par le script `pnpm predev` (pour que `serve` y ait
+         accès - il ne sort pas du dossier qu'il sert). -->
+    <link rel="stylesheet" href="./ori.css" />
+    <style>
+      /* Mise en page de la PAGE DE DÉMO uniquement - pas du DS */
+      .wrap { max-width: 1024px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+      .topbar {
+        display: flex; align-items: center; justify-content: space-between;
+        padding-bottom: 1.5rem; margin-bottom: 2rem;
+        border-bottom: 1px solid var(--color-border-subtle);
+      }
+      .topbar h1 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+      .topbar small { color: var(--color-text-secondary); display: block; font-weight: normal; }
+      section { margin-bottom: 2.5rem; }
+      h2 {
+        font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 0.05em; color: var(--color-text-secondary);
+        margin: 0 0 0.75rem;
+      }
+      .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+      .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+      .stack { display: flex; flex-direction: column; gap: 0.75rem; }
+
+      /* Backdrop pour le dialog démo (vanilla JS, sans Radix) */
+      .demo-dialog-backdrop {
+        position: fixed; inset: 0;
+        background: rgb(0 0 0 / 0.5);
+        z-index: 50;
+        display: none;
+      }
+      .demo-dialog-backdrop[data-open='true'] { display: block; }
+      .demo-dialog-backdrop[data-open='true'] + .ori-dialog { display: flex; }
+      .ori-dialog { display: none; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="topbar">
+        <div>
+          <h1>Ori</h1>
+          <small>Playground statique - HTML + ori.css uniquement</small>
+        </div>
+        <button class="ori-btn ori-btn--secondary" id="theme-toggle" aria-pressed="false">
+          <!-- Icône Lucide "moon" inline (pas de framework JS ici, donc on
+               sert le SVG directement). currentColor = règle monochrome A.1. -->
+          <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+          Thème : <strong id="theme-label">clair</strong>
+        </button>
+      </header>
+
+      <!-- ─── Buttons ──────────────────────────────────────────────────── -->
+      <section>
+        <h2>Boutons - variantes</h2>
+        <div class="row">
+          <button class="ori-btn ori-btn--primary">Primary</button>
+          <button class="ori-btn ori-btn--secondary">Secondary</button>
+          <button class="ori-btn ori-btn--ghost">Ghost</button>
+          <button class="ori-btn ori-btn--danger">Danger</button>
+          <button class="ori-btn ori-btn--primary" disabled>Disabled</button>
+        </div>
+
+        <h2 style="margin-top: 1.25rem">Tailles</h2>
+        <div class="row">
+          <button class="ori-btn ori-btn--primary ori-btn--sm">Petit</button>
+          <button class="ori-btn ori-btn--primary">Moyen</button>
+          <button class="ori-btn ori-btn--primary ori-btn--lg">Grand</button>
+        </div>
+
+        <h2 style="margin-top: 1.25rem">Pleine largeur</h2>
+        <div style="max-width: 320px">
+          <button class="ori-btn ori-btn--primary ori-btn--block">Pleine largeur</button>
+        </div>
+      </section>
+
+      <!-- ─── Inputs ───────────────────────────────────────────────────── -->
+      <section>
+        <h2>Champs de formulaire</h2>
+        <div class="grid-2">
+          <div class="ori-field">
+            <label class="ori-field__label" for="i-name">Nom</label>
+            <input class="ori-input" id="i-name" placeholder="Jean Dupont" />
+            <span class="ori-field__hint">Tel qu'il apparaît sur votre pièce d'identité.</span>
+          </div>
+
+          <div class="ori-field">
+            <label class="ori-field__label ori-field__label--required" for="i-email">Email</label>
+            <input class="ori-input" id="i-email" type="email" value="invalide" aria-invalid="true" aria-describedby="i-email-err" />
+            <span class="ori-field__error" id="i-email-err" role="alert">Adresse email invalide.</span>
+          </div>
+
+          <div class="ori-field">
+            <label class="ori-field__label" for="i-disabled">Verrouillé</label>
+            <input class="ori-input" id="i-disabled" value="Valeur figée" disabled />
+          </div>
+
+          <div class="ori-field">
+            <label class="ori-field__label" for="i-sm">Petit</label>
+            <input class="ori-input ori-input--sm" id="i-sm" placeholder="size=sm" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Cards ────────────────────────────────────────────────────── -->
+      <section>
+        <h2>Cards</h2>
+        <div class="grid-2">
+          <article class="ori-card">
+            <header class="ori-card__header">
+              <h3 class="ori-card__title">Titre par défaut</h3>
+              <p class="ori-card__subtitle">Variante avec bordure</p>
+            </header>
+            <div class="ori-card__body">
+              <p style="margin: 0">
+                Carte standard avec header / body / footer. Les régions sont des classes
+                dédiées <code>.ori-card__*</code>.
+              </p>
+            </div>
+            <footer class="ori-card__footer">
+              <button class="ori-btn ori-btn--secondary ori-btn--sm">Annuler</button>
+              <button class="ori-btn ori-btn--primary ori-btn--sm">Valider</button>
+            </footer>
+          </article>
+
+          <article class="ori-card ori-card--elevated">
+            <header class="ori-card__header">
+              <h3 class="ori-card__title">Carte surélevée</h3>
+              <p class="ori-card__subtitle">Variante elevated</p>
+            </header>
+            <div class="ori-card__body">
+              <p style="margin: 0">Ombre portée à la place de la bordure.</p>
+            </div>
+          </article>
+
+          <article class="ori-card ori-card--flat">
+            <header class="ori-card__header">
+              <h3 class="ori-card__title">Carte flat</h3>
+            </header>
+            <div class="ori-card__body">
+              <p style="margin: 0">Fond <code>surface-muted</code>, sans bordure ni ombre.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ─── FileCard ──────────────────────────────────────────────────── -->
+      <section>
+        <h2>FileCard</h2>
+        <div class="grid-2">
+          <div class="ori-file-card">
+            <div class="ori-file-card__head">
+              <span class="ori-file-card__icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </span>
+              <div class="ori-file-card__actions">
+                <button type="button" class="ori-button ori-button--ghost ori-button--sm" aria-label="Télécharger Pièce identité.pdf">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                </button>
+                <button type="button" class="ori-button ori-button--ghost ori-button--sm" aria-label="Supprimer Pièce identité.pdf" data-danger="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="ori-file-card__name" title="Pièce identité.pdf">Pièce identité.pdf</div>
+            <div class="ori-file-card__meta">
+              <span class="ori-tag ori-tag--neutral">PDF</span>
+              <span class="ori-file-card__meta-text">1.2 Mo · Ajouté le 2026-04-22</span>
+            </div>
+            <a class="ori-file-card__link" href="#42">Lié à 2026-0042</a>
+          </div>
+
+          <div class="ori-file-card">
+            <div class="ori-file-card__head">
+              <span class="ori-file-card__icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </span>
+            </div>
+            <div class="ori-file-card__name" title="Photo identité.jpg">Photo identité.jpg</div>
+            <div class="ori-file-card__meta">
+              <span class="ori-tag ori-tag--neutral">Image</span>
+              <span class="ori-file-card__meta-text">2.3 Mo · Ajouté le 2026-04-20</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Statistic ─────────────────────────────────────────────────── -->
+      <section>
+        <h2>Statistic (KPI)</h2>
+        <div class="grid-2">
+          <article class="ori-card">
+            <div class="ori-card__body">
+              <div class="ori-statistic" role="group" aria-labelledby="kpi1-label">
+                <span id="kpi1-label" class="ori-statistic__label">Démarches en cours</span>
+                <span class="ori-statistic__value">2</span>
+                <span class="ori-statistic__trend ori-statistic__trend--up">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                  +1 cette semaine
+                </span>
+              </div>
+            </div>
+          </article>
+          <article class="ori-card">
+            <div class="ori-card__body">
+              <div class="ori-statistic" role="group" aria-labelledby="kpi2-label">
+                <span id="kpi2-label" class="ori-statistic__label">À compléter</span>
+                <span class="ori-statistic__value">1</span>
+              </div>
+            </div>
+          </article>
+          <article class="ori-card">
+            <div class="ori-card__body">
+              <div class="ori-statistic" role="group" aria-labelledby="kpi3-label">
+                <span id="kpi3-label" class="ori-statistic__label">Délai moyen</span>
+                <span class="ori-statistic__value">8<span class="ori-statistic__value-suffix">j</span></span>
+                <span class="ori-statistic__trend ori-statistic__trend--up">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+                  -1,2 j vs M-1
+                </span>
+              </div>
+            </div>
+          </article>
+          <article class="ori-card">
+            <div class="ori-card__body">
+              <div class="ori-statistic ori-statistic--lg" role="group" aria-labelledby="kpi4-label">
+                <span id="kpi4-label" class="ori-statistic__label">Aides versées</span>
+                <span class="ori-statistic__value">1 240 000<span class="ori-statistic__value-suffix">XPF</span></span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ─── Alerts ───────────────────────────────────────────────────── -->
+      <section>
+        <h2>Alertes</h2>
+        <div class="stack">
+          <div class="ori-alert ori-alert--info" role="status">
+            <span class="ori-alert__icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-11.25a.75.75 0 0 0-1.5 0v.25a.75.75 0 0 0 1.5 0v-.25Zm0 3.5a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5Z" clip-rule="evenodd"/></svg>
+            </span>
+            <div class="ori-alert__content">
+              <div class="ori-alert__title">Information</div>
+              Un message contextuel pour accompagner l'utilisateur.
+            </div>
+          </div>
+
+          <div class="ori-alert ori-alert--success" role="status">
+            <span class="ori-alert__icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.28-10.53a.75.75 0 0 0-1.06-1.06l-3.97 3.97-1.72-1.72a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l4.5-4.5Z" clip-rule="evenodd"/></svg>
+            </span>
+            <div class="ori-alert__content">
+              <div class="ori-alert__title">Action réalisée</div>
+              Votre demande a été enregistrée avec succès.
+            </div>
+          </div>
+
+          <div class="ori-alert ori-alert--warning" role="status">
+            <span class="ori-alert__icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 6a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 6Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+            </span>
+            <div class="ori-alert__content">
+              <div class="ori-alert__title">Attention</div>
+              Certaines informations sont manquantes avant de poursuivre.
+            </div>
+          </div>
+
+          <div class="ori-alert ori-alert--danger" role="alert">
+            <span class="ori-alert__icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd"/></svg>
+            </span>
+            <div class="ori-alert__content">
+              <div class="ori-alert__title">Erreur</div>
+              Impossible de traiter votre demande, réessayez plus tard.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Dialog ──────────────────────────────────────────────────── -->
+      <section>
+        <h2>Dialog</h2>
+        <p style="color: var(--color-text-secondary); font-size: 0.875rem; margin: 0 0 0.75rem">
+          Côté React, ce composant utilise Radix pour le focus-trap et l'accessibilité.
+          Ici, démo HTML pure avec un toggle vanilla JS pour montrer le rendu.
+        </p>
+        <button class="ori-btn ori-btn--primary" id="open-dialog">Ouvrir le dialog</button>
+
+        <div class="demo-dialog-backdrop" id="dialog-backdrop"></div>
+        <div class="ori-dialog" role="dialog" aria-modal="true" aria-labelledby="d-title" id="demo-dialog">
+          <div class="ori-dialog__header">
+            <h3 class="ori-dialog__title" id="d-title">Confirmer la suppression</h3>
+            <button class="ori-dialog__close" aria-label="Fermer" data-close>
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"/></svg>
+            </button>
+          </div>
+          <div class="ori-dialog__body">
+            <p style="margin: 0">
+              Voulez-vous vraiment supprimer cet élément ? Les données associées seront perdues.
+            </p>
+          </div>
+          <div class="ori-dialog__footer">
+            <button class="ori-btn ori-btn--secondary" data-close>Annuler</button>
+            <button class="ori-btn ori-btn--danger" data-close>Supprimer</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // ─── Theme toggle ────────────────────────────────────────────────
+      const html = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const label = document.getElementById('theme-label');
+      const icon = document.getElementById('theme-icon');
+
+      // Icônes Lucide "moon" et "sun" en SVG paths (cf. règle A.1 monochrome).
+      const ICON_MOON = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      const ICON_SUN = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
+
+      // Init depuis localStorage si dispo
+      const saved = localStorage.getItem('ori-ori-theme');
+      if (saved === 'dark' || saved === 'light') {
+        html.setAttribute('data-theme', saved);
+      }
+      const updateLabel = () => {
+        const t = html.getAttribute('data-theme');
+        label.textContent = t === 'dark' ? 'sombre' : 'clair';
+        toggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        icon.innerHTML = t === 'dark' ? ICON_SUN : ICON_MOON;
+      };
+      updateLabel();
+
+      toggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('ori-ori-theme', next);
+        updateLabel();
+      });
+
+      // ─── Dialog (vanilla, sans Radix) ────────────────────────────────
+      const backdrop = document.getElementById('dialog-backdrop');
+      const dialog = document.getElementById('demo-dialog');
+      const openBtn = document.getElementById('open-dialog');
+
+      const openDialog = () => {
+        backdrop.dataset.open = 'true';
+        dialog.dataset.open = 'true';
+        // Focus trap rudimentaire : focus le premier bouton
+        const firstClose = dialog.querySelector('[data-close]');
+        firstClose && firstClose.focus();
+      };
+      const closeDialog = () => {
+        delete backdrop.dataset.open;
+        delete dialog.dataset.open;
+        openBtn.focus();
+      };
+
+      openBtn.addEventListener('click', openDialog);
+      backdrop.addEventListener('click', closeDialog);
+      dialog.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', closeDialog));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dialog.dataset.open) closeDialog();
+      });
+    </script>
+  </body>
+</html>

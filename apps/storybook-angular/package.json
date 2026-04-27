@@ -1,0 +1,44 @@
+{
+  "name": "@govpf/ori-storybook-angular",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Storybook Angular pour les composants @govpf/ori-angular",
+  "scripts": {
+    "storybook": "ng run storybook-angular:storybook",
+    "build": "ng run storybook-angular:build-storybook"
+  },
+  "dependencies": {
+    "@angular/animations": "20.3.18",
+    "@angular/cdk": "20.2.14",
+    "@angular/common": "20.3.18",
+    "@angular/compiler": "20.3.18",
+    "@angular/core": "20.3.18",
+    "@angular/forms": "20.3.18",
+    "@angular/platform-browser": "20.3.18",
+    "@angular/platform-browser-dynamic": "20.3.18",
+    "@govpf/ori-angular": "workspace:*",
+    "@govpf/ori-tailwind-preset": "workspace:*",
+    "@govpf/ori-tokens": "workspace:*",
+    "lucide-angular": "^0.469.0",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.8.1",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "20.3.19",
+    "@angular/cli": "20.3.19",
+    "@angular/compiler-cli": "20.3.18",
+    "@storybook/addon-docs": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-themes": "^8.6.18",
+    "@storybook/angular": "^8.6.18",
+    "@storybook/manager-api": "^8.6.18",
+    "@storybook/theming": "^8.6.18",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "remark-gfm": "^4.0.0",
+    "storybook": "^8.6.18",
+    "tailwindcss": "^3.4.14",
+    "typescript": "~5.9.0"
+  }
+}

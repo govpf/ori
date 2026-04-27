@@ -1,0 +1,31 @@
+{
+  "name": "@govpf/ori-css",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bundle CSS statique Ori (drop-in pour sites statiques, GLPI, emails)",
+  "main": "./dist/ori.css",
+  "style": "./dist/ori.css",
+  "exports": {
+    ".": "./dist/ori.css",
+    "./min": "./dist/ori.min.css",
+    "./tokens": "./dist/tokens.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tailwindcss -i ./src/ori.css -o ./dist/ori.css && tailwindcss -i ./src/ori.css -o ./dist/ori.min.css --minify && cp ../tokens/build/css/tokens.css ./dist/tokens.css",
+    "watch": "tailwindcss -i ./src/ori.css -o ./dist/ori.css --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@govpf/ori-tailwind-preset": "workspace:*",
+    "@govpf/ori-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14",
+    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.20"
+  }
+}

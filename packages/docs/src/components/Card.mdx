@@ -1,0 +1,62 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Composants/Card" />
+
+# Carte
+
+La **Carte** est un composant permettant de présenter un contenu sous forme
+d'aperçu structuré.
+
+Elle est généralement utilisée dans une **liste ou une collection** de contenus
+similaires (articles, fiches, projets, dossiers…), et **n'est pas destinée à
+être utilisée seule** au milieu d'une page.
+
+Elle peut servir de :
+
+- aperçu cliquable vers une page de détail
+- conteneur pour un formulaire ou un bloc d'information
+- unité de hiérarchie visuelle dans un tableau de bord
+
+## Structure modulaire
+
+La carte est composée de **régions optionnelles** (sauf le titre quand un
+header est présent) :
+
+| Région | Contenu | Optionnel |
+|---|---|---|
+| `card-header` | Titre + sous-titre + actions tête de carte | ✓ |
+| `card-body` | Contenu principal (texte, image, formulaire…) | rarement omis |
+| `card-footer` | Actions (boutons), métadonnées (date, auteur) | ✓ |
+
+## Variantes
+
+| Variante | Usage |
+|---|---|
+| `default` | Bordure fine, fond `surface-base`. Cas standard. |
+| `elevated` | Bordure fine + ombre portée. Pour faire ressortir une carte sur fond clair (la bordure garantit la lisibilité même quand l'ombre est imperceptible, par exemple en thème sombre). |
+| `flat` | Fond `surface-muted`, sans bordure ni ombre. Pour des cartes secondaires ou imbriquées dans une autre surface. |
+
+## Bonnes pratiques
+
+- Les cartes d'une même collection doivent avoir la **même structure** (mêmes
+  régions, même hiérarchie). Une grille hétérogène devient illisible.
+- Limiter le nombre d'actions dans le footer (idéalement 2 max). Pour plus
+  d'options, préférer un menu kebab dans le header.
+- Le titre doit être un **vrai `<h2>` / `<h3>`** sémantique (`ori-card__title`
+  utilise un `<h3>` par défaut), pas un simple `<div>` stylisé - l'a11y et le
+  SEO en dépendent.
+
+## Voir le playground
+
+Pour les variantes interactives et exemples de composition, voir la page
+**Composants / Card** de cette même instance Storybook.
+
+## Lien avec le design system
+
+<a
+  href="https://www.figma.com/design/RlnpT40Fzn1Spagj51GTKB/DSPF---Composants---V2.3.6?node-id=365-2044"
+  target="_blank"
+  rel="noreferrer"
+>
+  📐 Voir sur Figma
+</a>

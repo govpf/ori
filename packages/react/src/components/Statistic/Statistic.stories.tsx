@@ -1,0 +1,178 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { useEffect, useState } from 'react';
+import { Card, CardBody } from '../Card/Card.js';
+import { Statistic } from './Statistic.js';
+
+const meta = {
+  title: 'Composants graphiques/Statistic',
+  component: Statistic,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Affiche une métrique chiffrée (KPI) : valeur principale, libellé court, tendance optionnelle. Pas de conteneur intégré : l'app choisit (Card, plain div, etc.). [→ Description complète & bonnes pratiques](?path=/docs/documentation-générale-composants-graphiques-statistic--docs)",
+      },
+    },
+  },
+  argTypes: {
+    variant: { control: 'inline-radio', options: ['default', 'lg', 'inline'] },
+    loading: { control: 'boolean' },
+  },
+  args: {
+    label: 'Démarches en cours',
+    value: 12,
+    variant: 'default',
+  },
+} satisfies Meta<typeof Statistic>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+
+export const AvecTendance: Story = {
+  args: {
+    label: 'Démarches en cours',
+    value: 24,
+    trend: { direction: 'up', label: '+3 cette semaine' },
+  },
+};
+
+export const TendanceNegative: Story = {
+  args: {
+    label: 'Délai moyen de traitement',
+    value: 8,
+    suffix: 'j',
+    trend: { direction: 'down', label: '-1,2 j vs M-1', positive: 'down' },
+  },
+};
+
+export const TendancePlate: Story = {
+  args: {
+    label: 'Documents archivés',
+    value: 47,
+    trend: { direction: 'flat', label: 'Stable' },
+  },
+};
+
+export const AvecPrefixSuffix: Story = {
+  args: {
+    label: 'Montant des aides versées',
+    value: 1240000,
+    suffix: 'XPF',
+  },
+};
+
+export const Pourcentage: Story = {
+  args: {
+    label: 'Taux de complétude',
+    value: 87,
+    suffix: '%',
+    trend: { direction: 'up', label: '+4 pts' },
+  },
+};
+
+export const VariantLarge: Story = {
+  args: {
+    label: 'Démarches en cours',
+    value: 24,
+    variant: 'lg',
+    trend: { direction: 'up', label: '+3 cette semaine' },
+  },
+};
+
+export const VariantInline: Story = {
+  args: {
+    label: 'Total des demandes',
+    value: 154,
+    variant: 'inline',
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    label: 'Calcul en cours…',
+    value: 0,
+    loading: true,
+  },
+};
+
+export const ChargementProgressif: Story = {
+  render: () => {
+    const [v, setV] = useState<number | null>(null);
+    useEffect(() => {
+      const t = window.setTimeout(() => setV(42), 1500);
+      return () => window.clearTimeout(t);
+    }, []);
+    return (
+      <Statistic
+        label="Démarches reçues aujourd'hui"
+        value={v ?? 0}
+        loading={v === null}
+        trend={v !== null ? { direction: 'up', label: '+12 vs hier' } : undefined}
+      />
+    );
+  },
+};
+
+export const DansUneCard: Story = {
+  render: () => (
+    <div
+      style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', maxWidth: 720 }}
+    >
+      <Card>
+        <CardBody>
+          <Statistic
+            label="Démarches en cours"
+            value={2}
+            trend={{ direction: 'up', label: '+1 cette semaine' }}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardBody>
+          <Statistic label="À compléter" value={1} />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardBody>
+          <Statistic label="Validées" value={2} />
+        </CardBody>
+      </Card>
+    </div>
+  ),
+};
+
+export const Inline: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxWidth: 320 }}>
+      <Statistic variant="inline" label="Démarches en cours" value={2} />
+      <Statistic variant="inline" label="À compléter" value={1} />
+      <Statistic variant="inline" label="Validées" value={2} />
+      <Statistic variant="inline" label="Refusées" value={0} />
+    </div>
+  ),
+};
+
+export const FormatageNombre: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '1.5rem',
+        maxWidth: 600,
+      }}
+    >
+      <Statistic label="Sans formatage" value={1234567} formatNumber={false} />
+      <Statistic label="Avec formatage (fr-FR)" value={1234567} />
+      <Statistic
+        label="Décimales fixes"
+        value={3.14159}
+        numberFormatOptions={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+      />
+      <Statistic label="Compact" value={12500} numberFormatOptions={{ notation: 'compact' }} />
+    </div>
+  ),
+};

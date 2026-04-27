@@ -1,0 +1,16 @@
+{
+  "name": "@govpf/ori-playground-static",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Démo HTML pur consommant ori.css (validation du livrable statique)",
+  "scripts": {
+    "copy-css": "node -e \"const fs=require('fs');const src='../../packages/css/dist';for(const f of ['ori.css','ori.min.css','tokens.css'])fs.copyFileSync(`${src}/${f}`,`./${f}`);\"",
+    "predev": "pnpm copy-css",
+    "dev": "npx http-server . -p 4173 -c-1 -o",
+    "prebuild": "pnpm copy-css",
+    "build": "echo 'page HTML statique - copy-css fait le job'"
+  },
+  "dependencies": {
+    "@govpf/ori-css": "workspace:*"
+  }
+}

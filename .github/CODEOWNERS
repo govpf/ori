@@ -1,0 +1,26 @@
+# CODEOWNERS - propriétaires de référence par dossier.
+# Documentation : https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Les owners listés ici sont automatiquement requis comme reviewers sur
+# toute PR qui touche les fichiers/dossiers concernés. À combiner avec
+# une règle de branch protection "require review from CODEOWNERS".
+
+# Owner par défaut sur tout le repo.
+*                              @ltavae
+
+# ─── Zones critiques ──────────────────────────────────────────────────
+# Tokens et preset Tailwind : changements à fort impact transverse.
+/packages/tokens/              @ltavae
+/packages/tailwind-preset/     @ltavae
+
+# Composants framework : qualité API + a11y + cross-framework parity.
+/packages/react/               @ltavae
+/packages/angular/             @ltavae
+/packages/css/                 @ltavae
+
+# Documentation publique (site Astro + MDX partagés).
+/apps/ori-site/                @ltavae
+/packages/docs/                @ltavae
+
+# Configuration CI / Dependabot / sécurité du repo.
+/.github/                      @ltavae

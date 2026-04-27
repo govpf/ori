@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+
+interface ColorToken {
+  name: string;
+  cssVar: string;
+  hex?: string;
+}
+
+const palette: { titre: string; tokens: ColorToken[] }[] = [
+  {
+    titre: 'Marque',
+    tokens: [
+      { name: 'brand-primary', cssVar: 'var(--color-brand-primary)' },
+      { name: 'brand-primary-hover', cssVar: 'var(--color-brand-primary-hover)' },
+      { name: 'brand-primary-active', cssVar: 'var(--color-brand-primary-active)' },
+      { name: 'brand-primary-subtle', cssVar: 'var(--color-brand-primary-subtle)' },
+    ],
+  },
+  {
+    titre: 'Surfaces',
+    tokens: [
+      { name: 'surface-base', cssVar: 'var(--color-surface-base)' },
+      { name: 'surface-muted', cssVar: 'var(--color-surface-muted)' },
+      { name: 'surface-subtle', cssVar: 'var(--color-surface-subtle)' },
+      { name: 'surface-inverse', cssVar: 'var(--color-surface-inverse)' },
+    ],
+  },
+  {
+    titre: 'Texte',
+    tokens: [
+      { name: 'text-primary', cssVar: 'var(--color-text-primary)' },
+      { name: 'text-secondary', cssVar: 'var(--color-text-secondary)' },
+      { name: 'text-muted', cssVar: 'var(--color-text-muted)' },
+      { name: 'text-link', cssVar: 'var(--color-text-link)' },
+    ],
+  },
+  {
+    titre: 'Feedback',
+    tokens: [
+      { name: 'feedback-info', cssVar: 'var(--color-feedback-info)' },
+      { name: 'feedback-success', cssVar: 'var(--color-feedback-success)' },
+      { name: 'feedback-warning', cssVar: 'var(--color-feedback-warning)' },
+      { name: 'feedback-danger', cssVar: 'var(--color-feedback-danger)' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Tokens couleurs"
+  current="tokens"
+  description="Tokens de couleur du design system Ori"
+>
+  <Sidebar current="tokens" />
+
+  <article class="site-content">
+    <h1>Tokens de couleur</h1>
+    <p>
+      Les tokens de couleur d'Ori sont définis dans le package <code>@govpf/ori-tokens</code>
+      et exposés sous forme de variables CSS. Ils sont organisés par <strong>rôle
+      sémantique</strong> (surface, texte, feedback) plutôt que par valeur brute, ce qui
+      permet au thème (clair / sombre) de réorienter les couleurs sans changer le code
+      des composants.
+    </p>
+
+    {palette.map((group) => (
+      <section>
+        <h2>{group.titre}</h2>
+        <div class="token-grid">
+          {group.tokens.map((token) => (
+            <div class="token-card">
+              <div class="token-card__swatch" style={`background-color: ${token.cssVar};`}></div>
+              <div class="token-card__meta">
+                <span class="token-card__name">{token.name}</span>
+                <span class="token-card__value">{token.cssVar}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <h2>Utilisation</h2>
+    <p>
+      En CSS pur, référencer les variables directement :
+    </p>
+    <div class="example">
+      <pre class="example__code"><code>{`.ma-classe {
+  background-color: var(--color-surface-base);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-default);
+}`}</code></pre>
+    </div>
+
+    <p>
+      Avec le preset Tailwind <code>@govpf/ori-tailwind-preset</code>, les couleurs sont
+      également exposées comme valeurs Tailwind sémantiques :
+    </p>
+    <div class="example">
+      <pre class="example__code"><code>{`<div class="bg-surface-base text-text-primary border border-border-default">
+  Contenu utilisant le preset Tailwind
+</div>`}</code></pre>
+    </div>
+  </article>
+</BaseLayout>

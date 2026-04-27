@@ -1,0 +1,247 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Stratégie d'ouverture" />
+
+# Stratégie d'ouverture du design system
+
+Cette page documente la position de Ori sur la question : **faut-il rendre
+public le code source du design system ?** Elle traite spécifiquement le sujet
+sécurité, et liste les contrôles à passer avant toute publication externe.
+
+## Position retenue
+
+**Ori est conçu pour être publié en open source**, sur GitHub public et
+distribué via npm public, sous licence permissive. Cette section explique
+pourquoi cette position n'introduit pas de risque sécurité significatif et
+pourquoi elle est, au contraire, alignée avec les pratiques des autres
+administrations comparables.
+
+## Le faux problème : "exposer le code, c'est exposer la stack"
+
+Un design system est par construction livré au navigateur. Toutes les
+classes `.ori-*`, le markup généré, le CSS compilé et le bundle JavaScript
+sont déjà inspectables via les devtools de **n'importe quelle app** Ori
+en production. Mettre les sources sur GitHub ne change donc pas la surface
+d'attaque réelle : un attaquant déterminé reconstitue le DS à partir d'une
+seule app publique en quelques heures.
+
+La "sécurité par obscurité" est ici une illusion : ce qui est privé sur le
+repo n'est pas privé sur le réseau.
+
+## Les vrais sujets de sécurité ne sont pas dans le DS
+
+Aucune décision UI ne doit être *load-bearing* pour la sécurité. Les
+contrôles vivent côté serveur :
+
+- authentification et fédération d'identité (Keycloak)
+- autorisation et habilitations
+- validation des entrées, échappement, anti-CSRF
+- chiffrement et gestion des secrets
+- journalisation et détection d'anomalies
+
+Si une app Ori présente une faille parce qu'un attaquant connaît la
+classe `.ori-form` ou la structure d'un écran Keycloak, c'est une faille
+**du backend ou de l'intégration**, pas du DS.
+
+## Modèles de référence
+
+Toutes les administrations comparables publient leur DS :
+
+| Administration | Design system | Licence |
+|---|---|---|
+| France | DSFR | MIT |
+| Royaume-Uni | GOV.UK Design System | MIT |
+| États-Unis | USWDS | Domaine public (CC0 / public.gov.uk) |
+| Canada | Canada.ca / GC Design System | MIT |
+| Australie | Australian GOV Design System | MIT |
+| Belgique | DS BOSA | EUPL |
+
+C'est un signal fort : en service public, le bénéfice (transparence,
+contributions externes, audits a11y/sécu communautaires, crédibilité,
+réutilisabilité par d'autres acteurs) dépasse largement le risque.
+
+## Risque réel mais limité : phishing
+
+Un attaquant peut cloner pixel-perfect l'UI de connexion à partir du DS
+public et lancer une campagne de phishing. C'est vrai, mais :
+
+- cloner visuellement une UI publique se fait en 30 minutes même **sans**
+  le DS (capture d'écran, copie HTML/CSS depuis les devtools)
+- la défense contre le phishing est ailleurs : domaines `.gov.pf` protégés,
+  DMARC/SPF/DKIM stricts, sensibilisation des usagers, MFA sur les comptes,
+  alertes sur les domaines lookalike
+
+Garder le DS privé n'arrête pas un attaquant motivé. Investir cette énergie
+dans les défenses citées plus haut est plus efficace.
+
+## Bénéfices concrets de la publication
+
+- **Crédibilité** : un service public qui publie son code envoie un signal
+  de qualité, de redevabilité et de transparence.
+- **Audits gratuits** : la communauté (devs externes, étudiants, autres
+  administrations) signale les bugs RGAA, sécurité, performance.
+- **Recrutement** : les développeurs peuvent évaluer la qualité du code
+  avant de postuler.
+- **Réutilisation** : Wallis-et-Futuna, Nouvelle-Calédonie, communes PF,
+  structures associatives à mission de service public peuvent partir de
+  Ori plutôt que repartir de zéro.
+- **Documentation forcée** : un repo public oblige à écrire une doc
+  utilisable par un externe — ce qui sert aussi en interne.
+
+## Coût réel à anticiper
+
+Ce n'est pas la sécurité, c'est la **maintenance communautaire** :
+
+- temps passé à répondre aux issues et aux PRs externes
+- attentes implicites de support
+- nécessité de versionner sérieusement (semver, changelog, deprecations)
+
+Politique claire à afficher dès le début, par exemple dans le README :
+
+> Support **best-effort**, pas de SLA. Les contributions sont les
+> bienvenues mais sont filtrées par les besoins des services
+> administratifs polynésiens. Pour un usage critique en production,
+> verrouiller votre version (`@govpf/ori-...@x.y.z`) et auditer vous-même.
+
+## Ce qui doit rester privé
+
+Trois zones à garder strictement internes même quand le DS est open source :
+
+### 1. Secrets et configurations d'infra
+- Fichiers `.env*`, credentials, certificats, clés privées, tokens d'API
+- IPs internes, hostnames intranet, URLs d'admin Keycloak
+- Configurations Keycloak réelles (au-delà des templates FTL publics
+  documentés ici)
+
+### 2. Cartographie des consommateurs
+- Ne pas publier la liste exhaustive *"service A utilise Ori@1.2.3,
+  service B utilise Ori@1.4.0"*
+- Cela faciliterait le fingerprinting et le ciblage de campagnes
+- Le DS est public ; l'inventaire d'usage reste interne
+
+### 3. Stratégie supply chain
+- Mesures de protection du compte npm (2FA, restrictions IP, audit logs)
+- Plan de réponse en cas de compromission de package
+- Liste des mainteneurs autorisés à publier
+
+## Checklist avant publication
+
+Cette section liste les contrôles **obligatoires** à passer avant toute
+mise en visibilité publique du repo. Aucune doit être sautée.
+
+### A. Audit des secrets dans l'historique git
+
+L'historique git garde tout. Un secret committé puis supprimé par un
+commit suivant **reste visible** dans l'historique. Doit être traité
+avant publication.
+
+- [ ] Lancer `gitleaks detect --source . --no-git` (HEAD courant)
+- [ ] Lancer `gitleaks detect --source .` (historique complet)
+- [ ] Alternative : `trufflehog filesystem .` ou `trufflehog git file://.`
+- [ ] Vérifier qu'il n'y a pas de fichiers `.env*`, `*.key`, `*.pem`,
+      `id_rsa`, `credentials.json`, `secrets.yaml` dans aucun commit
+- [ ] Si un secret est trouvé : ne **jamais** se contenter d'un commit de
+      suppression. Utiliser `git-filter-repo --path xxx --invert-paths`
+      pour réécrire l'historique, **puis rotation immédiate du secret**
+
+### B. Audit des dépendances
+
+- [ ] `pnpm audit --prod` : zéro vulnérabilité critical/high non résolue
+- [ ] Vérifier que toutes les licences des deps sont compatibles avec la
+      licence du DS (MIT, Apache, ISC, BSD : OK ; GPL : à éviter pour un
+      DS sous MIT)
+- [ ] Activer **Dependabot** (ou Renovate) sur le repo, avec security
+      updates activés
+- [ ] Pinner les versions critiques dans `pnpm-lock.yaml` (committed)
+- [ ] Vérifier qu'il n'y a pas de scripts `postinstall` dans nos
+      `package.json` (vecteur classique de supply chain attack)
+
+### C. Configuration GitHub
+
+- [ ] **Branch protection** sur `main` :
+  - PR obligatoire avant merge
+  - 1 review requise (2 sur les changements sensibles)
+  - CI verte requise
+  - Pas de force push, pas de suppression de branche
+- [ ] **CODEOWNERS** : un mainteneur référent par dossier critique
+- [ ] **Required signed commits** activé si l'équipe est setup pour
+- [ ] **2FA obligatoire** pour tous les utilisateurs ayant write access
+      sur l'organisation GitHub
+- [ ] **Secret scanning + push protection** activés (Settings → Code
+      security)
+- [ ] **Dependabot security updates** activés
+- [ ] Pas de variables `secrets.*` exposées dans les workflows publics
+
+### D. Supply chain npm
+
+- [ ] **2FA obligatoire** sur le compte npm utilisé pour publier
+- [ ] **npm provenance** activée (signatures via GitHub Actions OIDC) :
+      `npm publish --provenance`
+- [ ] Publication explicite en `--access public` (sinon les packages
+      privés ne sont visibles que par l'organisation)
+- [ ] Lockfile `pnpm-lock.yaml` committé et utilisé en CI (`pnpm install
+      --frozen-lockfile`)
+- [ ] Désigner les **mainteneurs autorisés à publier** (limite la
+      surface d'attaque)
+- [ ] Plan de réponse documenté en cas de compromission de package
+      (yank, rotation, communication)
+
+### E. Documents légaux
+
+- [ ] **LICENSE** à la racine (recommandé : MIT pour la simplicité ; EUPL
+      pour aligner avec d'autres DS européens de service public)
+- [ ] **CONTRIBUTING.md** : règles de contribution, conventions de
+      commit, comment tester localement
+- [ ] **CODE_OF_CONDUCT.md** : standard Contributor Covenant 2.1
+- [ ] **SECURITY.md** : comment signaler une faille (email dédié,
+      éventuellement clé PGP, délai de réponse promis ex 5 jours
+      ouvrés, processus de divulgation responsable)
+- [ ] **README.md** cohérent avec un public externe (pas de jargon
+      interne, lien vers la doc Storybook publique)
+
+### F. Documentation publique nettoyée
+
+- [ ] Pas de mention de service administratif spécifique (DPAM, etc.) si
+      la décision projet est de rester générique (cf. décision projet :
+      ne pas mentionner DPAM ni l'historique legacy dans la doc)
+- [ ] Pas de captures d'écran avec données réelles d'usagers ou d'agents
+- [ ] Pas de noms d'agents PF dans les exemples
+- [ ] Pas d'IPs internes ou d'URLs `intranet.gov.pf` dans la doc ou les
+      stories
+- [ ] Pas de numéros de dossier ou identifiants réels dans les mocks
+
+### G. CI/CD
+
+- [ ] Pas de secrets en clair dans `.github/workflows/*.yml`
+- [ ] Permissions GITHUB_TOKEN minimales (`permissions: contents: read`
+      par défaut, élargir au cas par cas)
+- [ ] OIDC pour les déploiements (pas de long-lived tokens)
+- [ ] Si un workflow publie sur npm : isolé, avec `environment:
+      production` pour ajouter une review manuelle
+
+### H. Communication et lancement
+
+- [ ] Annonce coordonnée (qui annonce, sur quels canaux, à quelle date)
+- [ ] Mainteneur référent désigné (qui répond aux issues les premières
+      semaines)
+- [ ] Préparer 5-10 issues "good first issue" pour amorcer la
+      communauté
+- [ ] Surveiller le repo les 2 premières semaines (issues, PRs, stars,
+      forks) — adaptation possible
+
+## Après la publication : posture continue
+
+- Revue trimestrielle de la security policy (`SECURITY.md`)
+- Audit annuel des dépendances et de la chaîne de release
+- Veille sur les CVE des composants utilisés (Radix, Lucide, Tailwind,
+  React, Angular)
+- Renouvellement des credentials de publication tous les 6-12 mois
+- Post-mortem public en cas d'incident (dans la limite du raisonnable
+  côté infra)
+
+## Décision
+
+Ce document acte la **volonté de publier Ori en open source** une fois
+la checklist complétée. La date de bascule sera fixée par l'équipe
+responsable, et la liste de contrôle ci-dessus servira de définition de
+"prêt à publier".

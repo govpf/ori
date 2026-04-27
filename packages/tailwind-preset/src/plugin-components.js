@@ -1,0 +1,2169 @@
+/**
+ * Plugin Tailwind : classes sémantiques Ori.
+ *
+ * Principes :
+ *   - Les COULEURS passent par des variables CSS (var(--color-*)) plutôt que
+ *     des valeurs résolues à la compilation. Cela permet le theming dynamique
+ *     (light/dark, white-label…) sans recompilation.
+ *   - Les autres tokens (spacing, radii, typo) restent résolus via theme(...)
+ *     car ils ne varient pas selon le thème.
+ *
+ * Les variables CSS sont définies dans `@govpf/ori-tokens/css` et importées par
+ * le CSS consommateur (preview.css pour Storybook, ori.css pour le livrable
+ * statique).
+ */
+
+// Petit helper : pointe vers une CSS var définie par @govpf/ori-tokens.
+const v = (name) => `var(--color-${name})`;
+
+export function componentsPlugin({ addComponents, addBase, theme }) {
+  addBase({
+    ':root': {
+      fontFamily: theme('fontFamily.sans'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+    },
+    body: {
+      margin: '0',
+      fontSize: theme('fontSize.base'),
+      lineHeight: theme('lineHeight.normal'),
+    },
+    '*, *::before, *::after': { boxSizing: 'border-box' },
+  });
+
+  addComponents({
+    // ─── Button ────────────────────────────────────────────────────────────
+    '.ori-btn': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      lineHeight: theme('lineHeight.tight'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      cursor: 'pointer',
+      transitionProperty: 'background-color, border-color, color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      userSelect: 'none',
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 2px ${v('surface-base')}, 0 0 0 4px ${v('border-focus')}`,
+      },
+      '&:disabled, &[aria-disabled="true"]': {
+        cursor: 'not-allowed',
+        opacity: '0.5',
+      },
+    },
+    '.ori-btn--primary': {
+      backgroundColor: v('brand-primary'),
+      color: v('brand-on-primary'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('brand-primary-hover'),
+      },
+      '&:active:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('brand-primary-active'),
+      },
+    },
+    '.ori-btn--secondary': {
+      backgroundColor: v('surface-base'),
+      color: v('text-primary'),
+      borderColor: v('border-default'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('surface-muted'),
+        borderColor: v('border-strong'),
+      },
+      '&:active:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('surface-subtle'),
+      },
+    },
+    '.ori-btn--ghost': {
+      backgroundColor: 'transparent',
+      color: v('text-secondary'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('surface-subtle'),
+        color: v('text-primary'),
+      },
+    },
+    '.ori-btn--danger': {
+      backgroundColor: v('feedback-danger'),
+      color: v('brand-on-primary'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('danger-600'),
+      },
+      '&:active:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('danger-700'),
+      },
+    },
+    '.ori-btn--sm': {
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.1'),
+      fontSize: theme('fontSize.xs'),
+    },
+    '.ori-btn--lg': {
+      paddingInline: theme('spacing.6'),
+      paddingBlock: theme('spacing.3'),
+      fontSize: theme('fontSize.base'),
+    },
+    '.ori-btn--block': {
+      display: 'flex',
+      width: '100%',
+    },
+
+    // ─── Input ─────────────────────────────────────────────────────────────
+    '.ori-field': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+    },
+    '.ori-field__label': {
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-field__label--required::after': {
+      content: '" *"',
+      color: v('feedback-danger'),
+    },
+    '.ori-field__hint': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+    },
+    '.ori-field__error': {
+      fontSize: theme('fontSize.xs'),
+      color: v('feedback-danger'),
+    },
+    '.ori-input': {
+      display: 'block',
+      width: '100%',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      // Permet au navigateur d'adapter ses contrôles natifs (icône date
+      // picker, autocomplete, etc.) au thème ambiant. Sans ça, l'icône du
+      // calendrier de `<input type="date">` reste noire en dark mode et
+      // devient invisible sur fond foncé. `light dark` (vs juste `dark`)
+      // laisse le browser choisir selon le `data-theme` ambiant.
+      colorScheme: 'light dark',
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&::placeholder': { color: v('text-muted') },
+      '&:hover:not(:disabled):not([aria-invalid="true"])': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible, &:focus': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        color: v('text-disabled'),
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus': {
+          boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}`,
+        },
+      },
+    },
+    '.ori-input--sm': {
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      fontSize: theme('fontSize.xs'),
+    },
+    '.ori-input--lg': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      fontSize: theme('fontSize.base'),
+    },
+
+    // ─── Textarea ──────────────────────────────────────────────────────────
+    // Réutilise les bases de .ori-input et ajoute les contraintes propres au
+    // textarea (resize vertical par défaut, hauteur min en lignes, etc.).
+    '.ori-textarea': {
+      display: 'block',
+      width: '100%',
+      minHeight: '6rem',
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.relaxed'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      // Adapte la scrollbar native au thème ambiant (idem .ori-input).
+      colorScheme: 'light dark',
+      resize: 'vertical',
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&::placeholder': { color: v('text-muted') },
+      '&:hover:not(:disabled):not([aria-invalid="true"])': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible, &:focus': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        color: v('text-disabled'),
+        resize: 'none',
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus': {
+          boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}`,
+        },
+      },
+    },
+
+    // ─── Choice (Checkbox / Radio / Switch) ────────────────────────────────
+    // Wrapper d'un input + label aligné. Choice = case + libellé sur la même
+    // ligne. ChoiceGroup = plusieurs Choice empilés (pour Radio et Checkbox).
+    '.ori-choice': {
+      display: 'inline-flex',
+      // align-items: center pour le cas standard (label simple) où on veut
+      // que la case et le texte soient parfaitement centrés verticalement.
+      // Quand il y a un hint, on bascule en flex-start (cf. modificateur ci-dessous)
+      // pour que la case s'aligne avec la première ligne du label.
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      cursor: 'pointer',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      lineHeight: theme('lineHeight.normal'),
+      '&[data-disabled="true"]': {
+        cursor: 'not-allowed',
+        color: v('text-disabled'),
+      },
+      // Quand le label contient un hint (block en dessous), on aligne en haut
+      // pour que la case se cale sur la première ligne, pas au milieu du bloc.
+      '&:has(.ori-choice__hint)': {
+        alignItems: 'flex-start',
+      },
+    },
+    '.ori-choice__label': {
+      // Compense la différence de hauteur entre la case (1.125rem) et la
+      // line-height du texte. Sans ça, le texte paraît légèrement décalé.
+      lineHeight: '1.125rem',
+    },
+    '.ori-choice__hint': {
+      display: 'block',
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.normal'),
+      marginTop: '0.125rem',
+    },
+    '.ori-choice-group': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+    },
+    '.ori-choice-group--inline': {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: theme('spacing.4'),
+    },
+
+    // ─── Checkbox ──────────────────────────────────────────────────────────
+    '.ori-checkbox': {
+      flex: '0 0 auto',
+      width: '1.125rem',
+      height: '1.125rem',
+      margin: '0',
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      backgroundColor: v('surface-base'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      borderRadius: theme('borderRadius.sm'),
+      cursor: 'pointer',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transitionProperty: 'background-color, border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not(:disabled):not([aria-invalid="true"])': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+        borderColor: v('border-focus'),
+      },
+      '&:checked, &:indeterminate': {
+        backgroundColor: v('brand-primary'),
+        borderColor: v('brand-primary'),
+      },
+      // Coche : SVG en background-image pour ne dépendre d'aucun glyphe
+      '&:checked': {
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 8 7 12 13 4'/%3E%3C/svg%3E\")",
+        backgroundSize: '85%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      },
+      '&:indeterminate': {
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Cline x1='4' y1='8' x2='12' y2='8'/%3E%3C/svg%3E\")",
+        backgroundSize: '85%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        borderColor: v('border-subtle'),
+      },
+      '&:disabled:checked, &:disabled:indeterminate': {
+        backgroundColor: v('text-disabled'),
+        borderColor: v('text-disabled'),
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus-visible': {
+          boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}`,
+        },
+      },
+    },
+
+    // ─── Radio ─────────────────────────────────────────────────────────────
+    '.ori-radio': {
+      flex: '0 0 auto',
+      width: '1.125rem',
+      height: '1.125rem',
+      margin: '0',
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      backgroundColor: v('surface-base'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      borderRadius: '9999px',
+      cursor: 'pointer',
+      transitionProperty: 'background-color, border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not(:disabled):not([aria-invalid="true"])': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+        borderColor: v('border-focus'),
+      },
+      '&:checked': {
+        borderColor: v('brand-primary'),
+        // Pastille intérieure via radial-gradient (pas de pseudo nécessaire
+        // sur un input natif, qui n'accepte pas ::before).
+        backgroundImage: `radial-gradient(circle, ${v('brand-primary')} 40%, transparent 45%)`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        borderColor: v('border-subtle'),
+      },
+      '&:disabled:checked': {
+        borderColor: v('text-disabled'),
+        backgroundImage: `radial-gradient(circle, ${v('text-disabled')} 40%, transparent 45%)`,
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus-visible': {
+          boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}`,
+        },
+      },
+    },
+
+    // ─── Switch ────────────────────────────────────────────────────────────
+    // L'input natif est rendu invisible mais focusable, et c'est le label qui
+    // contient la track + thumb stylés via :checked sibling selector.
+    '.ori-switch': {
+      position: 'relative',
+      flex: '0 0 auto',
+      display: 'inline-block',
+      width: '2.25rem',
+      height: '1.25rem',
+    },
+    '.ori-switch__input': {
+      position: 'absolute',
+      opacity: '0',
+      width: '100%',
+      height: '100%',
+      margin: '0',
+      cursor: 'pointer',
+      zIndex: '1',
+      '&:disabled': { cursor: 'not-allowed' },
+    },
+    '.ori-switch__track': {
+      position: 'absolute',
+      inset: '0',
+      backgroundColor: v('border-default'),
+      borderRadius: '9999px',
+      transitionProperty: 'background-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: '2px',
+        left: '2px',
+        width: 'calc(1.25rem - 4px)',
+        height: 'calc(1.25rem - 4px)',
+        backgroundColor: v('surface-base'),
+        borderRadius: '9999px',
+        boxShadow: '0 1px 2px rgb(0 0 0 / 0.2)',
+        transitionProperty: 'transform',
+        transitionDuration: theme('transitionDuration.fast'),
+        transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      },
+    },
+    '.ori-switch__input:checked + .ori-switch__track': {
+      backgroundColor: v('brand-primary'),
+      '&::before': { transform: 'translateX(1rem)' },
+    },
+    '.ori-switch__input:focus-visible + .ori-switch__track': {
+      boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+    },
+    '.ori-switch__input:disabled + .ori-switch__track': {
+      backgroundColor: v('border-subtle'),
+      '&::before': { backgroundColor: v('surface-muted') },
+    },
+    '.ori-switch__input:disabled:checked + .ori-switch__track': {
+      backgroundColor: v('text-disabled'),
+    },
+
+    // ─── Select ────────────────────────────────────────────────────────────
+    // Wrapper d'un <select> natif. On reprend les bases de .ori-input (focus,
+    // border, états) + une flèche personnalisée en background-image (le
+    // chevron natif n'est pas stylable en CSS).
+    '.ori-select': {
+      display: 'block',
+      width: '100%',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      paddingInlineEnd: theme('spacing.10'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      // Adapte la liste déroulante native au thème ambiant (idem .ori-input).
+      colorScheme: 'light dark',
+      backgroundImage:
+        "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2371717a' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E\")",
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 0.75rem center',
+      backgroundSize: '1rem',
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not(:disabled):not([aria-invalid="true"])': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible, &:focus': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        color: v('text-disabled'),
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus': { boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}` },
+      },
+    },
+    '.ori-select--sm': {
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      paddingInlineEnd: theme('spacing.8'),
+      fontSize: theme('fontSize.xs'),
+    },
+    '.ori-select--lg': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      paddingInlineEnd: theme('spacing.12'),
+      fontSize: theme('fontSize.base'),
+    },
+
+    // ─── FileUpload ────────────────────────────────────────────────────────
+    // Pattern : input file natif rendu invisible + zone drop-zone clickable
+    // qui sert à la fois de bouton de sélection et de cible drag-and-drop.
+    '.ori-file': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+    },
+    '.ori-file__input': {
+      // Visually hidden mais accessible au clavier (cf. WCAG)
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      borderWidth: '0',
+    },
+    '.ori-file__dropzone': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.6'),
+      paddingBlock: theme('spacing.6'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'dashed',
+      borderColor: v('border-default'),
+      backgroundColor: v('surface-base'),
+      color: v('text-secondary'),
+      fontSize: theme('fontSize.sm'),
+      cursor: 'pointer',
+      transitionProperty: 'border-color, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover': {
+        borderColor: v('border-strong'),
+        backgroundColor: v('surface-muted'),
+      },
+    },
+    '.ori-file__input:focus-visible + .ori-file__dropzone': {
+      outline: 'none',
+      borderColor: v('border-focus'),
+      boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+    },
+    '.ori-file__dropzone--dragging': {
+      borderColor: v('border-focus'),
+      borderStyle: 'solid',
+      backgroundColor: v('brand-primary-subtle'),
+      color: v('text-primary'),
+    },
+    '.ori-file__dropzone--invalid': {
+      borderColor: v('feedback-danger'),
+      backgroundColor: v('feedback-danger-bg'),
+    },
+    '.ori-file__dropzone-title': {
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-file__dropzone-hint': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+    },
+    '.ori-file__list': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-file__item': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      borderRadius: theme('borderRadius.md'),
+      backgroundColor: v('surface-muted'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+    },
+    '.ori-file__item-name': {
+      flex: '1 1 auto',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    '.ori-file__item-size': {
+      flex: '0 0 auto',
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+    },
+    '.ori-file__item-remove': {
+      flex: '0 0 auto',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: v('text-secondary'),
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-base') },
+    },
+
+    // ─── Tabs ──────────────────────────────────────────────────────────────
+    // Pas de `gap` sur le container : on espace via padding-top du panel pour
+    // garder un rendu identique quel que soit l'index du panel actif (les
+    // panels inactifs sont en display:none, mais certains navigateurs comptent
+    // le gap différemment selon la position).
+    '.ori-tabs': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    '.ori-tabs__list': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.1'),
+      margin: '0',
+      padding: '0',
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-subtle'),
+    },
+    '.ori-tabs__tab': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-secondary'),
+      backgroundColor: 'transparent',
+      borderWidth: '0',
+      borderBottomWidth: '2px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: 'transparent',
+      marginBottom: '-1px',
+      cursor: 'pointer',
+      transitionProperty: 'color, border-color, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not(:disabled):not([aria-selected="true"])': {
+        color: v('text-primary'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+        borderRadius: theme('borderRadius.sm'),
+      },
+      '&[aria-selected="true"]': {
+        color: v('brand-primary'),
+        borderBottomColor: v('brand-primary'),
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        opacity: '0.5',
+      },
+    },
+    '.ori-tabs__panel': {
+      paddingTop: theme('spacing.4'),
+      paddingBottom: theme('spacing.2'),
+      color: v('text-primary'),
+      '&[hidden]': { display: 'none' },
+    },
+
+    // ─── Accordion ─────────────────────────────────────────────────────────
+    // Wraps `<details>` / `<summary>` natifs.
+    '.ori-accordion': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+    },
+    '.ori-accordion__item': {
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-subtle'),
+      backgroundColor: v('surface-base'),
+      overflow: 'hidden',
+    },
+    '.ori-accordion__summary': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme('spacing.3'),
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+      cursor: 'pointer',
+      listStyle: 'none',
+      transitionProperty: 'background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&::-webkit-details-marker': { display: 'none' },
+      '&:hover': { backgroundColor: v('surface-muted') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `inset 0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-accordion__chevron': {
+      flex: '0 0 auto',
+      transitionProperty: 'transform',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+    },
+    'details[open] > .ori-accordion__summary > .ori-accordion__chevron': {
+      transform: 'rotate(180deg)',
+    },
+    '.ori-accordion__content': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      color: v('text-primary'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.relaxed'),
+    },
+
+    // ─── Breadcrumb ────────────────────────────────────────────────────────
+    '.ori-breadcrumb': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+    },
+    '.ori-breadcrumb__item': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+    },
+    '.ori-breadcrumb__link': {
+      color: v('text-secondary'),
+      textDecoration: 'none',
+      paddingInline: theme('spacing.1'),
+      paddingBlock: '0.125rem',
+      borderRadius: theme('borderRadius.sm'),
+      transitionProperty: 'color, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-muted') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-breadcrumb__current': {
+      color: v('text-primary'),
+      fontWeight: theme('fontWeight.medium'),
+      paddingInline: theme('spacing.1'),
+    },
+    '.ori-breadcrumb__separator': {
+      color: v('text-muted'),
+      userSelect: 'none',
+    },
+
+    // ─── Pagination ────────────────────────────────────────────────────────
+    '.ori-pagination': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-pagination__item': { display: 'inline-flex' },
+    '.ori-pagination__link': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minWidth: '2.25rem',
+      height: '2.25rem',
+      paddingInline: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+      backgroundColor: 'transparent',
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      cursor: 'pointer',
+      transitionProperty: 'background-color, border-color, color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not(:disabled):not([aria-current="page"])': {
+        backgroundColor: v('surface-muted'),
+        borderColor: v('border-default'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&[aria-current="page"]': {
+        backgroundColor: v('brand-primary'),
+        color: v('brand-on-primary'),
+        cursor: 'default',
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        opacity: '0.5',
+      },
+    },
+    '.ori-pagination__ellipsis': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minWidth: '2.25rem',
+      height: '2.25rem',
+      color: v('text-muted'),
+      userSelect: 'none',
+    },
+
+    // ─── Steps ─────────────────────────────────────────────────────────────
+    '.ori-steps': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+      gap: theme('spacing.2'),
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+      counterReset: 'pf-step',
+    },
+    '.ori-steps__item': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      gap: theme('spacing.2'),
+      flex: '1 1 0',
+      minWidth: '6rem',
+      counterIncrement: 'pf-step',
+    },
+    '.ori-steps__marker': {
+      flex: '0 0 auto',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '2rem',
+      height: '2rem',
+      borderRadius: '9999px',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      backgroundColor: v('surface-base'),
+      color: v('text-secondary'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.semibold'),
+    },
+    '.ori-steps__item--current .ori-steps__marker': {
+      backgroundColor: v('brand-primary'),
+      borderColor: v('brand-primary'),
+      color: v('brand-on-primary'),
+    },
+    '.ori-steps__item--completed .ori-steps__marker': {
+      backgroundColor: v('feedback-success'),
+      borderColor: v('feedback-success'),
+      color: v('brand-on-primary'),
+    },
+    '.ori-steps__label': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '0.125rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+    },
+    '.ori-steps__title': {
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-steps__item--todo .ori-steps__title': {
+      color: v('text-secondary'),
+      fontWeight: theme('fontWeight.normal'),
+    },
+    '.ori-steps__description': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+    },
+    '.ori-steps__separator': {
+      flex: '1 1 auto',
+      height: '1px',
+      minWidth: '1rem',
+      backgroundColor: v('border-subtle'),
+      // Layout vertical : dot au-dessus, label en dessous. Les séparateurs
+      // doivent être alignés horizontalement avec le centre des dots.
+      // Le dot fait 2rem (32px) de hauteur, donc son centre est à 1rem du
+      // haut de l'item. On retranche 0.5px (demi-épaisseur du séparateur)
+      // pour un alignement pixel-perfect. La position est indépendante
+      // de la longueur du label (qui s'étend uniquement vers le bas).
+      alignSelf: 'flex-start',
+      marginTop: 'calc(1rem - 0.5px)',
+    },
+    '.ori-steps__item--completed + .ori-steps__separator': {
+      backgroundColor: v('feedback-success'),
+    },
+    '.ori-steps__button': {
+      // En mode clickable, le bouton englobe le dot + label. Même
+      // structure verticale que l'item non-clickable pour cohérence.
+      flex: '1 1 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '0',
+      backgroundColor: 'transparent',
+      cursor: 'pointer',
+      '&:hover': { backgroundColor: v('surface-muted') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+      },
+    },
+
+    // ─── Tag ───────────────────────────────────────────────────────────────
+    '.ori-tag': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      paddingInline: theme('spacing.2'),
+      paddingBlock: '0.125rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.medium'),
+      lineHeight: theme('lineHeight.tight'),
+      borderRadius: theme('borderRadius.sm'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+    },
+    '.ori-tag--neutral': {
+      backgroundColor: v('surface-muted'),
+      borderColor: v('border-default'),
+      color: v('text-primary'),
+    },
+    '.ori-tag--info': {
+      backgroundColor: v('feedback-info-bg'),
+      borderColor: v('feedback-info'),
+      color: v('feedback-info'),
+    },
+    '.ori-tag--success': {
+      backgroundColor: v('feedback-success-bg'),
+      borderColor: v('feedback-success'),
+      color: v('feedback-success'),
+    },
+    '.ori-tag--warning': {
+      backgroundColor: v('feedback-warning-bg'),
+      borderColor: v('feedback-warning'),
+      color: v('feedback-warning'),
+    },
+    '.ori-tag--danger': {
+      backgroundColor: v('feedback-danger-bg'),
+      borderColor: v('feedback-danger'),
+      color: v('feedback-danger'),
+    },
+    '.ori-tag__remove': {
+      flex: '0 0 auto',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: '0',
+      marginInlineStart: '0.125rem',
+      color: 'currentColor',
+      opacity: '0.6',
+      borderRadius: theme('borderRadius.sm'),
+      '&:hover': { opacity: '1' },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 2px currentColor`,
+      },
+    },
+
+    // ─── Avatar ────────────────────────────────────────────────────────────
+    '.ori-avatar': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: '0 0 auto',
+      borderRadius: '9999px',
+      backgroundColor: v('surface-muted'),
+      color: v('text-secondary'),
+      fontFamily: theme('fontFamily.sans'),
+      fontWeight: theme('fontWeight.semibold'),
+      overflow: 'hidden',
+      userSelect: 'none',
+    },
+    '.ori-avatar--sm': { width: '1.5rem', height: '1.5rem', fontSize: theme('fontSize.xs') },
+    '.ori-avatar--md': { width: '2.25rem', height: '2.25rem', fontSize: theme('fontSize.sm') },
+    '.ori-avatar--lg': { width: '3rem', height: '3rem', fontSize: theme('fontSize.base') },
+    '.ori-avatar--xl': { width: '4rem', height: '4rem', fontSize: theme('fontSize.lg') },
+    '.ori-avatar__img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+    },
+
+    // ─── Tooltip ───────────────────────────────────────────────────────────
+    '.ori-tooltip-wrap': {
+      position: 'relative',
+      display: 'inline-flex',
+    },
+    '.ori-tooltip': {
+      position: 'absolute',
+      zIndex: '40',
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      backgroundColor: v('text-primary'),
+      color: v('surface-base'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.xs'),
+      lineHeight: theme('lineHeight.tight'),
+      borderRadius: theme('borderRadius.sm'),
+      whiteSpace: 'nowrap',
+      pointerEvents: 'none',
+      boxShadow: theme('boxShadow.md'),
+      animation:
+        'ori-fade-in var(--ori-duration-fast, 150ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-tooltip--top': {
+      bottom: 'calc(100% + 0.375rem)',
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+    '.ori-tooltip--bottom': {
+      top: 'calc(100% + 0.375rem)',
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+    '.ori-tooltip--left': {
+      right: 'calc(100% + 0.375rem)',
+      top: '50%',
+      transform: 'translateY(-50%)',
+    },
+    '.ori-tooltip--right': {
+      left: 'calc(100% + 0.375rem)',
+      top: '50%',
+      transform: 'translateY(-50%)',
+    },
+
+    // ─── Link ──────────────────────────────────────────────────────────────
+    '.ori-link': {
+      color: v('text-link'),
+      textDecorationLine: 'underline',
+      textUnderlineOffset: '2px',
+      textDecorationThickness: '1px',
+      borderRadius: theme('borderRadius.sm'),
+      transitionProperty: 'color, text-decoration-thickness',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover': {
+        textDecorationThickness: '2px',
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-link--quiet': {
+      color: 'inherit',
+      textDecorationLine: 'none',
+      '&:hover': { textDecorationLine: 'underline' },
+    },
+    '.ori-link__external': {
+      display: 'inline-block',
+      marginInlineStart: '0.25em',
+      verticalAlign: '-0.125em',
+    },
+
+    // ─── Highlight (mark) ──────────────────────────────────────────────────
+    '.ori-highlight': {
+      backgroundColor: v('feedback-warning-bg'),
+      color: v('text-primary'),
+      paddingInline: '0.125rem',
+      borderRadius: theme('borderRadius.sm'),
+    },
+
+    // ─── Progress ──────────────────────────────────────────────────────────
+    '.ori-progress': {
+      display: 'block',
+      width: '100%',
+      height: '0.5rem',
+      borderRadius: '9999px',
+      overflow: 'hidden',
+      borderWidth: '0',
+      backgroundColor: v('surface-muted'),
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      // Webkit (Chrome, Safari, Edge)
+      '&::-webkit-progress-bar': {
+        backgroundColor: v('surface-muted'),
+        borderRadius: '9999px',
+      },
+      '&::-webkit-progress-value': {
+        backgroundColor: v('brand-primary'),
+        borderRadius: '9999px',
+        transition: `width ${theme('transitionDuration.normal')} ${theme('transitionTimingFunction.standard')}`,
+      },
+      // Firefox
+      '&::-moz-progress-bar': {
+        backgroundColor: v('brand-primary'),
+        borderRadius: '9999px',
+      },
+      // Indéterminé : on force une animation custom
+      '&:indeterminate': {
+        backgroundColor: v('surface-muted'),
+        backgroundImage: `linear-gradient(90deg, transparent 0%, ${v('brand-primary')} 50%, transparent 100%)`,
+        backgroundSize: '40% 100%',
+        backgroundRepeat: 'no-repeat',
+        animation: 'ori-progress-indeterminate 1.4s ease-in-out infinite',
+      },
+      '&:indeterminate::-webkit-progress-bar': {
+        backgroundColor: 'transparent',
+      },
+      '&:indeterminate::-moz-progress-bar': {
+        backgroundColor: 'transparent',
+      },
+    },
+    '.ori-progress-wrap': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+    },
+    '.ori-progress__label': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      gap: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+    },
+    '.ori-progress__value': { color: v('text-secondary') },
+
+    // ─── Skeleton ──────────────────────────────────────────────────────────
+    '.ori-skeleton': {
+      display: 'block',
+      backgroundColor: v('surface-muted'),
+      borderRadius: theme('borderRadius.sm'),
+      backgroundImage: `linear-gradient(90deg, ${v('surface-muted')} 0%, ${v('surface-subtle')} 50%, ${v('surface-muted')} 100%)`,
+      backgroundSize: '200% 100%',
+      animation: 'ori-skeleton-shimmer 1.6s ease-in-out infinite',
+    },
+    '.ori-skeleton--text': {
+      height: '0.875rem',
+      borderRadius: theme('borderRadius.sm'),
+    },
+    '.ori-skeleton--circle': {
+      borderRadius: '9999px',
+    },
+
+    // ─── Timeline ──────────────────────────────────────────────────────────
+    '.ori-timeline': {
+      display: 'flex',
+      flexDirection: 'column',
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-timeline__item': {
+      display: 'flex',
+      gap: theme('spacing.4'),
+      paddingBottom: theme('spacing.5'),
+      position: 'relative',
+    },
+    // Ligne verticale entre les dots (tous sauf le dernier)
+    '.ori-timeline__item:not(:last-child)::before': {
+      content: '""',
+      position: 'absolute',
+      left: '0.6875rem',
+      top: '1.5rem',
+      bottom: '0',
+      width: '2px',
+      backgroundColor: v('border-subtle'),
+    },
+    '.ori-timeline__dot': {
+      flex: '0 0 auto',
+      width: '1.5rem',
+      height: '1.5rem',
+      borderRadius: '9999px',
+      backgroundColor: v('brand-primary-subtle'),
+      color: v('brand-primary'),
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.semibold'),
+      borderWidth: '2px',
+      borderStyle: 'solid',
+      borderColor: v('surface-base'),
+      zIndex: '1',
+    },
+    '.ori-timeline__item--completed .ori-timeline__dot': {
+      backgroundColor: v('feedback-success'),
+      color: v('brand-on-primary'),
+    },
+    '.ori-timeline__item--current .ori-timeline__dot': {
+      backgroundColor: v('brand-primary'),
+      color: v('brand-on-primary'),
+    },
+    '.ori-timeline__item--pending .ori-timeline__dot': {
+      backgroundColor: v('surface-muted'),
+      color: v('text-secondary'),
+      borderColor: v('border-default'),
+    },
+    '.ori-timeline__content': {
+      flex: '1 1 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.125rem',
+      minWidth: '0',
+    },
+    '.ori-timeline__title': {
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-timeline__meta': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+    },
+    '.ori-timeline__description': {
+      marginTop: '0.25rem',
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.normal'),
+    },
+
+    // ─── Toast ─────────────────────────────────────────────────────────────
+    '.ori-toast-viewport': {
+      position: 'fixed',
+      zIndex: '60',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+      padding: theme('spacing.4'),
+      maxWidth: 'calc(100vw - 2rem)',
+      width: '24rem',
+      pointerEvents: 'none',
+    },
+    '.ori-toast-viewport--top-right': { top: '0', right: '0' },
+    '.ori-toast-viewport--top-left': { top: '0', left: '0' },
+    '.ori-toast-viewport--bottom-right': { bottom: '0', right: '0' },
+    '.ori-toast-viewport--bottom-left': { bottom: '0', left: '0' },
+    '.ori-toast-viewport--top-center': { top: '0', left: '50%', transform: 'translateX(-50%)' },
+    '.ori-toast-viewport--bottom-center': {
+      bottom: '0',
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+    '.ori-toast': {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: theme('spacing.3'),
+      padding: theme('spacing.3'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      boxShadow: theme('boxShadow.lg'),
+      pointerEvents: 'auto',
+      animation:
+        'ori-toast-in var(--ori-duration-fast, 200ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-toast__icon': {
+      flex: '0 0 auto',
+      width: '1.25rem',
+      height: '1.25rem',
+      marginTop: '0.125rem',
+    },
+    '.ori-toast__content': {
+      flex: '1 1 auto',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+    },
+    '.ori-toast__title': {
+      fontWeight: theme('fontWeight.semibold'),
+      marginBottom: '0.125rem',
+    },
+    '.ori-toast__close': {
+      flex: '0 0 auto',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: v('text-secondary'),
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-muted') },
+    },
+    '.ori-toast--info .ori-toast__icon': { color: v('feedback-info') },
+    '.ori-toast--success .ori-toast__icon': { color: v('feedback-success') },
+    '.ori-toast--warning .ori-toast__icon': { color: v('feedback-warning') },
+    '.ori-toast--danger .ori-toast__icon': { color: v('feedback-danger') },
+
+    // ─── Notification (banner) ─────────────────────────────────────────────
+    '.ori-notification': {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: theme('spacing.3'),
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.3'),
+      borderTopWidth: '0',
+      borderInlineWidth: '0',
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+    },
+    '.ori-notification__icon': {
+      flex: '0 0 auto',
+      width: '1.25rem',
+      height: '1.25rem',
+      marginTop: '0.125rem',
+    },
+    '.ori-notification__content': {
+      flex: '1 1 auto',
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+    },
+    '.ori-notification__action': {
+      flex: '0 0 auto',
+      color: 'currentColor',
+      textDecorationLine: 'underline',
+      textDecorationThickness: '1px',
+      textUnderlineOffset: '2px',
+      fontWeight: theme('fontWeight.medium'),
+      cursor: 'pointer',
+      background: 'transparent',
+      border: 'none',
+      padding: '0',
+      '&:hover': { textDecorationThickness: '2px' },
+    },
+    '.ori-notification__close': {
+      flex: '0 0 auto',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: 'currentColor',
+      opacity: '0.7',
+      '&:hover': { opacity: '1' },
+    },
+    '.ori-notification--info': {
+      backgroundColor: v('feedback-info-bg'),
+      borderBottomColor: v('feedback-info'),
+      color: v('feedback-info'),
+    },
+    '.ori-notification--success': {
+      backgroundColor: v('feedback-success-bg'),
+      borderBottomColor: v('feedback-success'),
+      color: v('feedback-success'),
+    },
+    '.ori-notification--warning': {
+      backgroundColor: v('feedback-warning-bg'),
+      borderBottomColor: v('feedback-warning'),
+      color: v('feedback-warning'),
+    },
+    '.ori-notification--danger': {
+      backgroundColor: v('feedback-danger-bg'),
+      borderBottomColor: v('feedback-danger'),
+      color: v('feedback-danger'),
+    },
+
+    // ─── Table ─────────────────────────────────────────────────────────────
+    '.ori-table-wrap': {
+      width: '100%',
+      overflowX: 'auto',
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-subtle'),
+    },
+    '.ori-table': {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+    },
+    '.ori-table thead': {
+      backgroundColor: v('surface-muted'),
+    },
+    '.ori-table th': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      textAlign: 'start',
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-secondary'),
+      fontSize: theme('fontSize.xs'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.04em',
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-default'),
+    },
+    '.ori-table td': {
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-subtle'),
+    },
+    '.ori-table tbody tr:last-child td': {
+      borderBottomWidth: '0',
+    },
+    // Zebra striping opt-in : alterne `surface-base` et `surface-subtle`.
+    // Contraste texte respecté sur les deux fonds (cf. WCAG 1.4.3).
+    // Le hover et la sélection l'emportent visuellement.
+    '.ori-table--striped tbody tr:nth-child(even)': {
+      backgroundColor: v('surface-subtle'),
+    },
+    '.ori-table tbody tr:hover': {
+      backgroundColor: v('surface-muted'),
+    },
+    '.ori-table tbody tr[aria-selected="true"]': {
+      backgroundColor: v('brand-primary-subtle'),
+    },
+    '.ori-table tbody tr[aria-selected="true"]:hover': {
+      backgroundColor: v('brand-primary-subtle'),
+    },
+    '.ori-table--clickable tbody tr': {
+      cursor: 'pointer',
+    },
+    '.ori-table__sort-button': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      background: 'transparent',
+      border: 'none',
+      padding: '0',
+      margin: '0',
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      color: 'inherit',
+      textTransform: 'inherit',
+      letterSpacing: 'inherit',
+      borderRadius: theme('borderRadius.sm'),
+      '&:hover': { color: v('text-primary') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-table__sort-icon': {
+      flex: '0 0 auto',
+      opacity: '0.5',
+    },
+    '.ori-table__sort-button[aria-sort="ascending"] .ori-table__sort-icon, .ori-table__sort-button[aria-sort="descending"] .ori-table__sort-icon':
+      {
+        opacity: '1',
+        color: v('brand-primary'),
+      },
+    '.ori-table__select-cell': {
+      width: '2.5rem',
+      paddingInlineEnd: '0',
+    },
+    '.ori-table__empty': {
+      padding: theme('spacing.8'),
+      textAlign: 'center',
+      color: v('text-secondary'),
+    },
+    '.ori-table__loading': {
+      padding: theme('spacing.6'),
+      textAlign: 'center',
+      color: v('text-secondary'),
+    },
+
+    // ─── Logo ──────────────────────────────────────────────────────────────
+    '.ori-logo': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.3'),
+      color: 'inherit',
+      textDecoration: 'none',
+    },
+    '.ori-logo__crest': {
+      flex: '0 0 auto',
+      width: '2.25rem',
+      height: '2.25rem',
+    },
+    '.ori-logo__text': {
+      display: 'flex',
+      flexDirection: 'column',
+      lineHeight: theme('lineHeight.tight'),
+    },
+    '.ori-logo__title': {
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-logo__subtitle': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+    },
+
+    // ─── Header (app-level) ────────────────────────────────────────────────
+    '.ori-header': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.4'),
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.3'),
+      backgroundColor: v('surface-base'),
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-subtle'),
+    },
+    '.ori-header__brand': { flex: '0 0 auto' },
+    '.ori-header__nav': {
+      flex: '1 1 auto',
+      display: 'flex',
+      justifyContent: 'center',
+      minWidth: '0',
+    },
+    '.ori-header__actions': {
+      flex: '0 0 auto',
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+    },
+
+    // ─── Footer (app-level) ────────────────────────────────────────────────
+    '.ori-footer': {
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.5'),
+      backgroundColor: v('surface-muted'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      color: v('text-secondary'),
+      fontSize: theme('fontSize.sm'),
+    },
+    '.ori-footer__content': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.6'),
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+    },
+    '.ori-footer__brand': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+    },
+    '.ori-footer__columns': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.6'),
+    },
+    '.ori-footer__column': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      minWidth: '8rem',
+    },
+    '.ori-footer__column-title': {
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.semibold'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.04em',
+      color: v('text-primary'),
+      marginBottom: theme('spacing.1'),
+    },
+    '.ori-footer__bottom': {
+      marginTop: theme('spacing.5'),
+      paddingTop: theme('spacing.3'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      gap: theme('spacing.3'),
+      fontSize: theme('fontSize.xs'),
+    },
+
+    // ─── MainNavigation ────────────────────────────────────────────────────
+    '.ori-main-nav': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.1'),
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-main-nav__item': { display: 'inline-flex' },
+    '.ori-main-nav__link': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-secondary'),
+      textDecoration: 'none',
+      borderRadius: theme('borderRadius.md'),
+      transitionProperty: 'background-color, color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover': { backgroundColor: v('surface-muted'), color: v('text-primary') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&[aria-current="page"]': {
+        color: v('brand-primary'),
+        backgroundColor: v('brand-primary-subtle'),
+      },
+    },
+
+    // ─── SideMenu ──────────────────────────────────────────────────────────
+    '.ori-side-menu': {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '16rem',
+      // Remplit la hauteur de son container parent (pattern d'un sidebar
+      // persistent dans un layout flex). Sans ça, la sidebar s'arrête au
+      // niveau de son contenu et le fond de page apparaît dessous, ce qui
+      // donne un rendu cassé surtout en dark mode où les surfaces sont
+      // proches en luminosité.
+      height: '100%',
+      paddingBlock: theme('spacing.4'),
+      paddingInline: theme('spacing.3'),
+      backgroundColor: v('surface-base'),
+      borderRightWidth: '1px',
+      borderRightStyle: 'solid',
+      borderRightColor: v('border-default'),
+      overflowY: 'auto',
+    },
+    '.ori-side-menu--drawer': {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      bottom: '0',
+      zIndex: '50',
+      boxShadow: theme('boxShadow.xl'),
+      animation:
+        'ori-side-menu-in var(--ori-duration-fast, 200ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-side-menu__overlay': {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '49',
+      backgroundColor: 'rgb(0 0 0 / 0.5)',
+      animation:
+        'ori-fade-in var(--ori-duration-normal, 250ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-side-menu__section': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      paddingBlock: theme('spacing.2'),
+    },
+    '.ori-side-menu__section-title': {
+      paddingInline: theme('spacing.3'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.semibold'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.04em',
+      color: v('text-muted'),
+      marginBottom: theme('spacing.1'),
+    },
+    '.ori-side-menu__list': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.125rem',
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-side-menu__link': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      textDecoration: 'none',
+      borderRadius: theme('borderRadius.md'),
+      transitionProperty: 'background-color, color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover': { backgroundColor: v('surface-muted') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&[aria-current="page"]': {
+        backgroundColor: v('brand-primary-subtle'),
+        color: v('brand-primary'),
+        fontWeight: theme('fontWeight.medium'),
+      },
+    },
+    '.ori-side-menu__close': {
+      alignSelf: 'flex-end',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: v('text-secondary'),
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-muted') },
+    },
+
+    // ─── LanguageSwitcher ──────────────────────────────────────────────────
+    '.ori-language-switcher': {
+      position: 'relative',
+      display: 'inline-block',
+    },
+    '.ori-language-switcher__trigger': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-secondary'),
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      borderRadius: theme('borderRadius.md'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.04em',
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-muted') },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-language-switcher__menu': {
+      position: 'absolute',
+      top: 'calc(100% + 0.25rem)',
+      right: '0',
+      zIndex: '40',
+      minWidth: '8rem',
+      paddingBlock: theme('spacing.1'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      boxShadow: theme('boxShadow.lg'),
+      margin: '0',
+      listStyle: 'none',
+    },
+    '.ori-language-switcher__option': {
+      width: '100%',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      textAlign: 'start',
+      '&:hover': { backgroundColor: v('surface-muted') },
+      '&[aria-checked="true"]': {
+        color: v('brand-primary'),
+        fontWeight: theme('fontWeight.medium'),
+      },
+    },
+
+    // ─── Card ──────────────────────────────────────────────────────────────
+    '.ori-card': {
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.lg'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      // `border-default` (neutral-300) au lieu de `border-subtle` (neutral-200) :
+      // sur fond `surface-base` (blanc), border-subtle se confond presque avec
+      // le fond. La séparation interne entre header/body/footer reste en
+      // border-subtle (plus discrète, contraste géré par le contenu).
+      borderColor: v('border-default'),
+      overflow: 'hidden',
+    },
+    '.ori-card--elevated': {
+      borderColor: v('border-default'),
+      boxShadow: theme('boxShadow.md'),
+    },
+    '.ori-card--flat': {
+      borderColor: 'transparent',
+      backgroundColor: v('surface-muted'),
+    },
+    '.ori-card__header': {
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.4'),
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-subtle'),
+    },
+    '.ori-card__title': {
+      fontSize: theme('fontSize.lg'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+      margin: '0',
+    },
+    '.ori-card__subtitle': {
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      marginTop: theme('spacing.1'),
+    },
+    '.ori-card__body': {
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.4'),
+      flex: '1 1 auto',
+    },
+    '.ori-card__footer': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.3'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      backgroundColor: v('surface-muted'),
+    },
+
+    // ─── Statistic ─────────────────────────────────────────────────────────
+    '.ori-statistic': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      minWidth: '0',
+    },
+    '.ori-statistic--inline': {
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      justifyContent: 'space-between',
+      gap: theme('spacing.4'),
+    },
+    '.ori-statistic__label': {
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-statistic__value': {
+      display: 'inline-flex',
+      alignItems: 'baseline',
+      gap: theme('spacing.1'),
+      fontSize: theme('fontSize.3xl'),
+      fontWeight: theme('fontWeight.semibold'),
+      lineHeight: '1',
+      color: v('text-primary'),
+      fontVariantNumeric: 'tabular-nums',
+    },
+    '.ori-statistic--lg .ori-statistic__value': {
+      fontSize: theme('fontSize.4xl'),
+    },
+    '.ori-statistic--inline .ori-statistic__value': {
+      fontSize: theme('fontSize.xl'),
+    },
+    '.ori-statistic__value-prefix, .ori-statistic__value-suffix': {
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-secondary'),
+    },
+    '.ori-statistic__trend': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.medium'),
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-statistic__trend--up': {
+      color: v('feedback-success'),
+    },
+    '.ori-statistic__trend--down': {
+      color: v('feedback-danger'),
+    },
+    '.ori-statistic__trend--flat': {
+      color: v('text-secondary'),
+    },
+
+    // ─── FileCard ──────────────────────────────────────────────────────────
+    '.ori-file-card': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+      padding: theme('spacing.4'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.lg'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      minWidth: '0',
+      boxShadow: theme('boxShadow.sm'),
+    },
+    '.ori-file-card__head': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme('spacing.2'),
+    },
+    '.ori-file-card__icon': {
+      flex: '0 0 auto',
+      width: '2.5rem',
+      height: '2.5rem',
+      borderRadius: theme('borderRadius.md'),
+      backgroundColor: v('surface-muted'),
+      color: v('text-secondary'),
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    '.ori-file-card__actions': {
+      flex: '0 0 auto',
+      display: 'flex',
+      gap: '0.125rem',
+    },
+    '.ori-file-card__name': {
+      fontWeight: theme('fontWeight.semibold'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-file-card__meta': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing[1.5]'),
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+      minWidth: '0',
+    },
+    '.ori-file-card__meta-text': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      minWidth: '0',
+    },
+    '.ori-file-card__link': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-link'),
+      textDecoration: 'underline',
+      textUnderlineOffset: '2px',
+      alignSelf: 'flex-start',
+    },
+    '.ori-file-card__link[role="button"], a.ori-file-card__link': {
+      cursor: 'pointer',
+      background: 'transparent',
+      border: '0',
+      padding: '0',
+      font: 'inherit',
+    },
+
+    // ─── Alert ─────────────────────────────────────────────────────────────
+    '.ori-alert': {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: theme('spacing.3'),
+      padding: theme('spacing.4'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+    },
+    '.ori-alert__icon': {
+      flex: '0 0 auto',
+      width: '1.25rem',
+      height: '1.25rem',
+      marginTop: '0.125rem',
+    },
+    '.ori-alert__content': { flex: '1 1 auto' },
+    '.ori-alert__title': {
+      fontWeight: theme('fontWeight.semibold'),
+      marginBottom: theme('spacing.1'),
+    },
+    '.ori-alert__close': {
+      flex: '0 0 auto',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: 'currentColor',
+      opacity: '0.7',
+      '&:hover': { opacity: '1' },
+    },
+    '.ori-alert--info': {
+      backgroundColor: v('feedback-info-bg'),
+      borderColor: v('feedback-info'),
+      color: v('feedback-info'),
+    },
+    '.ori-alert--success': {
+      backgroundColor: v('feedback-success-bg'),
+      borderColor: v('feedback-success'),
+      color: v('feedback-success'),
+    },
+    '.ori-alert--warning': {
+      backgroundColor: v('feedback-warning-bg'),
+      borderColor: v('feedback-warning'),
+      color: v('feedback-warning'),
+    },
+    '.ori-alert--danger': {
+      backgroundColor: v('feedback-danger-bg'),
+      borderColor: v('feedback-danger'),
+      color: v('feedback-danger'),
+    },
+
+    // ─── Dialog ────────────────────────────────────────────────────────────
+    '.ori-dialog-overlay': {
+      position: 'fixed',
+      inset: '0',
+      backgroundColor: 'rgb(0 0 0 / 0.5)',
+      zIndex: '50',
+      animation:
+        'ori-fade-in var(--ori-duration-normal, 250ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-dialog': {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '100%',
+      maxWidth: '32rem',
+      maxHeight: '85vh',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.lg'),
+      boxShadow: theme('boxShadow.xl'),
+      zIndex: '51',
+      overflow: 'hidden',
+    },
+    '.ori-dialog__header': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme('spacing.4'),
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.4'),
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('border-subtle'),
+    },
+    '.ori-dialog__title': {
+      fontSize: theme('fontSize.lg'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+      margin: '0',
+    },
+    '.ori-dialog__close': {
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: theme('spacing.1'),
+      borderRadius: theme('borderRadius.sm'),
+      color: v('text-secondary'),
+      '&:hover': { color: v('text-primary'), backgroundColor: v('surface-muted') },
+    },
+    '.ori-dialog__body': {
+      flex: '1 1 auto',
+      overflow: 'auto',
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.4'),
+      color: v('text-primary'),
+    },
+    '.ori-dialog__footer': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.5'),
+      paddingBlock: theme('spacing.3'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      backgroundColor: v('surface-muted'),
+    },
+  });
+
+  addBase({
+    '@keyframes ori-fade-in': {
+      from: { opacity: '0' },
+      to: { opacity: '1' },
+    },
+    '@keyframes ori-progress-indeterminate': {
+      '0%': { backgroundPosition: '-40% 0' },
+      '100%': { backgroundPosition: '140% 0' },
+    },
+    '@keyframes ori-skeleton-shimmer': {
+      '0%': { backgroundPosition: '200% 0' },
+      '100%': { backgroundPosition: '-200% 0' },
+    },
+    '@keyframes ori-toast-in': {
+      from: { opacity: '0', transform: 'translateX(0.5rem)' },
+      to: { opacity: '1', transform: 'translateX(0)' },
+    },
+    '@keyframes ori-side-menu-in': {
+      from: { transform: 'translateX(-100%)' },
+      to: { transform: 'translateX(0)' },
+    },
+  });
+}

@@ -1,0 +1,78 @@
+/**
+ * Ori - thème sombre
+ *
+ * Overrides des variables CSS générées par tokens.css sous le sélecteur
+ * [data-theme="dark"]. Également activable via la classe .dark-theme pour
+ * compatibilité avec l'ancien pf-ui.
+ *
+ * Principe :
+ *   - On ne redéfinit PAS les primitives de la palette (primary-500 reste #073CA5).
+ *   - On réoriente les ALIAS SÉMANTIQUES vers des nuances différentes :
+ *       * les surfaces passent en zinc sombres
+ *       * le texte s'inverse
+ *       * le primary se décale vers des teintes plus claires (primary-400)
+ *         pour rester lisible sur fond sombre (même logique que pf-ui dark).
+ */
+
+[data-theme='dark'],
+.dark-theme {
+  /* Indique au navigateur que ses contrôles natifs (scrollbars, picker
+     `<input type="date">`, autocomplete, etc.) doivent utiliser une
+     palette sombre. Sans ça, l'icône du calendrier reste noire en dark
+     mode et devient invisible sur fond foncé. */
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-surface-base: var(--color-neutral-900);
+  --color-surface-muted: var(--color-neutral-800);
+  --color-surface-subtle: var(--color-neutral-700);
+  --color-surface-inverse: var(--color-neutral-50);
+
+  /* Texte */
+  --color-text-primary: var(--color-neutral-50);
+  --color-text-secondary: var(--color-neutral-300);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-inverse: var(--color-neutral-900);
+  --color-text-disabled: var(--color-neutral-600);
+  --color-text-link: var(--color-primary-300);
+
+  /* Bordures - décalées d'un cran vers le clair par rapport au light :
+     sur fond surface-base (neutral-900), une border `default` à neutral-700
+     est quasi invisible. Le décalage compense la moindre perception des
+     contrastes sur fond sombre. */
+  --color-border-subtle: var(--color-neutral-700);
+  --color-border-default: var(--color-neutral-600);
+  --color-border-strong: var(--color-neutral-400);
+  --color-border-focus: var(--color-primary-400);
+
+  /* Marque - décale vers du bleu plus clair, lisible sur fond sombre */
+  --color-brand-primary: var(--color-primary-400);
+  --color-brand-primary-hover: var(--color-primary-300);
+  --color-brand-primary-active: var(--color-primary-500);
+  --color-brand-primary-subtle: var(--color-primary-900);
+  --color-brand-on-primary: var(--color-neutral-900);
+
+  /* Feedback - les 500 success/warning/danger restent vifs (saturés et
+     lisibles sur fond sombre), mais info-500 = primary-500 = #073ca5
+     (bleu marine très sombre) qui devient illisible sur surface sombre.
+     On l'aligne sur `brand-primary` en dark (primary-400) pour préserver
+     l'invariant "info = primary" (vrai en light via info-500 = primary-500). */
+  --color-feedback-info: var(--color-primary-400);
+  --color-feedback-success-bg: color-mix(in srgb, var(--color-success-500) 18%, transparent);
+  --color-feedback-warning-bg: color-mix(in srgb, var(--color-warning-500) 18%, transparent);
+  --color-feedback-danger-bg: color-mix(in srgb, var(--color-danger-500) 18%, transparent);
+  --color-feedback-info-bg: color-mix(in srgb, var(--color-info-500) 18%, transparent);
+}
+
+/*
+ * Note : pas de bascule automatique via `@media (prefers-color-scheme: dark)`.
+ *
+ * Le contexte service public (apps administratives polynésiennes) impose
+ * un rendu prévisible et cohérent entre tous les usagers, indépendamment
+ * de leur préférence OS. Le RGAA n'oblige pas le dark mode (cf. décision
+ * transverse), et le DSFR n'en fournit pas non plus.
+ *
+ * Le dark mode reste activable explicitement par l'app via
+ * `<html data-theme="dark">`, mais c'est un choix opt-in à valider par
+ * l'app, pas un comportement implicite hérité du système.
+ */

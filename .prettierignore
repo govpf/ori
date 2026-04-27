@@ -1,0 +1,27 @@
+# Dépendances et caches
+node_modules
+.pnpm-store
+.angular
+.cache
+.storybook-static
+storybook-static
+
+# Sortie de build
+dist
+build
+**/dist
+**/build
+**/.astro
+
+# Fichiers générés depuis les tokens
+packages/tokens/build
+packages/css/dist
+apps/playground-static/ori.css
+apps/playground-static/ori.min.css
+apps/playground-static/tokens.css
+
+# Lockfiles
+pnpm-lock.yaml
+
+# Stubs npm de réservation
+tmp-npm-stubs

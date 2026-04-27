@@ -1,0 +1,131 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Angular/Patterns" />
+
+# Patterns Angular
+
+Comment créer un composant qui consomme Ori proprement.
+
+## Composer plutôt qu'étendre
+
+Les composants Ori exposent des classes CSS sémantiques (`ori-input`,
+`ori-card`, etc.) plus une API Angular standalone. La règle :
+
+- **Pour un cas standard** : utiliser le composant tel quel
+- **Pour un variant qui revient souvent** : créer un composant
+  applicatif qui pré-configure
+- **Pour quelque chose de très différent** : composer un nouveau
+  composant à partir des classes CSS du DS
+
+## Exemple : wrapper d'un Input avec compteur de caractères
+
+```ts
+import { Component, Input } from '@angular/core';
+import { OriInputComponent } from '@govpf/ori-angular';
+
+@Component({
+  selector: 'app-input-with-counter',
+  standalone: true,
+  imports: [OriInputComponent],
+  template: `
+    <ori-input
+      [label]="label"
+      [(value)]="value"
+      [hint]="value.length + ' / ' + maxLength + ' caractères'"
+      [maxLength]="maxLength"
+    ></ori-input>
+  `,
+})
+export class InputWithCounterComponent {
+  @Input() label = '';
+  @Input() maxLength = 280;
+  value = '';
+}
+```
+
+Pas de fork du composant Input - juste un composant applicatif qui
+ajoute du comportement.
+
+## Réutiliser les classes CSS pour un composant 100% custom
+
+Si tu as besoin d'un composant qui n'existe pas dans Ori mais qui
+doit avoir le look du DS, utilise les classes :
+
+```ts
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-result-card',
+  standalone: true,
+  template: `
+    <article class="ori-card ori-card--elevated" style="padding: 1.25rem;">
+      <h3 class="ori-card__title">{{ title }}</h3>
+      <p style="font-size: 2rem; font-weight: 600; margin: 0.5rem 0 0;">{{ count }}</p>
+    </article>
+  `,
+})
+export class ResultCardComponent {
+  @Input() title = '';
+  @Input() count = 0;
+}
+```
+
+Le DS expose une trentaine de classes `ori-*` documentées dans
+[Documentation générale / Tokens / Sémantique](?path=/docs/documentation-générale-tokens-sémantique--docs).
+
+## Forms réactifs avec `ReactiveFormsModule`
+
+Les composants form Ori n'implémentent pas `ControlValueAccessor`
+nativement (volontaire pour rester découplés). Pour les utiliser avec
+`[formControl]`, wrapper :
+
+```ts
+import { Component, Input } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { OriInputComponent } from '@govpf/ori-angular';
+
+@Component({
+  selector: 'app-rf-input',
+  standalone: true,
+  imports: [OriInputComponent, ReactiveFormsModule],
+  template: `
+    <ori-input
+      [label]="label"
+      [value]="control.value || ''"
+      (valueChange)="control.setValue($event)"
+      [error]="control.touched && control.invalid ? errorMessage : ''"
+      (blur)="control.markAsTouched()"
+    ></ori-input>
+  `,
+})
+export class RfInputComponent {
+  @Input({ required: true }) control!: FormControl<string | null>;
+  @Input() label = '';
+  @Input() errorMessage = 'Champ invalide';
+}
+```
+
+Pattern similaire pour `<ori-checkbox>`, `<ori-select>`, etc. À factoriser
+si tu en as plusieurs.
+
+## Détection de changement OnPush
+
+Tous les composants Ori utilisent `ChangeDetectionStrategy.OnPush`.
+Cela signifie qu'ils ne se rafraîchissent que sur :
+
+- Changement d'`@Input()` (par référence pour les objets/tableaux)
+- Émission d'un `@Output()`
+- Appel manuel à `markForCheck()` / `detectChanges()`
+
+Si tu mutes un objet en place (`this.user.name = 'X'`) et le passes
+à un composant Ori, le rendu ne se met pas à jour. Solution :
+remplacer la référence (`this.user = { ...this.user, name: 'X' }`).
+
+## Anti-patterns
+
+- ❌ Surcharger une classe `ori-*` dans le CSS global pour la modifier.
+  Ça casse la cohérence DS et le dark mode.
+- ❌ Utiliser `<button class="ori-btn ori-btn--primary">` à la main au
+  lieu de `<ori-button variant="primary">`. Tu perds le typage et l'a11y.
+- ❌ Importer plusieurs `BrowserModule` ou autre `Module` global - les
+  composants Ori sont standalone et n'en demandent pas.

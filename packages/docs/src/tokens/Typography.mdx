@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Tokens/Typographie" />
+
+export const wrapStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 32,
+  padding: 24,
+  fontFamily: 'Inter, system-ui, sans-serif',
+  color: 'var(--color-text-primary)',
+  backgroundColor: 'var(--color-surface-base)',
+};
+
+export const sectionTitle = {
+  fontSize: 14,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+  color: 'var(--color-text-secondary)',
+  margin: 0,
+};
+
+export const sizes = [
+  ['4xl', '--font-size-4xl'],
+  ['3xl', '--font-size-3xl'],
+  ['2xl', '--font-size-2xl'],
+  ['xl', '--font-size-xl'],
+  ['lg', '--font-size-lg'],
+  ['base', '--font-size-base'],
+  ['sm', '--font-size-sm'],
+  ['xs', '--font-size-xs'],
+];
+
+export const weights = [
+  ['regular', 400],
+  ['medium', 500],
+  ['semibold', 600],
+  ['bold', 700],
+];
+
+<div style={wrapStyle}>
+
+# Typographie
+
+<section>
+  <h3 style={sectionTitle}>Tailles</h3>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+    {sizes.map(([name, varName]) => (
+      <div key={name} style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
+        <code style={{ minWidth: 64, color: 'var(--color-text-muted)', fontSize: 11 }}>{name}</code>
+        <span style={{ fontSize: `var(${varName})` }}>L'eau des lagons polynésiens</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section>
+  <h3 style={sectionTitle}>Graisses</h3>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+    {weights.map(([name, w]) => (
+      <div key={name} style={{ display: 'flex', gap: 16, alignItems: 'baseline' }}>
+        <code style={{ minWidth: 80, color: 'var(--color-text-muted)', fontSize: 11 }}>{name}</code>
+        <span style={{ fontWeight: w, fontSize: 18 }}>L'eau des lagons polynésiens</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+</div>

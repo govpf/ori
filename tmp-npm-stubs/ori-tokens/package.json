@@ -1,0 +1,15 @@
+{
+  "name": "@govpf/ori-tokens",
+  "version": "0.0.0",
+  "description": "Ori Design System - design tokens (réservé, à venir)",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://govpf.github.io/ori",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/govpf/ori.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

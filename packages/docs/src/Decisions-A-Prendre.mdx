@@ -1,0 +1,1375 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Décisions à prendre" />
+
+# Décisions à prendre
+
+Cette page **centralise toutes les décisions ouvertes** sur Ori. Chaque entrée
+suit le format :
+
+- **Question** : qu'est-ce qu'on doit décider ?
+- **Options** : quels sont les choix possibles, avec leurs tradeoffs
+- **Recommandation** : avis argumenté
+- **Statut** : `🔵 ouverte` / `🟢 décidée` / `🟡 parquée` / `🔴 bloquante`
+- **Échéance / déclencheur** : quand on doit trancher (avant un cap, ou ad libitum)
+
+Quand une décision est tranchée, on la marque `🟢` avec la conclusion, et on
+**laisse l'entrée** comme trace historique (utile pour comprendre pourquoi un
+choix a été fait, surtout si on veut le revoir plus tard).
+
+---
+
+## Contexte transverse - Service public
+
+Ori est conçu pour produire des **applications web officielles** de
+l'administration de la Polynésie française, qui compte **54 services
+administratifs**. Le DS doit pouvoir servir l'ensemble de ces services
+sans en favoriser un en particulier.
+
+Ce positionnement institutionnel impose des contraintes qui s'appliquent
+à **toutes** les décisions du DS, qu'elles soient listées ici ou
+tranchées au fil de l'implémentation.
+
+**Règles de fond** :
+
+- **RGAA AA est la baseline obligatoire**. Pas seulement pour cocher une
+  case d'audit, mais parce que les apps publiques doivent rester
+  utilisables par les usagers en situation de handicap (lecteurs
+  d'écran, navigation au clavier, contrastes, focus visible, étiquetage
+  explicite).
+- **Préférer les éléments HTML natifs** chaque fois qu'ils couvrent le
+  besoin. Un `<select>` ou `<input type="date">` natif a une a11y
+  garantie par les navigateurs et les assistive technologies, sans
+  audit à recommencer. Un combo custom ou un calendrier custom *peut*
+  être aussi accessible mais demande validation manuelle (NVDA,
+  VoiceOver, JAWS) à chaque release.
+- **Bundle minimal**. Les apps administratives polynésiennes sont
+  consultées depuis des connexions parfois limitées (archipels éloignés,
+  mobile en zone à faible débit). Chaque dépendance ajoutée doit se
+  justifier par un besoin réel, pas par une hypothèse "on en aura
+  peut-être besoin".
+- **Pas de dark patterns**. Les boutons doivent être clairs, les
+  validations explicites, les actions destructives confirmées. C'est de
+  la base mais ça oriente certains choix d'API (cf. B.5 sur la
+  composition Button, B.4 sur le `dismissible` boolean explicite).
+- **Généricité institutionnelle**. Le DS doit servir indifféremment un
+  service de l'éducation, de la santé, des affaires maritimes, de la
+  fiscalité, etc. Aucun composant ne doit hardcoder un domaine métier,
+  un vocabulaire ou un visuel propre à un service. Identité visuelle =
+  Polynésie française, pas un service spécifique.
+
+**Ce que ça implique sur les décisions ouvertes** :
+
+- Quand un composant peut être livré en native HTML + CSS + un soupçon
+  de JS, c'est l'option à privilégier par défaut.
+- Une dépendance lourde (Radix, CDK, librairie de date) ne s'ajoute que
+  pour un besoin que le natif ne couvre pas.
+- A.2 (thème haut contraste AAA) est parqué non par désintérêt mais
+  parce qu'aucune app polynésienne n'a encore été auditée AAA - dès
+  qu'une le sera, on l'active.
+
+---
+
+## A. Identité & design
+
+### A.1 - Iconographie
+
+🟢 **Statut** : décidée (2026-04-25)
+**Conclusion** : **Lucide**, en usage **strictement monochrome**.
+
+**Pourquoi Lucide** :
+
+- Multi-framework natif : `lucide-react`, `lucide-angular`, SVG bruts pour HTML pur
+- 1600+ icônes, design unifié grille 24x24 stroke 2px
+- Tree-shaking par défaut (import par icône)
+- License ISC, communauté très active
+
+**Règle d'usage monochrome** :
+
+- Toujours rendre l'icône avec `color: currentColor` (Lucide l'applique nativement au stroke)
+- Une icône hérite la couleur de son contexte (texte, état, sévérité), pas de couleur en dur
+- Pas d'icônes multicolores ou en duotone, même si la lib le permettait
+- Si une icône doit avoir un sens sémantique fort (ex: succès vert), c'est le **conteneur** qui porte la couleur, pas l'icône elle-même
+
+**Reste à faire** : installation effective (cf. plan d'intégration sur la page Iconographie).
+
+---
+
+### A.2 - Thème "haut contraste" (RGAA AAA)
+
+🟡 **Statut** : parquée
+**Déclencheur** : si une app administrative polynésienne est soumise à un audit RGAA AAA strict
+
+**Question** : faut-il fournir un troisième thème "haut contraste" en plus de
+light/dark, pour répondre aux critères AAA d'accessibilité ?
+
+**Options** :
+
+1. Ajouter un thème `data-theme="high-contrast"` qui force des contrastes
+   ≥ 7:1 partout
+2. Ne rien faire et laisser les apps gérer en surchargeant les variables CSS
+3. Documenter comment construire ses overrides
+
+**Recommandation** : option 3 pour l'instant. Construire un thème complet est
+~2 jours de travail dont on n'a pas besoin tant qu'aucune app n'est concernée.
+
+---
+
+### A.3 - Tokens d'animation plus fins
+
+🟡 **Statut** : parquée
+**Déclencheur** : si on commence à faire des animations complexes (stagger
+listes, transitions de page, etc.)
+
+**Question** : faut-il ajouter aux tokens `motion.delay`, `motion.stagger` ?
+
+**Recommandation** : non pour l'instant, les 3 durées (`fast` / `normal` /
+`slow`) couvrent 95% des besoins UI standards.
+
+---
+
+### A.4 - Stratégie d'application du dark mode
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : pas de bascule automatique selon la préférence
+système ; toggle Storybook custom (sans `withThemeByDataAttribute`) ;
+limite acceptée pour les pages MDX à JSX inline.
+
+**Trois choix sous-jacents** :
+
+#### 1. Pas de bascule auto via `prefers-color-scheme`
+
+Le fichier `packages/tokens/src/dark.css` ne contient **plus** la règle
+`@media (prefers-color-scheme: dark)`. Le dark mode reste activable
+explicitement via `<html data-theme="dark">` (par l'app ou par
+l'utilisateur via toggle Storybook), mais ne se déclenche plus
+automatiquement selon le thème OS.
+
+**Pourquoi** :
+
+- Le contexte service public (cf. décision transverse) impose un rendu
+  prévisible et cohérent entre tous les usagers, indépendamment de leur
+  préférence OS.
+- Le RGAA n'oblige pas le dark mode (cf. discussion A.2).
+- Un usager avec Windows en dark mode pouvait voir une mire
+  d'authentification Keycloak en dark non validée - pattern à éviter.
+
+#### 2. Toggle Storybook custom (sans `withThemeByDataAttribute`)
+
+Le composant `withThemeByDataAttribute` de `@storybook/addon-themes`
+ne posait pas l'attribut `data-theme` sur le `<html>` du preview iframe
+dans Storybook 8.6 - seul le label de la toolbar changeait. Remplacé
+par un mécanisme manuel dans `preview.ts` :
+
+- `globalTypes.theme` pour exposer le toggle (Clair ☀ / Sombre 🌙) dans la toolbar
+- Un decorator qui pose `data-theme` sur `document.documentElement` à chaque render de story
+- Un `setAttribute('data-theme', 'light')` au chargement du preview iframe pour garantir un état initial connu
+
+#### 3. Limite acceptée : MDX à JSX inline
+
+Pour les pages MDX qui contiennent du JSX inline rendant des classes
+`.ori-*` (typiquement les écrans `Composants fonctionnels/Keycloak/*`),
+le toggle de la toolbar **ne bascule pas en live** le rendu. Cause :
+les decorators Storybook ne s'appliquent pas au JSX inline d'un MDX.
+
+**Workaround documenté** : cliquer le toggle dans une story
+classique d'abord, puis naviguer vers la page MDX - l'attribut
+`data-theme` posé sur `<html>` est conservé entre les navigations
+internes du preview iframe.
+
+**Pourquoi accepter cette limite** :
+
+- L'écosystème Storybook 8.6 ne fournit pas d'API publique fiable
+  cross-version pour écouter les changements de globals depuis le
+  preview iframe (`@storybook/preview-api` n'est pas accessible côté
+  Angular avec notre setup pnpm/Angular CLI).
+- Les écrans Keycloak ne sont **pas censés être rendus en dark mode**
+  en production (Keycloak FTL = light fixe). Le besoin de tester ces
+  pages en dark dans Storybook est donc marginal.
+
+**Fichiers touchés** :
+
+- `packages/tokens/src/dark.css` : règle `prefers-color-scheme` retirée
+- `apps/storybook-react/.storybook/preview.ts`
+- `apps/storybook-angular/.storybook/preview.ts`
+
+---
+
+### A.5 - Lisibilité des bordures (Card elevated + dark mode)
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : la variante `Card elevated` conserve désormais une bordure
+`border-default` en plus de l'ombre, et les tokens `border-*` sont décalés
+d'un cran vers le clair en thème sombre.
+
+#### 1. `.ori-card--elevated` garde une bordure
+
+Avant, la variante `elevated` reposait uniquement sur `boxShadow.md` avec
+`borderColor: transparent`. Sur fond clair l'ombre était discrète mais
+visible ; sur fond sombre, les ombres CSS sont quasi imperceptibles, ce
+qui rendait les cartes "elevated" invisibles en dark mode (signalé via
+la page Documents récents de la demo).
+
+Pour fiabiliser le rendu, `.ori-card--elevated` combine désormais
+`borderColor: var(--color-border-default)` + `boxShadow.md`. La bordure
+garantit la lisibilité dans tous les contextes ; l'ombre n'apporte que
+la nuance d'élévation.
+
+#### 2. Tokens `border-*` décalés en dark mode
+
+Sur `surface-base` (neutral-900) une bordure à `neutral-700` reste quasi
+invisible. Les tokens dark sont donc tous remontés d'un cran :
+
+| Token | Light | Dark (avant) | Dark (après) |
+|---|---|---|---|
+| `border-subtle` | neutral-200 | neutral-800 | neutral-700 |
+| `border-default` | neutral-300 | neutral-700 | neutral-600 |
+| `border-strong` | neutral-500 | neutral-500 | neutral-400 |
+
+Ce décalage compense la moindre perception des contrastes sur fond
+sombre. Aucune classe consommatrice n'a besoin de changer : seules
+les variables CSS sont réorientées.
+
+**Fichiers touchés** :
+
+- `packages/tailwind-preset/src/plugin-components.js` : `.ori-card--elevated`
+- `packages/tokens/src/dark.css` : tokens `border-*`
+- `packages/docs/src/components/Card.mdx` : description variante `elevated`
+
+#### 3. Texte `feedback-info` réorienté en dark mode
+
+`info-500` est volontairement aligné sur `primary-500` (`#073ca5`, le bleu
+marine institutionnel PF). En light, ce bleu sombre sur fond `feedback-info-bg`
+(info-50, bleu très clair) contraste correctement. En dark, ce même bleu
+sombre est utilisé comme **couleur de texte** sur un fond `feedback-info-bg`
+qui est lui-même très sombre (mix 18 % de info-500 sur transparent ≈
+neutral-900) — d'où un bleu sombre sur bleu sombre, illisible.
+
+Le fix est analogue à ce qu'on fait déjà pour `--color-brand-primary` :
+on aligne `--color-feedback-info` sur `primary-400` (#5980ff) en dark.
+Cet alignement préserve l'invariant "info = primary" (vrai en light via
+`info-500 = primary-500`) — sans ce choix, l'item courant du SideMenu
+(qui utilise `brand-primary`) et un bandeau Notification info, identiques
+en light, divergeraient en dark. Les tons saturés des autres feedbacks
+(success-500 vert vif, warning-500 orange vif, danger-500 rouge vif)
+restent lisibles tels quels sur fond sombre, donc on n'y touche pas.
+
+Composants impactés (gain automatique) : `Alert info`, `Toast info`,
+`Notification info`.
+
+---
+
+## B. Composants & API
+
+### B.1 - Dialog Angular : focus-trap & a11y
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : Dialog Angular intègre désormais `@angular/cdk/a11y`
+(`ConfigurableFocusTrap`) + scroll-lock manuel + restauration de focus.
+Le Dialog est rendu in-place (pas de portal `document.body`), ce qui suffit
+pour la majorité des cas d'usage.
+
+**Ce qui marche maintenant** :
+
+- Focus trap : la nav clavier reste piégée tant que le dialog est ouvert
+- Restauration : focus revient sur le déclencheur à la fermeture
+- Scroll lock : `body.overflow = hidden` pendant l'ouverture
+- ESC + click backdrop pour fermer
+- ARIA correct (`role="dialog"`, `aria-modal="true"`, `aria-labelledby`)
+
+**Limitation acceptée** : pas de portal. Si une app a besoin (stacking context,
+overflow:hidden parent), elle peut wrapper avec `@angular/cdk/overlay` côté
+applicatif. Documenté dans la JSDoc du composant.
+
+**Coût ajouté** : `@angular/cdk` en peerDep + ~80 lignes de plomberie dans le
+composant. ~30 Ko gzippé pour les apps consommatrices.
+
+---
+
+### B.2 - Alert : rôle ARIA conditionnel côté React
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : Alert React utilise désormais `role="alert"` uniquement pour
+la sévérité `danger`, et `role="status"` pour `info`/`success`/`warning`.
+Aligné sur le comportement Angular. La prop `role` n'est plus surchargeable
+(volontaire : on ne veut pas qu'une app rétablisse `role="alert"` partout).
+
+---
+
+### B.3 - Alert : `dismissible` boolean côté React
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : Alert React a maintenant un Input `dismissible: boolean`
+explicite (default `false`). Le bouton de fermeture s'affiche dès que
+`dismissible` est vrai, indépendamment de la présence de `onDismiss`.
+API symétrique avec Angular.
+
+---
+
+### B.4 - Alert : icône custom côté Angular
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : finalement option 3 (directive marker `[pfAlertIcon]` +
+`@ContentChild`). Plus idiomatique Angular qu'un slot ng-content (pas de
+détection complexe de "slot rempli ou pas") et plus ergonomique qu'un
+TemplateRef Input.
+
+**Usage** :
+
+```html
+<ori-alert severity="info">
+  <ng-template pfAlertIcon>
+    <i-lucide name="rocket" />
+  </ng-template>
+  Mon message
+</ori-alert>
+```
+
+Pour désactiver entièrement l'icône (sans en projeter) : `[showIcon]="false"`.
+
+---
+
+### B.5 - Button : retirer `leadingIcon` / `trailingIcon` côté React
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : props `leadingIcon` et `trailingIcon` retirées. Une seule
+manière d'inclure une icône, par composition :
+
+```tsx
+<Button><Mail /> Envoyer</Button>
+<Button>Suivant <ArrowRight /></Button>
+<Button aria-label="Fermer"><X /></Button>
+```
+
+Parité avec Angular (`<ori-button>` qui n'a que `<ng-content>`).
+Surface d'API plus petite, pattern de composition unique.
+
+---
+
+### B.6 - Input : pass-through des attrs natifs côté Angular
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** : 4 attrs natifs ajoutés en Inputs explicites côté Angular :
+
+- `name: string`
+- `autocomplete: string`
+- `inputMode: OriInputMode | ''`
+- `pattern: string`
+
+Couvre 99% des besoins formulaires. Pour des cas plus avancés (data-*,
+form, autofocus, etc.), wrapper l'input ou accéder au DOM via ViewChild
+côté app.
+
+---
+
+### B.7 - Card / Input Angular : `wrapperClass`
+
+🟢 **Statut** : décidée et appliquée (2026-04-25)
+
+**Conclusion** :
+
+- **Input Angular** : Input `wrapperClass` ajouté. Concaténé à `ori-field`
+  sur le `<div>` wrapper, permet d'ajouter marges/layout/utilitaires Tailwind
+  côté app.
+- **Card Angular** : Input `wrapperClass` ajouté. Concaténé à la classe hôte
+  `ori-card` directement.
+
+Côté React, c'est inchangé : `className` est déjà spread sur la racine de
+chaque composant. Pas de différence d'API à harmoniser.
+
+---
+
+## C. Outillage & infrastructure
+
+### C.1 - Documentation du processus de build
+
+🔵 **Statut** : ouverte
+**Déclencheur** : avant publication interne ou ouverture du repo à d'autres devs
+
+**Question** : le README actuel décrit les commandes mais pas le processus de
+build de bout en bout (ordre des packages, dépendances, ce qui passe quand on
+change un token, etc.).
+
+**Recommandation** : créer une page dédiée "Build & release" qui explique :
+- L'ordre de build (tokens → preset → css → react/angular)
+- Quels caches purger après quelle modif
+- Comment ajouter un nouveau composant (checklist)
+
+---
+
+### C.2 - Gestion git
+
+🔵 **Statut** : ouverte
+**Déclencheur** : avant le premier `git init`
+
+**Questions** :
+
+- Conventions de commit ? (Conventional Commits + commitlint comme pf-ui)
+- Git hooks ? (Husky + pre-commit lint-staged)
+- Branche par défaut ? (`main`)
+- `.gitignore` enrichi ? (couvrir aussi `.angular/`, caches `.cache/`, etc.)
+
+**Recommandation** : reprendre les conventions pf-ui (Husky + commitlint +
+Conventional Commits sont déjà en usage chez les équipes ayant produit pf-ui).
+
+---
+
+### C.3 - CI/CD
+
+🔵 **Statut** : ouverte
+**Déclencheur** : à acter avant de pousser sur le repo central GitLab de
+l'administration polynésienne
+
+**Questions** :
+
+- Plateforme : GitLab CI (cohérent avec pf-ui qui a un `.gitlab-ci.yml`)
+- Pipelines : test → build → publication sur Artifactory `bin.gov.pf` ?
+- Tests à automatiser : type-check, lint, build, ev. visual regression
+  (Chromatic ou Percy si dispo en interne)
+- Stratégie de versioning : SemVer + Changesets ? Ou versionnage manuel comme
+  pf-ui ?
+
+**Recommandation** : commencer simple :
+1. Pipeline minimal `build + lint + type-check` sur chaque MR
+2. Pipeline `release` manuel avec publication Artifactory
+3. Versioning manuel pour démarrer, basculer sur Changesets si plus de devs
+   contribuent
+
+---
+
+## D. Stratégie produit
+
+### D.1 - Gestion de la migration des apps existantes
+
+🟡 **Statut** : parquée (non urgent, mais à anticiper)
+**Déclencheur** : quand une première app construite sur pf-ui voudra
+migrer vers Ori
+
+**Questions** :
+
+- Stratégie : big-bang (rewrite complet) ou progressive (cohabitation
+  pf-ui + Ori dans la même app temporairement) ?
+- Mapping des composants pf-ui → Ori : table de correspondance, breaking
+  changes, helpers de migration ?
+- Période de support pf-ui : maintenance bug-fix combien de temps après Ori
+  v1 ?
+
+**Recommandation** : trop tôt pour trancher. Documenter ces questions ici en
+attendant qu'une app concrète déclenche la décision.
+
+---
+
+### D.2 - Cible Angular : continuer ou arrêter à un certain point ?
+
+🟡 **Statut** : parquée
+**Déclencheur** : selon l'évolution du parc applicatif polynésien
+
+**Question** : si toutes les nouvelles apps administratives polynésiennes
+démarrent en Next.js (et non Angular), faut-il continuer à investir dans
+`@govpf/ori-angular` ?
+
+**Recommandation** : tant que pf-ui Angular est en maintenance dans des
+apps existantes, oui. Si toutes les apps Angular sont retirées un jour,
+alors freezer `@govpf/ori-angular` à sa dernière version stable.
+
+---
+
+### D.3 - Convention de nommage des stories Storybook
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : on garde **les titres en anglais** dans les Storybooks
+(Button, Input, Card, Alert, Dialog…), pas en français comme le pf-ui legacy
+déployé (Bouton, Champ de saisie, Carte, Alerte, Modale).
+
+**Pourquoi** :
+
+- Cohérence avec les noms des composants en code (`<Button>` côté React,
+  `<ori-button>` côté Angular)
+- Ergonomie de recherche : un dev qui cherche `Button` dans la sidebar
+  trouve directement
+- Standard de l'industrie (la grande majorité des DS modernes sont en anglais
+  même quand le projet est francophone)
+
+**Conséquence** : la traduction française des composants n'apparaît pas dans
+la sidebar, mais dans la prose des pages MDX et dans les exemples i18n des
+apps consommatrices. C'est l'usage interne (hors public) qui prime ici.
+
+**Différence avec pf-ui legacy** : pf-ui avait des titres FR (Bouton, Modale,
+etc.). Ori reste en EN. Ce n'est pas un breaking change parce que la sidebar
+Storybook est de la doc, pas une API publique.
+
+---
+
+### D.4 - Périmètre fonctionnel du DS
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **option 2 (A + B)** - primitives **ET** layouts app-level.
+
+**Couches retenues dans Ori** :
+
+| Couche | Exemples | Inclus ? |
+|---|---|---|
+| **A. Primitives** | Button, Input, Select, Tabs, Accordion, Tooltip, Toast, Table, Tag, Avatar… | ✅ Inclus |
+| **B. Layouts app-level** | Header, Footer, MainNavigation, SideMenu, LanguageSwitcher | ✅ Inclus |
+| **C. Composables fonctionnels** | FormActionBar, MultiStepForm, FormUserProfile | ❌ Hors scope |
+| **D. Features métier** | CreateUserForm, LicenceBar, Historique | ❌ Hors scope |
+
+**Pourquoi A + B** :
+
+- Toutes les apps administratives polynésiennes partagent le même cadre (logo PF, header avec
+  authentification, pied de page institutionnel, navigation principale).
+  Réimplémenter ça dans chaque app coûte cher et casse la cohérence quand
+  une app dérive.
+- Les layouts du pf-ui legacy (Header, Footer, Pied de page, Navigation
+  principale, Sélecteur de langue) sont **assez génériques** pour être dans
+  le DS - ils ne portent pas de logique métier, juste de la structure
+  visuelle.
+- Bénéfice secondaire : tester ces layouts une seule fois dans le DS
+  (a11y, responsive, dark mode) plutôt que dans N apps.
+
+**Limite à respecter** : un layout du DS ne doit avoir **aucune dépendance
+sur le métier** d'un service donné. Si un Header a besoin d'un slot pour des
+boutons custom, on l'expose comme `<ng-content slot="actions">` ; on ne
+hardcode pas une logique d'auth dedans.
+
+**Conséquences sur la roadmap** : la phase 7 (Layouts app-level) est
+ajoutée à D.5 après les primitives. Estimée à ~12h.
+
+---
+
+### D.5 - Roadmap des composants par phases
+
+🟢 **Statut** : actée (2026-04-25), phase 2a livrée le même jour
+
+**Référence** : Storybook pf-ui legacy déployé (~35 primitives manquantes
+côté Ori + 5 layouts app-level).
+
+**Plan en 7 phases** (couches A + B suite à D.4) :
+
+| Phase | Composants | Coût estimé | Statut |
+|---|---|---|---|
+| **2a - Forms 1** | Checkbox, Radio + RadioGroup, Switch, Textarea | ~4h | 🟢 Livrée |
+| **2b - Forms 2** | Select, FileUpload, DatePicker | ~9h | 🟢 Livrée |
+| **3 - Navigation** | Tabs, Accordion, Breadcrumb, Pagination, Steps | ~7h | 🟢 Livrée |
+| **4 - Display** | Tag, Avatar, Tooltip, Link, Highlight, Progress, Skeleton, Timeline | ~7h | 🟢 Livrée |
+| **5 - Toast/Notif** | Toast (service), Notification | ~5h | 🟢 Livrée |
+| **6 - Table** | Table avec sort, pagination, sélection | ~6h | 🟢 Livrée |
+| **7 - Layouts app-level** | Header, Footer, MainNavigation, SideMenu, LanguageSwitcher (+ Logo) | ~12h | 🟢 Livrée |
+
+**Total roadmap : ~50h** pour atteindre la parité primitives (couche A) +
+layouts app-level (couche B). **🎉 Roadmap complète** : 7/7 phases
+livrées le 2026-04-25.
+
+**Phases livrées** :
+
+- **2a** : Checkbox (avec indeterminate), Radio + RadioGroup, Switch
+  (role="switch"), Textarea. Hérite des patterns Input via `ori-field` +
+  variantes `ori-choice` / `ori-textarea`.
+- **2b** : Select (wrapper `<select>` natif, cf. E.1), DatePicker
+  (wrapper `<input type="date">` natif, cf. E.2), FileUpload (input
+  natif + drag-and-drop, cf. E.3). Toutes les décisions E.1/E.2/E.3
+  ont privilégié le natif pour l'a11y, la cohérence mobile et le
+  bundle minimal.
+- **3 - Navigation** : Tabs (ARIA + manual activation, cf. F.2),
+  Accordion (`<details>` natifs avec mode `single` via attribut `name`,
+  cf. F.1), Breadcrumb (`<nav>` + `<ol>` sémantique), Pagination
+  (avec ellipses calculées), Steps (read-only par défaut + opt-in
+  `clickable`, cf. F.3).
+- **4 - Display** : Tag (5 variantes sémantiques + suppression
+  optionnelle), Avatar (image + fallback initiales calculées
+  automatiquement), Tooltip (custom minimaliste sans dépendance,
+  cf. G.1), Link (détection auto des URLs externes), Highlight
+  (`<mark>` natif + mode auto-query), Progress (`<progress>` natif +
+  mode indéterminé, cf. G.2), Skeleton (3 variantes shimmer),
+  Timeline (historique d'événements avec status `completed` /
+  `current` / `pending` et icônes optionnelles).
+- **5 - Toast/Notification** : Toast service-based custom
+  (Provider+useToast côté React, service injectable côté Angular,
+  cf. H.1), Notification banner plein-largeur distinct d'Alert
+  (cf. H.2). 4 variantes sémantiques pour les deux, ARIA
+  `role="status"` ou `role="alert"` selon variant.
+- **6 - Table** : data-driven (props `columns` + `rows`), sort
+  server-driven émettant `(sortChange)`, sélection 'none' / 'single' /
+  'multiple' avec checkbox header indeterminate. Pagination externe
+  (utiliser `<Pagination>` séparé). Cf. décisions I.1-I.4.
+- **7 - Layouts app-level** : Logo (écusson PF SVG embarqué), Header
+  (3 zones brand/nav/actions), Footer (brand + colonnes + utility
+  links), MainNavigation, SideMenu (variants persistent/drawer),
+  LanguageSwitcher (langues fournies par l'app). Aucune logique métier
+  hardcodée - les zones d'auth/notifs sont des slots libres. Cf.
+  décisions J.1-J.5.
+
+**Phase 7 placée en dernier** : les layouts app-level consomment les
+primitives (Button, MainNavigation s'appuie sur des Tabs/Link/Tag, etc.),
+donc on les construit après que les briques soient stables. Ça évite de
+revenir deux fois sur les layouts si une primitive change d'API.
+
+**Hors roadmap (delibérément)** :
+
+- Composables fonctionnels (`FormActionBar`, `MultiStepForm`,
+  `FormUserProfile`) - couche C, hors scope (cf. D.4)
+- Composants métier (`CreateUserForm`, `LicenceBar`, `Historique`) - couche
+  D, jamais dans un DS partagé
+
+---
+
+## E. Phase 2b - Forms 2
+
+Trois composants à concevoir avant implémentation, chacun avec un choix
+d'architecture lourd à acter (impact taille de bundle, accessibilité,
+ergonomie mobile).
+
+### E.1 - Select : natif vs combo custom
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **option 3 (hybride) avec phase 2b = natif uniquement**.
+
+**Décomposition** :
+
+- **Phase 2b** : on implémente uniquement `<Select>` / `<ori-select>` en
+  wrappant `<select>` natif, avec les patterns Input (label, hint, error,
+  ARIA). API minimale : `options: { value, label, disabled? }[]` côté
+  React, ou bien children `<option>` côté Angular.
+- **Phase ultérieure (hors roadmap actuelle)** : `<Combobox>` /
+  `<ori-combobox>` séparé pour les cas avancés (search, multi-select,
+  async). À déclencher quand une app polynésienne exprimera un vrai besoin.
+
+**Pourquoi le natif** (renforcé par le contexte service public) :
+
+- **A11y garantie sans audit récurrent**. Le `<select>` natif est testé
+  par les navigateurs et les lecteurs d'écran depuis 30 ans. Un combo
+  custom même bien fait (Radix, CDK) demande à être revalidé NVDA /
+  VoiceOver / JAWS à chaque release. Pour des apps en exploitation à
+  long terme, c'est une dette permanente.
+- **Le natif est le standard du secteur public**. Les DS publics
+  français (DSFR notamment) implémentent leur composant Select avec un
+  `<select>` natif. C'est un benchmark utile pour confirmer qu'on ne
+  passe pas à côté d'un cas d'usage attendu.
+- **UX mobile supérieure**. Picker système natif iOS/Android, pas de
+  scroll-trap, pas de popup mal placée sur petits écrans.
+- **Bundle minimal**. Aucune dépendance ajoutée. Cohérent avec le
+  contexte transverse (apps consultées en archipels à connexion limitée).
+- **Cas d'usage majoritaires couverts**. Civilité, statut de
+  demande, type de licence, île de résidence : ce sont des listes finies
+  courtes pour lesquelles le natif est largement suffisant. Pas de besoin
+  de search ou de multi-select à court terme.
+
+**Limite acceptée** : pas de search dans la liste, pas de multi-select
+pratique, pas d'options à apparence custom (icônes par option, etc.).
+Si une app polynésienne rencontre un cas où ces limites sont bloquantes,
+on ouvrira la décision pour ajouter `<Combobox>` / `<ori-combobox>` à la
+roadmap.
+
+---
+
+### E.2 - DatePicker : architecture & format
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **option A (input natif)** en phase 2b, calendrier
+custom reporté à une demande concrète. Pas de range picker dans cette
+itération.
+
+**Question** : quel socle pour le DatePicker, et quel format de date attendu ?
+
+**Sous-question 1 - Socle technique**
+
+| Option | React | Angular | Notes |
+|---|---|---|---|
+| **A. `<input type="date">` natif** | ✅ standard | ✅ standard | Zéro dépendance. UX mobile excellente. UX desktop variable selon navigateur. Format ISO `yyyy-mm-dd` imposé. |
+| **B. Calendrier custom + popover** | react-day-picker (~25 Ko) | @angular/cdk/datepicker + matériel custom | Style maîtrisé, plage facile, locale FR-PF gérable, mais bundle conséquent et a11y délicate à valider. |
+| **C. Bibliothèque tierce** | react-datepicker, react-aria | @angular/material datepicker | Mature et a11y mais lourd, dépendance MUI/Aria à long terme. |
+
+**Sous-question 2 - Format & i18n**
+
+- Affichage attendu : `JJ/MM/AAAA` (format FR officiel) ou ISO ?
+- Première semaine du mois : lundi (FR) ou dimanche (US) ?
+- Locale : `fr-PF` ou `fr-FR` (impact sur jours fériés ? on n'en gère pas pour le composant, mais à acter pour les libs qui exposent des holidays)
+- Plage de dates (range picker) nécessaire dès la phase 2b ?
+
+**Recommandation** :
+
+- **Phase 2b** : **option A (input natif)** avec wrappers React/Angular
+  qui gèrent label/hint/error et un attribut `displayFormat="JJ/MM/AAAA"`
+  optionnel (formatage à l'affichage uniquement, la valeur reste ISO côté
+  modèle pour rester compatible avec les API).
+- **Phase ultérieure** : si une app polynésienne exprime un besoin (range picker,
+  désactivation de jours, locale custom), basculer côté React vers
+  **react-day-picker** + côté Angular vers **@angular/cdk/datepicker** +
+  template custom (pas Material, pour rester découplé).
+- **Pas de range picker en 2b** - reporter à la demande.
+
+**Pourquoi natif d'abord** : 90% des formulaires administratifs polynésiens aujourd'hui
+demandent juste une date (date de naissance, date de demande). L'input
+natif fait le job sans dépendance et sera maintenable longtemps. On
+investit dans un calendrier custom uniquement quand un cas concret
+(plage, désactivation) le nécessite.
+
+---
+
+### E.3 - FileUpload : périmètre & ergonomie
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **option 2 (Standard) + drag-and-drop**. Multi-fichiers
+paramétrable, validation `accept`/`maxSize`, upload réseau laissé à
+l'app, pas de preview image en phase 2b.
+
+**Question** : quelles fonctionnalités embarque la primitive FileUpload ?
+
+**Options de scope** :
+
+1. **Minimal** : `<input type="file">` natif stylé, single-file, pas de preview
+2. **Standard** : multi-fichiers + liste des fichiers sélectionnés (nom, taille, bouton supprimer) + validation basique (taille max, extensions)
+3. **Avancé** : drag-and-drop, preview image, progression d'upload (avec callback async), réorganisation
+
+**Sous-questions** :
+
+- **Drag-and-drop** : indispensable ? Coût technique limité (~40 lignes de plomberie) si on ne gère pas la preview.
+- **Preview image** : utile pour des photos d'identité, mais introduit du `URL.createObjectURL` à gérer côté lifecycle. Inclus ?
+- **Upload effectif** : la primitive gère-t-elle l'envoi (POST, progress) ou ne fait-elle que sélectionner et passer les `File[]` à l'app ?
+- **Validation** : taille max, extensions, MIME types - dans la primitive ou laissée à l'app ?
+
+**Recommandation** : **option 2 (Standard) + drag-and-drop**.
+
+- Sélection : input natif + zone drag-and-drop autour
+- Multi-fichiers (paramétrable, défaut single)
+- Liste des fichiers sélectionnés (nom + taille humanisée + bouton supprimer)
+- Validation déclarative : `maxSize`, `accept` (passé à `<input accept>` natif + revérifié côté JS)
+- **L'upload réseau reste à l'app** : le composant émet `(filesChange)` avec `File[]`. C'est l'app qui s'occupe de POSTer (souvent avec sa propre logique d'auth, de progression, de retry).
+- Pas de preview image en 2b - reporter (ajoute du lifecycle `URL.revokeObjectURL` qui mérite son propre tour).
+
+**Coût estimé** : ~3h sur les 9h de la phase 2b (vs 2h pour Select + 4h pour DatePicker).
+
+---
+
+## F. Phase 3 - Navigation
+
+### F.1 - Accordion : `<details>` natif vs custom
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **`<details>` / `<summary>` natifs HTML**, avec
+attribut `name` pour le mode exclusif (un seul ouvert à la fois).
+
+**Pourquoi** :
+
+- A11y native parfaite (focus, expand/collapse géré par le navigateur,
+  annonce correcte aux lecteurs d'écran).
+- Animation possible via `::details-content` (CSS standard) ou via
+  CSS transition sur la hauteur si on a besoin d'une animation custom.
+- L'attribut `name="..."` (Chrome 120+, Firefox 122+, Safari 17+)
+  permet le mode exclusif natif sans JS.
+- Bundle minimal, cohérent avec la ligne service public.
+
+**Limite acceptée** : pas d'animation par défaut (les apps qui en
+veulent une l'ajoutent côté CSS app). Le composant `Accordion`
+fournit juste la structure (`<details>` + `<summary>` stylés) et
+deux modes : `single` (avec `name` partagé) ou `multiple` (sans).
+
+---
+
+### F.2 - Tabs : pattern d'activation automatique vs manuel
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **manual activation** (le focus se déplace avec
+ArrowLeft / ArrowRight, mais l'activation du tab demande Enter ou
+Space).
+
+**Pourquoi** :
+
+- Recommandation officielle WAI-ARIA Authoring Practices pour tabs
+  dont le panneau associé contient du contenu lourd (forms, listes,
+  composants à monter). Activer automatiquement à chaque flèche
+  remonterait des panels coûteux à chaque pression.
+- Plus prévisible pour les utilisateurs de lecteurs d'écran : la
+  navigation au clavier ne déclenche pas d'effet de bord.
+- Evite les bugs de fuite d'état (un tab à formulaire pré-rempli ne
+  se vide pas parce que l'utilisateur passe en flèche dessus).
+
+**Implémentation** : ARIA `role="tablist"` / `role="tab"` /
+`role="tabpanel"` avec `aria-selected`, `aria-controls`,
+`aria-labelledby`. Pas de dépendance externe, plomberie clavier maison
+(~50 lignes par framework).
+
+---
+
+### F.3 - Steps : interactif vs read-only
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **read-only par défaut**, avec une prop opt-in
+`clickable: boolean` qui rend les étapes complétées navigables.
+
+**Pourquoi** :
+
+- Un workflow administratif est généralement linéaire : on ne devrait
+  pas pouvoir sauter à l'étape 5 sans avoir validé 1-4. Read-only
+  par défaut empêche les erreurs.
+- Mais certains workflows multi-étapes long (formulaires longs,
+  parcours d'inscription) ont besoin de permettre le retour à une
+  étape précédente déjà complétée. C'est l'opt-in `clickable`.
+- Les étapes futures (`status: 'todo'`) ne sont jamais cliquables,
+  même en mode `clickable: true` - on ne peut revenir qu'en arrière.
+
+**Sémantique HTML** : `<ol>` numéroté, chaque step est un `<li>`. En
+mode interactif, c'est l'app qui fournit un `onStepClick(index)` -
+le composant émet, l'app navigue.
+
+---
+
+## G. Phase 4 - Display
+
+### G.1 - Tooltip : `title` natif vs implémentation custom
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **implémentation custom minimaliste**, sans dépendance
+externe (pas de Floating UI, pas de Radix, pas de CDK).
+
+**Pourquoi pas le `title` natif** :
+
+- A11y dégradée : les lecteurs d'écran modernes (NVDA, VoiceOver,
+  JAWS) annoncent `title` de manière incohérente, et certains
+  l'ignorent quand l'élément a déjà un `aria-label`.
+- Pas accessible au clavier : le `title` ne s'affiche qu'au survol
+  souris, jamais au focus clavier. Bloquant pour usagers en
+  navigation clavier.
+- Pas accessible mobile : le `title` n'apparaît pas au tap, juste au
+  long-press dans certains navigateurs (comportement variable).
+- Pas de délai configurable, pas de positionnement, pas stylable.
+- En contexte service public, ces 4 lacunes sont disqualifiantes.
+
+**Pourquoi pas Floating UI / Radix** :
+
+- ~12 Ko gzippé pour Floating UI seul, plus pour Radix Tooltip.
+- Notre besoin se limite à un tooltip qui apparaît au-dessus du
+  trigger, pas de positionnement intelligent multi-côté.
+- Si une app DPAM a besoin d'un tooltip qui se replace dynamiquement
+  pour ne pas dépasser de l'écran, on basculera sur Floating UI à ce
+  moment-là.
+
+**Implémentation** :
+
+- `<Tooltip content="...">` wrappe son enfant trigger
+- Apparition au `mouseenter` + `focus`, disparition au `mouseleave` +
+  `blur` + `Escape`
+- Délai d'apparition configurable (défaut 700ms, conforme aux WAI-ARIA
+  Authoring Practices pour ne pas spammer le lecteur d'écran)
+- Position : `top` par défaut, prop `side: 'top' | 'right' | 'bottom' | 'left'`
+- ARIA : `role="tooltip"` sur le tooltip + `aria-describedby` sur le
+  trigger
+- Rendu in-place (pas de portal). Limitation acceptée comme pour le
+  Dialog Angular : si une app a besoin (overflow:hidden parent), elle
+  basculera sur un wrapper côté applicatif.
+
+---
+
+### G.2 - Progress : `<progress>` natif vs custom
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **`<progress>` natif HTML**, wrappé pour permettre un
+style cohérent et un label optionnel.
+
+**Pourquoi** :
+
+- A11y native : `<progress>` est annoncé correctement par les lecteurs
+  d'écran avec sa valeur courante et son maximum.
+- Mode "indéterminé" gratuit : un `<progress>` sans attribut `value`
+  affiche une animation de chargement par défaut (utile pour
+  "traitement en cours…" sans pourcentage).
+- Style maîtrisable via `::-webkit-progress-bar`,
+  `::-webkit-progress-value`, `::-moz-progress-bar` (pseudo-éléments
+  natifs). On peut donner la couleur primaire DS sans dépendance.
+- Bundle minimal, cohérent avec la ligne service public.
+
+**Limite acceptée** : pas de variantes circulaires (donut,
+spinner-progress). Pour ces cas, l'app peut composer un `Skeleton` ou
+un SVG custom. Si un besoin DPAM concret apparaît, on rouvrira la
+décision pour ajouter un composant `CircularProgress` séparé.
+
+---
+
+## H. Phase 5 - Toast / Notification
+
+### H.1 - Toast : architecture (service vs composant)
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **service-based** custom minimaliste, pas de
+dépendance externe (pas de Sonner, pas de Radix Toast, pas de Hot
+Toast).
+
+**Architecture** :
+
+- **React** : Provider `<ToastProvider>` + hook `useToast()` + composant
+  `<ToastViewport>` à monter une fois dans le layout principal.
+  L'API publique : `const { toast } = useToast(); toast.success("…")`.
+- **Angular** : service injectable `OriToastService` (root-providedIn) +
+  composant `<ori-toast-viewport>` à mettre dans le `AppComponent`.
+  L'API publique : `inject(OriToastService).success("…")`.
+
+**Pourquoi service-based** :
+
+- Un toast doit être déclenchable depuis n'importe où (handler
+  d'événement, callback async, etc.). Un composant déclaratif obligerait
+  à propager l'état dans tous les ancêtres - inutilement lourd.
+- Pattern bien établi (Sonner, Hot Toast côté React ; ngx-toastr,
+  Material Snackbar côté Angular). On reproduit le pattern sans
+  dépendance.
+
+**Pourquoi pas Sonner / Radix Toast** :
+
+- Sonner : ~8 Ko gzippé, mais l'API stack/queue qu'on n'a pas besoin
+  pour démarrer.
+- Radix Toast : ~6 Ko, mais demande beaucoup de plomberie pour exposer
+  une API simple (Provider + Action + Description + …).
+- Notre besoin se limite à : afficher un message éphémère avec une
+  variante sémantique, auto-dismiss après N secondes, possibilité de
+  fermer manuellement. ~80 lignes par framework.
+
+**Spec fonctionnelle** :
+
+- 4 variantes sémantiques (`info`, `success`, `warning`, `danger`)
+  alignées sur Alert
+- Auto-dismiss après 5s par défaut, configurable, ou désactivable
+- Position : `top-right` par défaut, configurable au niveau Viewport
+- Bouton de fermeture avec `aria-label="Fermer"`
+- ARIA `role="status"` (info/success/warning) ou `role="alert"`
+  (danger), aligné sur la décision B.2
+
+---
+
+### H.2 - Notification : composant séparé d'Alert
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **composant séparé** `Notification` / `<ori-notification>`,
+pas une variante d'Alert.
+
+**Différence sémantique** :
+
+| Composant | Usage | Position | Cycle de vie |
+|---|---|---|---|
+| **Alert** | Message contextuel dans un formulaire / une section | Inline | Persiste tant que le contexte est visible |
+| **Toast** | Confirmation éphémère d'une action | Overlay (top-right) | Auto-dismiss en ~5s |
+| **Notification** | Bandeau d'information système important | Plein-largeur en haut de page | Persiste jusqu'à fermeture explicite |
+
+**Cas d'usage typiques de Notification** :
+
+- "Maintenance programmée demain de 22h à 23h"
+- "Votre profil n'est pas complet, [compléter ici]"
+- "Cette page utilise des cookies. [En savoir plus]"
+
+**Pourquoi pas une variante d'Alert** :
+
+- L'Alert standard a une largeur naturelle de son conteneur (souvent
+  étroit). Un bandeau de notification système doit pouvoir être
+  full-bleed même à l'intérieur d'un layout `max-width: 1024px`.
+- Le pattern d'usage est différent : Notification est typiquement
+  rendue dans un layout app-level (juste sous le header), Alert est
+  rendue dans un form ou une card.
+- Les deux peuvent partager les mêmes classes de couleur sémantique
+  (`ori-alert--info`, etc.) mais le wrapping est différent.
+
+**Spec fonctionnelle** :
+
+- Reprend les 4 variantes sémantiques d'Alert
+- Action optionnelle (un lien vers une page ou un bouton)
+- Bouton de fermeture optionnel (`dismissible: boolean`)
+- Plein-largeur du parent par défaut
+
+---
+
+## I. Phase 6 - Table
+
+### I.1 - Pagination : intégrée vs externe
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **pagination externe**, la Table reçoit les rows
+déjà paginées et l'app utilise le composant `<Pagination>` /
+`<ori-pagination>` (phase 3) en dessous.
+
+**Pourquoi** :
+
+- Cohérent avec la ligne "l'app gère sa donnée" (déjà appliqué pour
+  Toast, FileUpload, Steps).
+- Permet de gérer la pagination côté serveur (cas standard pour des
+  tables d'une admin polynésienne avec potentiellement des milliers
+  de lignes).
+- Évite de dupliquer la logique pagination dans deux composants.
+
+**Conséquence** : la Table n'a pas de props `page` ni `pageSize`. Elle
+affiche les rows qu'on lui donne, point. C'est l'app qui slice et
+appelle `<Pagination>` séparément.
+
+---
+
+### I.2 - API : data-driven vs slot-based
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **data-driven** (props `columns` + `rows`) pour la
+Table standard. Pour des cas avancés (cellules custom complexes,
+expandable rows, sub-tables), composer directement avec les classes
+CSS `.ori-table*` sur un `<table>` natif.
+
+**API standard** :
+
+```tsx
+<Table
+  columns={[
+    { key: 'name', label: 'Nom' },
+    { key: 'status', label: 'Statut', render: (row) => <Tag>{row.status}</Tag> },
+  ]}
+  rows={data}
+/>
+```
+
+**Pourquoi data-driven** :
+
+- 90% des tables sont du data-display simple - colonnes + rows. Le
+  data-driven évite ~30 lignes de boilerplate par table.
+- Reste flexible via `column.render` pour des cellules formatées
+  (Tag, Avatar, Link, formatage de date, etc.).
+- Pour les cas où data-driven ne suffit pas (cellules avec
+  interactions complexes, lignes pliables), l'app peut écrire un
+  `<table class="ori-table">` à la main.
+
+---
+
+### I.3 - Sort : client-side vs server-driven
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **server-driven**. La Table émet
+`(sortChange)`/`onSortChange({ column, direction })` et reçoit les
+rows déjà triées via la prop `rows`.
+
+**Pourquoi** :
+
+- Trier 10 000 rows côté client est lent et bloque le thread main.
+- Cohérent avec le pattern pagination (I.1) : l'app gère sa donnée,
+  la Table affiche.
+- Si l'app veut un tri local sur une petite table, elle peut le faire
+  dans son composant parent en deux lignes.
+
+**API** :
+
+```tsx
+const [sort, setSort] = useState({ column: 'name', direction: 'asc' });
+const sortedRows = useMemo(() => sortBy(data, sort.column, sort.direction), [data, sort]);
+<Table columns={[{ key: 'name', label: 'Nom', sortable: true }]} rows={sortedRows} sort={sort} onSortChange={setSort} />
+```
+
+L'attribut `sortable: true` sur une colonne active l'icône cliquable
+dans le header. Sans `sortable`, le header est inerte.
+
+---
+
+### I.4 - Sélection : modes
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : prop `selectable: 'none' | 'single' | 'multiple'`,
+défaut `'none'`.
+
+**Comportement** :
+
+- `'none'` : pas de colonne checkbox, lignes inertes.
+- `'single'` : pas de checkbox, ligne entière cliquable. La sélection
+  courante est mise en évidence (`aria-selected`).
+- `'multiple'` : colonne checkbox en première position + checkbox
+  header pour all-select (avec état indeterminate quand sélection
+  partielle, comme la story Checkbox `SelectAll` de la phase 2a).
+
+**API** :
+
+```tsx
+<Table
+  columns={...}
+  rows={data}
+  selectable="multiple"
+  selectedRowIds={['1', '3']}
+  onSelectionChange={(ids) => setSelected(ids)}
+  rowKey={(row) => row.id}
+/>
+```
+
+`rowKey` est obligatoire en mode `multiple` pour identifier chaque
+row dans la sélection. En mode `single`, on émet `onRowSelect(row)`
+avec la row complète.
+
+---
+
+## J. Phase 7 - Layouts app-level
+
+### J.1 - Header : périmètre
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : Header en 3 zones - **gauche** (logo PF + titre app),
+**centre** (`<MainNavigation>` injectable optionnellement), **droite**
+(slot `actions` pour boutons custom).
+
+**Pourquoi 3 zones explicites** :
+
+- Le logo PF est l'identité institutionnelle obligatoire (cohérent avec
+  la généricité institutionnelle de la décision transverse).
+- La navigation principale est optionnelle : certaines apps simples
+  n'en ont pas besoin (un formulaire de demande standalone par
+  exemple).
+- La zone d'actions (auth, notifications, profil utilisateur) est
+  100% applicative - hors périmètre du DS (cf. limite D.4 :
+  pas de logique métier dans les layouts).
+
+**Limite** : pas de header avec bandeau de notification intégré. Pour
+afficher un bandeau, l'app utilise `<Notification>` (phase 5) en
+dessous du Header.
+
+---
+
+### J.2 - LanguageSwitcher : langues hardcodées vs configurables
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **liste de langues fournie par l'app**, pas de
+hardcoding.
+
+**Pourquoi** :
+
+- Toutes les apps polynésiennes ne supportent pas les mêmes langues.
+  Une app de service maritime international supportera fr/en, une app
+  patrimoine pourra inclure le tahitien (ty), une app marquisienne
+  pourra inclure le marquisien (mq), etc.
+- Le DS ne doit pas imposer un set de langues qui exclurait certains
+  cas d'usage.
+- L'app fournit `[{ code: 'fr', label: 'Français' }, { code: 'ty',
+  label: 'Reo Tahiti' }]` et le composant gère l'UI.
+
+**Spec** : sélecteur compact (compatible header) qui affiche un
+dropdown de langues. Code ISO 639 à 2 lettres pour la valeur, label
+libre pour l'affichage. Émet `(languageChange)` avec le nouveau code.
+
+---
+
+### J.3 - SideMenu : variant unique vs adaptatif
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : prop `variant: 'persistent' | 'drawer'` (défaut
+`'persistent'`), avec une story dédiée pour montrer comment l'app
+gère le pattern responsive (persistent desktop / drawer mobile via
+media query côté app).
+
+**Pourquoi pas un mode `'auto'`** :
+
+- Un mode auto qui basculerait selon `window.innerWidth` introduirait
+  une dépendance JS et un breakpoint hardcodé.
+- L'app sait mieux que le DS quand basculer (certaines apps préfèrent
+  la sidebar persistente même en tablette).
+- L'app contrôle via une simple media query CSS qui change le variant
+  rendu.
+
+**Spec** :
+
+- `variant: 'persistent'` : sidebar fixe à gauche, toujours visible
+- `variant: 'drawer'` : overlay qui s'ouvre sur trigger (avec backdrop)
+- Items hiérarchiques (sections + sous-items)
+- Indicateur d'item actif (`aria-current="page"`)
+
+---
+
+### J.4 - Logo PF : asset embarqué vs slot
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : asset SVG **embarqué** dans le DS, exposé comme
+composant `<OriLogo>` / `<ori-logo>`. Le `<Header>` l'utilise par défaut,
+mais accepte un slot `logo` pour surcharger (cas rares : sous-titre
+métier collé au logo, branding sectoriel autorisé).
+
+**Pourquoi embarqué** :
+
+- L'identité PF est la base de Ori. Si on doit aller chercher l'asset
+  dans chaque app, on perd la cohérence et on prend le risque de
+  variantes non officielles qui circulent.
+- Le SVG (~3 Ko gzippé) est minime à transporter.
+- En cas de mise à jour du logo officiel, on bump une version du DS
+  et toutes les apps suivent.
+
+**Asset source** : `packages/docs/assets/logo-pf.svg` (déjà présent).
+Embarqué inline en SVG dans le composant `Logo` (pas de fetch
+runtime, fonctionne dès le SSR/SSG).
+
+---
+
+### J.5 - Header : zone authentification
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : **pas de composant d'auth dans le DS**. La zone
+"actions" du Header est un slot libre où l'app insère ses propres
+composants (Avatar + dropdown, bouton de connexion, etc.).
+
+**Pourquoi** :
+
+- Chaque app polynésienne a sa propre logique d'auth (certaines
+  s'appuient sur un SSO interne, d'autres sur du local, certaines
+  ont du multi-rôle, etc.).
+- Le DS fournit les briques (Avatar phase 4, Button phase 1, Dialog
+  phase 1) mais ne compose pas un "user menu" prédéfini.
+- Cohérent avec la limite D.4 : aucun composant ne porte de logique
+  métier d'une app spécifique.
+
+**Pattern recommandé** (documenté dans les stories Header) : composer
+un `<Avatar>` + un `<Button variant="ghost">` côté app dans le slot
+actions du Header.
+
+---
+
+## K. Composants fonctionnels & sections framework-specific
+
+### K.1 - Réouverture partielle de D.4 : composants fonctionnels en spec
+
+🟢 **Statut** : décidée (2026-04-25), affinée le même jour
+
+**Conclusion** : la couche C (composables fonctionnels) entre dans le
+scope du DS, **uniquement comme spécification design en HTML+CSS pur**.
+Pas de composant React ni Angular publié.
+
+**Pourquoi pas de composant framework** :
+
+- Les écrans Keycloak sont rendus côté **serveur Keycloak via FTL**
+  (Freemarker). Ils ne tournent jamais en runtime React/Angular.
+- Avoir un `<AuthLogin>` React + un `<ori-auth-login>` Angular pour
+  documenter un écran qui ne sera jamais utilisé en runtime, c'est
+  du sur-architecture : 2x le code à maintenir + risque de divergence
+  entre les 2 versions.
+- Le HTML+CSS pur est **strictement plus fidèle** au format cible
+  (FTL = du HTML), et copier-coller direct dans le `.ftl`.
+
+**Format de la spec** :
+
+- 1 page MDX par écran dans `packages/docs/src/functional/*.mdx`
+- Chaque MDX contient :
+  - Un **rendu visuel inline** via JSX qui applique les classes
+    `.ori-*` (rendu live dans les 2 Storybooks puisque le MDX est
+    rendu en React dans les deux)
+  - Le **code HTML brut** dans un code block (à copier-coller dans
+    le `.ftl` Keycloak avec adaptations FTL)
+  - La spec rédigée : libellés Keycloak, états conditionnels FTL,
+    accessibilité
+
+**Ajustement par rapport à D.4** :
+
+- D.4 avait exclu la couche C (composables type "FormUserProfile"
+  câblés à un domaine métier). On garde cette exclusion.
+- On élargit pour inclure les **écrans clé-en-main réutilisables hors
+  d'un domaine métier précis** : écrans d'authentification Keycloak,
+  écrans d'erreur HTTP standard, etc.
+
+**Périmètre - écrans Keycloak (priorité)** :
+
+| Écran | Template Keycloak | Composé de |
+|---|---|---|
+| AuthLogin | `login.ftl` | Logo, Card, Input, Button, Link, Alert |
+| AuthRegister | `register.ftl` | Logo, Card, Input, Button, Link, Alert |
+| AuthResetPassword | `login-reset-password.ftl` | Logo, Card, Input, Button, Link, Alert |
+| AuthUpdatePassword | `login-update-password.ftl` | Logo, Card, Input, Button, Alert |
+| AuthOtp | `login-otp.ftl` | Logo, Card, Input, Button, Alert |
+| AuthSessionExpired | `login-page-expired.ftl` | Logo, Card, Button |
+| AuthError | `error.ftl` | Logo, Card, Alert, Button |
+
+**Pourquoi spec et pas livraison logicielle** :
+
+- Tester un thème Keycloak nécessite une instance Keycloak + un
+  realm + un client + un build `.jar` à déployer. Hors scope d'un
+  Storybook design.
+- Le développement et le déploiement du thème Keycloak (FTL + CSS +
+  JS) est **externalisé aux devs Keycloak**, qui s'appuient sur le
+  Storybook comme **document de référence**.
+- Le DS reste un produit pur "design + composants frontend". Le
+  thème Keycloak `.jar` est un produit séparé maintenu par l'équipe
+  Keycloak.
+
+**Bénéfices** :
+
+- Les usagers polynésiens voient les écrans Keycloak aux mêmes
+  couleurs / typo / boutons que les apps administratives → identité
+  visuelle unifiée.
+- A11y et patterns héritent gratuitement des primitives du DS.
+- Si une primitive change (ex: bouton primary), la mire suit
+  automatiquement (les devs Keycloak rejouent leur conversion FTL/CSS).
+
+**Limite** : aucun runtime Keycloak côté DS. Pas d'intégration
+`keycloak-js`, pas de hook `useAuth()`. Si une app a besoin de gérer
+une session Keycloak, c'est dans son scope applicatif, pas dans le DS.
+
+---
+
+### K.2 - Sections Storybook framework-specific (React / Angular)
+
+🟢 **Statut** : décidée (2026-04-25)
+
+**Conclusion** : ajouter une section **"React"** dans le Storybook
+React et **"Angular"** dans le Storybook Angular, dédiée à la doc
+d'usage du DS dans le framework correspondant.
+
+**Pourquoi** :
+
+- L'installation, la configuration (Tailwind, angular.json,
+  tsconfig), et les patterns d'usage diffèrent entre les frameworks.
+- La doc transverse (Documentation générale, Composants, Composants
+  fonctionnels) reste commune aux deux.
+- Filtrer les MDX par framework évite de polluer chaque Storybook avec
+  la doc de l'autre framework (qui serait inutile et confuse).
+
+**Mécanisme** :
+
+- `packages/docs/src/react/*.mdx` chargé uniquement par le Storybook React
+- `packages/docs/src/angular/*.mdx` chargé uniquement par le Storybook Angular
+- Les autres MDX restent dans `packages/docs/src/` et sont chargés
+  par les deux
+
+**Pages prévues** (à enrichir au fil du temps) :
+
+- Installation.mdx (peerDeps, import du CSS, setup du theme)
+- Patterns.mdx (création d'un composant qui consomme le DS)
+- Plus tard : SSR, intégration Next.js / Standalone, tests, etc.
+
+---
+
+## Résumé du backlog technique
+
+🟢 **Tout le backlog API & a11y a été tranché et appliqué le 2026-04-25.**
+
+| Action | Statut |
+|---|---|
+| Lucide pour icônes (A.1) + installation + migration des SVG inline | 🟢 |
+| CDK focus-trap dans Dialog Angular (B.1) | 🟢 |
+| Rôle ARIA conditionnel React Alert (B.2) | 🟢 |
+| `dismissible` boolean React Alert (B.3) | 🟢 |
+| Directive `pfAlertIcon` Angular (B.4) | 🟢 |
+| Suppression `leadingIcon`/`trailingIcon` React Button (B.5) | 🟢 |
+| Attrs natifs Input Angular (B.6) | 🟢 |
+| `wrapperClass` Input/Card Angular (B.7) | 🟢 |
+
+Reste les sujets stratégiques (catégorie C : doc build, git, CI/CD ; catégorie
+D : migration des apps existantes ; A.2-A.3 parqués). Ils demandent
+alignement avec l'équipe / la hiérarchie de l'administration polynésienne
+avant exécution.

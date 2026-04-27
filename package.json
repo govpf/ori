@@ -1,0 +1,55 @@
+{
+  "name": "ori",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ori - design system de l'administration de la Polynésie française",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.29.3",
+  "engines": {
+    "node": ">=20.11.0",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* run build",
+    "build:tokens": "pnpm --filter @govpf/ori-tokens run build",
+    "build:css": "pnpm --filter @govpf/ori-css run build",
+    "build:react": "pnpm --filter @govpf/ori-react run build",
+    "build:angular": "pnpm --filter @govpf/ori-angular run build",
+    "storybook:react": "pnpm --filter @govpf/ori-storybook-react run storybook",
+    "storybook:angular": "pnpm --filter @govpf/ori-storybook-angular run storybook",
+    "build:storybook:react": "pnpm --filter @govpf/ori-storybook-react run build",
+    "build:storybook:angular": "pnpm --filter @govpf/ori-storybook-angular run build",
+    "playground:static": "pnpm --filter @govpf/ori-playground-static run dev",
+    "playground:angular": "pnpm --filter @govpf/ori-playground-angular run start",
+    "playground:react": "pnpm --filter @govpf/ori-playground-react run dev",
+    "demo:portail": "pnpm --filter @govpf/ori-demo-portail run dev",
+    "clean": "rimraf --glob \"**/node_modules\" \"**/dist\" \"**/build\" \"**/.turbo\" \"**/.angular\"",
+    "clean:cache": "rimraf --glob \"apps/*/node_modules/.vite\" \"apps/*/node_modules/.cache\" \"apps/*/.angular\" \"apps/*/.storybook/.cache\" \"packages/*/node_modules/.cache\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css,scss}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,css,scss}\"",
+    "lint": "pnpm -r run lint"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.6.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "style-dictionary",
+      "@bundled-es-modules/glob"
+    ],
+    "overrides": {
+      "@angular/animations": "20.3.19",
+      "@angular/cdk": "20.2.14",
+      "@angular/common": "20.3.19",
+      "@angular/compiler": "20.3.19",
+      "@angular/compiler-cli": "20.3.19",
+      "@angular/core": "20.3.19",
+      "@angular/forms": "20.3.19",
+      "@angular/platform-browser": "20.3.19",
+      "@angular/platform-browser-dynamic": "20.3.19"
+    }
+  }
+}

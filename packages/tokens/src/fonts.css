@@ -1,0 +1,33 @@
+/**
+ * Police Inter (variable font) embarquée par le DS.
+ *
+ * Avantages d'embarquer plutôt que de pointer vers un CDN :
+ *   - rendering identique partout (même fichier de police, même métriques)
+ *   - fonctionnement offline / réseaux contraints (intranet, GLPI on-prem…)
+ *   - pas de FOUT/FOIT (flash of unstyled/invisible text) au premier load
+ *
+ * Les fichiers TTF sont dans `packages/tokens/assets/fonts/`. Dans un projet
+ * consommateur, le bundler doit copier ces assets ou les chemins doivent être
+ * adaptés. Pour les Storybooks et le ds.css statique, les chemins relatifs
+ * fonctionnent tels quels.
+ */
+
+@font-face {
+  font-family: 'Inter';
+  src:
+    url('../assets/fonts/Inter-VariableFont.ttf') format('truetype-variations'),
+    url('../assets/fonts/Inter-VariableFont.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src:
+    url('../assets/fonts/Inter-Italic-VariableFont.ttf') format('truetype-variations'),
+    url('../assets/fonts/Inter-Italic-VariableFont.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}

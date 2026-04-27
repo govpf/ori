@@ -1,0 +1,30 @@
+/**
+ * Ori - bundle CSS statique
+ *
+ * Compilé par Tailwind (avec le preset @govpf/ori-tailwind-preset) pour produire
+ * dist/ds.css, consommable tel quel dans :
+ *   - un site statique HTML/Jekyll/Hugo/Eleventy
+ *   - GLPI (via plugin de thème)
+ *   - des emails transactionnels
+ *   - toute application qui ne veut pas embarquer Tailwind
+ *
+ * Contenu :
+ *   1. les variables CSS Ori (tokens + overrides dark)
+ *   2. le reset Tailwind (preflight)
+ *   3. toutes les classes sémantiques .ori-* (via @layer components)
+ *
+ * Utilisation du thème sombre dans un site statique :
+ *   <html data-theme="dark">  ← bascule tous les .ori-* en mode sombre
+ *
+ * Les chemins relatifs pointent vers les packages voisins du monorepo car
+ * postcss-import (embarqué dans la Tailwind CLI) ne résout pas les "exports"
+ * de package.json.
+ */
+
+@import '../../tokens/src/fonts.css';
+@import '../../tokens/build/css/tokens.css';
+@import '../../tokens/src/dark.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

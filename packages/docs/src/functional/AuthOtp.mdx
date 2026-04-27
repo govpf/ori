@@ -1,0 +1,161 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Composants fonctionnels/Keycloak/AuthOtp" />
+
+# AuthOtp - Saisie du code MFA
+
+Spécification design de l'écran `login-otp.ftl` Keycloak (saisie du
+code à usage unique pour l'authentification multifacteur).
+
+## Contexte d'usage
+
+Affiché après la mire de connexion (cf. AuthLogin) si l'utilisateur a
+configuré une authentification multifacteur (TOTP via Google
+Authenticator, FreeOTP, etc.). L'usager doit saisir le code à 6
+chiffres affiché par son application MFA.
+
+## Rendu visuel
+
+<div style={{ minHeight: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', backgroundColor: 'var(--color-surface-muted)' }}>
+  <div className="ori-card ori-card--elevated" style={{ width: '100%', maxWidth: '24rem' }}>
+    <div className="ori-card__body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="ori-logo">
+          <img src="/assets/logo-pf.svg" alt="" className="ori-logo__crest" />
+          <span className="ori-logo__text">
+            <span className="ori-logo__title">Polynésie française</span>
+            <span className="ori-logo__subtitle">Démarches en ligne</span>
+          </span>
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'center' }}>
+        <h1 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Vérification en deux étapes</h1>
+        <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+          Saisissez le code à 6 chiffres affiché par votre application d'authentification.
+        </p>
+      </div>
+
+      <form style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+        <div className="ori-field">
+          <label htmlFor="aotp-code" className="ori-field__label ori-field__label--required">Code de sécurité</label>
+          <input
+            id="aotp-code"
+            name="otp"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]{6}"
+            autoComplete="one-time-code"
+            required
+            maxLength={6}
+            className="ori-input"
+            style={{ fontFamily: 'monospace', fontSize: '1.125rem', letterSpacing: '0.5em', textAlign: 'center' }}
+          />
+        </div>
+        <button type="submit" className="ori-btn ori-btn--primary ori-btn--block">Valider</button>
+      </form>
+
+      <p style={{ margin: 0, textAlign: 'center', fontSize: '0.875rem' }}>
+        <a href="#" className="ori-link ori-link--quiet">Annuler et revenir à la connexion</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+## Code HTML pour `login-otp.ftl`
+
+```html
+<div class="pf-auth-page">
+  <div class="ori-card ori-card--elevated pf-auth-card">
+    <div class="ori-card__body pf-auth-body">
+      <div class="pf-auth-brand">
+        <span class="ori-logo">
+          <img src="${url.resourcesPath}/img/logo-pf.svg" alt="" class="ori-logo__crest" />
+          <span class="ori-logo__text">
+            <span class="ori-logo__title">Polynésie française</span>
+            <span class="ori-logo__subtitle">${realm.displayName!''}</span>
+          </span>
+        </span>
+      </div>
+
+      <div class="pf-auth-intro">
+        <h1 class="pf-auth-title">${msg("doLogIn2FA")}</h1>
+        <p class="pf-auth-description">${msg("loginOtpHelp")}</p>
+      </div>
+
+      <#if message?has_content>
+        <div class="ori-alert ori-alert--danger" role="alert">
+          <div class="ori-alert__content">${kcSanitize(message.summary)?no_esc}</div>
+        </div>
+      </#if>
+
+      <form id="kc-otp-login-form" action="${url.loginAction}" method="post" class="pf-auth-form">
+        <div class="ori-field">
+          <label for="otp" class="ori-field__label ori-field__label--required">${msg("loginOtpLabel")}</label>
+          <input id="otp" name="otp" type="text" inputmode="numeric" pattern="[0-9]{6}"
+                 autocomplete="one-time-code" required maxlength="6"
+                 class="ori-input pf-otp-input" autofocus
+                 aria-invalid="<#if messagesPerField.existsError('totp')>true</#if>" />
+        </div>
+        <button type="submit" class="ori-btn ori-btn--primary ori-btn--block">${msg("doLogIn")}</button>
+      </form>
+
+      <p class="pf-auth-back">
+        <a href="${url.loginUrl}" class="ori-link ori-link--quiet">${msg("doCancel")}</a>
+      </p>
+    </div>
+  </div>
+</div>
+```
+
+### CSS d'accompagnement
+
+```css
+.pf-otp-input {
+  font-family: monospace;
+  font-size: 1.125rem;
+  letter-spacing: 0.5em;
+  text-align: center;
+}
+```
+
+## Spécification fonctionnelle
+
+### Libellés
+
+```properties
+doLogIn2FA=Vérification en deux étapes
+loginOtpHelp=Saisissez le code à 6 chiffres affiché par votre application d'authentification.
+loginOtpLabel=Code de sécurité
+doLogIn=Valider
+doCancel=Annuler et revenir à la connexion
+```
+
+### Caractéristiques techniques du champ OTP
+
+| Attribut | Valeur | Pourquoi |
+|---|---|---|
+| `type="text"` | text | `type="number"` casse l'autocomplete sur certains mobiles |
+| `inputmode="numeric"` | numeric | Affiche le pavé numérique sur mobile |
+| `pattern="[0-9]{6}"` | 6 chiffres | Validation HTML5 native |
+| `autocomplete="one-time-code"` | one-time-code | Suggère iOS/Android le code OTP reçu par SMS ou via app |
+| `maxlength="6"` | 6 | Coupe automatiquement à 6 caractères |
+| `autofocus` | - | Focus immédiat sur le champ (gain de temps utilisateur) |
+
+### Accessibilité
+
+- Le champ a un libellé visible explicite, pas de placeholder seul
+- `font-family: monospace` et `letter-spacing: 0.5em` rendent les
+  6 chiffres lisibles individuellement
+- Pas de saisie chiffre-par-chiffre dans des cases séparées (anti-pattern
+  RGAA pour les utilisateurs de lecteurs d'écran)
+
+### Sécurité et UX
+
+- Si l'usager a plusieurs OTPs configurés, Keycloak affiche un sélecteur
+  (`<select id="selectedCredentialId">`) avant le champ code. À
+  spécifier ultérieurement si ce cas se présente.
+- Pas de bouton "Renvoyer le code" pour TOTP (le code change toutes
+  les 30 secondes côté app, pas de renvoi possible).
+- Le bouton "Annuler" ramène à la mire de login, sans déconnexion
+  (pas de session active à ce stade).

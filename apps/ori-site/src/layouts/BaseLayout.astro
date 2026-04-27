@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+
+const { title, description, current } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Ori Design System</title>
+    {description && <meta name="description" content={description} />}
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a href={base} class="site-header__brand">
+          <span>Ori</span>
+        </a>
+        <nav class="site-header__nav" aria-label="Navigation principale">
+          <a href={base} aria-current={current === 'home' ? 'page' : undefined}>Accueil</a>
+          <a href={`${base}composants/button/`} aria-current={current === 'components' ? 'page' : undefined}>Composants</a>
+          <a href={`${base}tokens/`} aria-current={current === 'tokens' ? 'page' : undefined}>Tokens</a>
+          <a href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
+      </header>
+      <main class="site-main">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        Ori Design System · Polynésie française · Prototype Astro
+      </footer>
+    </div>
+  </body>
+</html>

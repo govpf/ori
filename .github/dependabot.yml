@@ -1,0 +1,56 @@
+# Dependabot - mises à jour automatiques des dépendances.
+# Documentation : https://docs.github.com/en/code-security/dependabot/working-with-dependabot
+#
+# Stratégie :
+#   - npm : group des updates mineures/patches en une PR par semaine
+#     (réduit le bruit de PR ; les majeures restent une PR par dep)
+#   - github-actions : updates mensuelles, regroupées
+#   - alertes de sécurité : automatiques (configurées côté Settings du repo,
+#     pas dans ce fichier)
+
+version: 2
+
+updates:
+  # ─── Dépendances npm du monorepo ─────────────────────────────────────
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '08:00'
+      timezone: 'Pacific/Tahiti'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+      - 'npm'
+    commit-message:
+      prefix: 'deps'
+      include: 'scope'
+    groups:
+      # Toutes les patches/minor en une seule PR par semaine.
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+      # Les majors restent isolées (review case par case).
+
+  # ─── Actions GitHub utilisées dans .github/workflows ──────────────────
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 3
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'
+    groups:
+      all-actions:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+          - 'major'

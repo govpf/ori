@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/out-tsc/storybook",
+    "types": []
+  },
+  "files": ["./preview.ts"],
+  "include": [
+    "./*.ts",
+    "../../../packages/angular/src/**/*.stories.ts",
+    "../../../packages/angular/src/**/*.ts"
+  ],
+  "exclude": ["../../../packages/angular/dist"]
+}

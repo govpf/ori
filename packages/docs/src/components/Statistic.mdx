@@ -1,0 +1,100 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Composants/Statistic" />
+
+# Statistic
+
+Le composant **Statistic** affiche une métrique chiffrée (KPI) accompagnée
+d'un libellé court et, optionnellement, d'une tendance. Il est destiné aux
+**tableaux de bord, vues de synthèse et cartes d'instruction**.
+
+C'est un composant volontairement minimal : il ne fournit **pas de
+conteneur** (Card, Panel, etc.). C'est l'application qui décide
+d'envelopper la statistique dans une `Card`, une bordure, ou rien du tout.
+Cela permet de composer le KPI dans des contextes très différents (tuile
+isolée, ligne de tableau, en-tête de panneau).
+
+## Anatomie
+
+| Région | Rôle | Optionnel |
+|---|---|---|
+| `label` | Libellé court de la métrique (ex: "Démarches en cours") | non |
+| `value` | Valeur principale, mise en avant typographiquement | non |
+| `prefix` / `suffix` | Devise, unité, symbole (ex: `XPF`, `%`, `j`) | oui |
+| `trend` | Indicateur de variation (flèche + texte), coloré selon le sens | oui |
+
+La valeur et le libellé sont groupés via `aria-labelledby`, ce qui permet
+aux lecteurs d'écran d'annoncer "Démarches en cours, 2" comme une unité
+cohérente.
+
+## Variantes
+
+| Variante | Usage |
+|---|---|
+| `default` | Empilement vertical : label, valeur, tendance. Pour les grilles de KPI. |
+| `lg` | Comme `default`, mais avec une valeur plus grande. Pour un KPI mis en avant en tête de page. |
+| `inline` | Label à gauche, valeur à droite. Pour des listes denses (sidebar, panneau de filtres). |
+
+## Tendance
+
+La tendance accepte trois directions :
+
+| Direction | Icône | Couleur (par défaut) |
+|---|---|---|
+| `up` | flèche montante | succès |
+| `down` | flèche descendante | danger |
+| `flat` | trait horizontal | neutre |
+
+Pour les métriques où **baisser est positif** (temps de traitement, délai
+moyen, nombre d'erreurs…), passer `positive: 'down'` dans le `trend`. Une
+tendance `down` deviendra alors verte (succès) et une tendance `up`
+rouge (danger). Cette inversion est sémantique : la couleur exprime "bon
+ou mauvais", pas "monte ou descend".
+
+## Formatage des nombres
+
+Si `value` est un `number` et que `formatNumber` vaut `true` (défaut), la
+valeur est passée à `Intl.NumberFormat` avec la locale `fr-FR`. Cela
+garantit une présentation cohérente (séparateur de milliers en espace,
+virgule décimale).
+
+Pour une valeur déjà mise en forme par l'app, ou pour un identifiant qui
+ne doit pas avoir de séparateur (`2026-0042`), passer `formatNumber={false}`
+ou un `string` directement comme `value`.
+
+`numberFormatOptions` permet de passer n'importe quelle option supportée
+par `Intl.NumberFormat` (notation compacte, devise, décimales fixes…).
+
+## Bonnes pratiques
+
+- **Un label court**. "Démarches en cours" et non "Nombre total de démarches actuellement en cours d'instruction". Le contexte de la page suffit.
+- **Mettre les unités dans `suffix`**, pas dans le label : `value=87 suffix='%'` plutôt que `label='Taux (%)'`.
+- **La tendance est facultative**. Ne l'afficher que si elle a du sens (comparaison vs période précédente). Une tendance "+0" affichée à tort est plus bruyante qu'utile.
+- **Limiter le nombre de KPI** dans une vue. 4 à 6 maximum pour un dashboard usager. Au-delà, l'utilisateur ne lit plus.
+- **État de chargement**. Pour un KPI calculé côté serveur, passer `loading={true}` plutôt que d'afficher un `0` ou un `--` provisoire qui peut induire en erreur.
+
+## Composition typique
+
+```tsx
+<div className="kpi-grid">
+  <Card>
+    <CardBody>
+      <Statistic
+        label="Démarches en cours"
+        value={2}
+        trend={{ direction: 'up', label: '+1 cette semaine' }}
+      />
+    </CardBody>
+  </Card>
+  <Card>
+    <CardBody>
+      <Statistic label="À compléter" value={1} />
+    </CardBody>
+  </Card>
+</div>
+```
+
+## Voir le playground
+
+Pour les variantes interactives et exemples de composition, voir la page
+**Composants / Statistic** de cette même instance Storybook.

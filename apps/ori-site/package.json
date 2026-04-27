@@ -1,0 +1,29 @@
+{
+  "name": "@govpf/ori-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site documentaire Ori (prototype Astro). Consomme provisoirement les packages workspace @govpf/ori-* en attendant le rebranding global.",
+  "scripts": {
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
+    "preview": "astro preview --port 4321",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.6.2",
+    "@govpf/ori-react": "workspace:*",
+    "@govpf/ori-tailwind-preset": "workspace:*",
+    "@govpf/ori-tokens": "workspace:*",
+    "astro": "^4.16.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15"
+  }
+}

@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Introduction" />
+
+# Ori
+
+Design system de l'administration de la Polynésie française.
+
+`Ori` est un design system **multi-framework** (React, Angular, HTML pur) bâti
+autour d'une source unique de design tokens. La même apparence visuelle est
+garantie sur toutes les cibles.
+
+## Principes
+
+1. **Tokens en premier.** Toutes les valeurs de design (couleurs, typo, spacing,
+   radii…) sont définies dans `@govpf/ori-tokens` au format
+   [W3C DTCG](https://design-tokens.github.io/community-group/format/).
+2. **Classes sémantiques partagées.** Les composants React, Angular et les
+   sites statiques appliquent les mêmes classes (`.ori-btn`, `.ori-card`…), ce
+   qui garantit une parité visuelle exacte entre les cibles.
+3. **Variables CSS pour le theming.** Les classes consomment des variables CSS
+   (`var(--color-brand-primary)`), pas des hex résolus → bascule de thème
+   light/dark dynamique sans recompilation.
+4. **Un livrable CSS autonome.** Le package `@govpf/ori-css` produit un `ds.css`
+   drop-in utilisable sans framework (sites statiques, GLPI, emails).
+
+## Architecture
+
+```
+tokens (DTCG)
+  ├──► tailwind-preset (theme + plugin classes .ori-*)
+  │        ├──► react   (composants React/Next.js)
+  │        └──► angular (composants Angular 20 standalone)
+  └──► css (ds.css statique)
+```
+
+## Comment lire ce Storybook
+
+- **Documentation générale** - principes, conventions, galerie des tokens
+- **Composants** - chaque composant a sa page avec les contrôles interactifs
+  et les variantes principales
+
+## Cible documentée
+
+Cette instance Storybook documente une seule cible framework. Une instance
+parallèle existe pour l'autre cible - les deux partagent le même catalogue de
+tokens et la même galerie visuelle.

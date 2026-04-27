@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Composants/Input" />
+
+# Champ de saisie
+
+Le **champ de saisie** permet à l'utilisateur d'entrer une information
+textuelle libre.
+
+Il est utilisé pour collecter des données telles que du texte, des identifiants,
+des emails, des mots de passe ou des mots-clés.
+
+## États
+
+Le composant gère plusieurs états visuels :
+
+- normal
+- focus
+- rempli
+- erreur (avec message)
+- désactivé
+
+Tous les états sont accessibles : `aria-invalid` est positionné automatiquement
+quand un message d'erreur est passé, et `aria-describedby` lie l'input à son
+hint et/ou message d'erreur.
+
+## Éléments composables
+
+Le champ est généralement structuré avec :
+
+- un **label** (associé au champ via `for` / `id`, généré automatiquement si
+  non fourni)
+- un **placeholder** (indication temporaire à l'intérieur du champ)
+- un **hint** ou texte d'aide (description sous le champ)
+- un **message d'erreur** (remplace le hint quand présent, avec `role="alert"`)
+
+Ces éléments sont gérés via un wrapper de formulaire (`.ori-field`) afin de
+garantir une cohérence visuelle dans tous les formulaires.
+
+## Tailles
+
+- **sm**
+- **md** (par défaut)
+- **lg**
+
+## Bonnes pratiques
+
+- Toujours fournir un **label** explicite. Un placeholder ne remplace pas un
+  label : il disparaît quand l'utilisateur tape.
+- Pour les champs obligatoires, utiliser le prop `required` qui ajoute un
+  marqueur visuel (`*`) cohérent dans tout le DS.
+- Le **hint** sert à anticiper la saisie ("Format attendu : 8 chiffres"), le
+  **message d'erreur** sert à diagnostiquer après la saisie. Ils ne s'affichent
+  jamais en même temps.
+- Éviter de désactiver les champs sauf vraie nécessité - préférer cacher
+  conditionnellement plutôt que griser.
+
+## Voir le playground
+
+Pour les variantes interactives, contrôles et code, voir la page **Composants /
+Input** de cette même instance Storybook.
+
+## Lien avec le design system
+
+<a
+  href="https://www.figma.com/design/RlnpT40Fzn1Spagj51GTKB/DSPF---Composants---V2.3.0?node-id=91-35155"
+  target="_blank"
+  rel="noreferrer"
+>
+  📐 Voir sur Figma
+</a>

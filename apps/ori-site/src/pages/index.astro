@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { Button } from '@govpf/ori-react';
+---
+
+<BaseLayout title="Accueil" current="home" description="Design system Ori - Polynésie française">
+  <Sidebar current="home" />
+
+  <article class="site-content">
+    <h1>Ori Design System</h1>
+    <p>
+      Ori est le design system mutualisé des services administratifs de la Polynésie
+      française. Il fournit des tokens, des composants React et Angular, et des
+      ressources d'intégration HTML statique pour assurer une expérience numérique
+      cohérente sur l'ensemble des services publics polynésiens.
+    </p>
+
+    <h2>Pour qui</h2>
+    <p>
+      Ori est destiné aux équipes qui développent les outils numériques des services
+      administratifs PF. Il couvre les besoins courants des portails usagers, des
+      espaces agents et des landing pages institutionnelles.
+    </p>
+
+    <h2>Trois packages, trois usages</h2>
+    <p>
+      Selon votre contexte, vous consommerez Ori différemment :
+    </p>
+
+    <div class="example">
+      <div class="example__preview" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+        <div>
+          <strong>HTML statique</strong>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--color-text-secondary);">
+            Importer <code>@govpf/ori-css</code> dans votre page et utiliser les classes <code>.ori-*</code>.
+            Idéal pour les landing pages, emails, intégrations CMS et GLPI.
+          </p>
+        </div>
+        <div>
+          <strong>React (Next.js, Vite, Remix...)</strong>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--color-text-secondary);">
+            Importer <code>@govpf/ori-react</code> et utiliser les composants en JSX.
+          </p>
+        </div>
+        <div>
+          <strong>Angular</strong>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--color-text-secondary);">
+            Importer <code>@govpf/ori-angular</code> dans vos modules / standalone components.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Démonstration</h2>
+    <p>
+      Voici le même bouton rendu de trois manières différentes : en HTML pur, en React
+      monté côté client, et en code à recopier.
+    </p>
+
+    <div class="example">
+      <div class="example__preview">
+        <button class="ori-button ori-button--primary" type="button">HTML pur</button>
+        <Button variant="primary" client:load>React (interactif)</Button>
+      </div>
+      <div class="example__caption">Aperçu</div>
+    </div>
+
+    <h2>Ressources</h2>
+    <p>
+      Pendant le développement du V1, la documentation détaillée des composants reste
+      accessible via les Storybooks framework-spécifiques. À terme, ce site Astro
+      regroupera l'ensemble de la documentation publique.
+    </p>
+  </article>
+</BaseLayout>

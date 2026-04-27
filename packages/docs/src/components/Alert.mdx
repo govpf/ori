@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Documentation générale/Composants/Alert" />
+
+# Alerte
+
+L'**alerte** permet aux utilisateurs de voir ou d'accéder à une information
+**contextuelle et temporaire** affichée dans le flux de la page.
+
+Elle est typiquement utilisée pour :
+
+- accuser réception d'une action (succès)
+- avertir d'un point à corriger ou à vérifier (warning)
+- signaler une erreur empêchant la suite du parcours (danger)
+- attirer l'attention sur une info importante mais non bloquante (info)
+
+## Sévérités
+
+Quatre variantes, chacune avec sa couleur sémantique et son icône intégrée :
+
+| Sévérité | Quand l'utiliser |
+|---|---|
+| `info` | Information neutre, contexte additionnel |
+| `success` | Confirmation qu'une action a abouti |
+| `warning` | Attention requise, action recommandée mais non bloquante |
+| `danger` | Erreur, blocage du parcours |
+
+L'attribut ARIA est ajusté automatiquement : `role="status"` pour `info`,
+`success`, `warning` (poliment annoncé par les lecteurs d'écran) ;
+`role="alert"` pour `danger` (annonce immédiate prioritaire).
+
+## Composition
+
+L'alerte accepte :
+
+- un **titre** (optionnel, en gras)
+- un **contenu projeté** (description, lien d'action, etc.)
+- une **icône personnalisée** (par défaut, icône standard de la sévérité)
+- un **bouton de fermeture** via `dismissible` + `(dismiss)` / `onDismiss`
+
+## Bonnes pratiques
+
+- Les alertes doivent être **contextuelles** : préférer une alerte près du champ
+  concerné plutôt qu'une alerte globale en haut de page.
+- Une alerte de succès doit être **informative et brève** ; pour une
+  confirmation détaillée, préférer une page dédiée ou une modale.
+- Une alerte fermable suppose que l'utilisateur peut s'en passer. Pour une info
+  critique non-acquittable, ne pas mettre `dismissible`.
+- Limiter à **une seule alerte primary visible** à la fois. Cumuler les
+  alertes empile le bruit.
+
+## Voir le playground
+
+Pour les variantes interactives et toutes les sévérités, voir la page
+**Composants / Alert** de cette même instance Storybook.
+
+## Lien avec le design system
+
+<a
+  href="https://www.figma.com/design/RlnpT40Fzn1Spagj51GTKB/DSPF---Composants---V2.2.3?node-id=246-2047"
+  target="_blank"
+  rel="noreferrer"
+>
+  📐 Voir sur Figma
+</a>
