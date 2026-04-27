@@ -24,14 +24,16 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Node 22.12+ : nécessaire pour que ng-packagr 20.x fonctionne. La
-  # 22.11 et les Node 20 échouent sur ERR_REQUIRE_ESM (find-cache-
-  # directory@6 est pure ESM, ng-packagr l'appelle via require()). À
-  # partir de la 22.12, --experimental-require-module est activé par
-  # défaut et permet ce require(ESM).
-  # L'engines.node du package.json racine reste >=20.11.0 pour garder
-  # une compat large côté consommateurs ; la CI elle-même tourne en 22.
-  NODE_VERSION: '22.12.0'
+  # Node 24 (Active LTS jusqu'à avril 2027) :
+  # - require(ESM) stable (résout l'incompat ng-packagr 20.x avec
+  #   find-cache-directory@6 qui est pure ESM)
+  # - aligné sur le runner GitHub Actions (Node 24 par défaut à partir
+  #   de juin 2026)
+  # - support window plus long que Node 22 (Maintenance LTS depuis
+  #   octobre 2025)
+  # L'engines.node du package.json racine reste >=20.11.0 pour ne pas
+  # forcer les consommateurs à upgrade ; la CI elle-même tourne en 24.
+  NODE_VERSION: '24'
   # pnpm version alignée sur packageManager du package.json racine.
   PNPM_VERSION: '10.29.3'
 
