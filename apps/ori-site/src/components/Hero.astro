@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  muted?: boolean;
+}
+
+const { eyebrow, title, subtitle, muted = false } = Astro.props;
+---
+
+<section class:list={['ori-hero', muted && 'ori-hero--muted']}>
+  <div class="ori-hero__inner">
+    {eyebrow && <span class="ori-hero__eyebrow">{eyebrow}</span>}
+    <h1 class="ori-hero__title">{title}</h1>
+    {subtitle && <p class="ori-hero__subtitle">{subtitle}</p>}
+    <slot name="actions">
+      <div class="ori-hero__actions"><slot /></div>
+    </slot>
+  </div>
+</section>

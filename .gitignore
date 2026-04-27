@@ -5,6 +5,7 @@ build/
 .cache/
 .angular/
 .astro/
+.pnpm-store/
 .DS_Store
 *.log
 .env

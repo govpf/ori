@@ -5,9 +5,15 @@ interface Props {
   title: string;
   description?: string;
   current?: string;
+  /**
+   * `doc` (par défaut) : main en grille sidebar + contenu, le slot doit
+   * fournir Sidebar + article. `landing` : main pleine largeur, sans grille,
+   * pour les pages d'accueil / marketing.
+   */
+  variant?: 'doc' | 'landing';
 }
 
-const { title, description, current } = Astro.props;
+const { title, description, current, variant = 'doc' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -21,18 +27,28 @@ const base = import.meta.env.BASE_URL;
   </head>
   <body>
     <div class="site-shell">
-      <header class="site-header">
-        <a href={base} class="site-header__brand">
+      <header class="ori-header site-header">
+        <a href={base} class="ori-header__brand site-header__brand">
           <span>Ori</span>
         </a>
-        <nav class="site-header__nav" aria-label="Navigation principale">
-          <a href={base} aria-current={current === 'home' ? 'page' : undefined}>Accueil</a>
-          <a href={`${base}composants/button/`} aria-current={current === 'components' ? 'page' : undefined}>Composants</a>
-          <a href={`${base}tokens/`} aria-current={current === 'tokens' ? 'page' : undefined}>Tokens</a>
-          <a href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub</a>
+        <nav class="ori-header__nav" aria-label="Navigation principale">
+          <ul class="ori-main-nav" role="list">
+            <li class="ori-main-nav__item">
+              <a class="ori-main-nav__link" href={base} aria-current={current === 'home' ? 'page' : undefined}>Accueil</a>
+            </li>
+            <li class="ori-main-nav__item">
+              <a class="ori-main-nav__link" href={`${base}composants/`} aria-current={current === 'components' ? 'page' : undefined}>Composants</a>
+            </li>
+            <li class="ori-main-nav__item">
+              <a class="ori-main-nav__link" href={`${base}fondations/palette/`} aria-current={current === 'tokens' ? 'page' : undefined}>Fondations</a>
+            </li>
+          </ul>
         </nav>
+        <div class="ori-header__actions">
+          <a class="ori-link" href="https://github.com/govpf/ori" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
       </header>
-      <main class="site-main">
+      <main class:list={['site-main', `site-main--${variant}`]}>
         <slot />
       </main>
       <footer class="site-footer">

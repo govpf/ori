@@ -1,0 +1,42 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Toc from '../components/Toc.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  current: string;
+  /**
+   * Section de l'en-tête actif (Composants / Tokens / Démarrer / etc).
+   * Sert à mettre en surbrillance la nav du header.
+   */
+  headerCurrent?: string;
+  /**
+   * Fourni automatiquement par Astro lorsqu'un fichier MDX utilise ce
+   * layout via frontmatter `layout: ...`. Permet de générer la TOC.
+   */
+  headings?: Heading[];
+}
+
+const { title, description, current, headerCurrent, headings = [] } = Astro.props;
+const hasToc = headings.some((h) => h.depth === 2 || h.depth === 3);
+---
+
+<BaseLayout title={title} description={description} current={headerCurrent ?? 'components'}>
+  <Sidebar current={current} />
+  <article class="site-content">
+    <slot />
+  </article>
+  {hasToc && (
+    <aside class="site-toc">
+      <Toc headings={headings} />
+    </aside>
+  )}
+</BaseLayout>

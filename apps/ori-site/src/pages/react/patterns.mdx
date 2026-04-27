@@ -1,0 +1,127 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Patterns - React"
+current: "react-patterns"
+headerCurrent: "components"
+---
+
+# Patterns React
+
+Comment créer un composant qui consomme Ori proprement.
+
+## Composer plutôt qu'étendre
+
+Les composants Ori exposent des classes CSS sémantiques (`ori-input`,
+`ori-card`, etc.) plus une API React typée. La règle :
+
+- **Pour un cas standard** : utiliser le composant tel quel
+- **Pour un variant qui revient souvent** : créer un wrapper applicatif
+  qui pré-configure
+- **Pour quelque chose de très différent** : composer un nouveau
+  composant à partir des classes CSS du DS, sans étendre
+
+## Exemple : wrapper d'un Input avec compteur de caractères
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { Input, type InputProps } from '@govpf/ori-react';
+
+interface InputWithCounterProps extends InputProps {
+  maxLength: number;
+}
+
+export function InputWithCounter({ maxLength, hint, ...rest }: InputWithCounterProps) {
+  const [value, setValue] = useState('');
+  return (
+    <Input
+      {...rest}
+      maxLength={maxLength}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      hint={`${value.length} / ${maxLength} caractères${hint ? ' · ' + hint : ''}`}
+    />
+  );
+}
+```
+
+Pas d'extension de classe, pas de fork du composant Input - juste un
+wrapper qui ajoute du comportement.
+
+## Réutiliser les classes CSS pour un composant 100% custom
+
+Si tu as besoin d'un composant qui n'existe pas dans Ori mais qui
+doit avoir le look du DS, utilise les classes :
+
+```tsx
+export function ResultCard({ title, count }: { title: string; count: number }) {
+  return (
+    <article className="ori-card ori-card--elevated" style={{ padding: '1.25rem' }}>
+      <h3 className="ori-card__title">{title}</h3>
+      <p style={{ fontSize: '2rem', fontWeight: 600, margin: '0.5rem 0 0' }}>
+        {count}
+      </p>
+    </article>
+  );
+}
+```
+
+Le DS expose une trentaine de classes `ori-*` documentées dans
+[Documentation générale / Tokens / Sémantique](?path=/docs/documentation-générale-tokens-sémantique--docs).
+
+## Forms avec `react-hook-form` ou Formik
+
+Ori n'impose pas de bibliothèque de form. Les composants `<Input>`,
+`<Checkbox>`, etc. sont des `forwardRef` et acceptent `name` + tous
+les attrs HTML standards, donc compatibles avec n'importe quelle
+solution.
+
+Exemple avec `react-hook-form` :
+
+```tsx
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { Input, Button } from '@govpf/ori-react';
+
+interface FormData {
+  name: string;
+  email: string;
+}
+
+export function ContactForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
+  return (
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <Input
+        label="Nom"
+        required
+        {...register('name', { required: 'Ce champ est obligatoire.' })}
+        error={errors.name?.message}
+      />
+      <Input
+        label="Email"
+        type="email"
+        required
+        {...register('email', { required: true, pattern: /^.+@.+$/ })}
+        error={errors.email && 'Adresse email invalide.'}
+      />
+      <Button type="submit">Envoyer</Button>
+    </form>
+  );
+}
+```
+
+## Anti-patterns
+
+À éviter dans une app qui consomme Ori :
+
+- ❌ Importer un composant Ori et le wrapper avec `styled-components`
+  ou `emotion` pour le restyler. Ça casse la cohérence DS et le dark
+  mode.
+- ❌ Surcharger une classe `ori-*` dans le CSS de l'app. Si un variant
+  manque, signaler le besoin pour le DS plutôt que patcher localement.
+- ❌ Utiliser `<button class="ori-btn ori-btn--primary">` à la main au
+  lieu de `<Button variant="primary">`. Tu perds le typage et les a11y.

@@ -5,31 +5,144 @@ interface Props {
 
 const { current } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+interface NavSection {
+  title: string;
+  items: { label: string; slug: string; href: string }[];
+}
+
+const sections: NavSection[] = [
+  {
+    title: 'Démarrer',
+    items: [
+      { label: 'Introduction', slug: 'home', href: base },
+      {
+        label: "Stratégie d'ouverture",
+        slug: 'strategie-ouverture',
+        href: `${base}decouvrir/strategie-ouverture/`,
+      },
+      {
+        label: 'Iconographie',
+        slug: 'iconographie',
+        href: `${base}decouvrir/iconographie/`,
+      },
+      {
+        label: 'Différences React / Angular',
+        slug: 'differences-frameworks',
+        href: `${base}decouvrir/differences-frameworks/`,
+      },
+      {
+        label: 'Décisions de design',
+        slug: 'decisions',
+        href: `${base}decouvrir/decisions/`,
+      },
+    ],
+  },
+  {
+    title: 'Fondations',
+    items: [
+      { label: 'Palette', slug: 'palette', href: `${base}fondations/palette/` },
+      {
+        label: 'Sémantique',
+        slug: 'semantique',
+        href: `${base}fondations/semantique/`,
+      },
+      {
+        label: 'Typographie',
+        slug: 'typographie',
+        href: `${base}fondations/typographie/`,
+      },
+      {
+        label: 'Espacements',
+        slug: 'espacements',
+        href: `${base}fondations/espacements/`,
+      },
+      { label: 'Rayons', slug: 'rayons', href: `${base}fondations/rayons/` },
+      { label: 'Ombres', slug: 'ombres', href: `${base}fondations/ombres/` },
+    ],
+  },
+  {
+    title: 'Composants',
+    items: [
+      {
+        label: 'Catalogue complet',
+        slug: 'components-index',
+        href: `${base}composants/`,
+      },
+    ],
+  },
+  {
+    title: 'Écrans Keycloak',
+    items: [
+      { label: 'Connexion', slug: 'login', href: `${base}keycloak/login/` },
+      { label: 'Inscription', slug: 'register', href: `${base}keycloak/register/` },
+      {
+        label: 'Réinitialisation mot de passe',
+        slug: 'reset-password',
+        href: `${base}keycloak/reset-password/`,
+      },
+      {
+        label: 'Mise à jour mot de passe',
+        slug: 'update-password',
+        href: `${base}keycloak/update-password/`,
+      },
+      { label: 'Code OTP', slug: 'otp', href: `${base}keycloak/otp/` },
+      {
+        label: 'Session expirée',
+        slug: 'session-expired',
+        href: `${base}keycloak/session-expired/`,
+      },
+      { label: 'Erreur', slug: 'error', href: `${base}keycloak/error/` },
+    ],
+  },
+  {
+    title: 'Intégration React',
+    items: [
+      {
+        label: 'Installation',
+        slug: 'react-installation',
+        href: `${base}react/installation/`,
+      },
+      { label: 'Patterns', slug: 'react-patterns', href: `${base}react/patterns/` },
+    ],
+  },
+  {
+    title: 'Intégration Angular',
+    items: [
+      {
+        label: 'Installation',
+        slug: 'angular-installation',
+        href: `${base}angular/installation/`,
+      },
+      {
+        label: 'Patterns',
+        slug: 'angular-patterns',
+        href: `${base}angular/patterns/`,
+      },
+    ],
+  },
+];
 ---
 
-<aside class="site-aside">
-  <h2>Démarrer</h2>
-  <ul>
-    <li><a href={base} aria-current={current === 'home' ? 'page' : undefined}>Introduction</a></li>
-  </ul>
-
-  <h2>Composants</h2>
-  <ul>
-    <li>
-      <a
-        href={`${base}composants/button/`}
-        aria-current={current === 'button' ? 'page' : undefined}
-      >Button</a>
-    </li>
-  </ul>
-
-  <h2>Fondations</h2>
-  <ul>
-    <li>
-      <a
-        href={`${base}tokens/`}
-        aria-current={current === 'tokens' ? 'page' : undefined}
-      >Tokens couleurs</a>
-    </li>
-  </ul>
+<aside class="ori-side-menu site-aside" aria-label="Navigation de la documentation">
+  {
+    sections.map((section) => (
+      <div class="ori-side-menu__section">
+        <h2 class="ori-side-menu__section-title">{section.title}</h2>
+        <ul class="ori-side-menu__list">
+          {section.items.map((item) => (
+            <li>
+              <a
+                class="ori-side-menu__link"
+                href={item.href}
+                aria-current={current === item.slug ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
 </aside>

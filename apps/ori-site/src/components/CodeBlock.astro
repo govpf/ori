@@ -1,0 +1,51 @@
+---
+interface Props {
+  lang?: string;
+  code: string;
+  filename?: string;
+}
+
+const { lang = 'text', code, filename } = Astro.props;
+const label = filename ?? lang;
+---
+
+<figure class="ori-code-block">
+  <div class="ori-code-block__header">
+    <span class="ori-code-block__lang">{label}</span>
+    <button
+      type="button"
+      class="ori-code-block__copy"
+      data-ori-copy
+      aria-label="Copier le code dans le presse-papiers"
+    >
+      <span data-ori-copy-label>Copier</span>
+    </button>
+  </div>
+  <pre class="ori-code-block__pre"><code>{code}</code></pre>
+</figure>
+
+<script>
+  // Délégation : un seul listener attaché au document.
+  // Met à jour data-copied + le label pendant 1.5s, puis revient.
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement | null;
+    const button = target?.closest<HTMLButtonElement>('[data-ori-copy]');
+    if (!button) return;
+    const block = button.closest<HTMLElement>('.ori-code-block');
+    const code = block?.querySelector<HTMLElement>('pre code')?.innerText ?? '';
+    const labelEl = button.querySelector<HTMLElement>('[data-ori-copy-label]');
+    navigator.clipboard
+      .writeText(code)
+      .then(() => {
+        button.dataset.copied = 'true';
+        if (labelEl) labelEl.textContent = 'Copié';
+        setTimeout(() => {
+          delete button.dataset.copied;
+          if (labelEl) labelEl.textContent = 'Copier';
+        }, 1500);
+      })
+      .catch(() => {
+        if (labelEl) labelEl.textContent = 'Erreur';
+      });
+  });
+</script>

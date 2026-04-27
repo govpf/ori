@@ -1,0 +1,166 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Erreur (Keycloak)"
+current: "error"
+headerCurrent: "components"
+---
+
+# AuthError - Erreur générique Keycloak
+
+Spécification design de l'écran `error.ftl` Keycloak.
+
+## Contexte d'usage
+
+Affiché quand Keycloak rencontre une erreur qu'il ne peut pas gérer
+dans le flow normal (config invalide, token cryptographiquement
+invalide, accès refusé, etc.). C'est le filet de sécurité pour les
+erreurs hors auth/inscription standard.
+
+## Rendu visuel
+
+<div style={{ minHeight: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', backgroundColor: 'var(--color-surface-muted)' }}>
+  <div className="ori-card ori-card--elevated" style={{ width: '100%', maxWidth: '28rem' }}>
+    <div className="ori-card__body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="ori-logo">
+          <img src="/assets/logo-pf.svg" alt="" className="ori-logo__crest" />
+          <span className="ori-logo__text">
+            <span className="ori-logo__title">Polynésie française</span>
+            <span className="ori-logo__subtitle">Démarches en ligne</span>
+          </span>
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'center' }}>
+        <h1 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Une erreur est survenue</h1>
+      </div>
+
+      <div className="ori-alert ori-alert--danger" role="alert">
+        <div className="ori-alert__content">
+          Le service d'authentification ne peut pas traiter votre demande pour le moment.
+          Veuillez réessayer dans quelques instants.
+        </div>
+      </div>
+
+      <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--color-text-secondary)', textAlign: 'center' }}>
+        Code de référence : <code style={{ fontFamily: 'monospace' }}>auth-error-2026-04-25-abc123</code>
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <a href="#" className="ori-btn ori-btn--primary ori-btn--block" style={{ textDecoration: 'none' }}>Retour à l'accueil</a>
+        <a href="#" className="ori-link ori-link--quiet" style={{ alignSelf: 'center', fontSize: '0.875rem' }}>Contacter le support</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+## Code HTML pour `error.ftl`
+
+```html
+<div class="pf-auth-page">
+  <div class="ori-card ori-card--elevated pf-auth-card-wide">
+    <div class="ori-card__body pf-auth-body">
+      <div class="pf-auth-brand">
+        <span class="ori-logo">
+          <img src="${url.resourcesPath}/img/logo-pf.svg" alt="" class="ori-logo__crest" />
+          <span class="ori-logo__text">
+            <span class="ori-logo__title">Polynésie française</span>
+            <span class="ori-logo__subtitle">${realm.displayName!''}</span>
+          </span>
+        </span>
+      </div>
+
+      <div class="pf-auth-intro">
+        <h1 class="pf-auth-title">${msg("errorTitle")}</h1>
+      </div>
+
+      <#if message?has_content>
+        <div class="ori-alert ori-alert--danger" role="alert">
+          <div class="ori-alert__content">${kcSanitize(message.summary)?no_esc}</div>
+        </div>
+      </#if>
+
+      <#if errorRef??>
+        <p class="pf-auth-error-ref">
+          ${msg("errorReference")} <code>${errorRef}</code>
+        </p>
+      </#if>
+
+      <div class="pf-auth-actions">
+        <#if client?? && client.baseUrl?has_content>
+          <a href="${client.baseUrl}" class="ori-btn ori-btn--primary ori-btn--block">${msg("doBackToApplication")}</a>
+        <#else>
+          <a href="${properties.kcLogoLink!''}" class="ori-btn ori-btn--primary ori-btn--block">${msg("doBackToApplication")}</a>
+        </#if>
+        <#if properties.supportUrl?has_content>
+          <a href="${properties.supportUrl}" class="ori-link ori-link--quiet pf-auth-support-link">${msg("doContactSupport")}</a>
+        </#if>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+### CSS d'accompagnement
+
+```css
+.pf-auth-error-ref {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+.pf-auth-error-ref code {
+  font-family: monospace;
+}
+.pf-auth-support-link {
+  align-self: center;
+  font-size: 0.875rem;
+}
+```
+
+## Spécification fonctionnelle
+
+### Libellés
+
+```properties
+errorTitle=Une erreur est survenue
+errorReference=Code de référence :
+doBackToApplication=Retour à l'accueil
+doContactSupport=Contacter le support
+```
+
+### Variables Keycloak utilisées
+
+- `message.summary` : message d'erreur localisé fourni par Keycloak
+- `errorRef` : identifiant unique de l'erreur (utile au support pour
+  retrouver les logs)
+- `client.baseUrl` : URL de retour à l'app cliente. Fallback sur
+  `properties.kcLogoLink` si l'app n'est pas identifiable.
+- `properties.supportUrl` : URL du support, à configurer dans
+  `theme.properties` du thème Keycloak.
+
+### Bonnes pratiques de message
+
+Les libellés affichés à l'usager doivent être :
+
+- ✅ **Compréhensibles** : pas de jargon technique ("token JWS
+  invalid signature" → "Service d'authentification indisponible")
+- ✅ **Constructifs** : indiquer un retour possible (lien support,
+  retour à l'accueil)
+- ✅ **Avec un code de référence** quand disponible : permet au
+  support de retrouver les logs sans demander à l'usager de tout
+  re-décrire
+
+À l'inverse, à éviter :
+
+- ❌ Stack trace ou message technique brut
+- ❌ "Erreur 500" sans contexte ni recours
+- ❌ Confirmer ou infirmer l'existence d'un compte / d'une session
+
+### Accessibilité
+
+- L'alerte est dans un `<div role="alert">` pour annonce immédiate
+- Le code de référence est dans un `<code>` (typographie monospace)
+- Les boutons sont des liens (`<a class="ori-btn">`) puisqu'ils
+  naviguent, pas des `<button>` qui suggèrent une action de formulaire

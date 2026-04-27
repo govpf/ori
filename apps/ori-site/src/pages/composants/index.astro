@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+
+interface Component {
+  name: string;
+  slug: string;
+  description: string;
+}
+
+interface Category {
+  title: string;
+  intro?: string;
+  components: Component[];
+}
+
+const base = import.meta.env.BASE_URL;
+
+// Storybooks servis comme sous-dossiers du site (cf. .github/workflows/deploy.yml,
+// étape "Compose dist composé").
+const storybookReact = `${base}storybook/react/`;
+const storybookAngular = `${base}storybook/angular/`;
+const githubSource = 'https://github.com/govpf/ori/tree/main/packages';
+
+const categories: Category[] = [
+  {
+    title: 'Actions',
+    components: [
+      { name: 'Button', slug: 'button', description: "Déclencher une action. Quatre variantes sémantiques (primary, secondary, ghost, danger), trois tailles." },
+      { name: 'Link', slug: 'link', description: 'Navigation textuelle inline ou bloc. Variantes quiet pour les contextes peu visuels.' },
+    ],
+  },
+  {
+    title: 'Saisie',
+    intro: "Les composants de saisie suivent les patterns RGAA AA : label associé, message d'erreur, aide contextuelle.",
+    components: [
+      { name: 'Input', slug: 'input', description: 'Champ texte mono-ligne avec label, aide, état d\'erreur.' },
+      { name: 'Textarea', slug: 'textarea', description: 'Champ texte multi-ligne, redimensionnable verticalement.' },
+      { name: 'Select', slug: 'select', description: 'Liste déroulante native, stylée pour rester homogène avec Input.' },
+      { name: 'Checkbox', slug: 'checkbox', description: 'Case à cocher avec état indéterminé pour les sélections partielles.' },
+      { name: 'Radio', slug: 'radio', description: 'Bouton radio en groupe, avec gestion automatique de la navigation clavier.' },
+      { name: 'Switch', slug: 'switch', description: 'Interrupteur on/off pour les préférences applicatives instantanées.' },
+      { name: 'DatePicker', slug: 'datepicker', description: 'Sélecteur de date conforme aux standards ARIA pattern combobox.' },
+      { name: 'FileUpload', slug: 'fileupload', description: 'Téléversement de fichiers avec drag-and-drop, multi-fichiers, états.' },
+    ],
+  },
+  {
+    title: 'Affichage',
+    components: [
+      { name: 'Card', slug: 'card', description: 'Conteneur de contenu structuré (header, body, footer). Plat ou élevé.' },
+      { name: 'FileCard', slug: 'filecard', description: "Représentation d'un document avec icône de type, taille et action de téléchargement." },
+      { name: 'Statistic', slug: 'statistic', description: "Mise en valeur d'un chiffre-clé avec libellé et tendance optionnelle." },
+      { name: 'Avatar', slug: 'avatar', description: 'Photo ou initiales d\'utilisateur, quatre tailles.' },
+      { name: 'Tag', slug: 'tag', description: 'Étiquette pour catégoriser ou marquer un statut. Variantes sémantiques.' },
+      { name: 'Highlight', slug: 'highlight', description: 'Mise en évidence textuelle inline pour les résultats de recherche.' },
+      { name: 'Logo', slug: 'logo', description: "Identité visuelle Ori, déclinaisons couleur et monochrome." },
+    ],
+  },
+  {
+    title: 'Feedback',
+    components: [
+      { name: 'Alert', slug: 'alert', description: 'Message contextuel persistant. Quatre variantes sémantiques.' },
+      { name: 'Toast', slug: 'toast', description: 'Notification éphémère sortante en haut-droite, auto-dismiss configurable.' },
+      { name: 'Notification', slug: 'notification', description: "Badge numérique pour signaler des éléments non lus." },
+      { name: 'Progress', slug: 'progress', description: 'Indicateur de progression linéaire ou circulaire.' },
+      { name: 'Skeleton', slug: 'skeleton', description: 'Placeholder de chargement, animé pour suggérer le contenu à venir.' },
+      { name: 'Tooltip', slug: 'tooltip', description: "Info-bulle au survol et au focus, positionnée automatiquement." },
+    ],
+  },
+  {
+    title: 'Layout et navigation',
+    components: [
+      { name: 'Header', slug: 'header', description: "En-tête d'application avec logo, navigation principale et actions." },
+      { name: 'Footer', slug: 'footer', description: 'Pied de page applicatif, mentions légales et liens institutionnels.' },
+      { name: 'MainNavigation', slug: 'mainnavigation', description: 'Navigation principale horizontale, intégrée dans Header.' },
+      { name: 'SideMenu', slug: 'sidemenu', description: 'Menu latéral persistent ou en drawer mobile.' },
+      { name: 'Breadcrumb', slug: 'breadcrumb', description: 'Fil d\'Ariane indiquant la position dans une hiérarchie.' },
+      { name: 'Pagination', slug: 'pagination', description: 'Navigation entre pages de résultats, avec sauts rapides.' },
+      { name: 'Tabs', slug: 'tabs', description: 'Onglets avec gestion clavier ARIA tabpanel.' },
+      { name: 'Steps', slug: 'steps', description: "Indicateur d'étapes pour un processus de démarche en plusieurs phases." },
+      { name: 'Timeline', slug: 'timeline', description: 'Chronologie verticale d\'événements horodatés.' },
+    ],
+  },
+  {
+    title: 'Surfaces avancées',
+    components: [
+      { name: 'Dialog', slug: 'dialog', description: 'Boîte de dialogue modale avec focus-trap, fermeture Escape, scroll lock.' },
+      { name: 'Accordion', slug: 'accordion', description: 'Sections dépliables, mode single ou multiple ouverts.' },
+      { name: 'Table', slug: 'table', description: 'Tableau de données avec tri, sélection, états vide/loading.' },
+    ],
+  },
+  {
+    title: 'Utilitaires',
+    components: [
+      { name: 'LanguageSwitcher', slug: 'languageswitcher', description: 'Sélecteur de langue pour les sites multilingues (français, tahitien, anglais).' },
+    ],
+  },
+];
+
+const total = categories.reduce((sum, c) => sum + c.components.length, 0);
+---
+
+<BaseLayout
+  title="Composants"
+  current="components"
+  description="Catalogue des composants Ori avec liens vers la documentation interactive (Storybook) pour React et Angular"
+>
+  <Sidebar current="components-index" />
+
+  <article class="site-content site-content--wide">
+    <h1>Composants</h1>
+    <p>
+      Ori expose <strong>{total} composants</strong> couvrant les besoins courants
+      des portails usagers, espaces agents et sites institutionnels. La documentation
+      interactive de chaque composant - props, variantes, états, exemples vivants -
+      est disponible dans les Storybook React et Angular.
+    </p>
+
+    <aside class="ori-callout ori-callout--note" role="note" style="margin-block: 1.5rem;">
+      <svg
+        class="ori-callout__icon"
+        aria-hidden="true"
+        focusable="false"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm1 12h-2v-7h2v7z" />
+      </svg>
+      <div class="ori-callout__body">
+        <strong class="ori-callout__title">Pourquoi Storybook plutôt qu'Astro ?</strong>
+        <p style="margin: 0;">
+          La documentation des composants est isolée par composant, interactive
+          (Controls, Args), et auto-générée à partir des types TypeScript. Astro
+          reste le canal pour les guides éditoriaux, fondations et patterns d'usage.
+        </p>
+      </div>
+    </aside>
+
+    {
+      categories.map((category) => (
+        <section class="components-category">
+          <h2>{category.title}</h2>
+          {category.intro && <p class="components-category__intro">{category.intro}</p>}
+          <ul class="components-grid" role="list">
+            {category.components.map((component) => (
+              <li class="components-grid__item">
+                <article class="component-card">
+                  <h3 class="component-card__name">{component.name}</h3>
+                  <p class="component-card__description">{component.description}</p>
+                  <div class="component-card__links">
+                    <a
+                      class="ori-link"
+                      href={`${storybookReact}?path=/docs/composants-${component.slug}--docs`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Storybook React
+                      <span class="ori-link__external" aria-hidden="true">↗</span>
+                    </a>
+                    <a
+                      class="ori-link"
+                      href={`${storybookAngular}?path=/docs/composants-${component.slug}--docs`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Storybook Angular
+                      <span class="ori-link__external" aria-hidden="true">↗</span>
+                    </a>
+                    <a
+                      class="ori-link ori-link--quiet"
+                      href={`${githubSource}/react/src/components/${component.name}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Source
+                      <span class="ori-link__external" aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .components-category {
+    margin-block: 2.5rem;
+  }
+  .components-category__intro {
+    color: var(--color-text-secondary);
+    margin: 0 0 1rem;
+    line-height: 1.6;
+  }
+  .components-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1rem;
+  }
+  .component-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    background-color: var(--color-surface-base);
+    height: 100%;
+    transition: border-color 150ms, box-shadow 150ms;
+  }
+  .component-card:hover {
+    border-color: var(--color-border-default);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  .component-card__name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .component-card__description {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    flex: 1 1 auto;
+  }
+  .component-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .site-content--wide {
+    max-width: 100%;
+  }
+</style>
