@@ -72,7 +72,7 @@ Sont **hors périmètre** :
 - la plateforme Keycloak du Gouvernement (les écrans documentés ici
   sont des spécifications, pas une instance en production)
 - les vulnérabilités déjà rapportées et publiées dans les CVE des
-  dépendances tierces (Angular, React, Tailwind, Lucide, etc.) — elles
+  dépendances tierces (Angular, React, Tailwind, Lucide, etc.) - elles
   sont traitées via Dependabot
 
 ## Divulgation responsable

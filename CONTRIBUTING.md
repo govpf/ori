@@ -35,7 +35,7 @@ soumise.
 ### Prérequis
 
 - **Node.js 20.11+** (recommandé : Node 24 LTS, comme la CI)
-- **pnpm 10.29+** (gestionnaire de paquets — `corepack enable && corepack prepare pnpm@latest --activate`)
+- **pnpm 10.29+** (gestionnaire de paquets - `corepack enable && corepack prepare pnpm@latest --activate`)
 - **Git**
 - **Docker** (optionnel, pour tester la CI en local via `act`)
 

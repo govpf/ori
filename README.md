@@ -68,8 +68,8 @@ complète des composants disponibles et leurs API.
 ### Prérequis
 
 - **Node.js** ≥ 20.11 (la CI tourne en Node 24 LTS)
-- **pnpm** ≥ 9 (testé avec 10.29 — `corepack enable && corepack prepare pnpm@latest --activate`)
-- **just** (optionnel mais recommandé — alternative cross-platform à `make`)
+- **pnpm** ≥ 9 (testé avec 10.29 - `corepack enable && corepack prepare pnpm@latest --activate`)
+- **just** (optionnel mais recommandé - alternative cross-platform à `make`)
 
 ### Installer `just`
 
@@ -84,7 +84,7 @@ nativement sur Windows, macOS et Linux.
 | Linux (Arch)          | `pacman -S just`                                                |
 | Tous (via Rust)       | `cargo install just`                                            |
 
-> Si tu ne peux pas installer `just`, toutes les recettes délèguent à `pnpm` —
+> Si tu ne peux pas installer `just`, toutes les recettes délèguent à `pnpm` -
 > tu peux toujours utiliser les commandes `pnpm` équivalentes (colonne de
 > droite des tableaux ci-dessous).
 
@@ -150,14 +150,14 @@ Depuis la racine `ori/`. `just` liste les recettes disponibles avec un simple
 
 ### Tokens
 
-- Format **W3C Design Tokens Community Group** (DTCG) — fichiers `packages/tokens/src/*.json`.
-- Deux fichiers : `core.json` (primitives — palettes, échelles) et `semantic.json` (alias — `brand.primary`, `surface.base`…).
-- **Règle d'or** : un composant ne consomme **jamais** un token primitif (`color.primary.500`) — toujours un alias sémantique (`color.brand.primary`). Cela permet de changer de palette ou de basculer en thème sombre sans toucher au code des composants.
+- Format **W3C Design Tokens Community Group** (DTCG) - fichiers `packages/tokens/src/*.json`.
+- Deux fichiers : `core.json` (primitives - palettes, échelles) et `semantic.json` (alias - `brand.primary`, `surface.base`…).
+- **Règle d'or** : un composant ne consomme **jamais** un token primitif (`color.primary.500`) - toujours un alias sémantique (`color.brand.primary`). Cela permet de changer de palette ou de basculer en thème sombre sans toucher au code des composants.
 
 ### Composants
 
 - Stylés via **classes sémantiques** (`.ori-btn`, `.ori-card`…) définies dans `packages/tailwind-preset/src/plugin-components.js`.
-- Les classes consomment des **variables CSS** (`var(--color-brand-primary)`) — bascule de thème dynamique sans recompilation.
+- Les classes consomment des **variables CSS** (`var(--color-brand-primary)`) - bascule de thème dynamique sans recompilation.
 - **Aucun utilitaire Tailwind inline** dans le JSX/template du DS. Les utilitaires restent disponibles pour la mise en page applicative dans les projets consommateurs.
 - React : composants standards avec `forwardRef`, `clsx` pour les classes.
 - Angular : composants `standalone`, `ChangeDetectionStrategy.OnPush`, `ViewEncapsulation.None`.
@@ -212,4 +212,4 @@ transverses (accessibilité, performance, documentation, correctifs de bugs).
 
 ## Licence
 
-[MIT](./LICENSE) — Copyright © 2026 Gouvernement de la Polynésie française.
+[MIT](./LICENSE) - Copyright © 2026 Gouvernement de la Polynésie française.

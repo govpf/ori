@@ -245,12 +245,12 @@ marine institutionnel PF). En light, ce bleu sombre sur fond `feedback-info-bg`
 (info-50, bleu très clair) contraste correctement. En dark, ce même bleu
 sombre est utilisé comme **couleur de texte** sur un fond `feedback-info-bg`
 qui est lui-même très sombre (mix 18 % de info-500 sur transparent ≈
-neutral-900) — d'où un bleu sombre sur bleu sombre, illisible.
+neutral-900) - d'où un bleu sombre sur bleu sombre, illisible.
 
 Le fix est analogue à ce qu'on fait déjà pour `--color-brand-primary` :
 on aligne `--color-feedback-info` sur `primary-400` (#5980ff) en dark.
 Cet alignement préserve l'invariant "info = primary" (vrai en light via
-`info-500 = primary-500`) — sans ce choix, l'item courant du SideMenu
+`info-500 = primary-500`) - sans ce choix, l'item courant du SideMenu
 (qui utilise `brand-primary`) et un bandeau Notification info, identiques
 en light, divergeraient en dark. Les tons saturés des autres feedbacks
 (success-500 vert vif, warning-500 orange vif, danger-500 rouge vif)
