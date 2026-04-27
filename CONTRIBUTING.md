@@ -1,0 +1,208 @@
+# Contribuer à Ori
+
+Merci de l'intérêt porté à Ori, le design system des services
+administratifs de la Polynésie française.
+
+Ori est principalement développé par et pour l'administration PF, mais
+les contributions externes sont les bienvenues, en particulier sur les
+sujets transverses (accessibilité, performance, documentation,
+correctifs de bugs).
+
+## Avant de contribuer
+
+### Niveau de support
+
+Ori est maintenu en mode **best-effort, sans engagement de SLA**. Les
+contributions sont filtrées par les besoins des services PF qui
+consomment le DS. Une demande qui ne sert pas un usage administratif
+polynésien peut être refusée même si techniquement valide.
+
+### Avant d'ouvrir une PR significative
+
+Pour toute contribution autre qu'un correctif évident (typo, lien
+cassé, classe CSS oubliée), **ouvrir une issue d'abord** pour discuter
+du besoin. Cela évite de produire du code qui ne sera pas mergé pour
+des raisons de design ou de stratégie.
+
+### Code de conduite
+
+Ce projet suit le [Contributor Covenant](./CODE_OF_CONDUCT.md).
+Toute interaction avec le projet (issues, PR, discussions) y est
+soumise.
+
+## Mise en place de l'environnement
+
+### Prérequis
+
+- **Node.js 20.11+** (recommandé : Node 24 LTS, comme la CI)
+- **pnpm 10.29+** (gestionnaire de paquets — `corepack enable && corepack prepare pnpm@latest --activate`)
+- **Git**
+- **Docker** (optionnel, pour tester la CI en local via `act`)
+
+### Installation
+
+```bash
+git clone https://github.com/govpf/ori.git
+cd ori
+pnpm install
+```
+
+### Builds des packages
+
+Tous les packages doivent être buildés avant de pouvoir lancer les
+applications consommatrices (Storybooks, demo-portail, site Astro) :
+
+```bash
+pnpm -r --filter "./packages/*" build
+```
+
+### Lancer les apps en développement
+
+```bash
+pnpm storybook:react       # Storybook React, port 6006
+pnpm storybook:angular     # Storybook Angular, port 6008
+pnpm demo:portail          # Demo end-to-end portail usager, port 5174
+pnpm playground:static     # HTML pur consommant ori-css, port 4173
+```
+
+### Tester la CI en local
+
+Le repo embarque un wrapper Docker pour exécuter les workflows GitHub
+Actions sans les pousser :
+
+```bash
+./tools/act/run.sh push                  # tout le pipeline
+./tools/act/run.sh push -j format        # un job spécifique
+```
+
+Voir [tools/act/README.md](./tools/act/README.md) pour le détail.
+
+## Process de contribution
+
+### 1. Fork et branche
+
+```bash
+gh repo fork govpf/ori --clone
+cd ori
+git checkout -b feat/nom-court-explicite
+```
+
+Conventions de nommage de branche :
+
+- `feat/...` : nouvelle fonctionnalité
+- `fix/...` : correction de bug
+- `docs/...` : documentation seule
+- `refactor/...` : refactor sans changement de comportement
+- `chore/...` : maintenance, deps, build
+
+### 2. Coder en respectant les principes
+
+Ori suit quelques règles de fond, documentées dans la page
+**Décisions de design** du Storybook :
+
+- **RGAA AA est la baseline obligatoire** (a11y vérifiée à chaque PR)
+- **Préférer le HTML natif** quand il couvre le besoin
+- **Bundle minimal** : chaque dépendance ajoutée doit être justifiée
+- **Généricité institutionnelle** : pas de domaine métier hardcodé
+- **Aucun dark pattern**
+
+Pour toute modification d'un composant DS (`packages/react/`,
+`packages/angular/`, `packages/tailwind-preset/`) :
+
+- La modification doit être appliquée **en miroir** côté React et
+  côté Angular (sauf si volontairement single-framework, dans ce cas
+  justifier dans la PR)
+- Les classes CSS `.ori-*` doivent rester cohérentes entre les deux
+- Les stories doivent être mises à jour dans les deux Storybooks
+
+### 3. Vérifier localement avant push
+
+```bash
+# Format Prettier
+pnpm format:check
+
+# Build de tous les packages
+pnpm -r --filter "./packages/*" build
+
+# Build des apps consommatrices
+pnpm --filter @govpf/ori-storybook-react build
+pnpm --filter @govpf/ori-storybook-angular build
+pnpm --filter @govpf/ori-site build
+pnpm --filter @govpf/ori-demo-portail build
+```
+
+### 4. Conventions de commits
+
+Format **Conventional Commits** :
+
+```
+<type>(<scope optionnel>): <description courte>
+
+<corps optionnel>
+
+<footer optionnel>
+```
+
+Types courants :
+
+- `feat` : nouvelle fonctionnalité
+- `fix` : correction de bug
+- `docs` : documentation
+- `refactor` : refactor sans changement comportemental
+- `perf` : amélioration de performance
+- `test` : ajout ou modification de tests
+- `chore` : maintenance, build, deps
+- `ci` : workflows CI/CD
+
+Exemples :
+
+```
+feat(react): add FileCard component
+fix(angular): correct Tooltip aria-describedby on focus
+docs(storybook): document the Statistic.trend.positive prop
+```
+
+### 5. Ouvrir la pull request
+
+Le repo a un [template de PR](./.github/PULL_REQUEST_TEMPLATE.md)
+qui rappelle les checks attendus :
+
+- Cross-framework (React + Angular)
+- Accessibilité
+- Tests manuels (clair/sombre, mobile/desktop)
+- Documentation à jour
+
+La CI doit être verte sur tous les jobs avant qu'une PR puisse être
+mergée. Les status checks requis sont configurés dans le ruleset
+`protect-main` du repo.
+
+## Architecture du monorepo
+
+```
+ori/
+├── packages/
+│   ├── tokens/              # Source : design tokens (Style Dictionary)
+│   ├── tailwind-preset/     # Preset Tailwind généré depuis les tokens
+│   ├── css/                 # Bundle ori.css drop-in
+│   ├── react/               # Composants React (@govpf/ori-react)
+│   ├── angular/             # Composants Angular (@govpf/ori-angular)
+│   └── docs/                # MDX transverse partagé entre les Storybooks
+└── apps/
+    ├── ori-site/            # Site documentaire (Astro)
+    ├── storybook-react/     # Storybook test React
+    ├── storybook-angular/   # Storybook test Angular
+    ├── playground-static/   # Démo HTML pur du livrable CSS
+    ├── playground-react/    # Démo Vite + React
+    ├── playground-angular/  # Démo Angular CLI
+    └── demo-portail/        # Démo end-to-end portail usager
+```
+
+## Mainteneur principal
+
+- **Léonard Tavae** ([@sitle](https://github.com/sitle))
+- Contact : leonard.tavae@administration.gov.pf
+
+## Questions
+
+Pour toute question qui ne relève pas d'une issue, ouvrir une
+**Discussion** sur le repo, ou écrire au mainteneur principal.
