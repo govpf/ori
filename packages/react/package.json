@@ -38,5 +38,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/govpf/ori.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://ori.gov.pf",
+  "bugs": {
+    "url": "https://github.com/govpf/ori/issues"
   }
 }
