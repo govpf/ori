@@ -1,0 +1,105 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Installation - React"
+current: "react-installation"
+headerCurrent: "components"
+---
+
+# Installation - React / Next.js
+
+Cette page documente l'installation de Ori dans une app **React** ou
+**Next.js**. Pour Angular, voir la section dédiée du Storybook Angular.
+
+## Prérequis
+
+- Node.js 20+
+- React 18+ ou 19
+- Tailwind CSS v3
+
+## 1. Installer les paquets
+
+```bash
+pnpm add @govpf/ori-react @govpf/ori-tokens @govpf/ori-tailwind-preset @govpf/ori-css
+```
+
+`@govpf/ori-react` contient les composants. Les trois autres paquets
+fournissent respectivement les tokens DTCG, le preset Tailwind, et le
+CSS de base (variables CSS, reset, fonts).
+
+## 2. Brancher le preset Tailwind
+
+Dans `tailwind.config.ts` :
+
+```ts
+import { pfDsPreset } from '@govpf/ori-tailwind-preset';
+
+export default {
+  presets: [pfDsPreset],
+  content: [
+    './src/**/*.{ts,tsx}',
+    // Inclure les composants Ori pour que Tailwind voie les classes utilisées
+    './node_modules/@govpf/ori-react/dist/**/*.js',
+  ],
+};
+```
+
+## 3. Importer le CSS de base
+
+Dans le point d'entrée de l'app (`app/layout.tsx` pour Next.js App
+Router, ou `pages/_app.tsx`) :
+
+```tsx
+import '@govpf/ori-css/preview.css';
+import '@govpf/ori-tokens/css';
+```
+
+L'ordre importe : les tokens d'abord (variables CSS), le CSS de base
+ensuite.
+
+## 4. Utiliser un composant
+
+```tsx
+import { Button } from '@govpf/ori-react';
+
+export default function Home() {
+  return <Button variant="primary">Démarrer une démarche</Button>;
+}
+```
+
+## Next.js App Router (RSC)
+
+Les composants de Ori qui utilisent des hooks React (`useState`,
+`useEffect`, `useId`) sont **client-side** et doivent être rendus dans
+des Client Components.
+
+- `<Button>`, `<Card>`, `<Logo>`, `<Tag>`, `<Avatar>`, `<Highlight>`,
+  `<Skeleton>` sont **compatibles RSC** (pas de state interne).
+- `<Input>`, `<Checkbox>`, `<Tooltip>`, `<Tabs>`, `<Dialog>`,
+  `<Toast>`, etc. nécessitent un `'use client'` en haut du fichier qui
+  les consomme.
+
+```tsx
+'use client';
+
+import { Tabs } from '@govpf/ori-react';
+// ...
+```
+
+## Theme sombre
+
+Le DS supporte light/dark via `data-theme="dark"` sur `<html>` ou
+`<body>`. Pour basculer programmatiquement :
+
+```tsx
+document.documentElement.setAttribute('data-theme', 'dark');
+```
+
+Pour la persistance utilisateur, l'app doit gérer un toggle (localStorage,
+cookie, etc.) côté applicatif - le DS ne fournit pas de hook de
+persistance opinionné.
+
+## Voir aussi
+
+- [Patterns React](?path=/docs/react-patterns--docs) - création d'un
+  composant qui consomme le DS
+- [Documentation générale / Décisions de design](?path=/docs/documentation-générale-décisions-de-design--docs)

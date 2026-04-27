@@ -1,0 +1,241 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Connexion (Keycloak)"
+current: "login"
+headerCurrent: "components"
+---
+
+# AuthLogin - Mire d'authentification Keycloak
+
+Cette page est la **spécification design** de la mire de connexion
+Keycloak (`login.ftl`). Elle est destinée aux équipes qui développent
+le thème Keycloak à partir de cette référence.
+
+> **Rappel décision K.1** : pas de composant React/Angular pour cet
+> écran. Le rendu cible est du **HTML+CSS pur** rendu côté serveur
+> Keycloak (FTL). Les blocs ci-dessous sont à copier-coller dans le
+> `.ftl` avec les adaptations FreeMarker indiquées.
+
+## Contexte d'usage
+
+L'écran s'affiche quand un usager polynésien tente d'accéder à une app
+administrative et n'est pas authentifié. Keycloak redirige vers
+`login.ftl`, qui doit produire le rendu ci-dessous.
+
+## Rendu visuel - Variante par défaut
+
+<div style={{ minHeight: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', backgroundColor: 'var(--color-surface-muted)' }}>
+  <div className="ori-card ori-card--elevated" style={{ width: '100%', maxWidth: '24rem' }}>
+    <div className="ori-card__body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="ori-logo">
+          <img src="/assets/logo-pf.svg" alt="" className="ori-logo__crest" />
+          <span className="ori-logo__text">
+            <span className="ori-logo__title">Polynésie française</span>
+            <span className="ori-logo__subtitle">Démarches en ligne</span>
+          </span>
+        </span>
+      </div>
+
+      <h1 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600, textAlign: 'center' }}>Connexion</h1>
+
+      <form style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+        <div className="ori-field">
+          <label htmlFor="al-username" className="ori-field__label ori-field__label--required">Identifiant</label>
+          <input id="al-username" name="username" type="text" autoComplete="username" required className="ori-input" />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+          <div className="ori-field">
+            <label htmlFor="al-password" className="ori-field__label ori-field__label--required">Mot de passe</label>
+            <input id="al-password" name="password" type="password" autoComplete="current-password" required className="ori-input" />
+          </div>
+          <a href="#" className="ori-link ori-link--quiet" style={{ alignSelf: 'flex-end', fontSize: '0.8125rem' }}>Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" className="ori-btn ori-btn--primary ori-btn--block">Se connecter</button>
+      </form>
+
+      <p style={{ margin: 0, textAlign: 'center', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        Pas encore de compte ? <a href="#" className="ori-link">Créer un compte</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+## Variante - Avec message d'erreur
+
+<div style={{ minHeight: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', backgroundColor: 'var(--color-surface-muted)' }}>
+  <div className="ori-card ori-card--elevated" style={{ width: '100%', maxWidth: '24rem' }}>
+    <div className="ori-card__body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="ori-logo">
+          <img src="/assets/logo-pf.svg" alt="" className="ori-logo__crest" />
+          <span className="ori-logo__text">
+            <span className="ori-logo__title">Polynésie française</span>
+            <span className="ori-logo__subtitle">Démarches en ligne</span>
+          </span>
+        </span>
+      </div>
+
+      <h1 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600, textAlign: 'center' }}>Connexion</h1>
+
+      <div className="ori-alert ori-alert--danger" role="alert">
+        <div className="ori-alert__content">Identifiant ou mot de passe incorrect.</div>
+      </div>
+
+      <form style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+        <div className="ori-field">
+          <label htmlFor="al-err-username" className="ori-field__label ori-field__label--required">Identifiant</label>
+          <input id="al-err-username" name="username" type="text" autoComplete="username" required className="ori-input" />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+          <div className="ori-field">
+            <label htmlFor="al-err-password" className="ori-field__label ori-field__label--required">Mot de passe</label>
+            <input id="al-err-password" name="password" type="password" autoComplete="current-password" required className="ori-input" aria-invalid="true" />
+          </div>
+          <a href="#" className="ori-link ori-link--quiet" style={{ alignSelf: 'flex-end', fontSize: '0.8125rem' }}>Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" className="ori-btn ori-btn--primary ori-btn--block">Se connecter</button>
+      </form>
+
+      <p style={{ margin: 0, textAlign: 'center', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        Pas encore de compte ? <a href="#" className="ori-link">Créer un compte</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+## Code HTML pour le `.ftl` Keycloak
+
+À copier-coller dans `login.ftl`. Les blocs FreeMarker (`<#if …>`,
+`${…}`) sont expliqués dans la section spec ci-après.
+
+```html
+<div class="pf-auth-page">
+  <div class="ori-card ori-card--elevated pf-auth-card">
+    <div class="ori-card__body pf-auth-body">
+      <div class="pf-auth-brand">
+        <span class="ori-logo">
+          <img src="${url.resourcesPath}/img/logo-pf.svg" alt="" class="ori-logo__crest" />
+          <span class="ori-logo__text">
+            <span class="ori-logo__title">Polynésie française</span>
+            <span class="ori-logo__subtitle">${realm.displayName!''}</span>
+          </span>
+        </span>
+      </div>
+
+      <h1 class="pf-auth-title">${msg("loginAccountTitle")}</h1>
+
+      <#if message?has_content && (messagesPerField.exists('username') || messagesPerField.exists('password'))>
+        <div class="ori-alert ori-alert--danger" role="alert">
+          <div class="ori-alert__content">${kcSanitize(message.summary)?no_esc}</div>
+        </div>
+      </#if>
+
+      <form id="kc-form-login" action="${url.loginAction}" method="post" class="pf-auth-form">
+        <div class="ori-field">
+          <label for="username" class="ori-field__label ori-field__label--required">${msg("usernameOrEmail")}</label>
+          <input id="username" name="username" type="text" autocomplete="username"
+                 value="${(login.username!'')}" required class="ori-input"
+                 aria-invalid="<#if messagesPerField.existsError('username')>true</#if>" />
+        </div>
+
+        <div class="pf-auth-password-block">
+          <div class="ori-field">
+            <label for="password" class="ori-field__label ori-field__label--required">${msg("password")}</label>
+            <input id="password" name="password" type="password" autocomplete="current-password"
+                   required class="ori-input"
+                   aria-invalid="<#if messagesPerField.existsError('password')>true</#if>" />
+          </div>
+          <#if realm.resetPasswordAllowed>
+            <a href="${url.loginResetCredentialsUrl}" class="ori-link ori-link--quiet pf-auth-forgot">${msg("doForgotPassword")}</a>
+          </#if>
+        </div>
+
+        <button type="submit" class="ori-btn ori-btn--primary ori-btn--block">${msg("doLogIn")}</button>
+      </form>
+
+      <#if realm.registrationAllowed && !registrationDisabled??>
+        <p class="pf-auth-register">
+          ${msg("noAccount")} <a href="${url.registrationUrl}" class="ori-link">${msg("doRegister")}</a>
+        </p>
+      </#if>
+    </div>
+  </div>
+</div>
+```
+
+### CSS d'accompagnement (à ajouter au theme Keycloak)
+
+Les classes `pf-auth-*` ne font pas partie du DS - ce sont des classes
+de page propres au template Keycloak. Elles servent uniquement à
+positionner le bloc.
+
+```css
+.pf-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: var(--color-surface-muted);
+}
+.pf-auth-card { width: 100%; max-width: 24rem; }
+.pf-auth-body { display: flex; flex-direction: column; gap: 1.25rem; }
+.pf-auth-brand { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.pf-auth-title { margin: 0; font-size: 1.125rem; font-weight: 600; text-align: center; }
+.pf-auth-form { display: flex; flex-direction: column; gap: 0.875rem; }
+.pf-auth-password-block { display: flex; flex-direction: column; gap: 0.25rem; }
+.pf-auth-forgot { align-self: flex-end; font-size: 0.8125rem; }
+.pf-auth-register { margin: 0; text-align: center; font-size: 0.875rem; color: var(--color-text-secondary); }
+```
+
+## Spécification fonctionnelle
+
+### Libellés (bundle `messages_fr.properties`)
+
+```properties
+loginAccountTitle=Connexion
+usernameOrEmail=Identifiant
+password=Mot de passe
+doLogIn=Se connecter
+doForgotPassword=Mot de passe oublié ?
+noAccount=Pas encore de compte ?
+doRegister=Créer un compte
+```
+
+### Champs HTTP postés à `${url.loginAction}`
+
+| Champ | Type | Notes |
+|---|---|---|
+| `username` | `text` ou `email` | Selon le realm. Autocomplete `username`. |
+| `password` | `password` | Toujours `autocomplete="current-password"`. |
+
+### Conditionnels FTL utilisés
+
+- `realm.resetPasswordAllowed` - affiche le lien "Mot de passe oublié ?"
+- `realm.registrationAllowed && !registrationDisabled??` - affiche le bloc de création de compte
+- `messagesPerField.existsError('username')` / `('password')` - applique `aria-invalid="true"` sur le champ correspondant
+- `message?has_content` - affiche l'alerte d'erreur globale en haut
+
+### Accessibilité
+
+- `<form>` natif : soumission par Enter
+- `<label>` lié à chaque `<input>` via `for=`
+- `aria-invalid="true"` sur le champ en erreur
+- `<div class="ori-alert" role="alert">` annoncé immédiatement par les lecteurs d'écran
+- Focus initial : sur le champ `username` (Keycloak le gère par défaut, pas d'override nécessaire)
+
+### Anti-patterns à ne pas reproduire
+
+- ❌ Pas de captcha visuel imposé à la première tentative (anti-pattern RGAA)
+- ❌ Pas de "voir le mot de passe" non sécurisé (si demandé, à spécifier ultérieurement avec mécanisme de masquage temporel)
+- ❌ Pas de boutons "Connexion via Google / FranceConnect" sur cette page (à spécifier dans un écran séparé)
+
+## Variantes selon la config du realm
+
+| Realm config | Effet visuel |
+|---|---|
+| `realm.resetPasswordAllowed = false` | Le lien "Mot de passe oublié ?" disparaît |
+| `realm.registrationAllowed = false` | Le bloc "Pas encore de compte ?" disparaît entièrement |
+| Identifiant = email uniquement | `<input type="email">` au lieu de `text`, libellé "Adresse email" via override de `usernameOrEmail` |
+| Champ identifiant pré-rempli (`loginHint`) | Focus initial sur `password` au lieu de `username` |

@@ -1,0 +1,109 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Installation - Angular"
+current: "angular-installation"
+headerCurrent: "components"
+---
+
+# Installation - Angular
+
+Cette page documente l'installation de Ori dans une app **Angular**
+(standalone). Pour React/Next.js, voir la section dédiée du Storybook
+React.
+
+## Prérequis
+
+- Node.js 20+
+- Angular 20+ (avec composants standalone)
+- Tailwind CSS v3
+
+## 1. Installer les paquets
+
+```bash
+pnpm add @govpf/ori-angular @govpf/ori-tokens @govpf/ori-tailwind-preset @govpf/ori-css
+pnpm add @angular/cdk lucide-angular
+```
+
+`@angular/cdk` est requis pour le focus-trap du `<ori-dialog>`.
+`lucide-angular` est requis pour les icônes utilisées par certains
+composants (Alert, FileUpload, Toast, etc.).
+
+## 2. Brancher le preset Tailwind
+
+Dans `tailwind.config.ts` :
+
+```ts
+import { pfDsPreset } from '@govpf/ori-tailwind-preset';
+
+export default {
+  presets: [pfDsPreset],
+  content: [
+    './src/**/*.{ts,html}',
+    // Inclure les composants Ori pour que Tailwind voie les classes utilisées
+    './node_modules/@govpf/ori-angular/**/*.mjs',
+  ],
+};
+```
+
+## 3. Importer le CSS de base
+
+Dans `src/styles.css` :
+
+```css
+@import '@govpf/ori-tokens/css';
+@import '@govpf/ori-css/preview.css';
+```
+
+L'ordre importe : les tokens d'abord (variables CSS), le CSS de base
+ensuite.
+
+## 4. Utiliser un composant
+
+Composants standalone, à importer dans le tableau `imports` du composant
+qui les consomme :
+
+```ts
+import { Component } from '@angular/core';
+import { OriButtonComponent } from '@govpf/ori-angular';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [OriButtonComponent],
+  template: `<ori-button variant="primary">Démarrer une démarche</ori-button>`,
+})
+export class HomeComponent {}
+```
+
+## Forms réactifs
+
+Les composants form de Ori (`<ori-input>`, `<ori-checkbox>`,
+`<ori-select>`, etc.) sont compatibles avec `[(ngModel)]` via le couple
+`[value]` / `(valueChange)` :
+
+```html
+<ori-input
+  label="Nom"
+  required
+  [(value)]="model.name"
+></ori-input>
+```
+
+Pour `ReactiveFormsModule`, l'app peut wrapper ou accéder via
+`ViewChild`. Un `ControlValueAccessor` natif n'est pas fourni par le
+DS pour rester découplé de `@angular/forms` (les apps qui utilisent
+des Signals exclusivement n'en ont pas besoin).
+
+## Theme sombre
+
+Le DS supporte light/dark via `data-theme="dark"` sur l'élément racine :
+
+```ts
+document.documentElement.setAttribute('data-theme', 'dark');
+```
+
+## Voir aussi
+
+- [Patterns Angular](?path=/docs/angular-patterns--docs) - création
+  d'un composant qui consomme le DS
+- [Documentation générale / Décisions de design](?path=/docs/documentation-générale-décisions-de-design--docs)

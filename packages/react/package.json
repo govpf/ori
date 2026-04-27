@@ -11,6 +11,14 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./marketing": {
+      "import": "./dist/marketing/index.js",
+      "types": "./dist/marketing/index.d.ts"
+    },
+    "./docs": {
+      "import": "./dist/docs/index.js",
+      "types": "./dist/docs/index.d.ts"
     }
   },
   "files": [

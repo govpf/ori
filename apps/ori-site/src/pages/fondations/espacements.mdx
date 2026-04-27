@@ -1,0 +1,47 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Espacements"
+current: "espacements"
+headerCurrent: "tokens"
+---
+
+export const wrapStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 32,
+  padding: 24,
+  fontFamily: 'Inter, system-ui, sans-serif',
+  color: 'var(--color-text-primary)',
+  backgroundColor: 'var(--color-surface-base)',
+};
+
+export const scale = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24];
+
+<div style={wrapStyle}>
+
+# Spacing
+
+Échelle d'espacements (rem). Utilisée pour les paddings, marges, gaps.
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+  {scale.map((s) => (
+    <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <code style={{ minWidth: 80, color: 'var(--color-text-muted)', fontSize: 11 }}>
+        spacing-{s}
+      </code>
+      <div
+        style={{
+          height: 16,
+          width: `var(--spacing-${s})`,
+          backgroundColor: 'var(--color-brand-primary)',
+          borderRadius: 2,
+        }}
+      />
+      <code style={{ color: 'var(--color-text-muted)', fontSize: 11 }}>
+        var(--spacing-{s})
+      </code>
+    </div>
+  ))}
+</div>
+
+</div>

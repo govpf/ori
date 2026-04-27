@@ -1,0 +1,83 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Palette"
+current: "palette"
+headerCurrent: "tokens"
+---
+
+export const wrapStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 32,
+  padding: 24,
+  fontFamily: 'Inter, system-ui, sans-serif',
+  color: 'var(--color-text-primary)',
+  backgroundColor: 'var(--color-surface-base)',
+};
+
+export const sectionTitle = {
+  fontSize: 14,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+  color: 'var(--color-text-secondary)',
+  margin: 0,
+};
+
+export const Swatch = ({ name, varName, hint }) => (
+  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+    <div
+      style={{
+        width: 56,
+        height: 56,
+        borderRadius: 8,
+        backgroundColor: `var(${varName})`,
+        boxShadow: 'inset 0 0 0 1px var(--color-border-subtle)',
+      }}
+    />
+    <div style={{ fontSize: 13 }}>
+      <div style={{ fontWeight: 600 }}>{name}</div>
+      <div style={{ color: 'var(--color-text-muted)', fontFamily: 'monospace', fontSize: 11 }}>
+        {varName}
+      </div>
+      {hint && <div style={{ color: 'var(--color-text-muted)', fontSize: 11 }}>{hint}</div>}
+    </div>
+  </div>
+);
+
+export const Scale = ({ title, prefix, shades }) => (
+  <section>
+    <h3 style={sectionTitle}>{title}</h3>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+        gap: 12,
+        marginTop: 12,
+      }}
+    >
+      {shades.map((s) => (
+        <Swatch key={s} name={`${title} / ${s}`} varName={`--color-${prefix}-${s}`} />
+      ))}
+    </div>
+  </section>
+);
+
+<div style={wrapStyle}>
+
+# Palette
+
+Tokens primitifs (nuanciers complets). Ne jamais utiliser directement dans un
+composant - passer par les **alias sémantiques** (page suivante).
+
+<Scale title="primary" prefix="primary" shades={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+
+<Scale title="neutral" prefix="neutral" shades={[0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+
+<Scale title="danger" prefix="danger" shades={[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]} />
+
+<Scale title="success" prefix="success" shades={[50, 100, 200, 400, 500, 600, 700]} />
+
+<Scale title="warning" prefix="warning" shades={[50, 100, 200, 400, 500, 600, 700]} />
+
+</div>

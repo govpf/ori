@@ -1,0 +1,204 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Inscription (Keycloak)"
+current: "register"
+headerCurrent: "components"
+---
+
+# AuthRegister - Création de compte Keycloak
+
+Spécification design de l'écran `register.ftl` Keycloak. HTML+CSS pur,
+à intégrer côté thème Keycloak.
+
+## Contexte d'usage
+
+Affiché quand un usager clique sur "Créer un compte" depuis la mire de
+connexion (cf. AuthLogin), si `realm.registrationAllowed = true`.
+
+## Rendu visuel
+
+<div style={{ minHeight: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', backgroundColor: 'var(--color-surface-muted)' }}>
+  <div className="ori-card ori-card--elevated" style={{ width: '100%', maxWidth: '28rem' }}>
+    <div className="ori-card__body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', padding: '1.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span className="ori-logo">
+          <img src="/assets/logo-pf.svg" alt="" className="ori-logo__crest" />
+          <span className="ori-logo__text">
+            <span className="ori-logo__title">Polynésie française</span>
+            <span className="ori-logo__subtitle">Démarches en ligne</span>
+          </span>
+        </span>
+      </div>
+
+      <h1 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600, textAlign: 'center' }}>Créer un compte</h1>
+
+      <form style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <div className="ori-field">
+            <label htmlFor="ar-firstname" className="ori-field__label ori-field__label--required">Prénom</label>
+            <input id="ar-firstname" name="firstName" type="text" autoComplete="given-name" required className="ori-input" />
+          </div>
+          <div className="ori-field">
+            <label htmlFor="ar-lastname" className="ori-field__label ori-field__label--required">Nom</label>
+            <input id="ar-lastname" name="lastName" type="text" autoComplete="family-name" required className="ori-input" />
+          </div>
+        </div>
+        <div className="ori-field">
+          <label htmlFor="ar-email" className="ori-field__label ori-field__label--required">Adresse email</label>
+          <input id="ar-email" name="email" type="email" autoComplete="email" required className="ori-input" />
+          <span className="ori-field__hint">Servira d'identifiant pour vous connecter.</span>
+        </div>
+        <div className="ori-field">
+          <label htmlFor="ar-password" className="ori-field__label ori-field__label--required">Mot de passe</label>
+          <input id="ar-password" name="password" type="password" autoComplete="new-password" required className="ori-input" />
+          <span className="ori-field__hint">12 caractères minimum, dont une majuscule, un chiffre et un caractère spécial.</span>
+        </div>
+        <div className="ori-field">
+          <label htmlFor="ar-password-confirm" className="ori-field__label ori-field__label--required">Confirmer le mot de passe</label>
+          <input id="ar-password-confirm" name="password-confirm" type="password" autoComplete="new-password" required className="ori-input" />
+        </div>
+        <button type="submit" className="ori-btn ori-btn--primary ori-btn--block">Créer le compte</button>
+      </form>
+
+      <p style={{ margin: 0, textAlign: 'center', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+        Vous avez déjà un compte ? <a href="#" className="ori-link">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+## Code HTML pour `register.ftl`
+
+```html
+<div class="pf-auth-page">
+  <div class="ori-card ori-card--elevated pf-auth-card-wide">
+    <div class="ori-card__body pf-auth-body">
+      <div class="pf-auth-brand">
+        <span class="ori-logo">
+          <img src="${url.resourcesPath}/img/logo-pf.svg" alt="" class="ori-logo__crest" />
+          <span class="ori-logo__text">
+            <span class="ori-logo__title">Polynésie française</span>
+            <span class="ori-logo__subtitle">${realm.displayName!''}</span>
+          </span>
+        </span>
+      </div>
+
+      <h1 class="pf-auth-title">${msg("registerTitle")}</h1>
+
+      <#if message?has_content>
+        <div class="ori-alert ori-alert--danger" role="alert">
+          <div class="ori-alert__content">${kcSanitize(message.summary)?no_esc}</div>
+        </div>
+      </#if>
+
+      <form id="kc-register-form" action="${url.registrationAction}" method="post" class="pf-auth-form">
+        <div class="pf-auth-row-2">
+          <div class="ori-field">
+            <label for="firstName" class="ori-field__label ori-field__label--required">${msg("firstName")}</label>
+            <input id="firstName" name="firstName" type="text" autocomplete="given-name"
+                   value="${(register.formData.firstName!'')}" required class="ori-input"
+                   aria-invalid="<#if messagesPerField.existsError('firstName')>true</#if>" />
+          </div>
+          <div class="ori-field">
+            <label for="lastName" class="ori-field__label ori-field__label--required">${msg("lastName")}</label>
+            <input id="lastName" name="lastName" type="text" autocomplete="family-name"
+                   value="${(register.formData.lastName!'')}" required class="ori-input"
+                   aria-invalid="<#if messagesPerField.existsError('lastName')>true</#if>" />
+          </div>
+        </div>
+
+        <div class="ori-field">
+          <label for="email" class="ori-field__label ori-field__label--required">${msg("email")}</label>
+          <input id="email" name="email" type="email" autocomplete="email"
+                 value="${(register.formData.email!'')}" required class="ori-input"
+                 aria-invalid="<#if messagesPerField.existsError('email')>true</#if>" />
+          <span class="ori-field__hint">${msg("emailHint")}</span>
+        </div>
+
+        <#if passwordRequired??>
+          <div class="ori-field">
+            <label for="password" class="ori-field__label ori-field__label--required">${msg("password")}</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" required class="ori-input"
+                   aria-invalid="<#if messagesPerField.existsError('password')>true</#if>" />
+            <span class="ori-field__hint">${msg("passwordPolicyHint")}</span>
+          </div>
+          <div class="ori-field">
+            <label for="password-confirm" class="ori-field__label ori-field__label--required">${msg("passwordConfirm")}</label>
+            <input id="password-confirm" name="password-confirm" type="password" autocomplete="new-password" required class="ori-input"
+                   aria-invalid="<#if messagesPerField.existsError('password-confirm')>true</#if>" />
+          </div>
+        </#if>
+
+        <button type="submit" class="ori-btn ori-btn--primary ori-btn--block">${msg("doRegister")}</button>
+      </form>
+
+      <p class="pf-auth-register">
+        ${msg("backToLogin")} <a href="${url.loginUrl}" class="ori-link">${msg("doLogIn")}</a>
+      </p>
+    </div>
+  </div>
+</div>
+```
+
+### CSS d'accompagnement
+
+```css
+.pf-auth-card-wide { width: 100%; max-width: 28rem; }
+.pf-auth-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) {
+  .pf-auth-row-2 { grid-template-columns: 1fr; }
+}
+```
+
+(Les autres classes `pf-auth-*` sont définies dans la spec
+[AuthLogin](?path=/docs/composants-fonctionnels-keycloak-authlogin--docs).)
+
+## Spécification fonctionnelle
+
+### Libellés (bundle `messages_fr.properties`)
+
+```properties
+registerTitle=Créer un compte
+firstName=Prénom
+lastName=Nom
+email=Adresse email
+emailHint=Servira d'identifiant pour vous connecter.
+password=Mot de passe
+passwordPolicyHint=12 caractères minimum, dont une majuscule, un chiffre et un caractère spécial.
+passwordConfirm=Confirmer le mot de passe
+doRegister=Créer le compte
+backToLogin=Vous avez déjà un compte ?
+doLogIn=Se connecter
+```
+
+### Champs HTTP postés à `${url.registrationAction}`
+
+| Champ | Type | Autocomplete |
+|---|---|---|
+| `firstName` | `text` | `given-name` |
+| `lastName` | `text` | `family-name` |
+| `email` | `email` | `email` |
+| `password` | `password` | `new-password` |
+| `password-confirm` | `password` | `new-password` |
+
+Les noms de champs (`firstName`, `email`, etc.) sont **imposés par
+Keycloak** - ne pas les renommer.
+
+### Conditionnels FTL
+
+- `passwordRequired??` - affiche les champs mot de passe (peut être
+  désactivé si l'inscription crée juste l'identité, mot de passe fixé
+  ensuite par email)
+- `messagesPerField.existsError('<field>')` - applique `aria-invalid="true"`
+  sur le champ correspondant
+- Si l'admin Keycloak active des **attributs custom** (téléphone, code
+  postal, etc.), itérer avec `<#list profile.attributes as attribute>` -
+  voir spec dédiée si ce cas concret se présente.
+
+### Accessibilité
+
+- Focus initial : `firstName`
+- `aria-invalid` sur les champs en erreur
+- Hint des règles de mot de passe **toujours visible** (RGAA : pas
+  d'info uniquement au focus)
+- Layout 2 colonnes prénom/nom **bascule en 1 colonne** sous 480px

@@ -11,8 +11,10 @@ const config: StorybookConfig = {
     '../../../packages/docs/src/tokens/*.mdx',
     '../../../packages/docs/src/functional/*.mdx',
     '../../../packages/docs/src/angular/*.mdx',
-    // Stories de composants Angular
+    // Stories de composants Angular (composants d'app + Publishing)
     '../../../packages/angular/src/**/*.stories.@(ts|mdx)',
+    '../../../packages/angular/marketing/**/*.stories.@(ts|mdx)',
+    '../../../packages/angular/docs/**/*.stories.@(ts|mdx)',
   ],
   addons: [
     '@storybook/addon-essentials',

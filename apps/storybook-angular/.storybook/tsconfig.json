@@ -8,7 +8,9 @@
   "include": [
     "./*.ts",
     "../../../packages/angular/src/**/*.stories.ts",
-    "../../../packages/angular/src/**/*.ts"
+    "../../../packages/angular/src/**/*.ts",
+    "../../../packages/angular/marketing/**/*.ts",
+    "../../../packages/angular/docs/**/*.ts"
   ],
   "exclude": ["../../../packages/angular/dist"]
 }
