@@ -16,7 +16,7 @@
     "@govpf/ori-react": "workspace:*",
     "@govpf/ori-tailwind-preset": "workspace:*",
     "@govpf/ori-tokens": "workspace:*",
-    "astro": "^4.16.18",
+    "astro": "^6.1.6",
     "lucide-react": "^0.456.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
