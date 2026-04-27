@@ -4,70 +4,34 @@ title: "Typographie"
 current: "typographie"
 headerCurrent: "tokens"
 ---
-
-export const wrapStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 32,
-  padding: 24,
-  fontFamily: 'Inter, system-ui, sans-serif',
-  color: 'var(--color-text-primary)',
-  backgroundColor: 'var(--color-surface-base)',
-};
-
-export const sectionTitle = {
-  fontSize: 14,
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  color: 'var(--color-text-secondary)',
-  margin: 0,
-};
-
-export const sizes = [
-  ['4xl', '--font-size-4xl'],
-  ['3xl', '--font-size-3xl'],
-  ['2xl', '--font-size-2xl'],
-  ['xl', '--font-size-xl'],
-  ['lg', '--font-size-lg'],
-  ['base', '--font-size-base'],
-  ['sm', '--font-size-sm'],
-  ['xs', '--font-size-xs'],
-];
-
-export const weights = [
-  ['regular', 400],
-  ['medium', 500],
-  ['semibold', 600],
-  ['bold', 700],
-];
-
-<div style={wrapStyle}>
+import TypeScale from '../../components/fondations/TypeScale.astro';
+import WeightScale from '../../components/fondations/WeightScale.astro';
+import LineHeightScale from '../../components/fondations/LineHeightScale.astro';
 
 # Typographie
 
-<section>
-  <h3 style={sectionTitle}>Tailles</h3>
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-    {sizes.map(([name, varName]) => (
-      <div key={name} style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-        <code style={{ minWidth: 64, color: 'var(--color-text-muted)', fontSize: 11 }}>{name}</code>
-        <span style={{ fontSize: `var(${varName})` }}>L'eau des lagons polynésiens</span>
-      </div>
-    ))}
-  </div>
-</section>
+La police principale est **Inter**, une variable font embarquée dans le
+package `@govpf/ori-tokens`. Elle est servie via `@font-face` au chargement
+et fonctionne hors-ligne (utile sur intranets et environnements GLPI
+on-premise).
 
-<section>
-  <h3 style={sectionTitle}>Graisses</h3>
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-    {weights.map(([name, w]) => (
-      <div key={name} style={{ display: 'flex', gap: 16, alignItems: 'baseline' }}>
-        <code style={{ minWidth: 80, color: 'var(--color-text-muted)', fontSize: 11 }}>{name}</code>
-        <span style={{ fontWeight: w, fontSize: 18 }}>L'eau des lagons polynésiens</span>
-      </div>
-    ))}
-  </div>
-</section>
+## Tailles
 
-</div>
+L'échelle suit une progression géométrique modérée pour conserver un
+contraste visuel sans casser la lecture sur des écrans aux DPI variés.
+
+<TypeScale />
+
+## Graisses
+
+Inter expose 9 graisses (100 à 900) ; le DS en utilise 4 pour limiter
+le bruit visuel et garder une hiérarchie nette.
+
+<WeightScale />
+
+## Hauteurs de ligne
+
+Le `line-height` est dissocié de la taille de police pour pouvoir
+recomposer librement. Trois valeurs couvrent l'essentiel des besoins.
+
+<LineHeightScale />

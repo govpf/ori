@@ -1,0 +1,66 @@
+---
+import { lineHeights } from '../../data/tokens';
+
+const sample =
+  "Les services administratifs de la Polynésie française accompagnent chaque jour les usagers dans leurs démarches. Ori fournit les composants visuels qui rendent ces parcours plus simples et plus accessibles.";
+---
+
+<div class="lh-scale">
+  {
+    lineHeights.map((lh) => (
+      <article class="lh-card">
+        <header class="lh-card__head">
+          <strong class="lh-card__name">{lh.name}</strong>
+          <code class="lh-card__value">{lh.value}</code>
+        </header>
+        <p class="lh-card__sample" style={`line-height: ${lh.value};`}>{sample}</p>
+        {lh.usage && <p class="lh-card__usage">{lh.usage}</p>}
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .lh-scale {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 2rem;
+  }
+  .lh-card {
+    padding: 1rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    background-color: var(--color-surface-base);
+  }
+  .lh-card__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.625rem;
+  }
+  .lh-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .lh-card__value {
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+  .lh-card__sample {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+  .lh-card__usage {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

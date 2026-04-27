@@ -1,0 +1,72 @@
+---
+import { radii } from '../../data/tokens';
+---
+
+<div class="radius-scale">
+  {
+    radii.map((r) => (
+      <article class="radius-card">
+        <div
+          class="radius-card__demo"
+          style={`border-radius: var(${r.varName});`}
+        />
+        <div class="radius-card__meta">
+          <strong class="radius-card__name">{r.name}</strong>
+          <code class="radius-card__value">{r.value}</code>
+          {r.usage && <span class="radius-card__usage">{r.usage}</span>}
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .radius-scale {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 2rem;
+  }
+  .radius-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    background-color: var(--color-surface-base);
+  }
+  .radius-card__demo {
+    width: 96px;
+    height: 96px;
+    background-color: var(--color-brand-primary-subtle);
+    border: 1px solid var(--color-brand-primary);
+  }
+  .radius-card__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+    text-align: center;
+  }
+  .radius-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .radius-card__value {
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+  .radius-card__usage {
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.4;
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Pourquoi Ori"
+current: "pourquoi"
+headerCurrent: "home"
+---
+
+# Pourquoi Ori
+
+Ori est le design system mutualisé des services administratifs de la
+Polynésie française. Il a été créé pour répondre à un constat simple :
+chaque administration construisait ses interfaces séparément, avec des
+résultats hétérogènes en qualité, en accessibilité et en cohérence
+visuelle.
+
+## Les principes
+
+### Accessibilité RGAA niveau AA
+
+Tous les composants sont conformes au **Référentiel Général d'Amélioration
+de l'Accessibilité**, niveau AA. C'est un prérequis légal pour les
+services publics français. Ori intègre les patterns ARIA, la gestion
+clavier, les attributs sémantiques et les contrastes nécessaires. Les
+équipes consommatrices n'ont pas à les ré-implémenter.
+
+### Multi-framework natif
+
+Ori existe simultanément en **React**, en **Angular**, et en **HTML
+statique** (via un bundle CSS prêt à l'emploi). Les trois implémentations
+partagent les mêmes tokens, le même comportement visuel, le même contrat
+d'API : changer de framework dans une équipe ne change pas le rendu pour
+l'usager.
+
+### Bundle minimal
+
+Le tree-shaking est de première classe : si une app n'utilise que
+`Button` et `Input`, elle ne paie pas le coût de `Dialog` ou `DatePicker`.
+Les classes utilitaires Tailwind du DS ne sont conservées que si elles
+apparaissent dans le code source.
+
+### Mode sombre natif
+
+Tous les tokens disposent d'une variante `dark`. La bascule se fait par
+un attribut `data-theme="dark"` sur la racine du document, sans
+recompilation et sans surcharge de CSS côté consommateur.
+
+### Cohérence cross-framework garantie
+
+Toute modification d'un composant est répliquée à l'identique sur les
+deux frameworks. Cette discipline est appliquée dès le code review : une
+PR qui ne touche qu'un côté est refusée, sauf cas explicitement
+documenté.
+
+## Pour qui
+
+Ori cible :
+
+- les **équipes internes** des services administratifs PF qui
+  développent les portails usagers, espaces agents et outils métier ;
+- les **prestataires** mandatés par l'administration PF pour livrer des
+  applications conformes à la charte ;
+- les **autres administrations** (hors PF) qui souhaitent réutiliser ou
+  s'inspirer du DS, sous licence MIT.
+
+## Qu'est-ce que ce n'est pas
+
+- **Pas un framework UI** : Ori s'appuie sur React et Angular, mais ne
+  les remplace pas. C'est une couche de composants applicatifs.
+- **Pas un substitut au backend** : aucune décision UI ne doit être
+  load-bearing pour la sécurité. Authentification, autorisation,
+  validation des entrées vivent côté serveur.
+- **Pas un outil de design** : Figma reste la source de vérité visuelle.
+  Ori implémente fidèlement les composants Figma, pas l'inverse.
+
+## Pour aller plus loin
+
+Une fois cette page lue, les prochaines étapes naturelles :
+
+- **[Installation React](/react/installation/)** - intégrer Ori dans un projet Vite, Next.js ou Remix.
+- **[Installation Angular](/angular/installation/)** - intégrer Ori dans un projet Angular 20 standalone.
+- **[Catalogue des composants](/composants/)** - liste des 36 composants disponibles avec liens Storybook.

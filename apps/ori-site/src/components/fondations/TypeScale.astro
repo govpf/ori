@@ -1,0 +1,79 @@
+---
+import { fontSizes } from '../../data/tokens';
+
+const sample = "L'eau des lagons polynésiens";
+---
+
+<table class="type-scale">
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Échantillon</th>
+      <th>rem</th>
+      <th>px</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      fontSizes.map((size) => (
+        <tr>
+          <td><code>{size.name}</code></td>
+          <td>
+            <span style={`font-size: ${size.rem}; line-height: 1.2;`}>{sample}</span>
+          </td>
+          <td><code>{size.rem}</code></td>
+          <td><code>{size.px}</code></td>
+          <td>{size.usage}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<style>
+  .type-scale {
+    width: 100%;
+    margin: 1rem 0 2rem;
+    border-collapse: collapse;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: var(--color-surface-base);
+  }
+  .type-scale thead {
+    background-color: var(--color-surface-muted);
+  }
+  .type-scale th {
+    padding: 0.625rem 0.875rem;
+    text-align: start;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .type-scale td {
+    padding: 0.875rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    vertical-align: middle;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .type-scale td:nth-child(2) {
+    color: var(--color-text-primary);
+  }
+  .type-scale tr:last-child td {
+    border-bottom: 0;
+  }
+  .type-scale code {
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    background-color: var(--color-surface-muted);
+    border: 1px solid var(--color-border-subtle);
+    padding: 0.0625rem 0.375rem;
+    border-radius: 0.1875rem;
+    color: var(--color-text-primary);
+  }
+</style>

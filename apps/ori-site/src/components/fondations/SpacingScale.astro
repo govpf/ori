@@ -1,0 +1,84 @@
+---
+import { spacings } from '../../data/tokens';
+
+// On ignore le spacing-0 dans la viz (barre invisible).
+const visible = spacings.filter((s) => s.shade !== '0');
+---
+
+<table class="spacing-scale">
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>rem</th>
+      <th>px</th>
+      <th>Représentation</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      visible.map((s) => (
+        <tr>
+          <td><code>{s.shade}</code></td>
+          <td><code>{s.rem}</code></td>
+          <td><code>{s.px}</code></td>
+          <td>
+            <span class="spacing-bar" style={`width: ${s.rem};`} />
+          </td>
+          <td>{s.usage}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<style>
+  .spacing-scale {
+    width: 100%;
+    margin: 1rem 0 2rem;
+    border-collapse: collapse;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: var(--color-surface-base);
+  }
+  .spacing-scale thead {
+    background-color: var(--color-surface-muted);
+  }
+  .spacing-scale th {
+    padding: 0.625rem 0.875rem;
+    text-align: start;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .spacing-scale td {
+    padding: 0.625rem 0.875rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    vertical-align: middle;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .spacing-scale tr:last-child td {
+    border-bottom: 0;
+  }
+  .spacing-scale code {
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    background-color: var(--color-surface-muted);
+    border: 1px solid var(--color-border-subtle);
+    padding: 0.0625rem 0.375rem;
+    border-radius: 0.1875rem;
+    color: var(--color-text-primary);
+  }
+  .spacing-bar {
+    display: inline-block;
+    height: 14px;
+    background-color: var(--color-brand-primary);
+    border-radius: 0.125rem;
+    vertical-align: middle;
+  }
+</style>

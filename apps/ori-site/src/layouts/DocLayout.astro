@@ -9,7 +9,7 @@ interface Heading {
   text: string;
 }
 
-interface Props {
+interface FrontmatterShape {
   title: string;
   description?: string;
   current: string;
@@ -18,6 +18,14 @@ interface Props {
    * Sert à mettre en surbrillance la nav du header.
    */
   headerCurrent?: string;
+}
+
+interface Props extends Partial<FrontmatterShape> {
+  /**
+   * Quand utilisé via `layout:` depuis un fichier MDX, Astro passe le
+   * frontmatter dans `Astro.props.frontmatter` plutôt qu'en props plates.
+   */
+  frontmatter?: FrontmatterShape;
   /**
    * Fourni automatiquement par Astro lorsqu'un fichier MDX utilise ce
    * layout via frontmatter `layout: ...`. Permet de générer la TOC.
@@ -25,7 +33,11 @@ interface Props {
   headings?: Heading[];
 }
 
-const { title, description, current, headerCurrent, headings = [] } = Astro.props;
+// Récupérer les props depuis le frontmatter MDX OU directement (cas où
+// le layout est utilisé depuis un fichier .astro).
+const fm = Astro.props.frontmatter ?? (Astro.props as FrontmatterShape);
+const { title, description, current, headerCurrent } = fm;
+const { headings = [] } = Astro.props;
 const hasToc = headings.some((h) => h.depth === 2 || h.depth === 3);
 ---
 
