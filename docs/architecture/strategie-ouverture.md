@@ -180,7 +180,7 @@ avant publication.
 - [x] Publication explicite en `--access public` (sinon les packages
       privés ne sont visibles que par l'organisation)
 - [x] Lockfile `pnpm-lock.yaml` committé et utilisé en CI (`pnpm install
-  --frozen-lockfile`)
+--frozen-lockfile`)
 - [x] Désigner les **mainteneurs autorisés à publier** (limite la
       surface d'attaque)
 - [ ] Plan de réponse documenté en cas de compromission de package
@@ -217,7 +217,7 @@ avant publication.
       par défaut, élargir au cas par cas)
 - [x] OIDC pour les déploiements (pas de long-lived tokens)
 - [x] Si un workflow publie sur npm : isolé, avec `environment:
-  production` pour ajouter une review manuelle
+production` pour ajouter une review manuelle
 
 ### H. Communication et lancement
 
