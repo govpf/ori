@@ -76,6 +76,11 @@ jobs:
         #   css (dep tailwind-preset + tokens)
         #   react (dep tokens)
         #   angular (dep tokens)
+        #
+        # Pour chaque package, on vérifie d'abord si la version courante
+        # n'est pas déjà publiée. Cela permet de republier partiellement
+        # (bumper un seul package en patch) sans que le workflow échoue
+        # sur les versions déjà publiées des autres.
         run: |
           set -euo pipefail
           DRY_RUN_FLAG=""
@@ -84,7 +89,13 @@ jobs:
             DRY_RUN_FLAG="--dry-run"
           fi
           for pkg in tokens tailwind-preset css react angular; do
-            echo "=== Publishing @govpf/ori-$pkg ==="
+            name="@govpf/ori-$pkg"
+            version=$(jq -r '.version' packages/$pkg/package.json)
+            echo "=== $name@$version ==="
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "Skip: $name@$version is already published."
+              continue
+            fi
             (cd packages/$pkg && npm publish $DRY_RUN_FLAG --provenance --access public)
           done
         env:
