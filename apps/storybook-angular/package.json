@@ -31,7 +31,7 @@
     "@storybook/addon-docs": "^8.6.18",
     "@storybook/addon-essentials": "^8.6.18",
     "@storybook/addon-themes": "^8.6.18",
-    "@storybook/angular": "^8.6.18",
+    "@storybook/angular": "^10.3.5",
     "@storybook/manager-api": "^8.6.18",
     "@storybook/theming": "^8.6.18",
     "autoprefixer": "^10.4.20",
