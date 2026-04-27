@@ -93,10 +93,16 @@ jobs:
             version=$(jq -r '.version' packages/$pkg/package.json)
             echo "=== $name@$version ==="
             if npm view "$name@$version" version >/dev/null 2>&1; then
-              echo "Skip: $name@$version is already published."
+              echo "Skip: $name@$version est déjà publié."
               continue
             fi
-            (cd packages/$pkg && npm publish $DRY_RUN_FLAG --provenance --access public)
+            # On utilise `pnpm publish` (et non `npm publish`) parce que
+            # pnpm résout automatiquement les `workspace:*` en versions
+            # concrètes (ex: `0.1.0`) au moment du packaging du tarball.
+            # Avec `npm publish`, les `workspace:*` restent tels quels
+            # dans le `package.json` publié, ce qui rend le package non
+            # installable hors du monorepo (EUNSUPPORTEDPROTOCOL).
+            (cd packages/$pkg && pnpm publish $DRY_RUN_FLAG --provenance --access public --no-git-checks)
           done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # fallback si OIDC pas encore actif
