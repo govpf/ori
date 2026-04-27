@@ -26,25 +26,25 @@ les images sont en cache.
 
 ## Cas courants
 
-| Commande | Effet |
-|---|---|
-| `./tools/act/run.sh push` | Joue tous les jobs du workflow `ci.yml` comme si on poussait sur main |
-| `./tools/act/run.sh push -j format` | Joue uniquement le job `format` |
-| `./tools/act/run.sh push -j build-packages` | Joue uniquement le build des packages |
-| `./tools/act/run.sh pull_request` | Simule une PR contre main |
-| `./tools/act/run.sh -l` | Liste les jobs et leurs dépendances |
-| `./tools/act/run.sh --graph` | Affiche le graphe des dépendances |
+| Commande                                    | Effet                                                                 |
+| ------------------------------------------- | --------------------------------------------------------------------- |
+| `./tools/act/run.sh push`                   | Joue tous les jobs du workflow `ci.yml` comme si on poussait sur main |
+| `./tools/act/run.sh push -j format`         | Joue uniquement le job `format`                                       |
+| `./tools/act/run.sh push -j build-packages` | Joue uniquement le build des packages                                 |
+| `./tools/act/run.sh pull_request`           | Simule une PR contre main                                             |
+| `./tools/act/run.sh -l`                     | Liste les jobs et leurs dépendances                                   |
+| `./tools/act/run.sh --graph`                | Affiche le graphe des dépendances                                     |
 
 ## Choix de l'image runner
 
 `act` utilise une image Docker pour simuler le runner Ubuntu de GitHub.
 Trois variantes sont supportées :
 
-| Variante | Taille | Inclus | Quand l'utiliser |
-|---|---|---|---|
-| `micro` | ~200 Mo | Outils minimaux | Pour des jobs très simples |
-| `medium` (défaut) | ~1.5 Go | Node, Python, Java, etc. | **Recommandé pour Ori** |
-| `large` | ~17 Go | Tout (parité GitHub) | Si un job échoue avec medium |
+| Variante          | Taille  | Inclus                   | Quand l'utiliser             |
+| ----------------- | ------- | ------------------------ | ---------------------------- |
+| `micro`           | ~200 Mo | Outils minimaux          | Pour des jobs très simples   |
+| `medium` (défaut) | ~1.5 Go | Node, Python, Java, etc. | **Recommandé pour Ori**      |
+| `large`           | ~17 Go  | Tout (parité GitHub)     | Si un job échoue avec medium |
 
 Pour changer la variante :
 

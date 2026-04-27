@@ -24,8 +24,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Version Node alignée sur l'engines.node de package.json (>=20.11.0).
-  NODE_VERSION: '20.11.1'
+  # Node 22 LTS : nécessaire pour ng-packagr 20+ qui échoue sur Node 20
+  # avec ERR_REQUIRE_ESM (find-cache-directory@6 est pure ESM, et la
+  # version CJS de ng-packagr ne peut pas la `require()` sous Node 20).
+  # L'engines.node du package.json racine reste >=20.11.0 pour garder
+  # une compat large côté consommateurs ; la CI elle-même tourne en 22.
+  NODE_VERSION: '22.11.0'
   # pnpm version alignée sur packageManager du package.json racine.
   PNPM_VERSION: '10.29.3'
 
