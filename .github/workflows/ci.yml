@@ -262,3 +262,51 @@ jobs:
         run: pnpm audit --prod --audit-level critical
       - name: Audit high (informational)
         run: pnpm audit --prod --audit-level high || true
+
+  # ─── Audit ciblé : packages publiés ───────────────────────────────────
+  # Garde stricte : tolérance zéro sur les paths qui commencent par
+  # `packages__` (= ce qui est installé chez les consommateurs des
+  # packages npm publiés `@govpf/*`). Les vulnérabilités dans les apps
+  # internes (`apps__*` : site doc, demos, playgrounds) restent gérées
+  # par le job `audit` ci-dessus.
+  #
+  # Ce gate formalise la posture documentée dans SECURITY.md : un service
+  # PF qui consomme @govpf/ori-react ne doit jamais hériter d'une CVE
+  # connue via la supply chain Ori.
+  audit-published:
+    name: Security audit (published packages)
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Fail on any vulnerability in published packages
+        run: |
+          # `pnpm audit --prod --json` renvoie un objet `advisories` quand
+          # il trouve quelque chose, ou rien sinon (exit 0). On capture le
+          # JSON et on filtre les paths qui touchent `packages/*`. Le
+          # filtre `// {}` rend la commande robuste même si le champ
+          # advisories est absent.
+          json=$(pnpm audit --prod --json 2>/dev/null || true)
+          paths=$(printf '%s' "$json" | jq -r '
+            [.advisories // {}
+             | to_entries[]
+             | .value
+             | {sev: .severity, pkg: .module_name, paths: .findings[].paths[]}
+             | select(.paths | startswith("packages__"))
+             | "\(.sev | ascii_upcase) - \(.pkg) via \(.paths)"
+            ] | .[]
+          ')
+          if [ -n "$paths" ]; then
+            echo "::error::Vulnérabilité détectée dans un package publié :"
+            echo "$paths"
+            exit 1
+          fi
+          echo "OK : aucune vulnérabilité dans les packages publiés."

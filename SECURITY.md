@@ -74,6 +74,47 @@ Sont **hors périmètre** :
   dépendances tierces (Angular, React, Tailwind, Lucide, etc.) - elles
   sont traitées via Dependabot
 
+## Posture de la supply chain
+
+Le dépôt contient deux familles de code aux exigences distinctes :
+
+- **Packages publiés** (`packages/{tokens,tailwind-preset,css,react,angular}`) :
+  c'est ce qui est installé chez les services consommateurs. Tolérance
+  zéro sur les vulnérabilités, quelle que soit la sévérité. La CI
+  applique cette garantie via le job
+  **Security audit (published packages)** qui échoue dès qu'un advisory
+  pnpm pointe vers un path `packages/*`.
+- **Apps internes** (`apps/{ori-site,demo-portail,playground-*,storybook-*}`) :
+  outils de documentation, démonstration et développement qui ne sont
+  pas publiés sur npm. Leurs vulnérabilités (Astro, Vite, esbuild, etc.)
+  ne se propagent pas aux consommateurs des packages. Elles sont
+  traitées en best-effort via le job **Security audit (pnpm audit)**
+  (bloquant sur `critical` uniquement), Dependabot et des bumps
+  périodiques.
+
+### Vérification côté consommateur
+
+Un service qui consomme Ori peut s'assurer que sa supply chain reste
+propre via les outils standards :
+
+```bash
+pnpm audit --prod        # ou npm audit --omit=dev / yarn audit
+```
+
+Aucune vulnérabilité connue ne devrait apparaître via les paths
+`@govpf/ori-*`. Si c'est le cas, ouvrir un advisory (cf. canaux
+ci-dessus) ou une issue publique selon la sévérité.
+
+### Principes côté Ori
+
+- Les `dependencies` runtime des packages publiés sont volontairement
+  **minimales** (Radix Dialog, clsx, lucide pour React ; rien pour
+  Angular hors peer deps). Chaque ajout est revu sous l'angle bundle
+  et surface d'attaque.
+- Les outils de build/dev (Vite, Astro, Storybook) restent confinés
+  aux `devDependencies` du monorepo. Ils ne sont jamais distribués
+  via npm.
+
 ## Divulgation responsable
 
 Ori suit une politique de **divulgation coordonnée** :
