@@ -35,6 +35,7 @@ export * from './components/MainNavigation/index.js';
 export * from './components/SideMenu/index.js';
 export * from './components/LanguageSwitcher/index.js';
 export * from './components/ErrorPage/index.js';
+export * from './components/Legal/index.js';
 
 // Pas de composants fonctionnels exportés - cf. décision K.1 : les écrans
 // fonctionnels (auth, etc.) sont documentés en HTML+CSS pur dans

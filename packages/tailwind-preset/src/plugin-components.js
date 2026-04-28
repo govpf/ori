@@ -2515,6 +2515,112 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       borderColor: v('feedback-danger'),
       color: v('feedback-danger'),
     },
+
+    // ─── LegalLayout ──────────────────────────────────────────────────────
+    // Pattern de page éditoriale longue : mentions légales, accessibilité,
+    // RGPD, CGU. Le DS fournit la structure et le rythme typographique ;
+    // le contenu (responsable de publication, hébergeur, DPO, etc.) est
+    // produit par chaque service consommateur.
+    '.ori-legal-layout': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.6'),
+      maxWidth: '55rem',
+    },
+    '.ori-legal-layout__header': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+      marginBottom: theme('spacing.2'),
+    },
+    '.ori-legal-layout__title': {
+      margin: '0',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.2xl'),
+      fontWeight: theme('fontWeight.semibold'),
+      lineHeight: theme('lineHeight.tight'),
+      color: v('text-primary'),
+    },
+    '.ori-legal-layout__subtitle': {
+      margin: '0',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.base'),
+      lineHeight: theme('lineHeight.relaxed'),
+      color: v('text-secondary'),
+    },
+
+    // Section : un bloc thématique (sur Card visuellement, mais on ne
+    // dépend pas de .ori-card pour rester composable). Chaque section a
+    // un titre h2 + corps de texte.
+    '.ori-legal-section': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+      padding: theme('spacing.5'),
+      borderRadius: theme('borderRadius.lg'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      backgroundColor: v('surface-base'),
+    },
+    '.ori-legal-section__title': {
+      margin: '0 0 0.25rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.lg'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-legal-section p': {
+      margin: '0 0 0.75rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.relaxed'),
+      color: v('text-secondary'),
+    },
+    '.ori-legal-section p:last-child': {
+      marginBottom: '0',
+    },
+    '.ori-legal-section strong': {
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-legal-section h3': {
+      margin: '0.75rem 0 0.5rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+
+    // Variante "flat" : pour un bloc d'info périphérique (date de mise à
+    // jour, mention de bas de page) sans surcharge visuelle.
+    '.ori-legal-section--flat': {
+      backgroundColor: v('surface-muted'),
+      borderColor: v('border-subtle'),
+      padding: theme('spacing.4'),
+    },
+    '.ori-legal-section--flat p': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+    },
+
+    // Liste de définitions clé/valeur, fréquente dans les mentions légales
+    // (adresse, téléphone, courriel...).
+    '.ori-legal-dl': {
+      display: 'grid',
+      gridTemplateColumns: 'minmax(8rem, max-content) 1fr',
+      gap: '0.375rem 1rem',
+      margin: '0.75rem 0 0',
+      fontSize: theme('fontSize.sm'),
+    },
+    '.ori-legal-dl dt': {
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-secondary'),
+    },
+    '.ori-legal-dl dd': {
+      margin: '0',
+      color: v('text-primary'),
+    },
   });
 
   addBase({
