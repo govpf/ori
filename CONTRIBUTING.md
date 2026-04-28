@@ -141,6 +141,9 @@ pnpm --filter @govpf/ori-storybook-angular build
 pnpm --filter @govpf/ori-site build
 pnpm --filter @govpf/ori-demo-portail build
 
+# Tests unitaires (Vitest sur les composants React à logique non triviale)
+pnpm --filter @govpf/ori-react test
+
 # Tests d'accessibilité automatisés (axe-core sur chaque story)
 pnpm --filter @govpf/ori-storybook-react test:a11y:ci
 pnpm --filter @govpf/ori-storybook-angular test:a11y:ci
@@ -174,6 +177,50 @@ Conséquences pratiques pour qui ajoute ou modifie un composant :
 Pour exécuter contre un Storybook qui tourne déjà en local
 (`pnpm --filter ... storybook`), utiliser `test:a11y` au lieu de
 `test:a11y:ci`.
+
+#### Tests unitaires (Vitest)
+
+Côté React, **Vitest + @testing-library/react** sont configurés dans
+`packages/react`. Le runner couvre la **logique** des composants
+(callbacks, transitions d'état, navigation clavier, validations) que
+les tests a11y et les stories ne couvrent pas.
+
+```bash
+pnpm --filter @govpf/ori-react test           # CI : run + exit
+pnpm --filter @govpf/ori-react test:watch     # dev : re-run on change
+```
+
+Convention : un fichier de test par composant, à côté du composant.
+
+```
+packages/react/src/components/Button/
+├── Button.tsx
+├── Button.stories.tsx
+├── Button.test.tsx          ← ici
+└── index.ts
+```
+
+Cibles prioritaires (ce qui mérite un test unitaire) :
+
+- **logique métier** : calcul de pages dans Pagination, validation
+  type/taille dans FileUpload, timer auto-dismiss du Toast
+- **transitions d'état** : ouverture/fermeture, sélection, focus
+- **navigation clavier** : Arrow keys dans Tabs, Home/End
+- **branches conditionnelles** : disabled, loading, error
+- **régressions identifiées** : tout bug corrigé devrait gagner un
+  test pour empêcher le retour (cf. cas Highlight `query=""` qui
+  surlignait tout)
+
+Ce qui **n'a pas besoin** d'un test unitaire :
+
+- composants de présentation pure (Tag, Card, Avatar, Skeleton...) :
+  les stories suffisent comme galerie + a11y
+- wrapping triviaux d'une lib externe (Dialog → Radix) : tester la
+  lib externe est hors-scope ; couvrir les stories suffit
+
+Côté Angular, **Jest** sera configuré dans une PR ultérieure (le
+runner natif Karma est en fin de vie ; on attend la stabilisation de
+`@angular/build` avec Jest avant de migrer).
 
 ### 4. Conventions de commits
 
