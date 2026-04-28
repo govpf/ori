@@ -18,14 +18,25 @@ export interface HighlightProps extends HTMLAttributes<HTMLElement> {
  * Mode 1 : `<Highlight>texte</Highlight>` - surligne tout le contenu
  * Mode 2 : `<Highlight query="ti">titre</Highlight>` - surligne
  *           uniquement les occurrences de `query`
+ *
+ * Quand `query` est passé mais vide (recherche inactive), le composant
+ * renvoie les `children` tels quels sans surlignage. C'est le cas type
+ * d'une liste filtrée par un input dont la valeur courante est `""`.
  */
 export function Highlight({ query, className, children, ...rest }: HighlightProps) {
-  if (!query || typeof children !== 'string') {
+  // Mode 1 : pas de prop `query` du tout - surligne tout
+  if (query === undefined) {
     return (
       <mark className={clsx('ori-highlight', className)} {...rest}>
         {children}
       </mark>
     );
+  }
+
+  // Mode 2 (recherche) : query passé mais vide ou children non-string -
+  // pas de match possible, on rend sans surlignage
+  if (query === '' || typeof children !== 'string') {
+    return <>{children}</>;
   }
 
   // Mode "auto-highlight" sur une chaîne

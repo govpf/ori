@@ -30,12 +30,16 @@
     "feedback": {
       "success": { "$value": "{color.success.500}", "$type": "color" },
       "success-bg": { "$value": "{color.success.50}", "$type": "color" },
+      "success-strong": { "$value": "{color.success.700}", "$type": "color" },
       "warning": { "$value": "{color.warning.500}", "$type": "color" },
       "warning-bg": { "$value": "{color.warning.50}", "$type": "color" },
+      "warning-strong": { "$value": "{color.warning.700}", "$type": "color" },
       "danger": { "$value": "{color.danger.500}", "$type": "color" },
       "danger-bg": { "$value": "{color.danger.50}", "$type": "color" },
+      "danger-strong": { "$value": "{color.danger.700}", "$type": "color" },
       "info": { "$value": "{color.info.500}", "$type": "color" },
-      "info-bg": { "$value": "{color.info.50}", "$type": "color" }
+      "info-bg": { "$value": "{color.info.50}", "$type": "color" },
+      "info-strong": { "$value": "{color.primary.700}", "$type": "color" }
     }
   }
 }

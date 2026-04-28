@@ -270,22 +270,22 @@
 
 .notif-item__icon--info {
   background-color: var(--color-feedback-info-bg);
-  color: var(--color-info-500);
+  color: var(--color-feedback-info);
 }
 
 .notif-item__icon--success {
   background-color: var(--color-feedback-success-bg);
-  color: var(--color-success-500);
+  color: var(--color-feedback-success);
 }
 
 .notif-item__icon--warning {
   background-color: var(--color-feedback-warning-bg);
-  color: var(--color-warning-500);
+  color: var(--color-feedback-warning);
 }
 
 .notif-item__icon--danger {
   background-color: var(--color-feedback-danger-bg);
-  color: var(--color-danger-500);
+  color: var(--color-feedback-danger);
 }
 
 .notif-item__main {
@@ -763,12 +763,12 @@
 }
 
 .service-card__badge--popular {
-  color: var(--color-warning-700, var(--color-text-primary));
+  color: var(--color-feedback-warning-strong);
   background-color: var(--color-feedback-warning-bg);
 }
 
 .service-card__badge--new {
-  color: var(--color-success-700, var(--color-text-primary));
+  color: var(--color-feedback-success-strong);
   background-color: var(--color-feedback-success-bg);
 }
 
@@ -1075,6 +1075,15 @@
    propres au demo-portail : pas de classes .ori-* ajoutées au DS pour
    ce POC, le pattern n'est pas encore stabilisé. */
 
+/* Le FAB chatbot étant en position fixed bottom-right, il chevauche les
+   derniers utility links du footer (Plan du site...) et les rend
+   inaccessibles au clic. On réserve une zone de sécurité à droite de
+   `.ori-footer__bottom` quand le FAB est rendu dans la page. Largeur du
+   FAB (56px) + offsets (24px de chaque côté) = ~6.5rem. */
+body:has(.chatbot-fab) .ori-footer__bottom {
+  padding-inline-end: 6.5rem;
+}
+
 .chatbot-fab {
   position: fixed;
   bottom: 1.5rem;
@@ -1158,7 +1167,7 @@
   padding: 0.5rem 1rem;
   background-color: var(--color-feedback-warning-bg);
   border-bottom: 1px solid var(--color-border-subtle);
-  color: var(--color-warning-700);
+  color: var(--color-feedback-warning-strong);
   font-size: 0.75rem;
   line-height: 1.4;
 }
@@ -1284,7 +1293,7 @@
 .chatbot-drawer__input:focus {
   outline: none;
   border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 3px var(--color-primary-100);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-border-focus) 30%, transparent);
 }
 .chatbot-drawer__send {
   flex: 0 0 auto;

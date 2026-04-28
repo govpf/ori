@@ -985,22 +985,22 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-tag--info': {
       backgroundColor: v('feedback-info-bg'),
       borderColor: v('feedback-info'),
-      color: v('feedback-info'),
+      color: v('feedback-info-strong'),
     },
     '.ori-tag--success': {
       backgroundColor: v('feedback-success-bg'),
       borderColor: v('feedback-success'),
-      color: v('feedback-success'),
+      color: v('feedback-success-strong'),
     },
     '.ori-tag--warning': {
       backgroundColor: v('feedback-warning-bg'),
       borderColor: v('feedback-warning'),
-      color: v('feedback-warning'),
+      color: v('feedback-warning-strong'),
     },
     '.ori-tag--danger': {
       backgroundColor: v('feedback-danger-bg'),
       borderColor: v('feedback-danger'),
-      color: v('feedback-danger'),
+      color: v('feedback-danger-strong'),
     },
     '.ori-tag__remove': {
       flex: '0 0 auto',
@@ -1401,22 +1401,22 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-notification--info': {
       backgroundColor: v('feedback-info-bg'),
       borderBottomColor: v('feedback-info'),
-      color: v('feedback-info'),
+      color: v('feedback-info-strong'),
     },
     '.ori-notification--success': {
       backgroundColor: v('feedback-success-bg'),
       borderBottomColor: v('feedback-success'),
-      color: v('feedback-success'),
+      color: v('feedback-success-strong'),
     },
     '.ori-notification--warning': {
       backgroundColor: v('feedback-warning-bg'),
       borderBottomColor: v('feedback-warning'),
-      color: v('feedback-warning'),
+      color: v('feedback-warning-strong'),
     },
     '.ori-notification--danger': {
       backgroundColor: v('feedback-danger-bg'),
       borderBottomColor: v('feedback-danger'),
-      color: v('feedback-danger'),
+      color: v('feedback-danger-strong'),
     },
 
     // ─── Table ─────────────────────────────────────────────────────────────
@@ -1505,7 +1505,9 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       flex: '0 0 auto',
       opacity: '0.5',
     },
-    '.ori-table__sort-button[aria-sort="ascending"] .ori-table__sort-icon, .ori-table__sort-button[aria-sort="descending"] .ori-table__sort-icon':
+    // L'attribut aria-sort vit sur le <th> (cf. ARIA spec), pas sur le
+    // <button> interne ; le sélecteur cible donc le th parent.
+    'th[aria-sort="ascending"] .ori-table__sort-icon, th[aria-sort="descending"] .ori-table__sort-icon':
       {
         opacity: '1',
         color: v('brand-primary'),
@@ -1940,10 +1942,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       lineHeight: theme('lineHeight.snug'),
     },
     '.ori-statistic__trend--up': {
-      color: v('feedback-success'),
+      color: v('feedback-success-strong'),
     },
     '.ori-statistic__trend--down': {
-      color: v('feedback-danger'),
+      color: v('feedback-danger-strong'),
     },
     '.ori-statistic__trend--flat': {
       color: v('text-secondary'),
@@ -2060,22 +2062,22 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-alert--info': {
       backgroundColor: v('feedback-info-bg'),
       borderColor: v('feedback-info'),
-      color: v('feedback-info'),
+      color: v('feedback-info-strong'),
     },
     '.ori-alert--success': {
       backgroundColor: v('feedback-success-bg'),
       borderColor: v('feedback-success'),
-      color: v('feedback-success'),
+      color: v('feedback-success-strong'),
     },
     '.ori-alert--warning': {
       backgroundColor: v('feedback-warning-bg'),
       borderColor: v('feedback-warning'),
-      color: v('feedback-warning'),
+      color: v('feedback-warning-strong'),
     },
     '.ori-alert--danger': {
       backgroundColor: v('feedback-danger-bg'),
       borderColor: v('feedback-danger'),
-      color: v('feedback-danger'),
+      color: v('feedback-danger-strong'),
     },
 
     // ─── Dialog ────────────────────────────────────────────────────────────
@@ -2507,13 +2509,13 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-error-page--maintenance .ori-error-page__code': {
       backgroundColor: v('feedback-warning-bg'),
       borderColor: v('feedback-warning'),
-      color: v('feedback-warning'),
+      color: v('feedback-warning-strong'),
     },
     // Variante danger (500) : couleur danger sur le code.
     '.ori-error-page--danger .ori-error-page__code': {
       backgroundColor: v('feedback-danger-bg'),
       borderColor: v('feedback-danger'),
-      color: v('feedback-danger'),
+      color: v('feedback-danger-strong'),
     },
 
     // ─── LegalLayout ──────────────────────────────────────────────────────
