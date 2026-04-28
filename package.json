@@ -27,9 +27,13 @@
     "clean:cache": "rimraf --glob \"apps/*/node_modules/.vite\" \"apps/*/node_modules/.cache\" \"apps/*/.angular\" \"apps/*/.storybook/.cache\" \"packages/*/node_modules/.cache\"",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css,scss}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,css,scss}\"",
-    "lint": "pnpm -r run lint"
+    "lint": "pnpm -r run lint",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm -r --filter \"./packages/*\" build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "typescript": "~5.6.2"

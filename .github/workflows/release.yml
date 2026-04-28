@@ -1,12 +1,23 @@
 name: Release npm packages
 
 # Publication des packages publishables sur npm public sous le scope
-# @govpf/. Authentification via OIDC Trusted Publishers (pas de
-# NPM_TOKEN). Provenance signature automatique.
+# @govpf/. Pilotée par Changesets : chaque PR qui modifie un package
+# publishable doit embarquer un fichier `.changeset/*.md` qui décrit
+# le bump (patch/minor/major) et la note de changelog.
 #
-# Déclenchement :
-#   - tag git v* poussé sur main (ex: v0.1.0)
-#   - workflow_dispatch manuel depuis l'UI (utile pour republier)
+# Workflow Changesets bot :
+#   1. Sur push main, le job `release` regarde s'il y a des changesets
+#      pendants (`.changeset/*.md` autres que `README.md` et `config.json`).
+#   2. S'il y en a : la PR "Version Packages" est ouverte ou mise à jour
+#      automatiquement. Cette PR consume les changesets, bumpe les
+#      `package.json` des packages concernés et met à jour les
+#      `CHANGELOG.md`.
+#   3. Quand la PR "Version Packages" est mergée sur main, le job `release`
+#      détecte que les versions ne sont plus en conflit avec npm et
+#      publie chaque package via `pnpm publish`.
+#
+# Authentification npm via OIDC Trusted Publishers (pas de NPM_TOKEN
+# en clair). Provenance signature automatique.
 #
 # Prérequis npm (à faire une fois) :
 #   - Trusted publisher configuré au niveau de l'org @govpf, ou par
@@ -17,19 +28,22 @@ name: Release npm packages
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Simuler sans publier (npm publish --dry-run)'
-        required: false
-        type: boolean
-        default: false
 
 permissions:
-  contents: write # création GitHub Release
+  contents: write # commits sur la PR Version Packages, GitHub Release
+  pull-requests: write # ouverture / mise à jour de la PR Version Packages
   id-token: write # OIDC pour npm publish
+
+# Une release à la fois. Si une nouvelle exécution démarre alors qu'une
+# autre tourne, on attend que la précédente finisse (pas de cancel) :
+# c'est un job idempotent mais qui ne doit pas se chevaucher pour ne pas
+# créer deux PR de version concurrentes.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   NODE_VERSION: '24'
@@ -37,13 +51,17 @@ env:
 
 jobs:
   release:
-    name: Build et publish
+    name: Version & publish via Changesets
     runs-on: ubuntu-latest
     environment:
       name: npm-release
       url: https://www.npmjs.com/org/govpf
     steps:
       - uses: actions/checkout@v6
+        with:
+          # changesets/action a besoin de tout l'historique pour générer
+          # les CHANGELOG (sinon les notes des commits anciens manquent).
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v5
         with:
@@ -58,62 +76,28 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Build all publishable packages
+        # Le build est nécessaire avant publish pour que les `dist/`
+        # soient présents dans les tarballs.
         run: pnpm -r --filter "./packages/*" build
 
-      - name: Verify versions are aligned
-        run: |
-          set -euo pipefail
-          echo "=== package versions ==="
-          for pkg in tokens css tailwind-preset react angular; do
-            v=$(jq -r '.version' packages/$pkg/package.json)
-            echo "@govpf/ori-$pkg: $v"
-          done
-
-      - name: Publish to npm
-        # Ordre topologique :
-        #   tokens (aucune dep)
-        #   tailwind-preset (dep tokens)
-        #   css (dep tailwind-preset + tokens)
-        #   react (dep tokens)
-        #   angular (dep tokens)
-        #
-        # Pour chaque package, on vérifie d'abord si la version courante
-        # n'est pas déjà publiée. Cela permet de republier partiellement
-        # (bumper un seul package en patch) sans que le workflow échoue
-        # sur les versions déjà publiées des autres.
-        run: |
-          set -euo pipefail
-          DRY_RUN_FLAG=""
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            echo "Dry-run mode (workflow_dispatch input dry_run=true)"
-            DRY_RUN_FLAG="--dry-run"
-          fi
-          for pkg in tokens tailwind-preset css react angular; do
-            name="@govpf/ori-$pkg"
-            version=$(jq -r '.version' packages/$pkg/package.json)
-            echo "=== $name@$version ==="
-            if npm view "$name@$version" version >/dev/null 2>&1; then
-              echo "Skip: $name@$version est déjà publié."
-              continue
-            fi
-            # On utilise `pnpm publish` (et non `npm publish`) parce que
-            # pnpm résout automatiquement les `workspace:*` en versions
-            # concrètes (ex: `0.1.0`) au moment du packaging du tarball.
-            # Avec `npm publish`, les `workspace:*` restent tels quels
-            # dans le `package.json` publié, ce qui rend le package non
-            # installable hors du monorepo (EUNSUPPORTEDPROTOCOL).
-            (cd packages/$pkg && pnpm publish $DRY_RUN_FLAG --provenance --access public --no-git-checks)
-          done
+      - name: Create Release Pull Request or publish
+        uses: changesets/action@v1
+        with:
+          # `version` consume les changesets, bumpe les versions et met
+          # à jour les CHANGELOG. Sa sortie va dans la PR "Version
+          # Packages" que le bot ouvre / met à jour.
+          version: pnpm version-packages
+          # `publish` est lancé après merge de la PR Version Packages :
+          # changeset publish parcourt les packages dont la version
+          # locale n'est pas encore sur npm et appelle `pnpm publish`
+          # avec --provenance --access public. Le `pnpm publish` (et non
+          # `npm publish`) est nécessaire pour résoudre les `workspace:*`
+          # en versions concrètes lors du packaging du tarball, sinon le
+          # tarball publié reste avec `workspace:*` et n'est pas
+          # installable hors monorepo.
+          publish: pnpm release
+          title: 'chore(release): version packages'
+          commit: 'chore(release): version packages'
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # fallback si OIDC pas encore actif
-
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v') && github.event.inputs.dry_run != 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          gh release create "$TAG" \
-            --title "$TAG" \
-            --notes "Voir le CHANGELOG du repo et les notes de chaque package sur npm." \
-            --verify-tag

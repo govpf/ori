@@ -209,6 +209,75 @@ La CI doit être verte sur tous les jobs avant qu'une PR puisse être
 mergée. Les status checks requis sont configurés dans le ruleset
 `protect-main` du repo.
 
+### 6. Versioning et release (Changesets)
+
+Toute PR qui modifie un package publishable (`packages/{tokens,
+tailwind-preset,css,react,angular}`) doit embarquer un changeset qui
+décrit l'impact pour les consommateurs.
+
+#### Ajouter un changeset
+
+```bash
+pnpm changeset
+```
+
+Le CLI demande :
+
+1. Quels packages sont touchés ?
+2. Pour chacun, quel type de bump ? (`patch` / `minor` / `major`)
+3. Le résumé (ce qui apparaîtra dans le `CHANGELOG.md` du package)
+
+Le résumé est lu par les consommateurs : être clair et concis. Préférer
+le présent à l'impératif (« corrige le focus trap dans Dialog »
+plutôt que « corriger... »).
+
+Le fichier généré dans `.changeset/<nom-aleatoire>.md` est commité avec
+la PR. Plusieurs changesets peuvent cohabiter : un par sujet logique,
+même si tout est dans la même PR.
+
+#### Choix du bump
+
+Conventions calées sur Conventional Commits :
+
+| Commit                                             | Bump                               |
+| -------------------------------------------------- | ---------------------------------- |
+| `fix(...)`                                         | `patch`                            |
+| `feat(...)`                                        | `minor`                            |
+| `feat!` ou `BREAKING CHANGE` dans le corps         | `major`                            |
+| `chore`, `docs`, `refactor`, `test`, `ci`, `style` | **pas de bump** (pas de changeset) |
+
+Tant que le DS est en `0.x`, un breaking change peut rester en `minor`
+(c'est la sémantique semver). À partir de `1.0`, tout breaking devient
+`major`.
+
+#### Que se passe-t-il après merge ?
+
+Le workflow `Release npm packages` détecte les `.changeset/*.md`
+pendants sur `main` et ouvre / met à jour automatiquement une PR
+**`chore(release): version packages`**. Cette PR :
+
+- consume les changesets pendants
+- bumpe les `package.json` des packages concernés
+- met à jour les `CHANGELOG.md` correspondants
+
+Quand cette PR est mergée à son tour, le même workflow publie les
+versions bumpées sur npm via OIDC Trusted Publisher (provenance
+signée), package par package, en respectant l'ordre topologique
+(`tokens` -> `tailwind-preset` -> `css` -> `react` / `angular`).
+
+Aucun `git tag v*` à pousser à la main : le bot s'en charge.
+
+#### Cas où un changeset n'est pas requis
+
+- PRs qui ne touchent que les `apps/*` (privées, non publiées)
+- PRs `chore` / `docs` / `refactor` / `test` / `ci` qui ne modifient
+  pas le code distribué d'un package
+- PRs sur la doc Storybook (`packages/docs/`) sans impact sur les
+  composants
+
+En cas de doute : ajouter un changeset. Mieux vaut un patch superflu
+qu'un consommateur surpris par un changement non documenté.
+
 ## Architecture du monorepo
 
 ```
