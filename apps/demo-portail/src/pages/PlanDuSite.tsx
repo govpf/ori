@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, CardBody, Link } from '@govpf/ori-react';
+import { Breadcrumb, Card, CardBody, LegalLayout, Link } from '@govpf/ori-react';
 import type { Route } from '../App.js';
 
 interface PlanDuSitePageProps {
@@ -132,21 +132,18 @@ const SITEMAP: { titre: string; nodes: SitemapNode[] }[] = [
 
 export function PlanDuSitePage({ onNavigate }: PlanDuSitePageProps) {
   return (
-    <article className="legal-page">
-      <div className="page-header">
+    <LegalLayout
+      title="Plan du site"
+      subtitle="Toutes les pages du service en ligne, regroupées par section. Cette page peut servir de point d'entrée alternatif si vous avez du mal à naviguer dans le menu principal."
+      breadcrumb={
         <Breadcrumb
           items={[
             { label: 'Accueil', href: '#', onClick: () => onNavigate({ name: 'dashboard' }) },
             { label: 'Plan du site' },
           ]}
         />
-        <h1 className="page-title">Plan du site</h1>
-        <p className="page-subtitle">
-          Toutes les pages du service en ligne, regroupées par section. Cette page peut servir de
-          point d'entrée alternatif si vous avez du mal à naviguer dans le menu principal.
-        </p>
-      </div>
-
+      }
+    >
       <div className="sitemap-grid">
         {SITEMAP.map((section) => (
           <Card key={section.titre}>
@@ -182,6 +179,6 @@ export function PlanDuSitePage({ onNavigate }: PlanDuSitePageProps) {
           </Card>
         ))}
       </div>
-    </article>
+    </LegalLayout>
   );
 }
