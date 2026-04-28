@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Steps } from './Steps.js';
 
 const meta = {
-  title: 'Composants graphiques/Steps',
+  title: 'Composants/Navigation/Steps',
   component: Steps,
   tags: ['autodocs'],
   parameters: {

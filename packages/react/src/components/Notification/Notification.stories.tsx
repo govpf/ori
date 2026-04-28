@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Notification } from './Notification.js';
 
 const meta = {
-  title: 'Composants graphiques/Notification',
+  title: 'Composants/Feedback/Notification',
   component: Notification,
   tags: ['autodocs'],
   parameters: {

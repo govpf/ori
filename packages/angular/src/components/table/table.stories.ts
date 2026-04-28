@@ -156,7 +156,7 @@ class TableDemo {
 }
 
 const meta: Meta<TableDemo> = {
-  title: 'Composants graphiques/Table',
+  title: 'Composants/Données/Table',
   component: TableDemo,
   tags: ['autodocs'],
   parameters: {

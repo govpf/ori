@@ -4,7 +4,7 @@ import { SideMenu } from './SideMenu.js';
 import { Button } from '../Button/index.js';
 
 const meta = {
-  title: 'Composants graphiques/SideMenu',
+  title: 'Composants/Navigation/SideMenu',
   component: SideMenu,
   tags: ['autodocs'],
   parameters: {

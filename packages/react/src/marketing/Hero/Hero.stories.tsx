@@ -3,7 +3,7 @@ import { Hero } from './Hero.js';
 import { Button } from '../../components/Button/Button.js';
 
 const meta = {
-  title: 'Publishing/Marketing/Hero',
+  title: 'Patterns/Marketing/Hero',
   component: Hero,
   tags: ['autodocs'],
   parameters: {

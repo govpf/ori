@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AuthButton } from './AuthButton.js';
 
 const meta = {
-  title: 'Composants graphiques/AuthButton',
+  title: 'Composants/Actions/AuthButton',
   component: AuthButton,
   tags: ['autodocs'],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Footer } from './Footer.js';
 
 const meta = {
-  title: 'Composants graphiques/Footer',
+  title: 'Composants/Navigation/Footer',
   component: Footer,
   tags: ['autodocs'],
   parameters: {

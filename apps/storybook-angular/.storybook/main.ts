@@ -7,7 +7,6 @@ const config: StorybookConfig = {
     // pour pouvoir exclure le dossier `react/` (doc d'usage spécifique
     // à l'autre framework, cf. décision K.2).
     '../../../packages/docs/src/*.mdx',
-    '../../../packages/docs/src/components/*.mdx',
     '../../../packages/docs/src/tokens/*.mdx',
     '../../../packages/docs/src/functional/*.mdx',
     '../../../packages/docs/src/angular/*.mdx',

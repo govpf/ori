@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Callout } from './Callout.js';
 
 const meta = {
-  title: 'Publishing/Documentation/Callout',
+  title: 'Patterns/Documentation/Callout',
   component: Callout,
   tags: ['autodocs'],
   parameters: {

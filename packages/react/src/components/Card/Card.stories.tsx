@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, CardFooter } from './Card.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants graphiques/Card',
+  title: 'Composants/Affichage/Card',
   component: Card,
   tags: ['autodocs'],
   parameters: {

@@ -11,7 +11,7 @@ const SAMPLE_HEADINGS: OriTocItem[] = [
 ];
 
 const meta: Meta<OriTocComponent> = {
-  title: 'Publishing/Documentation/Toc',
+  title: 'Patterns/Documentation/Toc',
   component: OriTocComponent,
   tags: ['autodocs'],
   parameters: {

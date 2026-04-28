@@ -3,7 +3,7 @@ import { ErrorPage } from './ErrorPage.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants graphiques/ErrorPage',
+  title: 'Composants/Affichage/ErrorPage',
   component: ErrorPage,
   tags: ['autodocs'],
   parameters: {

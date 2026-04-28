@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Toc } from './Toc.js';
 
 const meta = {
-  title: 'Publishing/Documentation/Toc',
+  title: 'Patterns/Documentation/Toc',
   component: Toc,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriLanguageSwitcherComponent } from './language-switcher.component';
 
 const meta: Meta<OriLanguageSwitcherComponent> = {
-  title: 'Composants graphiques/LanguageSwitcher',
+  title: 'Composants/Actions/LanguageSwitcher',
   component: OriLanguageSwitcherComponent,
   tags: ['autodocs'],
   parameters: {

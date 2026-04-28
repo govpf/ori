@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriPaginationComponent } from './pagination.component';
 
 const meta: Meta<OriPaginationComponent> = {
-  title: 'Composants graphiques/Pagination',
+  title: 'Composants/Navigation/Pagination',
   component: OriPaginationComponent,
   tags: ['autodocs'],
   parameters: {

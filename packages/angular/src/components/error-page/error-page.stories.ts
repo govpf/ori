@@ -6,7 +6,7 @@ import { OriButtonComponent } from '../button/button.component';
 type ErrorPageStoryArgs = OriErrorPageComponent;
 
 const meta: Meta<ErrorPageStoryArgs> = {
-  title: 'Composants graphiques/ErrorPage',
+  title: 'Composants/Affichage/ErrorPage',
   component: OriErrorPageComponent,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriAvatarComponent } from './avatar.component';
 
 const meta: Meta<OriAvatarComponent> = {
-  title: 'Composants graphiques/Avatar',
+  title: 'Composants/Affichage/Avatar',
   component: OriAvatarComponent,
   tags: ['autodocs'],
   parameters: {

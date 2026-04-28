@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriSwitchComponent } from './switch.component';
 
 const meta: Meta<OriSwitchComponent> = {
-  title: 'Composants graphiques/Switch',
+  title: 'Composants/Saisie/Switch',
   component: OriSwitchComponent,
   tags: ['autodocs'],
   parameters: {

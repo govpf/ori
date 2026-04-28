@@ -60,7 +60,7 @@ class ToastDemo {
 }
 
 const meta: Meta<ToastDemo> = {
-  title: 'Composants graphiques/Toast',
+  title: 'Composants/Feedback/Toast',
   component: ToastDemo,
   tags: ['autodocs'],
   parameters: {

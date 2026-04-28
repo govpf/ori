@@ -2,7 +2,7 @@ import type { Meta, StoryObj, Args } from '@storybook/angular';
 import { OriAuthButtonComponent } from './auth-button.component';
 
 const meta: Meta<OriAuthButtonComponent> = {
-  title: 'Composants graphiques/AuthButton',
+  title: 'Composants/Actions/AuthButton',
   component: OriAuthButtonComponent,
   tags: ['autodocs'],
   parameters: {
