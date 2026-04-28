@@ -129,7 +129,40 @@ pnpm --filter @govpf/ori-storybook-react build
 pnpm --filter @govpf/ori-storybook-angular build
 pnpm --filter @govpf/ori-site build
 pnpm --filter @govpf/ori-demo-portail build
+
+# Tests d'accessibilité automatisés (axe-core sur chaque story)
+pnpm --filter @govpf/ori-storybook-react test:a11y:ci
+pnpm --filter @govpf/ori-storybook-angular test:a11y:ci
 ```
+
+#### Tests d'accessibilité automatisés
+
+Chaque story devient automatiquement un test de non-régression a11y.
+À l'intérieur de l'iframe de la story, le test-runner injecte
+`axe-core` et fait échouer le job dès qu'une violation `serious` ou
+`critical` est remontée. Tags axe testés : `wcag2a`, `wcag2aa`,
+`wcag21a`, `wcag21aa`, `best-practice`.
+
+Conséquences pratiques pour qui ajoute ou modifie un composant :
+
+- **Ajouter au moins une story par variant.** La couverture a11y est
+  proportionnelle à la couverture stories. Variants visuels (size,
+  color, state) sans story ne sont pas testés.
+- **Render statique uniquement.** Le test-runner par défaut visite la
+  page de la story et exécute axe-core sur le rendu initial. Pour
+  tester un état après interaction (modal ouverte, dropdown déployé),
+  utiliser une `play()` function dans la story.
+- **Hors-scope** : focus order, navigation clavier, contraste sur
+  hover/focus, lecteurs d'écran. axe-core ne couvre que les checks
+  statiques. Ces points-là restent à vérifier manuellement (cf.
+  méthode RGAA).
+- **Opt-out** : si une story ne peut pas passer (cas pédagogique
+  démontrant un anti-pattern, par exemple), ajouter le tag `skip-a11y`
+  dans les `tags` de la story.
+
+Pour exécuter contre un Storybook qui tourne déjà en local
+(`pnpm --filter ... storybook`), utiliser `test:a11y` au lieu de
+`test:a11y:ci`.
 
 ### 4. Conventions de commits
 

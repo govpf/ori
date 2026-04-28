@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build": "storybook build -o storybook-static"
+    "build": "storybook build -o storybook-static",
+    "test:a11y": "test-storybook --url http://127.0.0.1:6006",
+    "test:a11y:ci": "concurrently -k -s first -n SB,A11Y \"http-server storybook-static -p 6006 -s\" \"wait-on tcp:6006 && test-storybook --url http://127.0.0.1:6006\""
   },
   "dependencies": {
     "@govpf/ori-react": "workspace:*",
@@ -31,6 +33,12 @@
     "remark-gfm": "^4.0.0",
     "storybook": "^8.4.7",
     "tailwindcss": "^3.4.14",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "@storybook/test-runner": "^0.19.1",
+    "axe-playwright": "^2.1.0",
+    "concurrently": "^9.1.0",
+    "http-server": "^14.1.1",
+    "playwright": "^1.59.1",
+    "wait-on": "^8.0.1"
   }
 }

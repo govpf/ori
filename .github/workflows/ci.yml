@@ -150,6 +150,58 @@ jobs:
       - name: Build Storybook Angular
         run: pnpm --filter @govpf/ori-storybook-angular build
 
+  # ─── Tests d'accessibilité automatisés ────────────────────────────────
+  # axe-core est exécuté contre chaque story (build statique servi par
+  # http-server) via @storybook/test-runner. Tags axe testés : wcag2a,
+  # wcag2aa, wcag21a, wcag21aa, best-practice. Le job échoue dès qu'un
+  # impact serious ou critical est remonté. Couvre le DS dans son ensemble :
+  # toute story devient un test de non-régression a11y.
+  a11y-storybook-react:
+    name: A11y Storybook React
+    runs-on: ubuntu-latest
+    needs: build-packages
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build packages
+        run: pnpm -r --filter "./packages/*" build
+      - name: Build Storybook React
+        run: pnpm --filter @govpf/ori-storybook-react build
+      - name: Install Playwright Chromium
+        run: pnpm --filter @govpf/ori-storybook-react exec playwright install --with-deps chromium
+      - name: A11y test (axe-core)
+        run: pnpm --filter @govpf/ori-storybook-react test:a11y:ci
+
+  a11y-storybook-angular:
+    name: A11y Storybook Angular
+    runs-on: ubuntu-latest
+    needs: build-packages
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build packages
+        run: pnpm -r --filter "./packages/*" build
+      - name: Build Storybook Angular
+        run: pnpm --filter @govpf/ori-storybook-angular build
+      - name: Install Playwright Chromium
+        run: pnpm --filter @govpf/ori-storybook-angular exec playwright install --with-deps chromium
+      - name: A11y test (axe-core)
+        run: pnpm --filter @govpf/ori-storybook-angular test:a11y:ci
+
   build-site:
     name: Build site Astro
     runs-on: ubuntu-latest

@@ -89,7 +89,7 @@ const LABEL_BY_TYPE: Record<OriFileCardType, string> = {
                 variant="ghost"
                 size="sm"
                 [oriTooltip]="a.label"
-                [attr.aria-label]="a.label"
+                [aria-label]="a.label"
                 [disabled]="!!a.disabled"
                 [attr.data-danger]="a.variant === 'danger' ? 'true' : null"
                 (click)="actionTriggered.emit(a.id)"

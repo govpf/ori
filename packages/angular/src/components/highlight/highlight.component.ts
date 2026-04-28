@@ -15,10 +15,13 @@ interface HighlightSegment {
 /**
  * Surlignage basé sur l'élément `<mark>` natif HTML5.
  *
- * Deux modes :
+ * Trois modes :
  * - Direct : `<ori-highlight text="texte"></ori-highlight>` surligne tout
- * - Avec query : `<ori-highlight text="..." query="ti"></ori-highlight>`
- *   surligne uniquement les occurrences (insensible à la casse)
+ *   (pas de prop `query` du tout, donc undefined)
+ * - Recherche inactive : `<ori-highlight text="..." [query]="''">`
+ *   rend le texte tel quel (recherche en cours mais champ vide)
+ * - Recherche active : `<ori-highlight text="..." query="ti">` surligne
+ *   uniquement les occurrences (insensible à la casse)
  *
  * Le découpage en segments est fait côté composant : on rend des
  * `<span>` et `<mark>` Angular-safe, pas de bypass de sanitizer.
@@ -29,8 +32,10 @@ interface HighlightSegment {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    @if (!query) {
+    @if (query === undefined) {
       <mark class="ori-highlight">{{ text }}</mark>
+    } @else if (query === '') {
+      {{ text }}
     } @else {
       @for (seg of segments; track $index) {
         @if (seg.highlighted) {
@@ -44,7 +49,7 @@ interface HighlightSegment {
 })
 export class OriHighlightComponent implements OnChanges {
   @Input() text: string = '';
-  @Input() query: string = '';
+  @Input() query?: string;
 
   segments: HighlightSegment[] = [];
 

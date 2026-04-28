@@ -177,7 +177,6 @@ export function Table<TRow = Record<string, unknown>>({
                     <button
                       type="button"
                       className="ori-table__sort-button"
-                      aria-sort={ariaSort}
                       onClick={() => handleSort(col.key)}
                     >
                       {col.label}

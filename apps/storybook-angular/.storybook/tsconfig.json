@@ -12,5 +12,5 @@
     "../../../packages/angular/marketing/**/*.ts",
     "../../../packages/angular/docs/**/*.ts"
   ],
-  "exclude": ["../../../packages/angular/dist"]
+  "exclude": ["../../../packages/angular/dist", "./test-runner.ts"]
 }

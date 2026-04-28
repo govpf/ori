@@ -18,11 +18,19 @@ export type OriButtonType = 'button' | 'submit' | 'reset';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // Le custom element <ori-button> a le rôle "generic" qui interdit
+  // aria-label (axe : aria-prohibited-attr). On le retire du wrapper
+  // pour le repropager sur le <button> interne où il est sémantiquement
+  // valide.
+  host: {
+    '[attr.aria-label]': 'null',
+  },
   template: `<button
     [type]="type"
     [class]="classes"
     [disabled]="disabled"
     [attr.aria-disabled]="disabled || null"
+    [attr.aria-label]="ariaLabel"
   >
     <ng-content></ng-content>
   </button>`,
@@ -33,6 +41,15 @@ export class OriButtonComponent {
   @Input() block: boolean = false;
   @Input() disabled: boolean = false;
   @Input() type: OriButtonType = 'button';
+  /**
+   * Forwardé sur le `<button>` interne, pour les boutons icon-only
+   * qui doivent rester accessibles (lecteurs d'écran). À renseigner
+   * obligatoirement quand le contenu projeté est uniquement visuel.
+   *
+   * L'alias `'aria-label'` permet d'écrire `<ori-button aria-label="...">`
+   * comme sur un button HTML natif.
+   */
+  @Input('aria-label') ariaLabel: string | null = null;
 
   get classes(): string {
     return [

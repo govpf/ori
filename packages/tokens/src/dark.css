@@ -45,10 +45,16 @@
   --color-border-strong: var(--color-neutral-400);
   --color-border-focus: var(--color-primary-400);
 
-  /* Marque - décale vers du bleu plus clair, lisible sur fond sombre */
-  --color-brand-primary: var(--color-primary-400);
-  --color-brand-primary-hover: var(--color-primary-300);
-  --color-brand-primary-active: var(--color-primary-500);
+  /* Marque - décale vers du bleu plus clair, lisible sur fond sombre.
+     Spécifiquement, brand-primary doit garder un contraste confortable
+     (≥ 6:1) sur brand-primary-subtle (primary-900), car ce combo est très
+     utilisé : SideMenu/Navbar [aria-current], Steps marker, Avatar, Callout
+     note, ligne sélectionnée Table. En partant de primary-400 le ratio
+     tombait à ~5.4:1, juste au-dessus du seuil AA. primary-300 monte à
+     ~6.9:1, plus confortable visuellement. */
+  --color-brand-primary: var(--color-primary-300);
+  --color-brand-primary-hover: var(--color-primary-200);
+  --color-brand-primary-active: var(--color-primary-400);
   --color-brand-primary-subtle: var(--color-primary-900);
   --color-brand-on-primary: var(--color-neutral-900);
 
@@ -62,6 +68,16 @@
   --color-feedback-warning-bg: color-mix(in srgb, var(--color-warning-500) 18%, transparent);
   --color-feedback-danger-bg: color-mix(in srgb, var(--color-danger-500) 18%, transparent);
   --color-feedback-info-bg: color-mix(in srgb, var(--color-info-500) 18%, transparent);
+
+  /* Variantes "strong" : utilisées pour le texte des Tag/Alert/Notification
+     posés sur leur fond `*-bg`. En light, *-strong = palette.700 (sombre,
+     contraste AA garanti sur fond très clair). En dark, ce 700 reste sombre
+     et devient illisible sur le fond `*-bg` qui n'est plus très clair. On
+     redirige vers les nuances 200/300 (claires, lisibles sur fond sombre). */
+  --color-feedback-success-strong: var(--color-success-200);
+  --color-feedback-warning-strong: var(--color-warning-200);
+  --color-feedback-danger-strong: var(--color-danger-300);
+  --color-feedback-info-strong: var(--color-primary-300);
 }
 
 /*

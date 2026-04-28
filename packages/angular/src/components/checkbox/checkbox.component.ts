@@ -26,6 +26,12 @@ let nextUid = 0;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // aria-label sur le wrapper custom element a un rôle "generic" qui
+  // l'interdit (axe : aria-prohibited-attr). Retiré ici, repropagé sur
+  // le <input> interne où il est sémantiquement valide.
+  host: {
+    '[attr.aria-label]': 'null',
+  },
   template: `
     <label [class]="wrapperClasses" [attr.data-disabled]="disabled ? 'true' : null">
       <input
@@ -39,6 +45,7 @@ let nextUid = 0;
         [attr.value]="value || null"
         [attr.aria-invalid]="error ? 'true' : null"
         [attr.aria-describedby]="describedBy"
+        [attr.aria-label]="ariaLabel"
         (change)="onChange($event)"
       />
       @if (label || hint || error) {
@@ -72,6 +79,11 @@ export class OriCheckboxComponent implements AfterViewInit, OnChanges {
   @Input() name: string = '';
   @Input() value: string = '';
   @Input() wrapperClass: string = '';
+  /**
+   * Forwardé sur l'`<input>` interne. À renseigner pour les checkbox
+   * sans label visible (ex: case "Tout sélectionner" dans un Table).
+   */
+  @Input('aria-label') ariaLabel: string | null = null;
 
   @Output() checkedChange = new EventEmitter<boolean>();
 

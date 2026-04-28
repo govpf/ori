@@ -65,7 +65,7 @@ export type OriSelectableMode = 'none' | 'single' | 'multiple';
                   [checked]="allSelected"
                   [indeterminate]="indeterminate"
                   (checkedChange)="toggleAll()"
-                  [attr.aria-label]="'Tout sélectionner'"
+                  [aria-label]="'Tout sélectionner'"
                 ></ori-checkbox>
               </th>
             }
@@ -77,12 +77,7 @@ export type OriSelectableMode = 'none' | 'single' | 'multiple';
                 [attr.aria-sort]="ariaSortFor(col)"
               >
                 @if (col.sortable) {
-                  <button
-                    type="button"
-                    class="ori-table__sort-button"
-                    [attr.aria-sort]="ariaSortFor(col)"
-                    (click)="onSort(col.key)"
-                  >
+                  <button type="button" class="ori-table__sort-button" (click)="onSort(col.key)">
                     {{ col.label }}
                     @if (sort?.column === col.key) {
                       @if (sort?.direction === 'asc') {
@@ -135,7 +130,7 @@ export type OriSelectableMode = 'none' | 'single' | 'multiple';
                     <ori-checkbox
                       [checked]="isSelected"
                       (checkedChange)="toggleRow(id)"
-                      [attr.aria-label]="'Sélectionner la ligne ' + (i + 1)"
+                      [aria-label]="'Sélectionner la ligne ' + (i + 1)"
                       (click)="$event.stopPropagation()"
                     ></ori-checkbox>
                   </td>
