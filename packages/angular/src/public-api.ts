@@ -34,6 +34,7 @@ export * from './components/footer';
 export * from './components/main-navigation';
 export * from './components/side-menu';
 export * from './components/language-switcher';
+export * from './components/error-page';
 
 // Pas de composants fonctionnels exportés - cf. décision K.1 : les écrans
 // fonctionnels (auth, etc.) sont documentés en HTML+CSS pur dans
