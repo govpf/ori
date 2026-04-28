@@ -46,7 +46,7 @@ Le DS porte ces choix une fois pour toutes :
 | `archive` | `FileArchive` | Archive |
 | `other` | `File` | Fichier |
 
-Le `type` n'est **pas dérivé automatiquement** de l'extension du `name` —
+Le `type` n'est **pas dérivé automatiquement** de l'extension du `name` -
 c'est l'app qui doit le passer explicitement, pour éviter les surprises
 (un `.txt`, un `.json`, un type MIME exotique…). Si l'app dispose du
 type MIME, elle peut le mapper vers l'un des 6 `type` standardisés ; pour
@@ -80,7 +80,7 @@ Les actions sont des boutons icône **ghost / size sm** affichés en haut
 ## Bonnes pratiques
 
 - **3 actions max** dans `actions`. Au-delà, regrouper les actions secondaires dans un menu kebab côté app.
-- **Garder le nom du fichier exact** dans `name` — y compris l'extension. L'utilisateur a besoin de la voir pour reconnaître son fichier.
+- **Garder le nom du fichier exact** dans `name` - y compris l'extension. L'utilisateur a besoin de la voir pour reconnaître son fichier.
 - **`size` formaté humainement** (ex: `'1.2 Mo'`, `'850 Ko'`), pas en octets bruts. Le DS n'en fait pas le formatage : c'est du contenu applicatif.
 - **`meta` court**. Une date d'ajout, un auteur, un statut. Pas de phrase complète.
 - **`link` pour pointer vers le contexte**, pas pour une action sur le fichier. Le téléchargement ou l'aperçu vont dans `actions`.

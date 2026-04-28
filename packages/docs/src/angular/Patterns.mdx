@@ -48,8 +48,8 @@ ajoute du comportement.
 
 ## Réutiliser les classes CSS pour un composant 100% custom
 
-Si tu as besoin d'un composant qui n'existe pas dans Ori mais qui
-doit avoir le look du DS, utilise les classes :
+Pour un composant qui n'existe pas dans Ori mais qui doit avoir le
+look du DS, réutiliser directement les classes CSS :
 
 ```ts
 import { Component, Input } from '@angular/core';
@@ -106,7 +106,7 @@ export class RfInputComponent {
 ```
 
 Pattern similaire pour `<ori-checkbox>`, `<ori-select>`, etc. À factoriser
-si tu en as plusieurs.
+en cas d'usages multiples.
 
 ## Détection de changement OnPush
 
@@ -117,9 +117,9 @@ Cela signifie qu'ils ne se rafraîchissent que sur :
 - Émission d'un `@Output()`
 - Appel manuel à `markForCheck()` / `detectChanges()`
 
-Si tu mutes un objet en place (`this.user.name = 'X'`) et le passes
-à un composant Ori, le rendu ne se met pas à jour. Solution :
-remplacer la référence (`this.user = { ...this.user, name: 'X' }`).
+Muter un objet en place (`this.user.name = 'X'`) puis le passer à
+un composant Ori ne déclenche pas le rendu. Solution : remplacer la
+référence (`this.user = { ...this.user, name: 'X' }`).
 
 ## Anti-patterns
 

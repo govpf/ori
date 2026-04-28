@@ -35,7 +35,7 @@ soumise.
 ### Prérequis
 
 - **Node.js 20.11+** (recommandé : Node 24 LTS, comme la CI)
-- **pnpm 10.29+** (gestionnaire de paquets — `corepack enable && corepack prepare pnpm@latest --activate`)
+- **pnpm 10.29+** (gestionnaire de paquets - `corepack enable && corepack prepare pnpm@latest --activate`)
 - **Git**
 - **Docker** (optionnel, pour tester la CI en local via `act`)
 
@@ -104,7 +104,7 @@ Ori suit quelques règles de fond, documentées dans la page
 - **Préférer le HTML natif** quand il couvre le besoin
 - **Bundle minimal** : chaque dépendance ajoutée doit être justifiée
 - **Généricité institutionnelle** : pas de domaine métier hardcodé
-- **Aucun dark pattern**
+- **Aucun design trompeur** (faux compteurs d'urgence, opt-out cachés, etc.)
 
 Pour toute modification d'un composant DS (`packages/react/`,
 `packages/angular/`, `packages/tailwind-preset/`) :
