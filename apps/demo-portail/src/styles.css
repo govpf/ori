@@ -103,6 +103,66 @@
   gap: 1rem 1.25rem;
 }
 
+/* Stack vertical pour les fields full-width qui suivent une `.form-grid`.
+   Sans wrapper, les .ori-field consécutifs (RadioGroup, Textarea, Checkbox)
+   sont collés faute de margin. */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Bandeau "DÉMO" permanent en haut de la page. Volontairement voyant
+   et non-fermable (aucun bouton dismiss) : un usager ne doit jamais
+   confondre cette démo avec un service réel. Les couleurs feedback
+   warning sont utilisées pour signaler que c'est non-officiel. */
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-feedback-warning);
+  color: var(--color-neutral-900);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 2px solid var(--color-feedback-warning-strong);
+}
+
+.demo-banner strong {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-neutral-900);
+  color: var(--color-feedback-warning);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.demo-banner__link {
+  flex: 0 0 auto;
+  color: var(--color-neutral-900);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.demo-banner__link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.demo-banner__link:focus-visible {
+  outline: 2px solid var(--color-neutral-900);
+  outline-offset: 2px;
+  border-radius: 0.125rem;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -838,7 +898,12 @@
 
 .annuaire-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* auto-fill (et non auto-fit) pour que les cards gardent leur taille
+     "naturelle" même quand le filtre ne ramène que 1 ou 2 résultats.
+     Avec auto-fit, les colonnes vides étaient collapsed et les 2 cards
+     s'étiraient sur toute la largeur du container, ce qui faisait des
+     fiches déséquilibrées (titre court, beaucoup d'espace vide). */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1rem;
 }
 

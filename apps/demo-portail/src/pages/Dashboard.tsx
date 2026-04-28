@@ -70,7 +70,7 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
     <>
       <div className="page-header">
         <Breadcrumb items={[{ label: 'Accueil', href: '#' }, { label: 'Tableau de bord' }]} />
-        <h1 className="page-title">Bienvenue, Marie</h1>
+        <h1 className="page-title">Bienvenue, Heitiare</h1>
         <p className="page-subtitle">Voici un aperçu de vos démarches et documents en cours.</p>
       </div>
 

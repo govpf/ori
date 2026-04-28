@@ -313,7 +313,6 @@ export const notificationsInitiales: NotificationItem[] = [
 // ─── Annuaire des services administratifs (mock) ──────────────────────
 
 export type ServiceSecteur =
-  | 'etat-civil'
   | 'economie'
   | 'logement'
   | 'famille'
@@ -324,7 +323,8 @@ export type ServiceSecteur =
   | 'culture'
   | 'sante'
   | 'education'
-  | 'emploi';
+  | 'emploi'
+  | 'support';
 
 export interface ServiceAdministratif {
   id: string;
@@ -339,78 +339,93 @@ export interface ServiceAdministratif {
 }
 
 export const SERVICE_SECTEUR_LABEL: Record<ServiceSecteur, string> = {
-  'etat-civil': 'État civil & identité',
   economie: 'Activité économique',
-  logement: 'Logement & urbanisme',
+  logement: 'Logement & foncier',
   famille: 'Famille & enfance',
   social: 'Solidarité & aides sociales',
-  fiscalite: 'Fiscalité',
+  fiscalite: 'Fiscalité & finances',
   mobilite: 'Mobilité & transport',
-  environnement: 'Environnement',
+  environnement: 'Environnement & agriculture',
   culture: 'Culture & sport',
   sante: 'Santé',
   education: 'Éducation',
   emploi: 'Emploi & formation',
+  support: 'Support & ressources',
 };
 
+// Vraies directions et services du gouvernement de la Polynésie française
+// (le "Pays"), tels que listés dans l'annuaire net.pf. Volontairement
+// limité au périmètre Pays : pas d'État civil (compétence communale),
+// pas de Haut-Commissariat (État), pas d'urbanisme (Communes).
+//
+// Sigle entre parenthèses pour faciliter l'identification quand l'app
+// affiche le nom complet.
 const SERVICE_TEMPLATES: { name: string; secteur: ServiceSecteur }[] = [
-  { name: "Direction de l'état civil", secteur: 'etat-civil' },
-  { name: "Bureau des cartes d'identité", secteur: 'etat-civil' },
-  { name: 'Service des passeports', secteur: 'etat-civil' },
-  { name: 'Bureau de la nationalité', secteur: 'etat-civil' },
-  { name: 'Service des actes notariés', secteur: 'etat-civil' },
-  { name: 'Direction des activités économiques', secteur: 'economie' },
-  { name: 'Registre du commerce', secteur: 'economie' },
-  { name: 'Bureau des licences professionnelles', secteur: 'economie' },
-  { name: "Service des autorisations d'exercice", secteur: 'economie' },
-  { name: 'Cellule développement entrepreneurial', secteur: 'economie' },
-  { name: "Direction de l'urbanisme", secteur: 'logement' },
-  { name: 'Bureau des permis de construire', secteur: 'logement' },
-  { name: 'Service du logement social', secteur: 'logement' },
-  { name: 'Cadastre et foncier', secteur: 'logement' },
-  { name: "Bureau de l'aménagement du territoire", secteur: 'logement' },
-  { name: 'Direction de la famille', secteur: 'famille' },
-  { name: "Bureau de la protection de l'enfance", secteur: 'famille' },
-  { name: "Service d'accueil des jeunes enfants", secteur: 'famille' },
-  { name: 'Cellule médiation familiale', secteur: 'famille' },
-  { name: 'Direction de la solidarité', secteur: 'social' },
-  { name: 'Bureau des aides sociales', secteur: 'social' },
-  { name: 'Service des allocations familiales', secteur: 'social' },
-  { name: "Bureau d'accompagnement des seniors", secteur: 'social' },
-  { name: "Service du handicap et de l'autonomie", secteur: 'social' },
-  { name: 'Direction des contributions', secteur: 'fiscalite' },
-  { name: 'Bureau de la déclaration des revenus', secteur: 'fiscalite' },
-  { name: 'Service du recouvrement', secteur: 'fiscalite' },
-  { name: 'Cellule fiscalité des entreprises', secteur: 'fiscalite' },
-  { name: 'Direction des transports terrestres', secteur: 'mobilite' },
-  { name: 'Bureau du permis de conduire', secteur: 'mobilite' },
-  { name: 'Service des immatriculations', secteur: 'mobilite' },
-  { name: 'Affaires maritimes', secteur: 'mobilite' },
-  { name: 'Aviation civile', secteur: 'mobilite' },
-  { name: "Direction de l'environnement", secteur: 'environnement' },
-  { name: 'Bureau de la protection des espaces naturels', secteur: 'environnement' },
-  { name: "Service des déchets et de l'assainissement", secteur: 'environnement' },
-  { name: 'Cellule transition énergétique', secteur: 'environnement' },
-  { name: 'Direction de la culture et du patrimoine', secteur: 'culture' },
-  { name: 'Bureau des archives', secteur: 'culture' },
-  { name: 'Service du sport et de la jeunesse', secteur: 'culture' },
-  { name: 'Cellule événementiel culturel', secteur: 'culture' },
-  { name: 'Direction de la santé publique', secteur: 'sante' },
-  { name: 'Bureau de la protection sanitaire', secteur: 'sante' },
-  { name: 'Service de la prévention santé', secteur: 'sante' },
-  { name: 'Cellule veille épidémiologique', secteur: 'sante' },
-  { name: "Direction générale de l'éducation", secteur: 'education' },
-  { name: 'Bureau de la scolarité', secteur: 'education' },
-  { name: "Service de l'orientation", secteur: 'education' },
-  { name: 'Cellule enseignement supérieur', secteur: 'education' },
-  { name: "Direction du travail et de l'emploi", secteur: 'emploi' },
-  { name: 'Bureau de la formation professionnelle', secteur: 'emploi' },
-  { name: "Service de l'apprentissage", secteur: 'emploi' },
-  { name: 'Cellule insertion professionnelle', secteur: 'emploi' },
-  { name: "Bureau d'accueil unique des entreprises", secteur: 'economie' },
+  // Économie
+  { name: 'Direction Générale des Affaires Économiques (DGAE)', secteur: 'economie' },
+  { name: 'Agence pour le Développement Économique (ADE)', secteur: 'economie' },
+  { name: 'Institut de la Statistique de la Polynésie française (ISPF)', secteur: 'economie' },
+  {
+    name: "Chambre de Commerce, d'Industrie, des Services et des Métiers (CCISM)",
+    secteur: 'economie',
+  },
+  { name: 'Service du Tourisme (SDT)', secteur: 'economie' },
+
+  // Emploi
+  { name: 'Direction du Travail (DTRT)', secteur: 'emploi' },
+  {
+    name: "Service de l'Emploi, de la Formation et de l'Insertion professionnelle (SEFI)",
+    secteur: 'emploi',
+  },
+  { name: 'Centre de Formation Professionnelle des Adultes (CFPA)', secteur: 'emploi' },
+
+  // Éducation
+  {
+    name: "Direction Générale de l'Éducation et des Enseignements (DGEE)",
+    secteur: 'education',
+  },
+
+  // Santé
+  { name: 'Direction de la Santé (DSP)', secteur: 'sante' },
+  { name: 'Centre Hospitalier de la Polynésie française (CHPF)', secteur: 'sante' },
+  { name: 'Caisse de Prévoyance Sociale (CPS)', secteur: 'sante' },
+
+  // Famille / Solidarité
+  {
+    name: "Direction des Solidarités, de la Famille et de l'Égalité (DSFE)",
+    secteur: 'famille',
+  },
+  { name: 'Institut de la Jeunesse et des Sports (IJSPF)', secteur: 'famille' },
+
+  // Logement / Foncier
+  { name: "Office Polynésien de l'Habitat (OPH)", secteur: 'logement' },
+  { name: 'Direction des Affaires Foncières (DAF)', secteur: 'logement' },
+
+  // Mobilité
+  { name: 'Direction des Transports Terrestres (DTT)', secteur: 'mobilite' },
+  {
+    name: 'Direction des Ressources Marines et Minières (DRMM)',
+    secteur: 'mobilite',
+  },
+
+  // Environnement / Agriculture
+  { name: "Direction de l'Environnement (DIREN)", secteur: 'environnement' },
+  { name: "Direction de l'Agriculture (DAG)", secteur: 'environnement' },
+
+  // Fiscalité / Finances
+  { name: 'Direction des Impôts et des Contributions Publiques (DICP)', secteur: 'fiscalite' },
+  { name: 'Direction du Budget et des Finances (DBF)', secteur: 'fiscalite' },
+
+  // Culture
+  { name: 'Service de la Culture et du Patrimoine (SCP)', secteur: 'culture' },
+  { name: 'Tahiti Nui Télévision (TNTV)', secteur: 'culture' },
+
+  // Support transverse
+  { name: 'Direction Générale des Ressources Humaines (DGRH)', secteur: 'support' },
+  { name: "Direction du Système d'Information (DSI)", secteur: 'support' },
+  { name: 'Secrétariat Général du Gouvernement (SGG)', secteur: 'support' },
 ];
 
-const ILES = ['Tahiti', 'Moorea', 'Raiatea', 'Bora-Bora', 'Huahine', 'Nuku Hiva'];
 const QUARTIERS_TAHITI = ['Papeete - centre', 'Pirae', 'Faaa', 'Punaauia', 'Mahina', 'Arue'];
 
 function pad(n: number, size = 2): string {
@@ -419,9 +434,11 @@ function pad(n: number, size = 2): string {
 
 export const servicesAdministratifs: ServiceAdministratif[] = SERVICE_TEMPLATES.map(
   (t, i): ServiceAdministratif => {
-    const ile = i < 42 ? 'Tahiti' : (ILES[(i - 42) % ILES.length] ?? 'Tahiti');
-    const adresseLocale =
-      ile === 'Tahiti' ? QUARTIERS_TAHITI[i % QUARTIERS_TAHITI.length] : `${ile} - centre`;
+    // Toutes les directions Pays sont implantées à Tahiti (essentiellement
+    // Papeete et quartiers limitrophes). Les antennes archipel restent
+    // réelles côté CHPF / OPH / DGEE mais ne sont pas listées ici.
+    const ile = 'Tahiti';
+    const adresseLocale = QUARTIERS_TAHITI[i % QUARTIERS_TAHITI.length];
     const tel = `+689 40 ${pad(40 + (i % 60))} ${pad(10 + (i % 90))}`;
     const slug = t.name
       .toLowerCase()
@@ -504,8 +521,9 @@ export const servicesCatalogue: ServiceCatalogue[] = [
   },
   {
     id: 'sv3',
-    titre: "Demande d'attestation de domicile",
-    description: 'Obtenir une attestation officielle de domicile à présenter à un organisme tiers.',
+    titre: 'Mise à jour de la carte CPS',
+    description:
+      'Actualiser ses coordonnées et bénéficiaires auprès de la Caisse de Prévoyance Sociale.',
     categorie: 'identite',
     dureeMoyenne: '2 jours',
     enLigne: true,
@@ -513,8 +531,9 @@ export const servicesCatalogue: ServiceCatalogue[] = [
   },
   {
     id: 'sv4',
-    titre: 'Inscription au registre du commerce',
-    description: 'Enregistrer une nouvelle entreprise, un commerce ou une activité indépendante.',
+    titre: 'Demande de patente',
+    description:
+      'Solliciter une patente auprès de la Direction des impôts pour exercer une activité commerciale ou artisanale.',
     categorie: 'activite',
     dureeMoyenne: '10 jours',
     enLigne: true,
@@ -530,10 +549,10 @@ export const servicesCatalogue: ServiceCatalogue[] = [
   },
   {
     id: 'sv6',
-    titre: 'Demande de permis de construire',
+    titre: 'Demande de permis de conduire',
     description:
-      'Déposer un permis de construire pour une construction neuve, agrandissement ou rénovation lourde.',
-    categorie: 'logement',
+      'Inscrire un candidat au permis de conduire (catégorie B, A, BE) auprès de la Direction des transports terrestres.',
+    categorie: 'mobilite',
     dureeMoyenne: '60 jours',
     enLigne: false,
   },
@@ -549,12 +568,12 @@ export const servicesCatalogue: ServiceCatalogue[] = [
   },
   {
     id: 'sv8',
-    titre: "Reconnaissance d'enfant",
+    titre: 'Allocation de naissance',
     description:
-      "Effectuer une reconnaissance auprès des services d'état civil avant ou après la naissance.",
+      "Demander à la Caisse de Prévoyance Sociale l'allocation versée aux familles à l'arrivée d'un enfant.",
     categorie: 'famille',
-    dureeMoyenne: '1 jour',
-    enLigne: false,
+    dureeMoyenne: '14 jours',
+    enLigne: true,
   },
   {
     id: 'sv9',

@@ -142,14 +142,14 @@ export function DemandeDetailPage({ demandeId, onNavigate }: DemandeDetailPagePr
                   ]}
                   defaultValue="mme"
                 />
-                <Input label="Nom" required defaultValue="Dupont" />
-                <Input label="Prénom" required defaultValue="Marie" />
+                <Input label="Nom" required defaultValue="TUHEIAVA" />
+                <Input label="Prénom" required defaultValue="Heitiare" />
                 <DatePicker label="Date de naissance" required defaultValue="1985-06-15" />
                 <Input
                   label="Adresse email"
                   type="email"
                   required
-                  defaultValue="marie.dupont@example.pf"
+                  defaultValue="heitiare.tuheiava@gmail.com"
                 />
                 <Input
                   label="Téléphone"
@@ -159,28 +159,28 @@ export function DemandeDetailPage({ demandeId, onNavigate }: DemandeDetailPagePr
                 />
               </div>
 
-              <RadioGroup
-                label="Moyen de contact préféré"
-                value={moyen}
-                onChange={setMoyen}
-                orientation="inline"
-              >
-                <Radio value="email" label="Email" />
-                <Radio value="sms" label="SMS" />
-                <Radio value="courrier" label="Courrier postal" />
-              </RadioGroup>
+              <div className="form-stack" style={{ marginTop: '1rem' }}>
+                <RadioGroup
+                  label="Moyen de contact préféré"
+                  value={moyen}
+                  onChange={setMoyen}
+                  orientation="inline"
+                >
+                  <Radio value="email" label="Email" />
+                  <Radio value="sms" label="SMS" />
+                  <Radio value="courrier" label="Courrier postal" />
+                </RadioGroup>
 
-              <Textarea
-                label="Notes complémentaires"
-                placeholder="Précisions à transmettre au service instructeur…"
-                rows={4}
-                value={notesInternes}
-                onChange={(e) => setNotesInternes(e.target.value)}
-                hint="Optionnel - 500 caractères max"
-                maxLength={500}
-              />
+                <Textarea
+                  label="Notes complémentaires"
+                  placeholder="Précisions à transmettre au service instructeur…"
+                  rows={4}
+                  value={notesInternes}
+                  onChange={(e) => setNotesInternes(e.target.value)}
+                  hint="Optionnel - 500 caractères max"
+                  maxLength={500}
+                />
 
-              <div style={{ marginTop: '1rem' }}>
                 <Checkbox
                   label="J'atteste sur l'honneur que les informations fournies sont exactes et complètes."
                   checked={acceptCgu}
@@ -306,7 +306,7 @@ export function DemandeDetailPage({ demandeId, onNavigate }: DemandeDetailPagePr
               fontSize: '0.875rem',
             }}
           >
-            Vous recevrez un email de confirmation à <strong>marie.dupont@example.pf</strong>.
+            Vous recevrez un email de confirmation à <strong>heitiare.tuheiava@gmail.com</strong>.
           </p>
         </DialogContent>
       </Dialog>
