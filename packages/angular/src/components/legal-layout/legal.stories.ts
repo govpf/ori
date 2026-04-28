@@ -17,17 +17,13 @@ const meta: Meta<OriLegalLayoutComponent> = {
     docs: {
       description: {
         component:
-          "Pattern de page éditoriale longue : mentions légales, RGPD, accessibilité, plan du site, CGU. Le DS fournit la structure (`ori-legal-layout`, `ori-legal-section`, `ori-legal-definition-list`) ; le contenu est rédigé par chaque service consommateur.",
+          'Pattern de page éditoriale longue : mentions légales, RGPD, accessibilité, plan du site, CGU. Le DS fournit la structure (`ori-legal-layout`, `ori-legal-section`, `ori-legal-definition-list`) ; le contenu est rédigé par chaque service consommateur.',
       },
     },
   },
   decorators: [
     moduleMetadata({
-      imports: [
-        OriLegalSectionComponent,
-        OriLegalDefinitionListComponent,
-        OriBreadcrumbComponent,
-      ],
+      imports: [OriLegalSectionComponent, OriLegalDefinitionListComponent, OriBreadcrumbComponent],
     }),
   ],
 };

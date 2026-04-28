@@ -1,10 +1,4 @@
-import {
-  Breadcrumb,
-  LegalDefinitionList,
-  LegalLayout,
-  LegalSection,
-  Link,
-} from '@govpf/ori-react';
+import { Breadcrumb, LegalDefinitionList, LegalLayout, LegalSection, Link } from '@govpf/ori-react';
 import type { Route } from '../App.js';
 
 interface MentionsLegalesPageProps {
@@ -28,8 +22,8 @@ export function MentionsLegalesPage({ onNavigate }: MentionsLegalesPageProps) {
       <LegalSection title="Éditeur du site">
         <p>
           Le présent service en ligne est édité par le{' '}
-          <strong>Gouvernement de la Polynésie française</strong>, autorité administrative
-          agissant au nom des services administratifs polynésiens.
+          <strong>Gouvernement de la Polynésie française</strong>, autorité administrative agissant
+          au nom des services administratifs polynésiens.
         </p>
         <LegalDefinitionList
           items={[
@@ -46,16 +40,15 @@ export function MentionsLegalesPage({ onNavigate }: MentionsLegalesPageProps) {
 
       <LegalSection title="Directeur de publication">
         <p>
-          Le directeur de la publication est le secrétaire général du Gouvernement de la
-          Polynésie française, ou toute personne désignée par délégation pour la mise en
-          ligne de ce service.
+          Le directeur de la publication est le secrétaire général du Gouvernement de la Polynésie
+          française, ou toute personne désignée par délégation pour la mise en ligne de ce service.
         </p>
       </LegalSection>
 
       <LegalSection title="Hébergement">
         <p>
-          Le service est hébergé sur l'infrastructure d'État de la Polynésie française,
-          opérée par le <strong>Service de l'informatique</strong>.
+          Le service est hébergé sur l'infrastructure d'État de la Polynésie française, opérée par
+          le <strong>Service de l'informatique</strong>.
         </p>
         <LegalDefinitionList
           items={[
@@ -73,51 +66,50 @@ export function MentionsLegalesPage({ onNavigate }: MentionsLegalesPageProps) {
 
       <LegalSection title="Conception et réalisation">
         <p>
-          La conception graphique et le développement de ce service sont assurés en interne
-          par les équipes du Service de l'informatique, sur la base du design system{' '}
-          <strong>Ori</strong> mutualisé entre les services administratifs polynésiens.
+          La conception graphique et le développement de ce service sont assurés en interne par les
+          équipes du Service de l'informatique, sur la base du design system <strong>Ori</strong>{' '}
+          mutualisé entre les services administratifs polynésiens.
         </p>
       </LegalSection>
 
       <LegalSection title="Propriété intellectuelle">
         <p>
-          Sauf mention contraire, les contenus mis à disposition sur ce site (textes,
-          images, logos, graphismes, structures, code source) sont la propriété de
-          l'éditeur ou de ses partenaires. Toute reproduction, représentation, adaptation
-          ou diffusion totale ou partielle, par quelque procédé que ce soit, sans
-          autorisation préalable écrite, est strictement interdite.
+          Sauf mention contraire, les contenus mis à disposition sur ce site (textes, images, logos,
+          graphismes, structures, code source) sont la propriété de l'éditeur ou de ses partenaires.
+          Toute reproduction, représentation, adaptation ou diffusion totale ou partielle, par
+          quelque procédé que ce soit, sans autorisation préalable écrite, est strictement
+          interdite.
         </p>
         <p>
-          Les marques et logos figurant sur ce site sont des marques déposées. Toute
-          reproduction sans accord exprès des propriétaires est constitutive d'un acte de
-          contrefaçon passible de sanctions civiles et pénales.
+          Les marques et logos figurant sur ce site sont des marques déposées. Toute reproduction
+          sans accord exprès des propriétaires est constitutive d'un acte de contrefaçon passible de
+          sanctions civiles et pénales.
         </p>
       </LegalSection>
 
       <LegalSection title="Liens hypertextes">
         <p>
-          Le site peut contenir des liens vers d'autres sites publics ou privés.
-          L'éditeur n'exerce aucun contrôle sur le contenu de ces sites tiers et ne
-          saurait être tenu responsable de leur contenu, de leur disponibilité ou des
-          pratiques de leurs éditeurs.
+          Le site peut contenir des liens vers d'autres sites publics ou privés. L'éditeur n'exerce
+          aucun contrôle sur le contenu de ces sites tiers et ne saurait être tenu responsable de
+          leur contenu, de leur disponibilité ou des pratiques de leurs éditeurs.
         </p>
         <p>
           La mise en place de liens vers le présent site est libre, à l'exclusion de ceux
-          susceptibles de porter atteinte aux intérêts du Gouvernement ou de laisser
-          entendre une caution ou un partenariat qui n'existerait pas.
+          susceptibles de porter atteinte aux intérêts du Gouvernement ou de laisser entendre une
+          caution ou un partenariat qui n'existerait pas.
         </p>
       </LegalSection>
 
       <LegalSection title="Limitation de responsabilité">
         <p>
-          L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations
-          diffusées. Cependant, il ne peut garantir l'absence d'erreurs ou d'omissions et
-          décline toute responsabilité pour les dommages directs ou indirects résultant de
-          l'utilisation des informations contenues sur ce site.
+          L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées.
+          Cependant, il ne peut garantir l'absence d'erreurs ou d'omissions et décline toute
+          responsabilité pour les dommages directs ou indirects résultant de l'utilisation des
+          informations contenues sur ce site.
         </p>
         <p>
-          En cas de constat d'une erreur ou d'une omission, vous pouvez signaler le
-          problème à l'adresse{' '}
+          En cas de constat d'une erreur ou d'une omission, vous pouvez signaler le problème à
+          l'adresse{' '}
           <Link href="mailto:contact@administration.gov.pf">contact@administration.gov.pf</Link>.
         </p>
       </LegalSection>

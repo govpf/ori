@@ -14,7 +14,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Pattern de page éditoriale longue : mentions légales, RGPD, accessibilité, plan du site, CGU. Le DS fournit la structure (`LegalLayout`, `LegalSection`, `LegalDefinitionList`) ; le contenu est rédigé par chaque service consommateur.",
+          'Pattern de page éditoriale longue : mentions légales, RGPD, accessibilité, plan du site, CGU. Le DS fournit la structure (`LegalLayout`, `LegalSection`, `LegalDefinitionList`) ; le contenu est rédigé par chaque service consommateur.',
       },
     },
   },
@@ -24,12 +24,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const breadcrumb = (
-  <Breadcrumb
-    items={[
-      { label: 'Accueil', href: '#' },
-      { label: 'Mentions légales' },
-    ]}
-  />
+  <Breadcrumb items={[{ label: 'Accueil', href: '#' }, { label: 'Mentions légales' }]} />
 );
 
 export const MentionsLegales: Story = {
@@ -43,8 +38,8 @@ export const MentionsLegales: Story = {
       <LegalSection title="Éditeur du site">
         <p>
           Le présent service est édité par le{' '}
-          <strong>Gouvernement de la Polynésie française</strong>, autorité administrative
-          agissant au nom des services administratifs polynésiens.
+          <strong>Gouvernement de la Polynésie française</strong>, autorité administrative agissant
+          au nom des services administratifs polynésiens.
         </p>
         <LegalDefinitionList
           items={[
@@ -58,23 +53,22 @@ export const MentionsLegales: Story = {
 
       <LegalSection title="Directeur de publication">
         <p>
-          Le directeur de la publication est le secrétaire général du Gouvernement de la
-          Polynésie française, ou toute personne désignée par délégation pour la mise en
-          ligne de ce service.
+          Le directeur de la publication est le secrétaire général du Gouvernement de la Polynésie
+          française, ou toute personne désignée par délégation pour la mise en ligne de ce service.
         </p>
       </LegalSection>
 
       <LegalSection title="Hébergement">
         <p>
-          Le service est hébergé sur l'infrastructure d'État de la Polynésie française,
-          opérée par le <strong>Service de l'informatique</strong>.
+          Le service est hébergé sur l'infrastructure d'État de la Polynésie française, opérée par
+          le <strong>Service de l'informatique</strong>.
         </p>
       </LegalSection>
 
       <LegalSection title="Limitation de responsabilité">
         <p>
-          L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations
-          diffusées. Cependant, il ne peut garantir l'absence d'erreurs ou d'omissions.
+          L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées.
+          Cependant, il ne peut garantir l'absence d'erreurs ou d'omissions.
         </p>
         <p>
           En cas de constat d'une erreur, signaler le problème à{' '}
@@ -99,16 +93,16 @@ export const Accessibilite: Story = {
     <LegalLayout {...args} breadcrumb={breadcrumb}>
       <LegalSection title="État de conformité">
         <p>
-          Le service public en ligne est partiellement conforme avec le RGAA version 4.1.
-          Les non-conformités et dérogations sont listées ci-dessous.
+          Le service public en ligne est partiellement conforme avec le RGAA version 4.1. Les
+          non-conformités et dérogations sont listées ci-dessous.
         </p>
       </LegalSection>
 
       <LegalSection title="Résultat de l'audit">
         <LegalDefinitionList
           items={[
-            { term: 'Date de l\'audit', description: '15 mars 2026' },
-            { term: 'Auditeur', description: 'Service de l\'informatique - cellule a11y' },
+            { term: "Date de l'audit", description: '15 mars 2026' },
+            { term: 'Auditeur', description: "Service de l'informatique - cellule a11y" },
             { term: 'Taux de conformité', description: '87 %' },
             { term: 'Méthodologie', description: 'RGAA 4.1, échantillon de 25 pages' },
           ]}
