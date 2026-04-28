@@ -47,6 +47,17 @@ cd ori
 pnpm install
 ```
 
+`pnpm install` installe aussi les hooks Git locaux (Husky) :
+
+- **`pre-commit`** : Prettier sur les fichiers stagés via `lint-staged`.
+  Plus besoin de penser à `pnpm format` avant chaque commit.
+- **`commit-msg`** : commitlint vérifie que le message suit la
+  convention Conventional Commits (cf. section "4. Conventions de
+  commits").
+
+Pour bypasser un hook ponctuellement (commit WIP qui sera squash) :
+`git commit --no-verify`. À ne pas faire systématiquement.
+
 ### Builds des packages
 
 Tous les packages doivent être buildés avant de pouvoir lancer les

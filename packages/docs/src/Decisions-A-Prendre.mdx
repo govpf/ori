@@ -391,57 +391,78 @@ chaque composant. Pas de différence d'API à harmoniser.
 
 ### C.1 - Documentation du processus de build
 
-🔵 **Statut** : ouverte
-**Déclencheur** : avant publication interne ou ouverture du repo à d'autres devs
+🟢 **Statut** : tranchée
 
-**Question** : le README actuel décrit les commandes mais pas le processus de
-build de bout en bout (ordre des packages, dépendances, ce qui passe quand on
-change un token, etc.).
+**Décision** : créée dans
+[`docs/architecture/build-and-release.md`](https://github.com/govpf/ori/blob/main/docs/architecture/build-and-release.md).
+La page couvre :
 
-**Recommandation** : créer une page dédiée "Build & release" qui explique :
-- L'ordre de build (tokens → preset → css → react/angular)
-- Quels caches purger après quelle modif
-- Comment ajouter un nouveau composant (checklist)
+- l'ordre topologique (tokens → tailwind-preset → css → react/angular)
+- ce qui doit être rebuilt en fonction de ce qui a changé
+- les caches qui peuvent piéger (`.vite`, `.angular`, `storybook-static`)
+- la liste des apps consommatrices et leur rôle
+- les pipelines CI et release
+- la checklist "ajouter un nouveau composant" (sources, exports, story
+  a11y, changeset, vérif visuelle)
 
 ---
 
 ### C.2 - Gestion git
 
-🔵 **Statut** : ouverte
-**Déclencheur** : avant le premier `git init`
+🟢 **Statut** : tranchée
 
-**Questions** :
+**Décision** : Conventional Commits + Husky + lint-staged + commitlint,
+comme proposé. Mise en place :
 
-- Conventions de commit ? (Conventional Commits + commitlint comme pf-ui)
-- Git hooks ? (Husky + pre-commit lint-staged)
-- Branche par défaut ? (`main`)
-- `.gitignore` enrichi ? (couvrir aussi `.angular/`, caches `.cache/`, etc.)
-
-**Recommandation** : reprendre les conventions pf-ui (Husky + commitlint +
-Conventional Commits sont déjà en usage chez les équipes ayant produit pf-ui).
+- **Conventions de commit** : Conventional Commits documentés dans
+  [`CONTRIBUTING.md`](https://github.com/govpf/ori/blob/main/CONTRIBUTING.md)
+  section "4. Conventions de commits".
+- **Hook `pre-commit`** : `lint-staged` qui exécute `prettier --write`
+  sur les fichiers stagés. Évite l'aller-retour CI rouge → format → push
+  qui était récurrent dans les premières PRs.
+- **Hook `commit-msg`** : `commitlint` avec preset
+  `@commitlint/config-conventional`. Refuse un message qui ne respecte
+  pas la convention.
+- **Branche par défaut** : `main`.
+- **`.gitignore`** : couvre `node_modules`, `dist`, `build`, `.angular`,
+  caches Vite, Storybook, Astro.
+- **Hooks installés automatiquement** par `pnpm install` via le script
+  `prepare` du `package.json` racine. Aucune action manuelle après
+  clone.
 
 ---
 
 ### C.3 - CI/CD
 
-🔵 **Statut** : ouverte
-**Déclencheur** : à acter avant de pousser sur le repo central GitLab de
-l'administration polynésienne
+🟢 **Statut** : tranchée
 
-**Questions** :
+**Décision** : finalement **GitHub Actions** plutôt que GitLab CI. Le
+projet est hébergé sur `github.com/govpf/ori` (et non sur le GitLab
+interne), donc GitHub Actions est cohérent avec l'hébergement source.
+Si une mirror GitLab est mise en place plus tard, un job de duplication
+peut être ajouté sans changer la chaîne principale.
 
-- Plateforme : GitLab CI (cohérent avec pf-ui qui a un `.gitlab-ci.yml`)
-- Pipelines : test → build → publication sur Artifactory `bin.gov.pf` ?
-- Tests à automatiser : type-check, lint, build, ev. visual regression
-  (Chromatic ou Percy si dispo en interne)
-- Stratégie de versioning : SemVer + Changesets ? Ou versionnage manuel comme
-  pf-ui ?
+**Pipelines en place** (cf.
+[`docs/architecture/build-and-release.md`](https://github.com/govpf/ori/blob/main/docs/architecture/build-and-release.md#pipeline-ci)) :
 
-**Recommandation** : commencer simple :
-1. Pipeline minimal `build + lint + type-check` sur chaque MR
-2. Pipeline `release` manuel avec publication Artifactory
-3. Versioning manuel pour démarrer, basculer sur Changesets si plus de devs
-   contribuent
+- **CI** sur chaque PR : Format Prettier, Build packages, Build des 4
+  apps (storybook React, storybook Angular, demo-portail, ori-site),
+  A11y axe-core sur les 406 stories (React + Angular), Security audit
+  global, Security audit ciblé sur les packages publiés (tolérance
+  zéro).
+- **Release** sur push main : pattern Changesets bot officiel. Ouvre /
+  met à jour automatiquement la PR `chore(release): version packages`,
+  publie sur npm via OIDC Trusted Publisher (provenance signée) en
+  ordre topologique. Plus de `git tag v*` manuel.
+
+**Versioning** : Changesets dès maintenant (pas attendu d'avoir plus de
+devs pour basculer). Permet de tracer formellement les bumps semver et
+les `CHANGELOG` par package, ce qui devient critique dès la première
+app pilote PF en prod.
+
+**Visual regression** : reportée. Chromatic est gratuit pour OSS mais
+suppose un compte externe. Pas prioritaire tant que les Storybooks
+servent eux-mêmes de référence visuelle pour les revues de PR.
 
 ---
 
