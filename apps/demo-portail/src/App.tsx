@@ -18,6 +18,7 @@ import { DonneesPersonnellesPage } from './pages/DonneesPersonnelles.js';
 import { PlanDuSitePage } from './pages/PlanDuSite.js';
 import { NotFoundPage } from './pages/NotFound.js';
 import { MaintenancePage } from './pages/Maintenance.js';
+import { ConnexionPage } from './pages/Connexion.js';
 import { ChatBot } from './components/ChatBot.js';
 
 export type Route =
@@ -37,7 +38,8 @@ export type Route =
   | { name: 'donnees-personnelles' }
   | { name: 'plan-du-site' }
   | { name: 'not-found' }
-  | { name: 'maintenance' };
+  | { name: 'maintenance' }
+  | { name: 'connexion' };
 
 export function App() {
   const [route, setRoute] = useState<Route>({ name: 'dashboard' });
@@ -58,6 +60,15 @@ export function App() {
     return (
       <ToastProvider>
         <NotFoundPage onNavigate={setRoute} />
+        <ToastViewport position="top-right" />
+      </ToastProvider>
+    );
+  }
+
+  if (route.name === 'connexion') {
+    return (
+      <ToastProvider>
+        <ConnexionPage onNavigate={setRoute} />
         <ToastViewport position="top-right" />
       </ToastProvider>
     );

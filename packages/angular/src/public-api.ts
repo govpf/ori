@@ -38,6 +38,7 @@ export * from './components/error-page';
 export * from './components/legal-layout';
 export * from './components/legal-section';
 export * from './components/legal-definition-list';
+export * from './components/auth-button';
 
 // Pas de composants fonctionnels exportés - cf. décision K.1 : les écrans
 // fonctionnels (auth, etc.) sont documentés en HTML+CSS pur dans
