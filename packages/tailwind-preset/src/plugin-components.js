@@ -2621,6 +2621,100 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       margin: '0',
       color: v('text-primary'),
     },
+
+    // ─── AuthButton ────────────────────────────────────────────────────────
+    // Bouton d'authentification fédérée pour les apps Ori. Trois variantes
+    // imposées par les chartes des fournisseurs d'identité :
+    //
+    //   - rumia       : IdP usager (peuple polynésien), charte teal Rumia
+    //   - gov-connect : IdP agent (broker vers Entra ID), charte Ori
+    //   - microsoft   : Entra ID direct, Microsoft Identity Branding Guidelines
+    //
+    // Cf. memory project-gov-connect-rumia pour le placement.
+    '.ori-auth-btn': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme('spacing.3'),
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      minWidth: '15rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.semibold'),
+      lineHeight: theme('lineHeight.tight'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      cursor: 'pointer',
+      textDecoration: 'none',
+      transitionProperty: 'background-color, border-color, color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      userSelect: 'none',
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 2px ${v('surface-base')}, 0 0 0 4px ${v('border-focus')}`,
+      },
+      '&:disabled, &[aria-disabled="true"]': {
+        opacity: '0.6',
+        cursor: 'not-allowed',
+      },
+    },
+    '.ori-auth-btn__logo': {
+      flex: '0 0 auto',
+      width: '1.5rem',
+      height: '1.5rem',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    '.ori-auth-btn__logo img, .ori-auth-btn__logo svg': {
+      width: '100%',
+      height: '100%',
+      display: 'block',
+    },
+
+    // Variante Rumia : bouton blanc avec bordure teal Rumia + texte primary.
+    '.ori-auth-btn--rumia': {
+      backgroundColor: v('surface-base'),
+      borderColor: '#1a7f7e',
+      color: v('text-primary'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: '#f0f9f9',
+      },
+      '&:active:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: '#dff0ef',
+      },
+    },
+
+    // Variante GOV Connect : charte Ori (bleu marine), pleine couleur.
+    '.ori-auth-btn--gov-connect': {
+      backgroundColor: v('brand-primary'),
+      borderColor: v('brand-primary'),
+      color: v('brand-on-primary'),
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('brand-primary-hover'),
+        borderColor: v('brand-primary-hover'),
+      },
+      '&:active:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: v('brand-primary-active'),
+        borderColor: v('brand-primary-active'),
+      },
+    },
+
+    // Variante Microsoft : Microsoft Identity Branding Guidelines.
+    // Bouton blanc avec bordure #8C8C8C, texte #5E5E5E. Pas de hover
+    // appuyé (Microsoft impose un rendu sobre).
+    '.ori-auth-btn--microsoft': {
+      backgroundColor: '#ffffff',
+      borderColor: '#8c8c8c',
+      color: '#5e5e5e',
+      fontFamily: '"Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif',
+      '&:hover:not(:disabled):not([aria-disabled="true"])': {
+        backgroundColor: '#f5f5f5',
+      },
+    },
   });
 
   addBase({

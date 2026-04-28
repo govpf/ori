@@ -117,6 +117,11 @@ const SITEMAP: { titre: string; nodes: SitemapNode[] }[] = [
     titre: 'Pages techniques',
     nodes: [
       {
+        label: 'Page de connexion',
+        description: 'Mire pré-authentification (Rumia)',
+        route: { name: 'connexion' },
+      },
+      {
         label: 'Page non trouvée (404)',
         description: 'Aperçu de la page affichée pour un lien obsolète',
         route: { name: 'not-found' },

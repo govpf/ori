@@ -1306,3 +1306,85 @@
 .chatbot-drawer__send:not(:disabled):hover {
   background-color: var(--color-brand-primary-hover);
 }
+
+/* ─── Page Connexion (POC mire pré-auth) ───────────────────────────────── */
+.connexion-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background-color: var(--color-surface-muted);
+}
+.connexion-page__inner {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+  background-color: var(--color-surface-base);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.connexion-page__header {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.connexion-page__logo {
+  width: 40px;
+  height: 40px;
+  display: block;
+  flex: 0 0 auto;
+}
+.connexion-page__brand {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.connexion-page__tagline {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.connexion-page__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.connexion-page__subtitle {
+  margin: -0.5rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+.connexion-page__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: 0.5rem;
+}
+.connexion-page__actions .ori-auth-btn {
+  width: 100%;
+}
+.connexion-page__help {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+.connexion-page__help a {
+  color: var(--color-text-link);
+}
+.connexion-page__footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
