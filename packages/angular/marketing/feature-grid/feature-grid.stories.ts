@@ -5,7 +5,7 @@ import { OriFeatureGridComponent } from './feature-grid.component';
 import { OriFeatureCardComponent } from './feature-card.component';
 
 const meta: Meta<OriFeatureGridComponent> = {
-  title: 'Publishing/Marketing/FeatureGrid',
+  title: 'Patterns/Marketing/FeatureGrid',
   component: OriFeatureGridComponent,
   tags: ['autodocs'],
   parameters: {

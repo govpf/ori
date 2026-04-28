@@ -4,7 +4,7 @@ import { OriHeroComponent } from './hero.component';
 import { OriButtonComponent } from '../../src/components/button/button.component';
 
 const meta: Meta<OriHeroComponent> = {
-  title: 'Publishing/Marketing/Hero',
+  title: 'Patterns/Marketing/Hero',
   component: OriHeroComponent,
   tags: ['autodocs'],
   parameters: {

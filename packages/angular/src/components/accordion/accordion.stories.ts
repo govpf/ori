@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriAccordionComponent, OriAccordionItemComponent } from './accordion.component';
 
 const meta: Meta<OriAccordionComponent> = {
-  title: 'Composants graphiques/Accordion',
+  title: 'Composants/Mise en page/Accordion',
   component: OriAccordionComponent,
   tags: ['autodocs'],
   parameters: {

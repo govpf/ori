@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Switch } from './Switch.js';
 
 const meta = {
-  title: 'Composants graphiques/Switch',
+  title: 'Composants/Saisie/Switch',
   component: Switch,
   tags: ['autodocs'],
   parameters: {

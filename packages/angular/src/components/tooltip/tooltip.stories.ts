@@ -4,7 +4,7 @@ import { OriTooltipDirective } from './tooltip.directive';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta = {
-  title: 'Composants graphiques/Tooltip',
+  title: 'Composants/Feedback/Tooltip',
   tags: ['autodocs'],
   parameters: {
     docs: {

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriDatePickerComponent } from './date-picker.component';
 
 const meta: Meta<OriDatePickerComponent> = {
-  title: 'Composants graphiques/DatePicker',
+  title: 'Composants/Saisie/DatePicker',
   component: OriDatePickerComponent,
   tags: ['autodocs'],
   parameters: {

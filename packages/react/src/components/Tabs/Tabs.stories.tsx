@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Tabs } from './Tabs.js';
 
 const meta = {
-  title: 'Composants graphiques/Tabs',
+  title: 'Composants/Navigation/Tabs',
   component: Tabs,
   tags: ['autodocs'],
   parameters: {

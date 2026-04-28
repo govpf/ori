@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Alert } from './Alert.js';
 
 const meta = {
-  title: 'Composants graphiques/Alert',
+  title: 'Composants/Feedback/Alert',
   component: Alert,
   tags: ['autodocs'],
   parameters: {

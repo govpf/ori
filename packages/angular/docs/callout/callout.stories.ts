@@ -4,7 +4,7 @@ import { OriCalloutComponent } from './callout.component';
 type CalloutStoryArgs = OriCalloutComponent & { content: string };
 
 const meta: Meta<CalloutStoryArgs> = {
-  title: 'Publishing/Documentation/Callout',
+  title: 'Patterns/Documentation/Callout',
   component: OriCalloutComponent,
   tags: ['autodocs'],
   parameters: {

@@ -4,7 +4,7 @@ import { Card, CardBody } from '../Card/Card.js';
 import { Statistic } from './Statistic.js';
 
 const meta = {
-  title: 'Composants graphiques/Statistic',
+  title: 'Composants/Affichage/Statistic',
   component: Statistic,
   tags: ['autodocs'],
   parameters: {

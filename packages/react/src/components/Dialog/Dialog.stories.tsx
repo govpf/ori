@@ -6,7 +6,7 @@ import { Button } from '../Button/Button.js';
 // auto-générée n'a pas (rendu en isolation) → "Cannot destructure 'document'".
 // Les stories explicites ci-dessous restent navigables normalement.
 const meta = {
-  title: 'Composants graphiques/Dialog',
+  title: 'Composants/Feedback/Dialog',
   component: Dialog,
   parameters: { layout: 'centered' },
 } satisfies Meta<typeof Dialog>;

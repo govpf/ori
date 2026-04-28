@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriFileUploadComponent } from './file-upload.component';
 
 const meta: Meta<OriFileUploadComponent> = {
-  title: 'Composants graphiques/FileUpload',
+  title: 'Composants/Saisie/FileUpload',
   component: OriFileUploadComponent,
   tags: ['autodocs'],
   parameters: {

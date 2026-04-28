@@ -3,7 +3,7 @@ import { Send, Undo2, Trash2 } from 'lucide-react';
 import { Button } from './Button.js';
 
 const meta = {
-  title: 'Composants graphiques/Button',
+  title: 'Composants/Actions/Button',
   component: Button,
   tags: ['autodocs'],
   parameters: {

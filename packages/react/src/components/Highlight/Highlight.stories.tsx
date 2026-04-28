@@ -4,7 +4,7 @@ import { Highlight } from './Highlight.js';
 import { Input } from '../Input/index.js';
 
 const meta = {
-  title: 'Composants graphiques/Highlight',
+  title: 'Composants/Affichage/Highlight',
   component: Highlight,
   tags: ['autodocs'],
   parameters: {

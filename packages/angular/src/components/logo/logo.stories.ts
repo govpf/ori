@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriLogoComponent } from './logo.component';
 
 const meta: Meta<OriLogoComponent> = {
-  title: 'Composants graphiques/Logo',
+  title: 'Composants/Affichage/Logo',
   component: OriLogoComponent,
   tags: ['autodocs'],
   parameters: {

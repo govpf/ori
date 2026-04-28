@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Select } from './Select.js';
 
 const meta = {
-  title: 'Composants graphiques/Select',
+  title: 'Composants/Saisie/Select',
   component: Select,
   tags: ['autodocs'],
   parameters: {

@@ -4,7 +4,7 @@ import { OriDialogComponent } from './dialog.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriDialogComponent> = {
-  title: 'Composants graphiques/Dialog',
+  title: 'Composants/Feedback/Dialog',
   component: OriDialogComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriDialogComponent, OriButtonComponent] })],

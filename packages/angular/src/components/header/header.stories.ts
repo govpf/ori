@@ -7,7 +7,7 @@ import { OriAvatarComponent } from '../avatar/avatar.component';
 import { OriTagComponent } from '../tag/tag.component';
 
 const meta: Meta<OriHeaderComponent> = {
-  title: 'Composants graphiques/Header',
+  title: 'Composants/Navigation/Header',
   component: OriHeaderComponent,
   tags: ['autodocs'],
   parameters: {

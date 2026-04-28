@@ -3,7 +3,7 @@ import { Tooltip } from './Tooltip.js';
 import { Button } from '../Button/index.js';
 
 const meta = {
-  title: 'Composants graphiques/Tooltip',
+  title: 'Composants/Feedback/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
   parameters: {

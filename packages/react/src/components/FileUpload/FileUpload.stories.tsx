@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FileUpload } from './FileUpload.js';
 
 const meta = {
-  title: 'Composants graphiques/FileUpload',
+  title: 'Composants/Saisie/FileUpload',
   component: FileUpload,
   tags: ['autodocs'],
   parameters: {

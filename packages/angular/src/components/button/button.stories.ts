@@ -11,7 +11,7 @@ import { OriButtonComponent } from './button.component';
 type ButtonStoryArgs = OriButtonComponent & { label: string };
 
 const meta: Meta<ButtonStoryArgs> = {
-  title: 'Composants graphiques/Button',
+  title: 'Composants/Actions/Button',
   component: OriButtonComponent,
   tags: ['autodocs'],
   parameters: {

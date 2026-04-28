@@ -4,7 +4,7 @@ import { FeatureGrid } from './FeatureGrid.js';
 import { FeatureCard } from './FeatureCard.js';
 
 const meta = {
-  title: 'Publishing/Marketing/FeatureGrid',
+  title: 'Patterns/Marketing/FeatureGrid',
   component: FeatureGrid,
   tags: ['autodocs'],
   parameters: {

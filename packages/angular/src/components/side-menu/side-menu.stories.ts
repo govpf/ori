@@ -52,7 +52,7 @@ class SideMenuDrawerDemo {
 }
 
 const meta: Meta<OriSideMenuComponent> = {
-  title: 'Composants graphiques/SideMenu',
+  title: 'Composants/Navigation/SideMenu',
   component: OriSideMenuComponent,
   tags: ['autodocs'],
   parameters: {

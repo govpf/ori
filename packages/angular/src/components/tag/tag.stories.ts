@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriTagComponent } from './tag.component';
 
 const meta: Meta<OriTagComponent> = {
-  title: 'Composants graphiques/Tag',
+  title: 'Composants/Affichage/Tag',
   component: OriTagComponent,
   tags: ['autodocs'],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj, Args } from '@storybook/angular';
 import { OriCodeBlockComponent } from './code-block.component';
 
 const meta: Meta<OriCodeBlockComponent> = {
-  title: 'Publishing/Documentation/CodeBlock',
+  title: 'Patterns/Documentation/CodeBlock',
   component: OriCodeBlockComponent,
   tags: ['autodocs'],
   parameters: {

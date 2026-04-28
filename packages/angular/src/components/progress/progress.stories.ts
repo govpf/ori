@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriProgressComponent } from './progress.component';
 
 const meta: Meta<OriProgressComponent> = {
-  title: 'Composants graphiques/Progress',
+  title: 'Composants/Affichage/Progress',
   component: OriProgressComponent,
   tags: ['autodocs'],
   parameters: {
