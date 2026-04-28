@@ -1,3 +1,40 @@
 packages:
   - "packages/*"
   - "apps/*"
+
+# pnpm v10 attend `onlyBuiltDependencies` et `overrides` ici, pas dans
+# package.json (sinon : "field will not take effect").
+onlyBuiltDependencies:
+  - esbuild
+  - style-dictionary
+  - "@bundled-es-modules/glob"
+
+# Pinning Angular : les peer ranges des packages @angular/* qui se
+# référencent entre eux ne sont pas tous alignés sur la même minor, ce
+# qui pousse pnpm à installer plusieurs copies (et à casser les types).
+# Overrides force toute la résolution vers la même version exacte 20.3.19
+# (sauf @angular/cdk qui suit son propre cycle).
+#
+# Overrides sécurité : ferment des advisories Dependabot dans des deps
+# transitives sans bumper les deps directes.
+#   - picomatch ^4.0.4 : ReDoS extglob (high) + glob match (medium)
+#   - esbuild ^0.25.0 : dev server arbitrary requests (medium)
+#   - postcss ^8.5.10 : XSS via unescaped </style> (medium)
+#   - vite >=7 ^7.3.2 : WebSocket file read (high) + fs.deny bypass
+#     (high) + Path Traversal Optimized Deps .map (medium). Le bump est
+#     réservé à la branche 7.x : Vite 5.x (Astro 4 + Storybook 8) reste
+#     vulnérable mais sera réglé par bump majeur Astro/Storybook séparé.
+overrides:
+  "@angular/animations": "20.3.19"
+  "@angular/cdk": "20.2.14"
+  "@angular/common": "20.3.19"
+  "@angular/compiler": "20.3.19"
+  "@angular/compiler-cli": "20.3.19"
+  "@angular/core": "20.3.19"
+  "@angular/forms": "20.3.19"
+  "@angular/platform-browser": "20.3.19"
+  "@angular/platform-browser-dynamic": "20.3.19"
+  picomatch: "^4.0.4"
+  esbuild: "^0.25.0"
+  postcss: "^8.5.10"
+  "vite@>=7.0.0": "^7.3.2"
