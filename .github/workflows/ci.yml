@@ -109,6 +109,29 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  # ─── Tests unitaires ──────────────────────────────────────────────────
+  # Vitest + @testing-library/react : couvre la logique des composants
+  # React (callbacks, états, branches conditionnelles, navigation
+  # clavier). Complémentaire des tests a11y axe-core (qui couvrent le
+  # rendu DOM accessible des stories) et des stories Storybook elles-
+  # mêmes (galerie visuelle).
+  unit-tests-react:
+    name: Unit tests React
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Run Vitest
+        run: pnpm --filter @govpf/ori-react test
+
   # ─── Build apps consommatrices ────────────────────────────────────────
   # Validation que tous les consommateurs (storybooks, site Astro, demo)
   # buildent correctement avec les packages publiés.
