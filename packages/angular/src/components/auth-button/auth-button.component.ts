@@ -36,30 +36,35 @@ const DEFAULT_LABELS: Record<OriAuthButtonVariant, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `@if (href) {
-    <a [class]="classes" [href]="href">
-      <ng-container *ngTemplateOutlet="content"></ng-container>
-    </a>
-  } @else {
-    <button type="button" [class]="classes" [disabled]="disabled">
-      <ng-container *ngTemplateOutlet="content"></ng-container>
-    </button>
-  }
+      <a [class]="classes" [href]="href">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+      </a>
+    } @else {
+      <button type="button" [class]="classes" [disabled]="disabled">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+      </button>
+    }
 
-  <ng-template #content>
-    <span class="ori-auth-btn__logo">
-      @if (variant === 'microsoft') {
-        <svg viewBox="0 0 21 21" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="0" width="9.5" height="9.5" fill="#F25022" />
-          <rect x="11" y="0" width="9.5" height="9.5" fill="#7FBA00" />
-          <rect x="0" y="11" width="9.5" height="9.5" fill="#00A4EF" />
-          <rect x="11" y="11" width="9.5" height="9.5" fill="#FFB900" />
-        </svg>
-      } @else {
-        <ng-content select="[oriAuthLogo]"></ng-content>
-      }
-    </span>
-    <span>{{ label || defaultLabel }}</span>
-  </ng-template>`,
+    <ng-template #content>
+      <span class="ori-auth-btn__logo">
+        @if (variant === 'microsoft') {
+          <svg
+            viewBox="0 0 21 21"
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect x="0" y="0" width="9.5" height="9.5" fill="#F25022" />
+            <rect x="11" y="0" width="9.5" height="9.5" fill="#7FBA00" />
+            <rect x="0" y="11" width="9.5" height="9.5" fill="#00A4EF" />
+            <rect x="11" y="11" width="9.5" height="9.5" fill="#FFB900" />
+          </svg>
+        } @else {
+          <ng-content select="[oriAuthLogo]"></ng-content>
+        }
+      </span>
+      <span>{{ label || defaultLabel }}</span>
+    </ng-template>`,
   imports: [NgTemplateOutlet],
 })
 export class OriAuthButtonComponent {

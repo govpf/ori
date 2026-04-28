@@ -32,8 +32,8 @@ export function ConnexionPage({ onNavigate }: Props) {
 
         <h1 className="connexion-page__title">Se connecter</h1>
         <p className="connexion-page__subtitle">
-          Accédez à votre espace personnel pour suivre vos démarches, consulter vos documents
-          et recevoir vos notifications.
+          Accédez à votre espace personnel pour suivre vos démarches, consulter vos documents et
+          recevoir vos notifications.
         </p>
 
         <div className="connexion-page__actions">

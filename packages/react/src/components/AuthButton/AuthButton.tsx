@@ -91,10 +91,7 @@ function getDefaultLogo(variant: AuthButtonVariant, fallback?: ReactNode): React
  *   <AuthButton variant="rumia" logo={<img src={rumiaLogo} alt="" />} />
  * où `rumiaLogo` est importé depuis `@govpf/ori-css/assets/rumia-logo.png`.
  */
-export const AuthButton = forwardRef<HTMLElement, AuthButtonProps>(function AuthButton(
-  props,
-  ref,
-) {
+export const AuthButton = forwardRef<HTMLElement, AuthButtonProps>(function AuthButton(props, ref) {
   const { variant, label, logo, className, children, ...rest } = props;
   const classes = clsx('ori-auth-btn', `ori-auth-btn--${variant}`, className);
   const resolvedLogo = getDefaultLogo(variant, logo);

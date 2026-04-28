@@ -2710,7 +2710,8 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       backgroundColor: '#ffffff',
       borderColor: '#8c8c8c',
       color: '#5e5e5e',
-      fontFamily: '"Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif',
+      fontFamily:
+        '"Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif',
       '&:hover:not(:disabled):not([aria-disabled="true"])': {
         backgroundColor: '#f5f5f5',
       },

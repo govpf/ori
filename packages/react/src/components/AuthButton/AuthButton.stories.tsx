@@ -34,7 +34,7 @@ export const Rumia: Story = {
     docs: {
       description: {
         story:
-          "Bouton à utiliser sur les espaces **usager** (portails de démarches en ligne, parcours public). Pour afficher le picto officiel Rumia, fournir l'asset via la prop `logo` : `<img src=\"/assets/rumia-logo.png\" alt=\"\" />`. Le PNG officiel est disponible dans `packages/css/assets/rumia-logo.png`.",
+          'Bouton à utiliser sur les espaces **usager** (portails de démarches en ligne, parcours public). Pour afficher le picto officiel Rumia, fournir l\'asset via la prop `logo` : `<img src="/assets/rumia-logo.png" alt="" />`. Le PNG officiel est disponible dans `packages/css/assets/rumia-logo.png`.',
       },
     },
   },
@@ -43,7 +43,12 @@ export const Rumia: Story = {
 export const RumiaWithLogo: Story = {
   args: {
     variant: 'rumia',
-    logo: <img src="https://connect.cps.pf/auth/resources/s3deo/login/rumia/images/rumia_logo.png" alt="" />,
+    logo: (
+      <img
+        src="https://connect.cps.pf/auth/resources/s3deo/login/rumia/images/rumia_logo.png"
+        alt=""
+      />
+    ),
   },
 };
 
@@ -56,7 +61,7 @@ export const GovConnect: Story = {
     docs: {
       description: {
         story:
-          "Bouton à utiliser sur les espaces **agent** (back-office, intranet). GOV Connect est un broker qui redirige vers Entra ID (Office 365 du Pays). Le logo officiel est celui de la Polynésie française, fourni via la prop `logo`.",
+          'Bouton à utiliser sur les espaces **agent** (back-office, intranet). GOV Connect est un broker qui redirige vers Entra ID (Office 365 du Pays). Le logo officiel est celui de la Polynésie française, fourni via la prop `logo`.',
       },
     },
   },
@@ -70,7 +75,7 @@ export const Microsoft: Story = {
     docs: {
       description: {
         story:
-          "Bouton optionnel pour les espaces agent qui veulent skipper la page broker GOV Connect et aller direct à Entra ID. Respecte strictement les **Microsoft Identity Branding Guidelines** (logo 4 carrés, bouton blanc, bordure #8C8C8C, police Segoe UI).",
+          'Bouton optionnel pour les espaces agent qui veulent skipper la page broker GOV Connect et aller direct à Entra ID. Respecte strictement les **Microsoft Identity Branding Guidelines** (logo 4 carrés, bouton blanc, bordure #8C8C8C, police Segoe UI).',
       },
     },
   },
@@ -81,7 +86,12 @@ export const PortailUsager: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '20rem' }}>
       <AuthButton
         variant="rumia"
-        logo={<img src="https://connect.cps.pf/auth/resources/s3deo/login/rumia/images/rumia_logo.png" alt="" />}
+        logo={
+          <img
+            src="https://connect.cps.pf/auth/resources/s3deo/login/rumia/images/rumia_logo.png"
+            alt=""
+          />
+        }
       />
     </div>
   ),
@@ -89,7 +99,7 @@ export const PortailUsager: Story = {
     docs: {
       description: {
         story:
-          "Pattern usager : un seul bouton Rumia. Pas de GOV Connect ni Microsoft sur un portail public.",
+          'Pattern usager : un seul bouton Rumia. Pas de GOV Connect ni Microsoft sur un portail public.',
       },
     },
   },
