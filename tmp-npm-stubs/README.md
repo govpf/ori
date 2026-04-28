@@ -1,4 +1,4 @@
-# Stubs de réservation npm — @govpf/ori-*
+# Stubs de réservation npm - @govpf/ori-*
 
 Ce dossier contient des packages **vides** dont l'unique but est de
 réserver les noms de packages sur npm avant la publication réelle, pour
@@ -46,7 +46,7 @@ Devrait afficher la version 0.0.0 et la description "Reserved".
   stubs que si tu es **certain** des noms.
 - À la 1re vraie publication (V1), tu remplaceras la version 0.0.0 par
   une version 1.0.0 du package réel via les pipelines de release. Pas
-  besoin de "supprimer" le stub — un `npm publish` avec une version
+  besoin de "supprimer" le stub - un `npm publish` avec une version
   supérieure le remplace naturellement.
 - Une fois les stubs publiés, ce dossier `tmp-npm-stubs/` peut être
   supprimé du repo. Il n'a aucune utilité fonctionnelle.
