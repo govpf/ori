@@ -2435,6 +2435,86 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       color: v('text-secondary'),
       margin: '0',
     },
+
+    // ─── ErrorPage ─────────────────────────────────────────────────────────
+    // Pattern de page d'erreur ou de maintenance pour les apps PF.
+    // Variantes : 404, 403, 500, maintenance. Variante non précisée = neutre.
+    '.ori-error-page': {
+      minHeight: '70vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingInline: theme('spacing.6'),
+      paddingBlock: theme('spacing.16'),
+      backgroundColor: v('surface-base'),
+      color: v('text-primary'),
+    },
+    '.ori-error-page__inner': {
+      maxWidth: '40rem',
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: theme('spacing.4'),
+    },
+    '.ori-error-page__code': {
+      fontFamily: theme('fontFamily.mono'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.semibold'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      color: v('text-muted'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.1'),
+      borderRadius: theme('borderRadius.full'),
+      backgroundColor: v('surface-muted'),
+      border: `1px solid ${v('border-subtle')}`,
+    },
+    '.ori-error-page__title': {
+      margin: '0',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.4xl'),
+      fontWeight: theme('fontWeight.bold'),
+      lineHeight: theme('lineHeight.tight'),
+      color: v('text-primary'),
+    },
+    '.ori-error-page__description': {
+      margin: '0',
+      maxWidth: '32rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.lg'),
+      lineHeight: theme('lineHeight.relaxed'),
+      color: v('text-secondary'),
+    },
+    '.ori-error-page__actions': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.3'),
+      marginTop: theme('spacing.4'),
+      justifyContent: 'center',
+    },
+    '.ori-error-page__detail': {
+      marginTop: theme('spacing.6'),
+      paddingTop: theme('spacing.4'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-muted'),
+      width: '100%',
+    },
+    // Variante maintenance : couleur warning sur le code (badge orange).
+    '.ori-error-page--maintenance .ori-error-page__code': {
+      backgroundColor: v('feedback-warning-bg'),
+      borderColor: v('feedback-warning'),
+      color: v('feedback-warning'),
+    },
+    // Variante danger (500) : couleur danger sur le code.
+    '.ori-error-page--danger .ori-error-page__code': {
+      backgroundColor: v('feedback-danger-bg'),
+      borderColor: v('feedback-danger'),
+      color: v('feedback-danger'),
+    },
   });
 
   addBase({

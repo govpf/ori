@@ -113,6 +113,21 @@ const SITEMAP: { titre: string; nodes: SitemapNode[] }[] = [
       },
     ],
   },
+  {
+    titre: 'Pages techniques',
+    nodes: [
+      {
+        label: 'Page non trouvée (404)',
+        description: 'Aperçu de la page affichée pour un lien obsolète',
+        route: { name: 'not-found' },
+      },
+      {
+        label: 'Maintenance en cours',
+        description: 'Aperçu de la page de maintenance technique',
+        route: { name: 'maintenance' },
+      },
+    ],
+  },
 ];
 
 export function PlanDuSitePage({ onNavigate }: PlanDuSitePageProps) {

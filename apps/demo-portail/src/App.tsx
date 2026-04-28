@@ -16,6 +16,9 @@ import { MentionsLegalesPage } from './pages/MentionsLegales.js';
 import { AccessibilitePage } from './pages/Accessibilite.js';
 import { DonneesPersonnellesPage } from './pages/DonneesPersonnelles.js';
 import { PlanDuSitePage } from './pages/PlanDuSite.js';
+import { NotFoundPage } from './pages/NotFound.js';
+import { MaintenancePage } from './pages/Maintenance.js';
+import { ChatBot } from './components/ChatBot.js';
 
 export type Route =
   | { name: 'dashboard' }
@@ -32,10 +35,33 @@ export type Route =
   | { name: 'mentions-legales' }
   | { name: 'accessibilite' }
   | { name: 'donnees-personnelles' }
-  | { name: 'plan-du-site' };
+  | { name: 'plan-du-site' }
+  | { name: 'not-found' }
+  | { name: 'maintenance' };
 
 export function App() {
   const [route, setRoute] = useState<Route>({ name: 'dashboard' });
+
+  // Pages plein écran sans le chrome de l'app (header + sidebar). Une page
+  // de maintenance avec une sidebar de navigation interne serait incohérente
+  // avec son message ("le service est indisponible").
+  if (route.name === 'maintenance') {
+    return (
+      <ToastProvider>
+        <MaintenancePage />
+        <ToastViewport position="top-right" />
+      </ToastProvider>
+    );
+  }
+
+  if (route.name === 'not-found') {
+    return (
+      <ToastProvider>
+        <NotFoundPage onNavigate={setRoute} />
+        <ToastViewport position="top-right" />
+      </ToastProvider>
+    );
+  }
 
   return (
     <ToastProvider>
@@ -58,6 +84,7 @@ export function App() {
         {route.name === 'donnees-personnelles' && <DonneesPersonnellesPage onNavigate={setRoute} />}
         {route.name === 'plan-du-site' && <PlanDuSitePage onNavigate={setRoute} />}
       </AppShell>
+      <ChatBot onNavigate={setRoute} />
       <ToastViewport position="top-right" />
     </ToastProvider>
   );
