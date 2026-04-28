@@ -31,7 +31,14 @@ const INTENTS: Intent[] = [
     action: { label: 'Voir le catalogue', route: { name: 'catalogue' } },
   },
   {
-    keywords: ['carte grise', 'immatriculation', 'véhicule', 'voiture', 'permis de conduire', 'dtt'],
+    keywords: [
+      'carte grise',
+      'immatriculation',
+      'véhicule',
+      'voiture',
+      'permis de conduire',
+      'dtt',
+    ],
     reply:
       "L'immatriculation, la carte grise et le permis de conduire sont gérés par la Direction des Transports Terrestres (DTT). Le catalogue propose les formulaires en ligne.",
     action: { label: 'Voir la démarche', route: { name: 'catalogue' } },
@@ -57,13 +64,13 @@ const INTENTS: Intent[] = [
   {
     keywords: ['cps', 'santé', 'protection sociale', 'rspf', 'sécurité sociale'],
     reply:
-      "La Caisse de Prévoyance Sociale (CPS) gère l'affiliation, les remboursements et le RSPF. Une partie des démarches est accessible via le portail dans la rubrique \"Santé et social\".",
+      'La Caisse de Prévoyance Sociale (CPS) gère l\'affiliation, les remboursements et le RSPF. Une partie des démarches est accessible via le portail dans la rubrique "Santé et social".',
     action: { label: 'Voir le catalogue', route: { name: 'catalogue' } },
   },
   {
     keywords: ['démarches', 'démarche', 'mes demandes'],
     reply:
-      "Les démarches en cours sont consultables dans la rubrique \"Mes démarches\". L'avancement, les pièces demandées et les notifications y sont centralisés.",
+      'Les démarches en cours sont consultables dans la rubrique "Mes démarches". L\'avancement, les pièces demandées et les notifications y sont centralisés.',
     action: { label: 'Mes démarches', route: { name: 'mes-demarches' } },
   },
   {
@@ -75,7 +82,7 @@ const INTENTS: Intent[] = [
   {
     keywords: ['profil', 'compte', 'mes informations'],
     reply:
-      "Le profil contient les informations personnelles (nom, adresse, contacts). Modifier ces informations met automatiquement à jour les démarches en cours.",
+      'Le profil contient les informations personnelles (nom, adresse, contacts). Modifier ces informations met automatiquement à jour les démarches en cours.',
     action: { label: 'Profil', route: { name: 'profil' } },
   },
   {
@@ -111,7 +118,12 @@ function findReply(message: string): { reply: string; action?: Intent['action'] 
     .replace(/\p{Diacritic}/gu, '');
   for (const intent of INTENTS) {
     const hit = intent.keywords.some((k) =>
-      normalized.includes(k.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '')),
+      normalized.includes(
+        k
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/\p{Diacritic}/gu, ''),
+      ),
     );
     if (hit) return { reply: intent.reply, action: intent.action };
   }
@@ -152,31 +164,28 @@ export function ChatBot({ onNavigate }: Props) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const sendMessage = useCallback(
-    (text: string) => {
-      const trimmed = text.trim();
-      if (!trimmed) return;
-      setInput('');
-      setPendingAction(null);
+  const sendMessage = useCallback((text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    setInput('');
+    setPendingAction(null);
+    setMessages((prev) => [
+      ...prev,
+      { id: nextId(), role: 'user', content: trimmed, timestamp: Date.now() },
+    ]);
+    setIsTyping(true);
+    // Simule un délai de réflexion plausible (800-1400 ms).
+    const delay = 800 + Math.random() * 600;
+    window.setTimeout(() => {
+      const { reply, action } = findReply(trimmed);
       setMessages((prev) => [
         ...prev,
-        { id: nextId(), role: 'user', content: trimmed, timestamp: Date.now() },
+        { id: nextId(), role: 'bot', content: reply, timestamp: Date.now() },
       ]);
-      setIsTyping(true);
-      // Simule un délai de réflexion plausible (800-1400 ms).
-      const delay = 800 + Math.random() * 600;
-      window.setTimeout(() => {
-        const { reply, action } = findReply(trimmed);
-        setMessages((prev) => [
-          ...prev,
-          { id: nextId(), role: 'bot', content: reply, timestamp: Date.now() },
-        ]);
-        setIsTyping(false);
-        if (action) setPendingAction(action);
-      }, delay);
-    },
-    [],
-  );
+      setIsTyping(false);
+      if (action) setPendingAction(action);
+    }, delay);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -202,11 +211,7 @@ export function ChatBot({ onNavigate }: Props) {
       </button>
 
       {isOpen && (
-        <aside
-          className="chatbot-drawer"
-          role="dialog"
-          aria-label="Assistant d'orientation"
-        >
+        <aside className="chatbot-drawer" role="dialog" aria-label="Assistant d'orientation">
           <header className="chatbot-drawer__header">
             <div className="chatbot-drawer__title">
               <Sparkles size={18} aria-hidden="true" />
@@ -223,22 +228,22 @@ export function ChatBot({ onNavigate }: Props) {
           </header>
 
           <div className="chatbot-drawer__disclaimer" role="note">
-            Assistant en évaluation. Vérifier toujours les informations
-            officielles auprès du service concerné.
+            Assistant en évaluation. Vérifier toujours les informations officielles auprès du
+            service concerné.
           </div>
 
           <div className="chatbot-drawer__messages" aria-live="polite">
             {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`chatbot-msg chatbot-msg--${m.role}`}
-              >
+              <div key={m.id} className={`chatbot-msg chatbot-msg--${m.role}`}>
                 <div className="chatbot-msg__bubble">{m.content}</div>
               </div>
             ))}
             {isTyping && (
               <div className="chatbot-msg chatbot-msg--bot">
-                <div className="chatbot-msg__bubble chatbot-msg__bubble--typing" aria-label="Assistant en train d'écrire">
+                <div
+                  className="chatbot-msg__bubble chatbot-msg__bubble--typing"
+                  aria-label="Assistant en train d'écrire"
+                >
                   <span></span>
                   <span></span>
                   <span></span>

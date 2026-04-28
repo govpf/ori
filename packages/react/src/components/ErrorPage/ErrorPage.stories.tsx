@@ -44,7 +44,7 @@ export const NotFound: Story = {
 export const Forbidden: Story = {
   args: {
     code: '403',
-    title: "Accès refusé",
+    title: 'Accès refusé',
     description:
       "Vous n'avez pas les droits nécessaires pour consulter cette page. Si vous pensez qu'il s'agit d'une erreur, contactez votre administrateur.",
     actions: <Button variant="primary">Retour à l'accueil</Button>,
@@ -57,7 +57,7 @@ export const ServerError: Story = {
     code: '500',
     title: 'Une erreur inattendue est survenue',
     description:
-      "Notre équipe technique a été notifiée. Réessayer dans quelques instants ou revenir plus tard.",
+      'Notre équipe technique a été notifiée. Réessayer dans quelques instants ou revenir plus tard.',
     actions: (
       <>
         <Button variant="primary">Réessayer</Button>
@@ -78,7 +78,7 @@ export const Maintenance: Story = {
     code: 'Maintenance',
     title: 'Le service est temporairement indisponible',
     description:
-      "Une maintenance technique est en cours pour améliorer le service. Le portail sera de nouveau accessible vers 23 h, heure locale.",
+      'Une maintenance technique est en cours pour améliorer le service. Le portail sera de nouveau accessible vers 23 h, heure locale.',
     detail: 'Pour les démarches urgentes, contacter le standard du service au (689) 40 47 20 20.',
   },
 };

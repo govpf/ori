@@ -47,10 +47,7 @@ export class OriErrorPageComponent {
   @Input() variant: OriErrorPageVariant = 'default';
 
   get classes(): string {
-    return [
-      'ori-error-page',
-      this.variant !== 'default' ? `ori-error-page--${this.variant}` : null,
-    ]
+    return ['ori-error-page', this.variant !== 'default' ? `ori-error-page--${this.variant}` : null]
       .filter((c): c is string => Boolean(c))
       .join(' ');
   }

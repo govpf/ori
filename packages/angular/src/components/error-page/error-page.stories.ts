@@ -72,7 +72,7 @@ export const ServerError: Story = {
     code: '500',
     title: 'Une erreur inattendue est survenue',
     description:
-      "Notre équipe technique a été notifiée. Réessayer dans quelques instants ou revenir plus tard.",
+      'Notre équipe technique a été notifiée. Réessayer dans quelques instants ou revenir plus tard.',
     variant: 'danger',
   },
   render: (args: Args) => ({
@@ -92,7 +92,7 @@ export const Maintenance: Story = {
     code: 'Maintenance',
     title: 'Le service est temporairement indisponible',
     description:
-      "Une maintenance technique est en cours pour améliorer le service. Le portail sera de nouveau accessible vers 23 h, heure locale.",
+      'Une maintenance technique est en cours pour améliorer le service. Le portail sera de nouveau accessible vers 23 h, heure locale.',
     variant: 'maintenance',
   },
   render: (args: Args) => ({
