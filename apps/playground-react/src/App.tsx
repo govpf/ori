@@ -245,10 +245,10 @@ function DisplaySection() {
 
       <h3>Avatars</h3>
       <div className="app-row">
-        <Avatar alt="Marie Dupont" size="sm" />
-        <Avatar alt="Marie Dupont" size="md" />
-        <Avatar alt="Marie Dupont" size="lg" />
-        <Avatar alt="Marie Dupont" size="xl" />
+        <Avatar alt="Heitiare TUHEIAVA" size="sm" />
+        <Avatar alt="Heitiare TUHEIAVA" size="md" />
+        <Avatar alt="Heitiare TUHEIAVA" size="lg" />
+        <Avatar alt="Heitiare TUHEIAVA" size="xl" />
       </div>
 
       <h3>Tooltip + Link + Highlight</h3>
@@ -545,7 +545,7 @@ const demandes: Demande[] = [
   {
     id: '1',
     numero: '2026-0042',
-    demandeur: 'Marie Dupont',
+    demandeur: 'Heitiare TUHEIAVA',
     type: 'Permis bateau',
     statut: 'en_cours',
     date: '2026-04-22',

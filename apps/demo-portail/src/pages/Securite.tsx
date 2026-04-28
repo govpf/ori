@@ -397,7 +397,7 @@ export function SecuritePage({ onNavigate }: SecuritePageProps) {
               fontSize: '0.875rem',
             }}
           >
-            Un email de confirmation sera envoyé à <strong>marie.dupont@example.pf</strong>.
+            Un email de confirmation sera envoyé à <strong>heitiare.tuheiava@gmail.com</strong>.
           </p>
         </DialogContent>
       </Dialog>

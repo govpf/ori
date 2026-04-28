@@ -136,7 +136,6 @@ export function PreferencesPage({ onNavigate }: PreferencesPageProps) {
               <option value="Pacific/Tahiti">Tahiti (UTC-10)</option>
               <option value="Pacific/Marquesas">Marquises (UTC-9:30)</option>
               <option value="Pacific/Gambier">Gambier (UTC-9)</option>
-              <option value="Europe/Paris">Paris (UTC+1)</option>
             </Select>
           </div>
         </CardBody>

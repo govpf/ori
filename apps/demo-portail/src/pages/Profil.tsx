@@ -24,10 +24,10 @@ export function ProfilPage({ onNavigate }: ProfilPageProps) {
   const { toast } = useToast();
 
   const [civilite, setCivilite] = useState('mme');
-  const [nom, setNom] = useState('Dupont');
-  const [prenom, setPrenom] = useState('Marie');
+  const [nom, setNom] = useState('TUHEIAVA');
+  const [prenom, setPrenom] = useState('Heitiare');
   const [dateNaissance, setDateNaissance] = useState('1985-06-12');
-  const [email, setEmail] = useState('marie.dupont@example.pf');
+  const [email, setEmail] = useState('heitiare.tuheiava@gmail.com');
   const [telephone, setTelephone] = useState('+689 87 12 34 56');
   const [adresse, setAdresse] = useState('Avenue Pouvanaa a Oopa');
   const [complement, setComplement] = useState('Résidence Tiare, Bâtiment B');

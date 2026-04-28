@@ -67,6 +67,16 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
 
   return (
     <div className="app-root">
+      <div className="demo-banner" role="region" aria-label="Avertissement de démonstration">
+        <strong>DÉMO</strong>
+        <span>
+          Cette page illustre le design system Ori avec des données fictives. Aucune information
+          saisie ici n'est transmise à un service réel.
+        </span>
+        <a className="demo-banner__link" href="https://ori.gov.pf" target="_blank" rel="noreferrer">
+          Voir la documentation Ori →
+        </a>
+      </div>
       <Header>
         <Header.Brand>
           <Logo href="#" title="Polynésie française" subtitle="Mon espace usager" />
@@ -105,7 +115,7 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
               <Sun size={16} aria-hidden="true" />
             )}
           </Button>
-          <Avatar alt="Marie Dupont" size="sm" />
+          <Avatar alt="Heitiare TUHEIAVA" size="sm" />
           <Button variant="ghost" size="sm">
             Déconnexion
           </Button>
