@@ -466,6 +466,64 @@ servent eux-mêmes de référence visuelle pour les revues de PR.
 
 ---
 
+### C.4 - Tests unitaires Angular
+
+🟡 **Statut** : parquée (l'écosystème n'est pas mûr)
+**Déclencheur** : stabilisation d'une combinaison Angular 20+ / Vitest /
+pnpm workspace, ou retour à un setup Karma maintenu
+
+**Question** : quel runner de tests unitaires pour les composants
+Angular du DS, en miroir du setup Vitest+@testing-library/react côté
+React (cf. PR #37) ?
+
+**État au 2026-04-28** : aucun runner branché côté `packages/angular`.
+Les composants Angular sont couverts par les tests a11y axe-core
+(193 stories) et la galerie visuelle Storybook, mais pas par une
+couche de tests unitaires.
+
+**Options évaluées** :
+
+1. **`jest-preset-angular@16` avec preset ESM** : la voie historique
+   "Jest pour Angular". Bloqué sur un mismatch ESM `/.mjs` (Angular 20
+   publie en `fesm2022/`) vs `transformIgnorePatterns` du preset, et
+   sur des erreurs `Must use import to load ES Module` dans le runtime
+   Jest 30 + Node 24 + pnpm.
+2. **`@analogjs/vitest-angular`** : aligné avec notre choix Vitest
+   pour React, plus moderne. Bloqué sur un crash `Debug Failure` du
+   compilateur TypeScript dû à la coexistence de `typescript@5.6.3`
+   (au root devDep) et `typescript@5.9.3` (peer Angular `>=5.8 <6.0`)
+   dans le store pnpm. Le compiler `@angular/compiler-cli@20.3` a été
+   bundlé avec une version TS et utilise des APIs d'une autre au
+   runtime, ce qui crashe sur certains nœuds AST (enums).
+3. **Karma + Jasmine** (runner natif Angular CLI) : marche au premier
+   coup. Mais Karma est annoncé en EOL par Angular team, donc
+   migration future à prévoir.
+
+**Décision** : reportée. Les options 1 et 2 sont coûteuses à débugger
+(plusieurs heures sans résultat), fragiles dès qu'Angular bumpe, et
+l'option 3 est de la dette anticipée.
+
+**Mitigation acceptée** :
+
+- Les tests a11y axe-core et la couverture des stories Storybook
+  Angular restent en place et constituent la couche de défense
+  principale contre les régressions visibles côté DOM.
+- La logique métier des composants Angular est miroir de la version
+  React, dont la couverture unitaire en Vitest (71 tests sur 5
+  composants) sert de référence comportementale documentée. Une
+  divergence cross-framework remonterait en revue de PR (cf. mémoire
+  feedback "sync cross-framework").
+- À chaque release Angular ou Vitest majeure, ré-évaluer si l'un des
+  setups bloque encore.
+
+**Coût accepté** : pas de filet automatisé contre les régressions de
+logique pure côté Angular tant que le report dure. Si une régression
+Angular spécifique est constatée en prod après livraison Ori, on
+abandonne le report et on bascule sur l'option 3 (Karma) malgré sa
+dette technique.
+
+---
+
 ## D. Stratégie produit
 
 ### D.1 - Gestion de la migration des apps existantes

@@ -218,9 +218,16 @@ Ce qui **n'a pas besoin** d'un test unitaire :
 - wrapping triviaux d'une lib externe (Dialog → Radix) : tester la
   lib externe est hors-scope ; couvrir les stories suffit
 
-Côté Angular, **Jest** sera configuré dans une PR ultérieure (le
-runner natif Karma est en fin de vie ; on attend la stabilisation de
-`@angular/build` avec Jest avant de migrer).
+Côté Angular, **aucun runner unitaire** n'est branché aujourd'hui.
+Décision parquée (cf. Décisions à prendre, point C.4) : Jest et
+Vitest+Analog ont tous deux été tentés et bloquent sur des
+incompatibilités ESM / TypeScript de l'écosystème Angular 20 + pnpm.
+Karma reste fonctionnel mais en EOL annoncé.
+
+La couverture des composants Angular repose pour l'instant sur les
+tests a11y axe-core (193 stories) et sur le fait que la logique est
+miroir de la version React (71 tests Vitest). À ré-évaluer à chaque
+release Angular ou Vitest majeure.
 
 ### 4. Conventions de commits
 
