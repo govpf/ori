@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Composants React / Next.js pour Ori",
   "type": "module",
