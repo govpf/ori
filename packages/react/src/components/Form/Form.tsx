@@ -45,8 +45,8 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
   );
 });
 
-export interface FormSectionProps extends HTMLAttributes<HTMLElement> {
-  /** Titre de la section. */
+export interface FormSectionProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
+  /** Titre de la section (peut être un ReactNode, pas seulement une string). */
   title?: ReactNode;
   /** Description courte (1-2 phrases). */
   description?: ReactNode;
