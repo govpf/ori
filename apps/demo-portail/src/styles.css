@@ -8,34 +8,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Layout shell propre à l'app (hors DS) ──────────────────────────── */
-
-.app-root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-surface-muted);
-}
-
-.app-body {
-  flex: 1 1 auto;
-  display: flex;
-  min-height: 0;
-}
-
-.app-aside {
-  flex: 0 0 auto;
-}
+/* ─── Mise en page du contenu de page ────────────────────────────────────
+   La structure shell (header + sidebar + main + footer) est gérée par
+   <AppShell> du DS. On définit uniquement ici la mise en page interne du
+   <main>, qui doit garder padding + gap entre sections (Card, formulaires).
+*/
 
 .app-content {
-  flex: 1 1 auto;
-  min-width: 0;
   padding: 1.5rem 2rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   background-color: var(--color-surface-base);
-  overflow-y: auto;
+}
+
+/* Bouton trigger du menu utilisateur dans le Header : juste un wrapper
+   transparent autour de l'<Avatar>, focus visible. */
+.user-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+.user-menu-trigger:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
 /* Si une page wrappe tout dans un <form> racine, on duplique la règle
@@ -1381,33 +1381,15 @@ body:has(.chatbot-fab) .ori-footer__bottom {
   background-color: var(--color-brand-primary-hover);
 }
 
-/* ─── Page Connexion (POC mire pré-auth) ───────────────────────────────── */
-.connexion-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  background-color: var(--color-surface-muted);
-}
-.connexion-page__inner {
-  width: 100%;
-  max-width: 28rem;
-  padding: 2rem;
-  background-color: var(--color-surface-base);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.connexion-page__header {
+/* ─── Page Connexion (mire pré-auth via <LoginLayout> du DS) ────────────
+   Le layout, le titre, la description, le card-footer et le footer sont
+   gérés par <LoginLayout>. On garde uniquement le bloc logo / brand qui
+   reste applicatif (logo Polynésie + sous-titre démarches), à passer dans
+   le slot logo. */
+.connexion-page__logo-block {
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--color-border-subtle);
 }
 .connexion-page__logo {
   width: 40px;
@@ -1426,27 +1408,6 @@ body:has(.chatbot-fab) .ori-footer__bottom {
   font-size: 0.8125rem;
   color: var(--color-text-secondary);
 }
-.connexion-page__title {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-.connexion-page__subtitle {
-  margin: -0.5rem 0 0;
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
-  line-height: 1.55;
-}
-.connexion-page__actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
-  margin-top: 0.5rem;
-}
-.connexion-page__actions .ori-auth-btn {
-  width: 100%;
-}
 .connexion-page__help {
   margin: 0;
   font-size: 0.875rem;
@@ -1455,10 +1416,4 @@ body:has(.chatbot-fab) .ori-footer__bottom {
 }
 .connexion-page__help a {
   color: var(--color-text-link);
-}
-.connexion-page__footer {
-  display: flex;
-  justify-content: center;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border-subtle);
 }

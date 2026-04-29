@@ -1,5 +1,6 @@
 import { useState, type MouseEvent, type ReactNode } from 'react';
 import {
+  AppShell as OriAppShell,
   Header,
   Footer,
   MainNavigation,
@@ -9,8 +10,14 @@ import {
   Avatar,
   Button,
   Notification,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from '@govpf/ori-react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, User, Settings, Shield, LogOut } from 'lucide-react';
 import type { Route } from '../App.js';
 
 // Route interne mappée sur le href des items de nav. Permet d'intercepter
@@ -39,13 +46,21 @@ interface AppShellProps {
 }
 
 /**
- * Shell d'app : Header + Notification banner + SideMenu + main + Footer.
- * Fournit la navigation transverse, les enfants sont les pages.
+ * Shell d'app du portail démo : utilise <AppShell> du DS pour la structure
+ * (header sticky + sidebar drawer responsive + main avec skip link + footer)
+ * et y greffe les éléments spécifiques à la démo : banner d'avertissement,
+ * Notification de maintenance, toggle thème sombre, menu utilisateur.
+ *
+ * Avant la migration, le layout était entièrement custom (.app-root /
+ * .app-body / .app-aside / .app-content). Tout ce CSS a été retiré au
+ * profit du composant DS qui pose les mêmes règles, plus propres et
+ * maintenues une seule fois.
  */
 export function AppShell({ route, onNavigate, children }: AppShellProps) {
   const [lang, setLang] = useState('fr');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [showBanner, setShowBanner] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light';
@@ -62,11 +77,30 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
     if (target) {
       e.preventDefault();
       onNavigate(target);
+      // En mobile, fermer le drawer après navigation pour laisser voir le contenu cible.
+      setSidebarOpen(false);
     }
   };
 
-  return (
-    <div className="app-root">
+  const handleUserMenu = (action: string) => {
+    switch (action) {
+      case 'profil':
+        onNavigate({ name: 'profil' });
+        break;
+      case 'securite':
+        onNavigate({ name: 'securite' });
+        break;
+      case 'preferences':
+        onNavigate({ name: 'preferences' });
+        break;
+      case 'logout':
+        onNavigate({ name: 'connexion' });
+        break;
+    }
+  };
+
+  const headerNode = (
+    <>
       <div className="demo-banner" role="region" aria-label="Avertissement de démonstration">
         <strong>DÉMO</strong>
         <span>
@@ -115,13 +149,42 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
               <Sun size={16} aria-hidden="true" />
             )}
           </Button>
-          <Avatar alt="Heitiare TUHEIAVA" size="sm" />
-          <Button variant="ghost" size="sm">
-            Déconnexion
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button type="button" className="user-menu-trigger" aria-label="Menu utilisateur">
+                <Avatar alt="Heitiare TUHEIAVA" size="sm" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Connectée en tant que Heitiare T.</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem icon={<User size={16} />} onSelect={() => handleUserMenu('profil')}>
+                Profil
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                icon={<Shield size={16} />}
+                onSelect={() => handleUserMenu('securite')}
+              >
+                Sécurité
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                icon={<Settings size={16} />}
+                onSelect={() => handleUserMenu('preferences')}
+              >
+                Préférences
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                icon={<LogOut size={16} />}
+                destructive
+                onSelect={() => handleUserMenu('logout')}
+              >
+                Se déconnecter
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </Header.Actions>
       </Header>
-
       {showBanner && (
         <Notification
           variant="info"
@@ -132,76 +195,68 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
           Maintenance technique programmée dimanche 28 avril de 22h à 23h.
         </Notification>
       )}
+    </>
+  );
 
-      <div className="app-body">
-        <aside className="app-aside" onClick={handleNavClick}>
-          <SideMenu
-            sections={[
+  const sidebarNode = (
+    <div onClick={handleNavClick} style={{ display: 'contents' }}>
+      <SideMenu
+        sections={[
+          {
+            title: 'Mon espace',
+            items: [
+              { label: 'Tableau de bord', href: '#dashboard', current: route.name === 'dashboard' },
               {
-                title: 'Mon espace',
-                items: [
-                  {
-                    label: 'Tableau de bord',
-                    href: '#dashboard',
-                    current: route.name === 'dashboard',
-                  },
-                  {
-                    label: 'Mes démarches',
-                    href: '#mes-demarches',
-                    current: route.name === 'mes-demarches' || route.name === 'demande',
-                  },
-                  {
-                    label: 'Mes documents',
-                    href: '#documents',
-                    current: route.name === 'documents',
-                  },
-                  {
-                    label: 'Mes notifications',
-                    href: '#notifs',
-                    current: route.name === 'notifications',
-                  },
-                ],
+                label: 'Mes démarches',
+                href: '#mes-demarches',
+                current: route.name === 'mes-demarches' || route.name === 'demande',
               },
+              { label: 'Mes documents', href: '#documents', current: route.name === 'documents' },
               {
-                title: 'Compte',
-                items: [
-                  {
-                    label: 'Profil',
-                    href: '#profil',
-                    current: route.name === 'profil',
-                  },
-                  {
-                    label: 'Sécurité',
-                    href: '#securite',
-                    current: route.name === 'securite',
-                  },
-                  {
-                    label: 'Préférences',
-                    href: '#prefs',
-                    current: route.name === 'preferences',
-                  },
-                ],
+                label: 'Mes notifications',
+                href: '#notifs',
+                current: route.name === 'notifications',
               },
-            ]}
-          />
-        </aside>
-
-        <main className="app-content">{children}</main>
-      </div>
-
-      <div onClick={handleNavClick} style={{ display: 'contents' }}>
-        <Footer
-          brand="Polynésie française"
-          description="Service en ligne officiel - démonstration"
-          legal="© 2026 Gouvernement de la Polynésie française"
-          utilityLinks={[
-            { label: 'Mentions légales', href: '#mentions-legales' },
-            { label: 'Accessibilité', href: '#accessibilite' },
-            { label: 'Données personnelles', href: '#donnees-personnelles' },
-            { label: 'Plan du site', href: '#plan-du-site' },
-          ]}
-        />
-      </div>
+            ],
+          },
+          {
+            title: 'Compte',
+            items: [
+              { label: 'Profil', href: '#profil', current: route.name === 'profil' },
+              { label: 'Sécurité', href: '#securite', current: route.name === 'securite' },
+              { label: 'Préférences', href: '#prefs', current: route.name === 'preferences' },
+            ],
+          },
+        ]}
+      />
     </div>
+  );
+
+  const footerNode = (
+    <div onClick={handleNavClick} style={{ display: 'contents' }}>
+      <Footer
+        brand="Polynésie française"
+        description="Service en ligne officiel - démonstration"
+        legal="© 2026 Gouvernement de la Polynésie française"
+        utilityLinks={[
+          { label: 'Mentions légales', href: '#mentions-legales' },
+          { label: 'Accessibilité', href: '#accessibilite' },
+          { label: 'Données personnelles', href: '#donnees-personnelles' },
+          { label: 'Plan du site', href: '#plan-du-site' },
+        ]}
+      />
+    </div>
+  );
+
+  return (
+    <OriAppShell
+      header={headerNode}
+      sidebar={sidebarNode}
+      footer={footerNode}
+      sidebarOpen={sidebarOpen}
+      onSidebarOpenChange={setSidebarOpen}
+    >
+      <div className="app-content">{children}</div>
+    </OriAppShell>
   );
 }
