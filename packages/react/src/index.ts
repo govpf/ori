@@ -26,6 +26,7 @@ export * from './components/Link/index.js';
 export * from './components/Highlight/index.js';
 export * from './components/Progress/index.js';
 export * from './components/Skeleton/index.js';
+export * from './components/Spinner/index.js';
 export * from './components/Timeline/index.js';
 export * from './components/Toast/index.js';
 export * from './components/Notification/index.js';
