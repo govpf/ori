@@ -32,6 +32,7 @@ export * from './components/Spinner/index.js';
 export * from './components/EmptyState/index.js';
 export * from './components/AppShell/index.js';
 export * from './components/Form/index.js';
+export * from './components/LoginLayout/index.js';
 export * from './components/Timeline/index.js';
 export * from './components/Toast/index.js';
 export * from './components/Notification/index.js';
