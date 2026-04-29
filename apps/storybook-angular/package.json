@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-storybook-angular",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Storybook Angular pour les composants @govpf/ori-angular",
   "scripts": {
