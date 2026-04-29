@@ -1656,6 +1656,16 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       flexShrink: '0',
       overflowY: 'auto',
       backgroundColor: v('surface-base'),
+      // Container flex column pour que le contenu projeté (typiquement un
+      // <nav>) s'étire en hauteur sur toute la sidebar. Sans ça, une bordure
+      // ou un fond appliqué au contenu projeté s'arrête à la hauteur de ses
+      // items et laisse un espace blanc en bas avant le footer.
+      display: 'flex',
+      flexDirection: 'column',
+      '& > *': {
+        flex: '1 1 auto',
+        minHeight: '0',
+      },
     },
     '.ori-app-shell__main': {
       flex: '1 1 auto',
