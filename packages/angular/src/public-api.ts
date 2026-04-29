@@ -30,6 +30,7 @@ export * from './components/progress';
 export * from './components/skeleton';
 export * from './components/spinner';
 export * from './components/empty-state';
+export * from './components/app-shell';
 export * from './components/timeline';
 export * from './components/toast';
 export * from './components/notification';
