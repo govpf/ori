@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-site",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "description": "Site documentaire Ori (prototype Astro). Consomme provisoirement les packages workspace @govpf/ori-* en attendant le rebranding global.",
