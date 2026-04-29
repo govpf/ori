@@ -1,0 +1,91 @@
+name: Bug d'accessibilité
+description: Signaler un défaut RGAA AA sur un composant Ori (DOM, focus, clavier, lecteur d'écran).
+title: '[a11y] '
+labels: ['a11y', 'bug', 'à trier']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ori est positionné comme conforme RGAA AA. Tout écart est traité
+        en priorité. Avant de soumettre, vérifier que le composant ne
+        figure pas déjà dans la [page Validation accessibilité](https://ori.gov.pf/fondations/accessibilite/)
+        avec une limite documentée.
+
+  - type: input
+    id: composant
+    attributes:
+      label: Composant impacté
+      description: Nom du composant et chemin Storybook si possible.
+      placeholder: Dialog (Composants / Feedback / Dialog)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type de défaut
+      options:
+        - Contraste insuffisant (texte / fond / bordure)
+        - Élément non focusable au clavier
+        - Ordre de focus incorrect
+        - Pas de retour au focus après fermeture (ex. modal)
+        - Annonce lecteur d'écran absente ou incorrecte
+        - Rôle ARIA manquant ou incorrect
+        - Attribut `aria-*` manquant ou incorrect
+        - Texte alternatif manquant (image, icône)
+        - Autre (préciser dans la description)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Comment reproduire
+      description: Étapes précises pour reproduire l'écart, en partant idéalement d'une story Storybook.
+      placeholder: |
+        1. Ouvrir https://govpf.github.io/ori/storybook/react/?path=/docs/composants-feedback-dialog--default
+        2. Cliquer sur "Ouvrir la modale"
+        3. Appuyer sur Tab
+        4. Le focus ne reste pas dans la modale (sort sur l'arrière-plan)
+    validations:
+      required: true
+
+  - type: textarea
+    id: attendu
+    attributes:
+      label: Comportement attendu
+      description: Comment ça devrait se comporter selon RGAA AA / WCAG 2.1.
+    validations:
+      required: true
+
+  - type: input
+    id: outil
+    attributes:
+      label: Outil ayant détecté l'écart
+      description: axe-core, NVDA, VoiceOver, JAWS, Lighthouse, audit humain, etc.
+      placeholder: NVDA + Firefox
+
+  - type: input
+    id: critere-rgaa
+    attributes:
+      label: Critère RGAA / WCAG concerné
+      description: Numéro du critère si connu. Sinon laisser vide, on le retrouvera.
+      placeholder: 'RGAA 7.3 / WCAG 2.1 SC 2.1.2 (No Keyboard Trap)'
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework concerné
+      options:
+        - React
+        - Angular
+        - Les deux (cross-framework)
+        - CSS pur (@govpf/ori-css)
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte
+      description: App PF impactée, urgence, capture d'écran ou enregistrement.

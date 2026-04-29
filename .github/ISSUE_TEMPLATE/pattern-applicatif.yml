@@ -1,0 +1,73 @@
+name: Pattern applicatif
+description: Demander un pattern composé (DataTable, Wizard, Login layout, EmptyState…) qui dépasse la primitive.
+title: '[Pattern] '
+labels: ['pattern', 'à trier']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Un pattern est une **composition** réutilisable de plusieurs
+        primitives Ori (Table + Pagination + filtres = DataTable). Si
+        votre besoin est un seul composant atomique, utiliser plutôt
+        le template **Composant manquant**.
+
+  - type: input
+    id: pattern
+    attributes:
+      label: Nom du pattern
+      placeholder: DataTable filtré et paginé
+    validations:
+      required: true
+
+  - type: textarea
+    id: composition
+    attributes:
+      label: Composition cible
+      description: Quelles primitives Ori sont assemblées dans ce pattern ?
+      placeholder: |
+        Table + Pagination + Input (recherche) + Select (filtre par
+        secteur) + Tag (statut par ligne) + DropdownMenu (actions
+        par ligne).
+    validations:
+      required: true
+
+  - type: textarea
+    id: usage
+    attributes:
+      label: Cas d'usage concret
+      description: Décrire un cas d'usage concret dans une app PF qui réutilise ce pattern (ex. liste d'agents, catalogue de démarches, journal d'audit).
+      placeholder: |
+        Dans l'app annuaire, on a besoin d'afficher la liste des agents
+        avec recherche libre, filtre par direction, tri par nom, et
+        actions par ligne. On a aujourd'hui 4 implémentations
+        divergentes dans 4 apps différentes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API souhaitée (props, callbacks, slots)
+      description: Esquisse de la prop interface. Pas besoin d'être complet, on affinera dans l'issue.
+      placeholder: |
+        <DataTable
+          rows={agents}
+          columns={[...]}
+          searchable
+          onSearch={...}
+          filters={[...]}
+          pagination={{ page, perPage, total, onPageChange }}
+          rowActions={[...]}
+        />
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives évaluées
+      description: Patterns existants dans d'autres DS (TanStack Table, Material DataGrid, etc.) qui pourraient inspirer.
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte / app pilote
+      description: App PF qui en a besoin, échéance, lien vers issue interne.

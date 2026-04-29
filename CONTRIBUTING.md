@@ -311,9 +311,29 @@ Conventions calées sur Conventional Commits :
 | `feat!` ou `BREAKING CHANGE` dans le corps         | `major`                            |
 | `chore`, `docs`, `refactor`, `test`, `ci`, `style` | **pas de bump** (pas de changeset) |
 
-Tant que le DS est en `0.x`, un breaking change peut rester en `minor`
-(c'est la sémantique semver). À partir de `1.0`, tout breaking devient
-`major`.
+#### Politique semver pré-1.0
+
+Tant que le DS est en `0.x` (phase de bootstrap), la règle est :
+
+| Bump  | Format  | Sémantique                                                                                             |
+| ----- | ------- | ------------------------------------------------------------------------------------------------------ |
+| Patch | `0.x.y` | Compatibilité ascendante garantie. Bug fixes uniquement.                                               |
+| Minor | `0.x.0` | **Breaking changes autorisés**. Nouvelles fonctionnalités, modifications d'API publique, suppressions. |
+| Major | `1.0.0` | Sortira après stabilisation par X apps PF en production.                                               |
+
+**Pour les consommateurs** : verrouiller la version exacte d'Ori en
+`dependencies` (`"@govpf/ori-react": "0.3.2"`, pas `"^0.3.2"`). Lire
+le `CHANGELOG.md` de chaque package avant tout bump minor.
+
+**Pour les contributeurs Ori** : tout changement d'API publique doit
+embarquer un changeset minor avec un résumé clair. Si le changement
+est breaking, le résumé doit lister explicitement « Breaking : ... »
+avec un exemple `avant` / `après` quand c'est court.
+
+À partir de `1.0`, tout breaking deviendra `major` (sémantique semver
+classique).
+
+Voir aussi la décision tranchée [C.5 dans Décisions à prendre](https://ori.gov.pf/) du Storybook.
 
 #### Que se passe-t-il après merge ?
 

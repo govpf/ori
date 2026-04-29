@@ -524,6 +524,52 @@ dette technique.
 
 ---
 
+### C.5 - Politique semver pré-1.0
+
+🟢 **Statut** : tranchée
+
+**Contexte** : Ori est en phase de bootstrap (versions `0.x`). Le
+versioning est piloté par Changesets depuis la PR #34 mais la règle
+de bump n'était pas explicite, ce qui crée de l'incertitude pour les
+premiers consommateurs qui doivent verrouiller leurs versions sans
+savoir à quelle fréquence les breaking changes peuvent tomber.
+
+**Décision** : adopter la politique standard semver pré-1.0
+recommandée par la spec npm.
+
+| Bump   | Format   | Sémantique                                 |
+| ------ | -------- | ------------------------------------------ |
+| Patch  | `0.x.y`  | Compatibilité ascendante garantie. Bug fixes uniquement. |
+| Minor  | `0.x.0`  | **Breaking changes autorisés**. Nouvelles fonctionnalités, modifications d'API publique, suppressions. |
+| Major  | `1.0.0`  | Sortira après stabilisation par X apps PF en production (cf. décision dédiée à venir). |
+
+**Conséquence pour les consommateurs** :
+
+- Verrouiller la version exacte d'Ori en `dependencies` (`"@govpf/ori-react": "0.3.2"`, pas `"^0.3.2"`).
+- Lire le `CHANGELOG.md` de chaque package avant tout bump minor : il liste les
+  breaking changes et les codemods quand applicables.
+- Tester les bumps minor en environnement de recette avant production.
+
+**Conséquence côté Ori** :
+
+- Toute PR qui change l'API publique d'un composant publié doit
+  embarquer un changeset **minor**. Le bot Changesets ouvre la PR
+  `chore(release): version packages` à chaque push main et bumpe les
+  packages concernés.
+- Le `CHANGELOG.md` de chaque package doit lister explicitement les
+  breaking changes en tête, avec un exemple `avant` / `après` quand
+  c'est court à montrer.
+- Pas de breaking change non documenté en patch : si un patch en
+  contient un par accident, on bump immédiatement en minor et on
+  publie un correctif.
+
+**Documentation** : à reprendre dans `CONTRIBUTING.md` section
+"Versioning et release", et dans la page d'installation du site
+Astro `ori.gov.pf` pour informer les consommateurs avant
+installation.
+
+---
+
 ## D. Stratégie produit
 
 ### D.1 - Gestion de la migration des apps existantes

@@ -1,0 +1,18 @@
+# Configuration des templates d'issue. Désactive les issues vides
+# (force le contributeur à choisir un template) et propose des canaux
+# alternatifs pour les sujets qui ne sont pas du bug ou du feature
+# request technique.
+blank_issues_enabled: false
+contact_links:
+  - name: Question d'usage
+    url: https://github.com/govpf/ori/issues/new?template=question-usage.yml
+    about: Vous ne savez pas quel composant utiliser, ou comment composer plusieurs composants ensemble.
+  - name: Documentation Ori
+    url: https://ori.gov.pf
+    about: Site documentaire public, à consulter avant d'ouvrir une issue.
+  - name: Storybook (catalogue interactif)
+    url: https://govpf.github.io/ori/storybook/react/
+    about: Catalogue des composants avec exemples interactifs. Vérifier si le composant existe avant d'ouvrir une demande.
+  - name: Sujet sécurité
+    url: https://github.com/govpf/ori/security/advisories/new
+    about: Pour rapporter une faille en privé. Ne JAMAIS ouvrir d'issue publique pour un sujet sécurité.

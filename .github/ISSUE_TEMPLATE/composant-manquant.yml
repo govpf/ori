@@ -1,0 +1,73 @@
+name: Composant manquant
+description: Demander l'ajout d'un nouveau composant ou d'une nouvelle variante au DS Ori.
+title: '[Composant] '
+labels: ['composant', 'à trier']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de contribuer à Ori. Avant de soumettre, vérifier que le
+        composant n'existe pas déjà dans le [catalogue Storybook](https://govpf.github.io/ori/storybook/react/).
+
+  - type: input
+    id: composant
+    attributes:
+      label: Nom proposé du composant
+      description: En PascalCase. Exemple - DropdownMenu, Combobox, MultiSelect.
+      placeholder: DropdownMenu
+    validations:
+      required: true
+
+  - type: textarea
+    id: usage
+    attributes:
+      label: Cas d'usage concret
+      description: Décrire un cas d'usage concret dans une app PF (ex. menu utilisateur en haut à droite, filtre sur une table d'agents, etc.). Permet de calibrer l'API.
+      placeholder: |
+        Dans l'app annuaire, on a besoin d'un menu déroulant pour les
+        actions par ligne (modifier, supprimer, désactiver). Aujourd'hui
+        on bricole avec un Button + un panel custom positionné via JS.
+    validations:
+      required: true
+
+  - type: textarea
+    id: variantes
+    attributes:
+      label: Variantes / props attendues
+      description: Lister les variantes visuelles (size, variant, etc.) et les props essentielles. Pas besoin d'être exhaustif, on en discutera dans l'issue.
+      placeholder: |
+        - size : sm / md / lg
+        - position : top / bottom / left / right (auto par défaut)
+        - items : array de { label, icon?, onClick, variant? }
+        - searchable : bool
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives évaluées
+      description: Si vous avez regardé d'autres DS (shadcn, Material, Chakra, Carbon, DSFR), citer les inspirations. Aide à benchmarker l'API.
+
+  - type: textarea
+    id: a11y
+    attributes:
+      label: Contraintes d'accessibilité connues
+      description: Le composant a-t-il des spécificités RGAA AA à considérer dès la conception (focus trap, role ARIA, navigation clavier, annonces lecteur d'écran) ?
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework prioritaire
+      description: Vous bloque côté React, Angular, ou les deux ?
+      options:
+        - Les deux (publier React + Angular en miroir)
+        - React uniquement (Angular peut suivre plus tard)
+        - Angular uniquement (React peut suivre plus tard)
+        - HTML / CSS pur (via @govpf/ori-css)
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte / lien app pilote
+      description: App PF qui en a besoin, échéance éventuelle, lien vers une issue interne. Aide la priorisation.
