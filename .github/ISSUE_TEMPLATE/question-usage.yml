@@ -1,0 +1,57 @@
+name: Question d'usage
+description: Vous ne savez pas quel composant utiliser, comment composer plusieurs composants, ou comment override un comportement.
+title: '[Question] '
+labels: ['question', 'à trier']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Avant de poser la question, vérifier rapidement :
+
+        - La page [Storybook](https://govpf.github.io/ori/storybook/react/) du composant
+        - La page d'usage MDX si elle existe (ex. Composants / Feedback / Dialog → onglet Docs)
+        - Le [site de doc](https://ori.gov.pf) (Patterns React, Patterns Angular)
+        - Les [Décisions de design](https://ori.gov.pf/) qui expliquent pourquoi tel choix d'API
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Votre question
+      description: Décrire précisément ce que vous cherchez à faire et là où vous bloquez.
+      placeholder: |
+        Comment afficher un Dialog avec un formulaire dedans ET garder le
+        focus sur le premier champ ? J'ai essayé `autoFocus` sur l'Input
+        mais ça ne marche pas, le focus reste sur le bouton trigger.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tentatives
+    attributes:
+      label: Ce que vous avez essayé
+      description: Code que vous avez écrit, comportement obtenu vs attendu.
+      render: tsx
+      placeholder: |
+        <Dialog open={open}>
+          <DialogContent title="Modifier l'agent">
+            <Input label="Nom" autoFocus />
+          </DialogContent>
+        </Dialog>
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options:
+        - React
+        - Angular
+        - HTML / CSS pur
+        - Pas applicable (question transverse)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version d'Ori utilisée
+      placeholder: '@govpf/ori-react 0.3.2'
