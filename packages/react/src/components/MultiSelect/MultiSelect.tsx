@@ -185,13 +185,15 @@ export const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(functi
           closeList();
         }
         break;
-      case 'Backspace':
+      case 'Backspace': {
         // Si la query est vide, Backspace retire la dernière sélection
-        if (!query && values.length > 0) {
+        const last = values[values.length - 1];
+        if (!query && last !== undefined) {
           e.preventDefault();
-          removeValue(values[values.length - 1]);
+          removeValue(last);
         }
         break;
+      }
     }
   };
 
