@@ -3,6 +3,7 @@ export * from './components/input';
 export * from './components/card';
 export * from './components/alert';
 export * from './components/dialog';
+export * from './components/alert-dialog';
 export * from './components/dropdown-menu';
 export * from './components/checkbox';
 export * from './components/radio';
