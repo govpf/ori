@@ -34,6 +34,7 @@ export * from './components/app-shell';
 export * from './components/form';
 export * from './components/login-layout';
 export * from './components/wizard';
+export * from './components/data-table';
 export * from './components/timeline';
 export * from './components/toast';
 export * from './components/notification';
