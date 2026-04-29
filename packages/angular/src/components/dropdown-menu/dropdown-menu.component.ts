@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -7,7 +8,9 @@ import {
   HostListener,
   Inject,
   Input,
+  OnDestroy,
   Output,
+  Renderer2,
   ViewChild,
   ViewChildren,
   ViewEncapsulation,
@@ -63,9 +66,6 @@ export interface OriDropdownMenuItem {
       <span
         #triggerWrap
         class="ori-dropdown-menu-trigger-wrap"
-        [attr.aria-haspopup]="'menu'"
-        [attr.aria-expanded]="isOpen"
-        [attr.aria-controls]="menuId"
         (click)="toggle()"
         (keydown)="onTriggerKeyDown($event)"
       >
@@ -114,7 +114,7 @@ export interface OriDropdownMenuItem {
     </div>
   `,
 })
-export class OriDropdownMenuComponent {
+export class OriDropdownMenuComponent implements AfterViewInit, OnDestroy {
   @Input() items: OriDropdownMenuItem[] = [];
   /** Alignement horizontal du menu sous le trigger. */
   @Input() align: 'start' | 'center' | 'end' = 'start';
@@ -133,8 +133,36 @@ export class OriDropdownMenuComponent {
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly hostRef = inject(ElementRef<HTMLElement>);
+  private readonly renderer = inject(Renderer2);
+  private triggerButton?: HTMLElement;
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
+
+  ngAfterViewInit(): void {
+    // Le bouton réel est projeté via slot="trigger" ; on le retrouve dans le
+    // wrap et on lui applique les attributs ARIA (axe-core refuse aria-haspopup
+    // sur un span sans rôle, donc on cible le bouton lui-même).
+    const wrap = this.triggerWrap?.nativeElement;
+    if (!wrap) return;
+    this.triggerButton =
+      wrap.querySelector<HTMLElement>('button') ??
+      wrap.querySelector<HTMLElement>('[slot=trigger]') ??
+      undefined;
+    if (this.triggerButton) {
+      this.renderer.setAttribute(this.triggerButton, 'aria-haspopup', 'menu');
+      this.renderer.setAttribute(this.triggerButton, 'aria-controls', this.menuId);
+      this.updateAriaExpanded();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.triggerButton = undefined;
+  }
+
+  private updateAriaExpanded(): void {
+    if (!this.triggerButton) return;
+    this.renderer.setAttribute(this.triggerButton, 'aria-expanded', String(this.isOpen));
+  }
 
   toggle(): void {
     if (this.isOpen) this.closeMenu();
@@ -146,6 +174,7 @@ export class OriDropdownMenuComponent {
     this.isOpen = true;
     this.activeIndex = this.firstEnabledIndex();
     this.openChange.emit(true);
+    this.updateAriaExpanded();
     this.cdr.markForCheck();
     requestAnimationFrame(() => this.focusActive());
   }
@@ -155,13 +184,10 @@ export class OriDropdownMenuComponent {
     this.isOpen = false;
     this.activeIndex = -1;
     this.openChange.emit(false);
+    this.updateAriaExpanded();
     this.cdr.markForCheck();
     if (restoreFocus) {
-      // Re-focus le premier élément focusable du trigger (le plus souvent un button)
-      const focusable = this.triggerWrap?.nativeElement.querySelector<HTMLElement>(
-        'button, [tabindex]:not([tabindex="-1"])',
-      );
-      focusable?.focus();
+      this.triggerButton?.focus();
     }
   }
 
