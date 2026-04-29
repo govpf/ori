@@ -1900,6 +1900,97 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       borderTopColor: v('border-subtle'),
     },
 
+    // ─── DataTable ──────────────────────────────────────────────────────────
+    // Toolbar avec filtre + compteur, table existante .ori-table en dessous,
+    // pagination en pied. Bouton 3-dots dans la dernière colonne pour les
+    // actions de ligne (rendu via DropdownMenu).
+    '.ori-data-table': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.3'),
+    },
+    '.ori-data-table__toolbar': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme('spacing.3'),
+    },
+    '.ori-data-table__filter-label': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      flex: '1 1 auto',
+      minWidth: '14rem',
+      maxWidth: '24rem',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:focus-within': {
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-data-table__filter-icon': {
+      display: 'inline-flex',
+      color: v('text-muted'),
+      lineHeight: '0',
+      flexShrink: '0',
+    },
+    '.ori-data-table__filter-input': {
+      flex: '1 1 auto',
+      minWidth: '0',
+      border: 'none',
+      outline: 'none',
+      backgroundColor: 'transparent',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      '&::placeholder': { color: v('text-muted') },
+      // Retire la croix du search natif (esthétique inégale entre browsers)
+      '&::-webkit-search-cancel-button': {
+        WebkitAppearance: 'none',
+      },
+    },
+    '.ori-data-table__count': {
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      whiteSpace: 'nowrap',
+    },
+    '.ori-data-table__footer': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      paddingTop: theme('spacing.2'),
+    },
+    '.ori-data-table__row-actions-trigger': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '2rem',
+      height: '2rem',
+      padding: '0',
+      background: 'transparent',
+      border: 'none',
+      borderRadius: theme('borderRadius.sm'),
+      color: v('text-secondary'),
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: v('surface-muted'),
+        color: v('text-primary'),
+      },
+      '&:focus-visible': {
+        outline: `2px solid ${v('border-focus')}`,
+        outlineOffset: '2px',
+      },
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
