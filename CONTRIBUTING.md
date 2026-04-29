@@ -24,6 +24,24 @@ cassé, classe CSS oubliée), **ouvrir une issue d'abord** pour discuter
 du besoin. Cela évite de produire du code qui ne sera pas mergé pour
 des raisons de design ou de stratégie.
 
+Le repo embarque [4 templates d'issues](./.github/ISSUE_TEMPLATE/) :
+composant manquant, bug a11y, pattern applicatif, question d'usage.
+À choisir dès la création d'une issue.
+
+### Roadmap publique
+
+Le suivi des chantiers est visible sur le **[GitHub Project Ori roadmap](https://github.com/orgs/govpf/projects/3)** :
+
+- 4 colonnes : `Backlog` (items reconnus), `Up next` (1-2 sprints à venir),
+  `In progress` (PR ouverte), `Done` (livré)
+- Filtres par `Catégorie` (Composant / Pattern / A11y / DX / Doc /
+  Écosystème / Gouvernance / Sécu), `Size` (effort estimé),
+  `Source` (Feedback externe / Roadmap interne / Bug remonté /
+  Décision tranchée)
+
+Avant d'ouvrir un nouveau ticket, vérifier que l'item n'est pas
+déjà dans la roadmap. Si oui, commenter sur la card concernée.
+
 ### Code de conduite
 
 Ce projet suit le [Contributor Covenant](./CODE_OF_CONDUCT.md).

@@ -62,6 +62,7 @@ complète des composants disponibles et leurs API.
 - **Site documentaire** (à venir) : <https://ori.gov.pf>
 - **Storybooks de test interactif** : déployés en sous-chemins du site documentaire
 - **Décisions de design** et **stratégie d'ouverture** : pages MDX dans `packages/docs/`
+- **Roadmap publique** : <https://github.com/orgs/govpf/projects/3> (Backlog, Up next, In progress, Done ; filtres par catégorie, effort, source)
 
 ## Démarrer
 
