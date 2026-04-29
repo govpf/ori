@@ -11,6 +11,7 @@ export * from './components/Switch/index.js';
 export * from './components/Textarea/index.js';
 export * from './components/Select/index.js';
 export * from './components/Combobox/index.js';
+export * from './components/MultiSelect/index.js';
 export * from './components/DatePicker/index.js';
 export * from './components/FileUpload/index.js';
 export * from './components/Tabs/index.js';
