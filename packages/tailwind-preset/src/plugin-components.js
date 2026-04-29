@@ -1781,6 +1781,88 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       justifyContent: 'flex-end',
     },
 
+    // ─── LoginLayout ────────────────────────────────────────────────────────
+    // Page d'authentification : centrage vertical/horizontal d'une carte
+    // contenant le titre + contenu + footer optionnel. Le logo et le footer
+    // de page restent en dehors de la carte.
+    '.ori-login-layout': {
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingBlock: theme('spacing.10'),
+      paddingInline: theme('spacing.4'),
+      backgroundColor: v('surface-muted'),
+    },
+    '.ori-login-layout__inner': {
+      width: '100%',
+      maxWidth: '28rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.6'),
+      alignItems: 'center',
+    },
+    '.ori-login-layout__logo': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    '.ori-login-layout__card': {
+      width: '100%',
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.lg'),
+      boxShadow: theme('boxShadow.lg'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-subtle'),
+      padding: theme('spacing.6'),
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.5'),
+    },
+    '.ori-login-layout__header': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+    },
+    '.ori-login-layout__title': {
+      margin: '0',
+      fontSize: theme('fontSize.xl'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-login-layout__description': {
+      margin: '0',
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.relaxed'),
+    },
+    '.ori-login-layout__body': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    '.ori-login-layout__card-footer': {
+      paddingTop: theme('spacing.4'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.2'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      textAlign: 'center',
+    },
+    '.ori-login-layout__footer': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: theme('spacing.4'),
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+      textAlign: 'center',
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
