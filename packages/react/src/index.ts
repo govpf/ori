@@ -3,6 +3,7 @@ export * from './components/Input/index.js';
 export * from './components/Card/index.js';
 export * from './components/Alert/index.js';
 export * from './components/Dialog/index.js';
+export * from './components/AlertDialog/index.js';
 export * from './components/DropdownMenu/index.js';
 export * from './components/Checkbox/index.js';
 export * from './components/Radio/index.js';
