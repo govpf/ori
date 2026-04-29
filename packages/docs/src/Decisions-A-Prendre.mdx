@@ -263,6 +263,99 @@ Composants impactés (gain automatique) : `Alert info`, `Toast info`,
 
 ## B. Composants & API
 
+### B.0 - Classification des composants en 3 niveaux
+
+🟢 **Statut** : décidée (2026-04-28)
+
+**Conclusion** : tout composant ajouté à Ori est rangé dans l'un des trois
+niveaux **Primitive**, **Composition** ou **Template**. Le niveau est porté
+à la fois par la roadmap publique (champ `Niveau` du board GitHub
+Projects #3) et par la documentation (rubrique Storybook + page Astro).
+
+**Pourquoi cette classification** :
+
+Sans niveau explicite, on ne distingue pas un composant **réutilisable
+partout** (Button) d'un composant **orienté un cas d'usage administratif
+précis** (ErrorPage). Or les deux n'ont pas le même statut :
+
+- les Primitives sont des briques atomiques : on les attend dans **tous**
+  les DS de référence (DSFR, GOV.UK, USWDS, Material) ;
+- les Compositions sont assemblées à partir de primitives, paramétrables
+  mais génériques : présentes dans la majorité des DS ;
+- les Templates sont orientés un cas d'usage souvent administratif ou
+  régalien : c'est là qu'Ori apporte sa spécificité service public PF.
+
+Cette grille évite trois ambiguïtés récurrentes :
+
+1. "Pourquoi ce composant est dans Ori et pas dans une lib externe ?" - la
+   réponse pour un Template est "parce qu'il garantit la cohérence entre
+   apps PF, par construction".
+2. "Pourquoi avez-vous une AlertDialog si vous avez déjà un Dialog ?" -
+   parce qu'AlertDialog est une **Primitive** (sémantique ARIA distincte,
+   `role="alertdialog"`), pas une variante stylée de Dialog.
+3. "Faut-il porter ça en React **et** Angular ?" - oui pour les Primitives
+   et Compositions (cohérence cross-framework), évaluation au cas par cas
+   pour les Templates si le cas d'usage ne concerne qu'un framework côté
+   apps consommatrices.
+
+**Critères des trois niveaux** :
+
+| Niveau          | Critère principal                                                                   | Test rapide                                                                          |
+| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Primitive**   | Indivisible, API agnostique du domaine, présent dans tous les DS de référence       | Pourrait apparaître tel quel dans Material ou Radix sans renommage                   |
+| **Composition** | Assemble plusieurs primitives, paramétrable mais générique                          | Décrit un pattern UI standard (table paginée, formulaire en étapes), pas un domaine  |
+| **Template**    | Orienté un cas d'usage spécifique (souvent administratif ou régalien)               | Le nom porte un domaine ("error page", "legal layout", "audit log") ; pas dans Radix |
+
+**Ori actuel par niveau** (snapshot 2026-04-28) :
+
+- **Primitives** (≈ 30) : `Button`, `Input`, `Select`, `Textarea`, `Checkbox`,
+  `Radio`, `Switch`, `Dialog`, `Tooltip`, `Toast`, `Tabs`, `Accordion`,
+  `Card`, `Tag`, `Avatar`, `Skeleton`, `Spinner`, `Progress`, `Pagination`,
+  `Breadcrumb`, `Link`, `Logo`, `Highlight`, `Steps`, `Statistic`,
+  `Notification`, `Alert`, `Timeline`, `DatePicker`, `Table`,
+  `LanguageSwitcher`.
+- **Compositions** (≈ 5) : `Header`, `Footer`, `MainNavigation`, `SideMenu`,
+  `FileUpload`, `FileCard`.
+- **Templates** (≈ 3) : `ErrorPage`, `LegalLayout`, `AuthButton`.
+
+**Roadmap par niveau** (items taggés sur le board) :
+
+- **Primitives à venir** : `DropdownMenu`, `AlertDialog`,
+  `Combobox / Autocomplete`, `Spinner inline`, `MultiSelect virtualisé`.
+- **Compositions à venir** : `DataTable complet`, `AppShell`,
+  `EmptyState inline`, `Form layout standardisé`, `Wizard multi-étapes`,
+  `Login layout générique`.
+- **Templates à venir** : `Audit log / activity feed`, `Bandeau cookies / RGPD`,
+  `Page Déclaration accessibilité`.
+
+**Comment ranger un nouveau composant** :
+
+1. Le composant a-t-il un équivalent direct (même nom, même API) dans
+   **Material**, **Radix**, **DSFR** ou **GOV.UK** ? → **Primitive**.
+2. Sinon, est-ce un assemblage de primitives qui décrit un **pattern UI
+   standard** sans porter de vocabulaire métier ? → **Composition**.
+3. Sinon, le nom porte-t-il un **domaine** (erreur, mention légale, audit,
+   cookies, RGPD, accessibilité) ? → **Template**.
+
+En cas de doute, on classe au niveau le plus haut (Template > Composition >
+Primitive) : un composant générique sera plus tard "rétrogradé" en
+Primitive si on s'aperçoit qu'il l'était, alors que l'inverse implique
+souvent un changement d'API.
+
+**Implications sur la doc** :
+
+- La taxonomie Storybook reste organisée par **fonction** (`Inputs`,
+  `Feedback`, `Navigation`, `Layout`, `Data`, `Status`) - le niveau n'est
+  **pas** une nouvelle dimension de rangement, juste une **étiquette**
+  affichée sur la fiche de chaque composant.
+- Le site Astro affiche le badge de niveau dans l'en-tête de chaque page
+  composant.
+- La roadmap publique permet de filtrer le board par niveau (utile pour
+  les contributeurs externes qui veulent prioriser les Primitives ou
+  scanner les Templates par curiosité).
+
+---
+
 ### B.1 - Dialog Angular : focus-trap & a11y
 
 🟢 **Statut** : décidée et appliquée (2026-04-25)
