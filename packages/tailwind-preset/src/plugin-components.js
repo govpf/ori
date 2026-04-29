@@ -1539,6 +1539,73 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       },
     },
 
+    // ─── EmptyState ─────────────────────────────────────────────────────────
+    // Bloc d'absence de données : icône, titre, description, actions empilés
+    // verticalement et centrés. Trois tailles (sm, md, lg) qui ajustent le
+    // padding et la taille de l'icône.
+    '.ori-empty-state': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      gap: theme('spacing.3'),
+      color: v('text-secondary'),
+    },
+    '.ori-empty-state--sm': {
+      paddingBlock: theme('spacing.6'),
+      paddingInline: theme('spacing.4'),
+      gap: theme('spacing.2'),
+    },
+    '.ori-empty-state--md': {
+      paddingBlock: theme('spacing.10'),
+      paddingInline: theme('spacing.6'),
+    },
+    '.ori-empty-state--lg': {
+      paddingBlock: theme('spacing.16'),
+      paddingInline: theme('spacing.8'),
+      gap: theme('spacing.4'),
+    },
+    '.ori-empty-state__icon': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: v('text-muted'),
+      lineHeight: '0',
+    },
+    '.ori-empty-state__icon:empty': {
+      display: 'none',
+    },
+    '.ori-empty-state__title': {
+      margin: '0',
+      fontSize: theme('fontSize.lg'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-empty-state--sm .ori-empty-state__title': {
+      fontSize: theme('fontSize.base'),
+    },
+    '.ori-empty-state--lg .ori-empty-state__title': {
+      fontSize: theme('fontSize.xl'),
+    },
+    '.ori-empty-state__description': {
+      margin: '0',
+      maxWidth: '32rem',
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.relaxed'),
+      color: v('text-secondary'),
+    },
+    '.ori-empty-state__actions': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: theme('spacing.2'),
+      marginTop: theme('spacing.2'),
+    },
+    '.ori-empty-state__actions:empty': {
+      display: 'none',
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
