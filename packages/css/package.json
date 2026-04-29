@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-css",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "description": "Bundle CSS statique Ori (drop-in pour sites statiques, GLPI, emails)",
   "main": "./dist/ori.css",
