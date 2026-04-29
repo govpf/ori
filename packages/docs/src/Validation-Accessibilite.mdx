@@ -1,0 +1,149 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Fondations/Validation accessibilité" />
+
+# Validation accessibilité
+
+Ori est positionné comme un design system **conforme RGAA AA** par défaut.
+Cette page explicite ce que cette promesse couvre, comment elle est
+vérifiée, et les limites assumées de la garantie automatisée.
+
+## Statut courant
+
+<div
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.5rem 0.75rem',
+    borderRadius: '0.375rem',
+    background: 'var(--color-feedback-success-bg)',
+    color: 'var(--color-feedback-success-strong)',
+    border: '1px solid var(--color-feedback-success)',
+    fontWeight: 600,
+  }}
+>
+  ✓ 406 / 406 stories validées WCAG 2.0 AA, 0 violation
+</div>
+
+Dernière mesure obtenue par le job CI **A11y Storybook React** et
+**A11y Storybook Angular** sur la branche `main`. Chaque pull request
+relance la batterie complète avant merge ; un seul `serious` ou
+`critical` bloque la PR.
+
+## Méthode
+
+### Outil
+
+[**axe-core**](https://github.com/dequelabs/axe-core), librairie de
+référence pour l'audit a11y automatisé (utilisée par le navigateur
+Edge, Lighthouse, et la plupart des suites de tests d'entreprise).
+
+### Mode d'exécution
+
+À chaque story Storybook (React et Angular), le test-runner officiel
+ouvre la story dans un navigateur Chromium headless via Playwright,
+laisse le rendu s'effectuer, puis injecte axe-core. Le résultat est
+remonté à Jest qui fait échouer le test au moindre `impact = serious`
+ou `critical`.
+
+### Tags de règles activés
+
+- `wcag2a` : Web Content Accessibility Guidelines 2.0, niveau A
+- `wcag2aa` : Web Content Accessibility Guidelines 2.0, niveau AA
+- `wcag21a` : WCAG 2.1, niveau A (couvre les ajouts mobile / touch)
+- `wcag21aa` : WCAG 2.1, niveau AA
+- `best-practice` : règles axe-core hors WCAG (signaux complémentaires)
+
+Ces tags couvrent l'intégralité des critères techniques RGAA AA qui
+peuvent être évalués automatiquement.
+
+### Sévérités traitées
+
+| Sévérité axe-core | Action CI |
+| --- | --- |
+| `critical` | échec, PR bloquée |
+| `serious` | échec, PR bloquée |
+| `moderate` | warning, PR pas bloquée |
+| `minor` | warning, PR pas bloquée |
+
+`moderate` et `minor` sont inspectés manuellement avant chaque
+release majeure.
+
+## Couverture
+
+**Composants testés** : tous les composants publiés
+(`@govpf/ori-react` et `@govpf/ori-angular`) ont **au moins une
+story par variante visuelle**, et chaque story est testée. Voir
+l'arbre Storybook par section "Composants" (Actions, Saisie,
+Affichage, Feedback, Navigation, Données, Mise en page).
+
+**Métriques courantes** :
+
+- 213 stories React testées
+- 193 stories Angular testées
+- Total : **406 stories**, 0 violation `serious` ou `critical`
+
+## Limites assumées de la couverture automatique
+
+axe-core valide ce qui peut l'être à partir du DOM rendu. Les
+critères suivants restent hors-scope du test automatisé et **doivent
+être vérifiés manuellement** :
+
+- **Ordre de focus** dans des compositions complexes (modal qui ouvre
+  une autre modal, panneau coulissant qui contient un formulaire)
+- **Navigation clavier** au-delà de l'attribut `tabindex` (gestion
+  des touches Échap, Flèches, Home, End, etc.)
+- **Contraste sur états dynamiques** (hover, focus, disabled) que axe
+  ne peut pas déclencher
+- **Annonces lecteur d'écran** réelles : un `aria-live` peut être
+  présent mais mal annoncé par NVDA / VoiceOver / JAWS selon le
+  contexte
+- **Cohérence sémantique** d'un parcours utilisateur entier (ex :
+  enchaînement de formulaires, abandon et reprise)
+
+Pour ces critères-là, la **méthode RGAA officielle** (audit humain)
+reste indispensable. Ori vise à éliminer la dette technique
+automatisable, pas à se substituer à un audit RGAA complet.
+
+## Comment vérifier en local
+
+Côté React :
+
+```bash
+pnpm --filter @govpf/ori-storybook-react test:a11y:ci
+```
+
+Côté Angular :
+
+```bash
+pnpm --filter @govpf/ori-storybook-angular test:a11y:ci
+```
+
+Chaque commande build le Storybook statique, le sert localement avec
+`http-server`, puis lance le test-runner. Le résultat est remonté
+ligne par ligne.
+
+## Faire un opt-out exceptionnel
+
+Si une story illustre volontairement un anti-pattern (à fin
+pédagogique) et ne doit pas passer le test, ajouter le tag
+`skip-a11y` dans son meta :
+
+```ts
+export default {
+  title: 'Composants / Affichage / Tag',
+  component: Tag,
+  tags: ['skip-a11y'],
+};
+```
+
+À utiliser avec parcimonie et toujours documenter le pourquoi dans
+la story. Le test-runner skip ces stories en logguant clairement.
+
+## Pour aller plus loin
+
+- [Référentiel RGAA officiel (numerique.gouv.fr)](https://accessibilite.numerique.gouv.fr/)
+- [Documentation axe-core (deque.com)](https://www.deque.com/axe/)
+- [WCAG 2.1 Quick Reference (w3.org)](https://www.w3.org/WAI/WCAG21/quickref/)
+- [Section "Tests d'accessibilité automatisés" du CONTRIBUTING.md](https://github.com/govpf/ori/blob/main/CONTRIBUTING.md)
