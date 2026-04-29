@@ -1692,8 +1692,14 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       cursor: 'pointer',
     },
     // Mode mobile : sidebar devient un drawer hors flux.
-    '@media (max-width: 767px)': {
-      '.ori-app-shell--with-sidebar .ori-app-shell__sidebar': {
+    // NB : on imbrique l'@media DANS chaque sélecteur (et non l'inverse) car
+    // PostCSS / Tailwind aplatit les @media de niveau racine d'addComponents
+    // en perdant les sélecteurs parents composés (`.parent .child`), ce qui
+    // appliquait la règle "drawer fixed" sur tous les viewports. Avec cette
+    // forme, chaque sélecteur garde son `parent .child` et l'@media est
+    // correctement préservée dans la sortie CSS.
+    '.ori-app-shell--with-sidebar .ori-app-shell__sidebar': {
+      '@media (max-width: 767px)': {
         position: 'fixed',
         top: '0',
         bottom: '0',
@@ -1705,10 +1711,14 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         transitionTimingFunction: theme('transitionTimingFunction.standard'),
         boxShadow: theme('boxShadow.xl'),
       },
-      '.ori-app-shell--sidebar-open .ori-app-shell__sidebar': {
+    },
+    '.ori-app-shell--sidebar-open .ori-app-shell__sidebar': {
+      '@media (max-width: 767px)': {
         transform: 'translateX(0)',
       },
-      '.ori-app-shell--sidebar-open .ori-app-shell__scrim': {
+    },
+    '.ori-app-shell--sidebar-open .ori-app-shell__scrim': {
+      '@media (max-width: 767px)': {
         display: 'block',
       },
     },
