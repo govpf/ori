@@ -1703,6 +1703,84 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       },
     },
 
+    // ─── Form layout ────────────────────────────────────────────────────────
+    // Espacement vertical cohérent entre sections, fields et actions. La
+    // hiérarchie visuelle vit dans le titre h3 + description courte de chaque
+    // section ; les champs eux-mêmes restent neutres pour ne pas concurrencer
+    // le contenu de l'input projeté.
+    '.ori-form': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.8'),
+    },
+    '.ori-form-section': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.4'),
+    },
+    '.ori-form-section__header': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+    },
+    '.ori-form-section__title': {
+      margin: '0',
+      fontSize: theme('fontSize.base'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-form-section__description': {
+      margin: '0',
+      fontSize: theme('fontSize.sm'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.relaxed'),
+    },
+    '.ori-form-section__fields': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.4'),
+    },
+    '.ori-form-field': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+    },
+    '.ori-form-field__label': {
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-form-field__required': {
+      color: v('feedback-danger'),
+    },
+    '.ori-form-field__hint': {
+      margin: '0',
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.relaxed'),
+    },
+    '.ori-form-field__error': {
+      margin: '0',
+      fontSize: theme('fontSize.xs'),
+      color: v('feedback-danger'),
+      lineHeight: theme('lineHeight.relaxed'),
+    },
+    '.ori-form-actions': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: theme('spacing.2'),
+      paddingTop: theme('spacing.2'),
+    },
+    '.ori-form-actions--start': {
+      justifyContent: 'flex-start',
+    },
+    '.ori-form-actions--center': {
+      justifyContent: 'center',
+    },
+    '.ori-form-actions--end': {
+      justifyContent: 'flex-end',
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
