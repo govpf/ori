@@ -2149,6 +2149,113 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       borderTopColor: v('border-subtle'),
       backgroundColor: v('surface-muted'),
     },
+
+    // ─── DropdownMenu ────────────────────────────────────────────────────────
+    // Trigger projeté + content positionné sous le trigger. Côté React, Radix
+    // positionne via Portal + collision detection ; côté Angular, position
+    // absolute sous le wrap (in-place, cohérent avec décision B.1).
+    '.ori-dropdown-menu-wrap': {
+      position: 'relative',
+      display: 'inline-block',
+    },
+    '.ori-dropdown-menu-trigger-wrap': {
+      display: 'inline-block',
+    },
+    '.ori-dropdown-menu': {
+      position: 'absolute',
+      top: 'calc(100% + 4px)',
+      left: '0',
+      minWidth: '12rem',
+      maxWidth: '20rem',
+      paddingBlock: theme('spacing.1'),
+      backgroundColor: v('surface-base'),
+      border: `1px solid ${v('border-subtle')}`,
+      borderRadius: theme('borderRadius.md'),
+      boxShadow: theme('boxShadow.lg'),
+      zIndex: '60',
+      animation:
+        'ori-fade-in var(--ori-duration-fast, 150ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+      // Radix React rend dans un Portal (position fixe) : on neutralise alors
+      // le positionnement absolu de la version Angular.
+      '&[data-radix-menu-content]': {
+        position: 'static',
+      },
+    },
+    '.ori-dropdown-menu--align-center': {
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+    '.ori-dropdown-menu--align-end': {
+      left: 'auto',
+      right: '0',
+    },
+    '.ori-dropdown-menu__label': {
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-secondary'),
+      textTransform: 'uppercase',
+      letterSpacing: '0.04em',
+    },
+    '.ori-dropdown-menu__separator': {
+      height: '1px',
+      marginBlock: theme('spacing.1'),
+      backgroundColor: v('border-subtle'),
+    },
+    '.ori-dropdown-menu__item': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      width: '100%',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      textAlign: 'left',
+      outline: 'none',
+      '&:hover:not([disabled]):not([data-disabled])': {
+        backgroundColor: v('surface-muted'),
+      },
+      '&:focus-visible, &[data-highlighted]': {
+        backgroundColor: v('surface-muted'),
+        outline: `2px solid ${v('border-focus')}`,
+        outlineOffset: '-2px',
+      },
+      '&[disabled], &[data-disabled]': {
+        opacity: '0.5',
+        cursor: 'not-allowed',
+      },
+    },
+    '.ori-dropdown-menu__item-icon': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      flexShrink: '0',
+      color: v('text-secondary'),
+    },
+    '.ori-dropdown-menu__item-label': {
+      flex: '1 1 auto',
+      minWidth: '0',
+    },
+    '.ori-dropdown-menu__item-shortcut': {
+      flexShrink: '0',
+      marginLeft: theme('spacing.4'),
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+      fontFamily: theme('fontFamily.mono'),
+    },
+    '.ori-dropdown-menu__item--destructive': {
+      color: v('feedback-danger'),
+      '& .ori-dropdown-menu__item-icon': {
+        color: v('feedback-danger'),
+      },
+      '&:hover:not([disabled]):not([data-disabled])': {
+        backgroundColor: v('feedback-danger-bg'),
+      },
+    },
   });
 
   // ─── Publishing : composants pour landing pages et documentation ──────────
