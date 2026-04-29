@@ -10,6 +10,7 @@ export * from './components/radio';
 export * from './components/switch';
 export * from './components/textarea';
 export * from './components/select';
+export * from './components/combobox';
 export * from './components/date-picker';
 export * from './components/file-upload';
 export * from './components/tabs';

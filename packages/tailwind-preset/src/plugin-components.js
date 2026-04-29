@@ -524,6 +524,133 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       fontSize: theme('fontSize.base'),
     },
 
+    // ─── Combobox / Autocomplete ────────────────────────────────────────────
+    // Wrapper relatif (positionne le listbox absolu en dessous), input qui
+    // reprend les styles .ori-input + chevron à droite + listbox flottant.
+    '.ori-combobox': {
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      width: '100%',
+    },
+    '.ori-combobox__label': {
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-combobox__field': {
+      position: 'relative',
+    },
+    '.ori-combobox__input': {
+      display: 'block',
+      width: '100%',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      paddingInlineEnd: theme('spacing.10'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      colorScheme: 'light dark',
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&::placeholder': { color: v('text-muted') },
+      '&:hover:not(:disabled)': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible, &:focus': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        color: v('text-disabled'),
+      },
+    },
+    '.ori-combobox__chevron': {
+      position: 'absolute',
+      top: '50%',
+      right: theme('spacing.3'),
+      transform: 'translateY(-50%)',
+      pointerEvents: 'none',
+      color: v('text-muted'),
+      lineHeight: '0',
+    },
+    '.ori-combobox__listbox': {
+      position: 'absolute',
+      top: 'calc(100% + 4px)',
+      left: '0',
+      right: '0',
+      maxHeight: '15rem',
+      margin: '0',
+      padding: theme('spacing.1'),
+      listStyle: 'none',
+      backgroundColor: v('surface-base'),
+      border: `1px solid ${v('border-subtle')}`,
+      borderRadius: theme('borderRadius.md'),
+      boxShadow: theme('boxShadow.lg'),
+      zIndex: '60',
+      overflowY: 'auto',
+      animation:
+        'ori-fade-in var(--ori-duration-fast, 150ms) var(--ori-easing-standard, cubic-bezier(0.4, 0, 0.2, 1))',
+    },
+    '.ori-combobox__option': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      borderRadius: theme('borderRadius.sm'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      cursor: 'pointer',
+    },
+    '.ori-combobox__option--active': {
+      backgroundColor: v('surface-muted'),
+    },
+    '.ori-combobox__option--selected': {
+      fontWeight: theme('fontWeight.medium'),
+    },
+    '.ori-combobox__option--disabled': {
+      opacity: '0.5',
+      cursor: 'not-allowed',
+    },
+    '.ori-combobox__option-text': {
+      flex: '1 1 auto',
+      minWidth: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.125rem',
+    },
+    '.ori-combobox__option-label': {
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-combobox__option-description': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-muted'),
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-combobox__option-check': {
+      flexShrink: '0',
+      color: v('brand-primary'),
+    },
+    '.ori-combobox__empty': {
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-muted'),
+      fontStyle: 'italic',
+    },
+
     // ─── FileUpload ────────────────────────────────────────────────────────
     // Pattern : input file natif rendu invisible + zone drop-zone clickable
     // qui sert à la fois de bouton de sélection et de cible drag-and-drop.
