@@ -1863,6 +1863,43 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       textAlign: 'center',
     },
 
+    // ─── Wizard ─────────────────────────────────────────────────────────────
+    // Steps en haut + panneau de l'étape active + actions en pied. Espacement
+    // vertical aligné sur Form pour permettre une intégration cohérente.
+    '.ori-wizard': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.6'),
+    },
+    '.ori-wizard__steps': {
+      display: 'block',
+    },
+    '.ori-wizard__panel': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.4'),
+    },
+    '.ori-wizard__step-title': {
+      margin: '0',
+      fontSize: theme('fontSize.lg'),
+      fontWeight: theme('fontWeight.semibold'),
+      color: v('text-primary'),
+    },
+    '.ori-wizard__step-body': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    '.ori-wizard__actions': {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      gap: theme('spacing.2'),
+      paddingTop: theme('spacing.4'),
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: v('border-subtle'),
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
