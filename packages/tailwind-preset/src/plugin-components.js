@@ -1199,6 +1199,27 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       borderRadius: '9999px',
     },
 
+    // ─── Spinner inline ─────────────────────────────────────────────────────
+    // Indicateur de chargement compact, hérite de currentColor.
+    '.ori-spinner': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      lineHeight: '0',
+      verticalAlign: 'middle',
+      color: 'currentColor',
+    },
+    '.ori-spinner__svg': {
+      animation: 'ori-spinner-rotate 0.9s linear infinite',
+    },
+    // Réduction motion : on ralentit fortement plutôt que de figer (un
+    // chargement statique perd son sens).
+    '@media (prefers-reduced-motion: reduce)': {
+      '.ori-spinner__svg': {
+        animationDuration: '4s',
+      },
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
@@ -2847,6 +2868,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '@keyframes ori-side-menu-in': {
       from: { transform: 'translateX(-100%)' },
       to: { transform: 'translateX(0)' },
+    },
+    '@keyframes ori-spinner-rotate': {
+      from: { transform: 'rotate(0deg)' },
+      to: { transform: 'rotate(360deg)' },
     },
   });
 }
