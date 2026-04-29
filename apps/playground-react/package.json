@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-playground-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "App de démonstration React consommant @govpf/ori-react de bout en bout.",
   "type": "module",
