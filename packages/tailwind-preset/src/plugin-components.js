@@ -1606,6 +1606,103 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       display: 'none',
     },
 
+    // ─── AppShell ───────────────────────────────────────────────────────────
+    // Layout d'application : grille à 3 lignes (header / body / footer), avec
+    // une 2e dimension dans body pour aside + main quand sidebar présente.
+    // Sidebar drawer en responsive < 768px (translate-x off-screen + scrim).
+    '.ori-app-shell': {
+      display: 'grid',
+      gridTemplateRows: 'auto 1fr auto',
+      minHeight: '100vh',
+      backgroundColor: v('surface-base'),
+      color: v('text-primary'),
+    },
+    '.ori-app-shell__skip-link': {
+      position: 'absolute',
+      insetInlineStart: theme('spacing.4'),
+      top: theme('spacing.2'),
+      paddingBlock: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      backgroundColor: v('brand-primary'),
+      color: v('brand-on-primary'),
+      borderRadius: theme('borderRadius.md'),
+      fontWeight: theme('fontWeight.medium'),
+      textDecoration: 'none',
+      zIndex: '100',
+      // Hors viewport tant qu'il n'a pas le focus.
+      transform: 'translateY(-150%)',
+      transitionProperty: 'transform',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:focus, &:focus-visible': {
+        transform: 'translateY(0)',
+        outline: `2px solid ${v('border-focus')}`,
+        outlineOffset: '2px',
+      },
+    },
+    '.ori-app-shell__header': {
+      position: 'sticky',
+      top: '0',
+      zIndex: '40',
+      backgroundColor: v('surface-base'),
+    },
+    '.ori-app-shell__body': {
+      display: 'flex',
+      flex: '1 1 auto',
+      minHeight: '0',
+      position: 'relative',
+    },
+    '.ori-app-shell__sidebar': {
+      flexShrink: '0',
+      overflowY: 'auto',
+      backgroundColor: v('surface-base'),
+    },
+    '.ori-app-shell__main': {
+      flex: '1 1 auto',
+      minWidth: '0',
+      overflowY: 'auto',
+      // Le main reçoit le focus au skip link, on retire l'outline natif quand
+      // le focus vient programmatiquement (par contre le focus visible
+      // intentionnel garde un outline via les composants enfants).
+      '&:focus': {
+        outline: 'none',
+      },
+    },
+    '.ori-app-shell__footer': {
+      backgroundColor: v('surface-base'),
+    },
+    // Scrim mobile : caché au-dessus de 768px, visible quand drawer ouvert.
+    '.ori-app-shell__scrim': {
+      display: 'none',
+      position: 'fixed',
+      inset: '0',
+      backgroundColor: 'rgb(0 0 0 / 0.5)',
+      zIndex: '30',
+      border: 'none',
+      cursor: 'pointer',
+    },
+    // Mode mobile : sidebar devient un drawer hors flux.
+    '@media (max-width: 767px)': {
+      '.ori-app-shell--with-sidebar .ori-app-shell__sidebar': {
+        position: 'fixed',
+        top: '0',
+        bottom: '0',
+        insetInlineStart: '0',
+        zIndex: '50',
+        transform: 'translateX(-100%)',
+        transitionProperty: 'transform',
+        transitionDuration: theme('transitionDuration.normal'),
+        transitionTimingFunction: theme('transitionTimingFunction.standard'),
+        boxShadow: theme('boxShadow.xl'),
+      },
+      '.ori-app-shell--sidebar-open .ori-app-shell__sidebar': {
+        transform: 'translateX(0)',
+      },
+      '.ori-app-shell--sidebar-open .ori-app-shell__scrim': {
+        display: 'block',
+      },
+    },
+
     // ─── Timeline ──────────────────────────────────────────────────────────
     '.ori-timeline': {
       display: 'flex',
