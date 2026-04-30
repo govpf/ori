@@ -80,8 +80,11 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
     if (target) {
       e.preventDefault();
       onNavigate(target);
-      // En mobile, fermer le drawer après navigation pour laisser voir le contenu cible.
-      setSidebarOpen(false);
+      // Mobile uniquement : fermer le drawer après navigation pour laisser voir le contenu cible.
+      // Sur desktop, on conserve le choix explicite de l'usager (sidebar ouverte ou masquée).
+      if (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) {
+        setSidebarOpen(false);
+      }
     }
   };
 
