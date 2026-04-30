@@ -1667,6 +1667,15 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         minHeight: '0',
       },
     },
+    // Desktop ≥ 768px : si `sidebarOpen=false` (classe `--sidebar-open`
+    // absente), la sidebar disparaît du flow et le main reprend toute la
+    // largeur. Sur mobile, la même prop pilote l'ouverture du drawer (cf.
+    // règles @media (max-width: 767px) plus bas).
+    '.ori-app-shell--with-sidebar:not(.ori-app-shell--sidebar-open) .ori-app-shell__sidebar': {
+      '@media (min-width: 768px)': {
+        display: 'none',
+      },
+    },
     '.ori-app-shell__main': {
       flex: '1 1 auto',
       minWidth: '0',

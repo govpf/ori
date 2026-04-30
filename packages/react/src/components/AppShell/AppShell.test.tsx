@@ -56,6 +56,20 @@ describe('AppShell', () => {
     expect(container.firstChild).toHaveClass('ori-app-shell--sidebar-open');
   });
 
+  it('applique sidebar-open par défaut (sidebar visible sans pilotage)', () => {
+    const { container } = render(<AppShell sidebar={<nav>x</nav>}>x</AppShell>);
+    expect(container.firstChild).toHaveClass('ori-app-shell--sidebar-open');
+  });
+
+  it('retire la classe sidebar-open quand sidebarOpen={false}', () => {
+    const { container } = render(
+      <AppShell sidebar={<nav>x</nav>} sidebarOpen={false}>
+        x
+      </AppShell>,
+    );
+    expect(container.firstChild).not.toHaveClass('ori-app-shell--sidebar-open');
+  });
+
   it('appelle onSidebarOpenChange(false) au clic sur le scrim', async () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();
@@ -84,7 +98,7 @@ describe('AppShell', () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();
     render(
-      <AppShell sidebar={<nav>x</nav>} onSidebarOpenChange={onOpenChange}>
+      <AppShell sidebar={<nav>x</nav>} sidebarOpen={false} onSidebarOpenChange={onOpenChange}>
         x
       </AppShell>,
     );

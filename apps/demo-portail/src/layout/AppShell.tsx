@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@govpf/ori-react';
-import { Moon, Sun, User, Settings, Shield, LogOut } from 'lucide-react';
+import { Moon, Sun, User, Settings, Shield, LogOut, Menu } from 'lucide-react';
 import type { Route } from '../App.js';
 
 // Route interne mappée sur le href des items de nav. Permet d'intercepter
@@ -60,7 +60,10 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
   const [lang, setLang] = useState('fr');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [showBanner, setShowBanner] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Sidebar visible par défaut sur desktop. La même prop pilote aussi le
+  // drawer en mobile : passer `false` la cache sur desktop / ferme le drawer
+  // sur mobile.
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light';
@@ -113,6 +116,17 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
       </div>
       <Header>
         <Header.Brand>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label={
+              sidebarOpen ? 'Masquer la navigation latérale' : 'Afficher la navigation latérale'
+            }
+            aria-expanded={sidebarOpen}
+          >
+            <Menu size={18} aria-hidden="true" />
+          </Button>
           <Logo href="#" title="Polynésie française" subtitle="Mon espace usager" />
         </Header.Brand>
         <Header.Nav>

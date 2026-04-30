@@ -14,11 +14,18 @@ import { clsx } from 'clsx';
  * tout faits, l'app projette ce qu'elle veut. Pour l'usage standard, brancher
  * les composants Ori `<Header>`, `<SideMenu>` et `<Footer>`.
  *
- * Sidebar drawer mobile : à viewport < 768px (override possible côté CSS),
- * la sidebar est cachée et accessible via un toggle (le bouton hamburger
- * vit dans le header projeté ; l'app contrôle l'ouverture via
- * `sidebarOpen` + `onSidebarOpenChange`). Le drawer ferme sur ESC et au
- * clic sur le scrim.
+ * Sidebar pilotable sur tous les viewports via `sidebarOpen` /
+ * `onSidebarOpenChange` :
+ *
+ * - Desktop ≥ 768px : `sidebarOpen=true` (défaut) la sidebar est visible
+ *   in-flow à gauche. `sidebarOpen=false` la sidebar est masquée et le main
+ *   prend toute la largeur.
+ * - Mobile < 768px : la sidebar est en drawer hors-flux. `sidebarOpen=true`
+ *   l'ouvre par-dessus le scrim, `sidebarOpen=false` la ferme.
+ *
+ * Le bouton de toggle (hamburger) vit dans le header projeté ; l'app décide
+ * où le placer et quand l'afficher. Le drawer mobile ferme aussi sur ESC
+ * et au clic sur le scrim.
  *
  * a11y :
  * - skip link en première position, visible au focus uniquement
@@ -37,7 +44,13 @@ export interface AppShellProps {
   children?: ReactNode;
   /** Texte du skip link. */
   skipLinkLabel?: string;
-  /** État du drawer sidebar en responsive (mode mobile). */
+  /**
+   * État de la sidebar. Pilote l'affichage sur tous les viewports :
+   * - desktop ≥ 768px : `true` = visible in-flow, `false` = masquée
+   * - mobile < 768px : `true` = drawer ouvert (sur scrim), `false` = drawer fermé
+   *
+   * Default : `true` (sidebar visible par défaut sur desktop).
+   */
   sidebarOpen?: boolean;
   onSidebarOpenChange?: (open: boolean) => void;
   /** Label accessible du scrim (lecteur d'écran). */
@@ -54,7 +67,7 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
     footer,
     children,
     skipLinkLabel = 'Aller au contenu principal',
-    sidebarOpen = false,
+    sidebarOpen = true,
     onSidebarOpenChange,
     closeSidebarLabel = 'Fermer le menu',
     className,
