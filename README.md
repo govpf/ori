@@ -64,6 +64,20 @@ complète des composants disponibles et leurs API.
 - **Décisions de design** et **stratégie d'ouverture** : pages MDX dans `packages/docs/`
 - **Roadmap publique** : <https://github.com/orgs/govpf/projects/3> (Backlog, Up next, In progress, Done ; filtres par catégorie, effort, source)
 
+### Endpoints machine-readable
+
+Pour explorer Ori programmatiquement (agents IA, scripts d'audit, outils de scraping) sans exécuter le JavaScript du Storybook :
+
+| URL                                               | Format   | Contenu                                                                |
+| ------------------------------------------------- | -------- | ---------------------------------------------------------------------- |
+| <https://ori.gov.pf/llms.txt>                     | Markdown | Résumé du DS, packages, composants, conventions (format [llmstxt.org]) |
+| <https://ori.gov.pf/storybook/react/index.json>   | JSON     | Index complet des stories React (id, title, importPath, tags, type)    |
+| <https://ori.gov.pf/storybook/angular/index.json> | JSON     | Idem Angular                                                           |
+
+Pour récupérer une story spécifique en HTML rendu : `https://ori.gov.pf/storybook/react/iframe.html?id={story-id}` (le rendu reste piloté par le JS du Storybook, mais sans la chrome de la SPA).
+
+[llmstxt.org]: https://llmstxt.org
+
 ## Démarrer
 
 ### Prérequis
