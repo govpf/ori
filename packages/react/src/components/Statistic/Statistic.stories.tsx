@@ -32,6 +32,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { name: 'Par défaut' };
 
 export const AvecTendance: Story = {
+  name: 'Avec tendance',
   args: {
     label: 'Démarches en cours',
     value: 24,
@@ -40,6 +41,7 @@ export const AvecTendance: Story = {
 };
 
 export const TendanceNegative: Story = {
+  name: 'Tendance négative',
   args: {
     label: 'Délai moyen de traitement',
     value: 8,
@@ -49,6 +51,7 @@ export const TendanceNegative: Story = {
 };
 
 export const TendancePlate: Story = {
+  name: 'Tendance plate',
   args: {
     label: 'Documents archivés',
     value: 47,
@@ -57,6 +60,7 @@ export const TendancePlate: Story = {
 };
 
 export const AvecPrefixSuffix: Story = {
+  name: 'Avec préfixe et suffixe',
   args: {
     label: 'Montant des aides versées',
     value: 1240000,
@@ -65,6 +69,7 @@ export const AvecPrefixSuffix: Story = {
 };
 
 export const Pourcentage: Story = {
+  name: 'Pourcentage',
   args: {
     label: 'Taux de complétude',
     value: 87,
@@ -74,6 +79,7 @@ export const Pourcentage: Story = {
 };
 
 export const VariantLarge: Story = {
+  name: 'Variante large',
   args: {
     label: 'Démarches en cours',
     value: 24,
@@ -83,6 +89,7 @@ export const VariantLarge: Story = {
 };
 
 export const VariantInline: Story = {
+  name: 'Variante en ligne',
   args: {
     label: 'Total des demandes',
     value: 154,
@@ -100,6 +107,7 @@ export const Loading: Story = {
 };
 
 export const ChargementProgressif: Story = {
+  name: 'Chargement progressif',
   render: () => {
     const [v, setV] = useState<number | null>(null);
     useEffect(() => {
@@ -118,6 +126,7 @@ export const ChargementProgressif: Story = {
 };
 
 export const DansUneCard: Story = {
+  name: 'Dans une carte',
   render: () => (
     <div
       style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', maxWidth: 720 }}
@@ -158,6 +167,7 @@ export const Inline: Story = {
 };
 
 export const FormatageNombre: Story = {
+  name: 'Formatage du nombre',
   render: () => (
     <div
       style={{

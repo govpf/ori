@@ -52,6 +52,7 @@ type Story = StoryObj<OriStatisticComponent>;
 export const Default: Story = { name: 'Par défaut' };
 
 export const AvecTendance: Story = {
+  name: 'Avec tendance',
   args: {
     label: 'Démarches en cours',
     value: 24,
@@ -60,6 +61,7 @@ export const AvecTendance: Story = {
 };
 
 export const TendanceNegative: Story = {
+  name: 'Tendance négative',
   args: {
     label: 'Délai moyen de traitement',
     value: 8,
@@ -69,6 +71,7 @@ export const TendanceNegative: Story = {
 };
 
 export const AvecSuffixe: Story = {
+  name: 'Avec suffixe',
   args: {
     label: 'Taux de complétude',
     value: 87,
@@ -78,6 +81,7 @@ export const AvecSuffixe: Story = {
 };
 
 export const VariantLarge: Story = {
+  name: 'Variante large',
   args: {
     label: 'Démarches en cours',
     value: 24,
@@ -87,6 +91,7 @@ export const VariantLarge: Story = {
 };
 
 export const VariantInline: Story = {
+  name: 'Variante en ligne',
   args: {
     label: 'Total des demandes',
     value: 154,
@@ -94,9 +99,10 @@ export const VariantInline: Story = {
   },
 };
 
-export const Loading: Story = { args: { loading: true } };
+export const Loading: Story = { name: 'Chargement', args: { loading: true } };
 
 export const DansUneCard: Story = {
+  name: 'Dans une carte',
   render: () => ({
     template: `
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 720px;">
