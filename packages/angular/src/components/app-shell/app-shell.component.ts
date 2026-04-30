@@ -83,7 +83,14 @@ const MAIN_ID = 'ori-app-shell-main';
 export class OriAppShellComponent {
   @Input() skipLinkLabel: string = 'Aller au contenu principal';
   @Input() closeSidebarLabel: string = 'Fermer le menu';
-  @Input() sidebarOpen: boolean = false;
+  /**
+   * État de la sidebar. Pilote l'affichage sur tous les viewports :
+   * - desktop ≥ 768px : `true` = visible in-flow, `false` = masquée
+   * - mobile < 768px : `true` = drawer ouvert, `false` = drawer fermé
+   *
+   * Default : `true` (sidebar visible par défaut sur desktop).
+   */
+  @Input() sidebarOpen: boolean = true;
 
   @Output() sidebarOpenChange = new EventEmitter<boolean>();
 
