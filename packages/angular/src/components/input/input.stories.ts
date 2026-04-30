@@ -52,23 +52,27 @@ const meta: Meta<OriInputComponent> = {
 export default meta;
 type Story = StoryObj<OriInputComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: { hint: "Tel qu'il apparaît sur votre pièce d'identité." },
 };
 
 export const Required: Story = { args: { required: true } };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: { value: '', error: 'Ce champ est obligatoire.', required: true },
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, value: 'Valeur verrouillée' },
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px;">

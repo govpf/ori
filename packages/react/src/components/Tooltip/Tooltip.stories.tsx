@@ -27,6 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     content: 'Action de suppression définitive',
     children: <Button variant="danger">Supprimer</Button>,
@@ -61,6 +62,7 @@ export const FastDelay: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: {
     content: "Ce tooltip ne s'affichera pas",
     disabled: true,

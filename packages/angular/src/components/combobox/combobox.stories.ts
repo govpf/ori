@@ -40,6 +40,7 @@ export default meta;
 type Story = StoryObj<OriComboboxComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       options: services,
@@ -63,6 +64,7 @@ export const Default: Story = {
 };
 
 export const WithDescription: Story = {
+  name: 'Avec description',
   render: () => ({
     props: {
       options: archipels,
@@ -86,6 +88,7 @@ export const WithDescription: Story = {
 };
 
 export const WithDisabledOption: Story = {
+  name: 'Avec option désactivée',
   render: () => ({
     props: {
       options: [
@@ -113,6 +116,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   render: () => ({
     props: { options: services },
     template: `

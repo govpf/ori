@@ -26,7 +26,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Quiet: Story = {
   args: { variant: 'quiet', children: 'Modifier mon adresse' },
@@ -40,6 +40,7 @@ export const External: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   render: () => (
     <p style={{ maxWidth: 480 }}>
       Vous pouvez consulter <Link href="/cgu">les conditions générales</Link>, ou en savoir plus sur

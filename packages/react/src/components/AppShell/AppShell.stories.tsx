@@ -100,6 +100,7 @@ const mockMain = (
 
 /** Layout complet : header + sidebar + main + footer. */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <div style={{ height: 600, border: '1px dashed #d4d4d8' }}>
       <AppShell header={mockHeader} sidebar={mockSidebar} footer={mockFooter}>
@@ -111,6 +112,7 @@ export const Default: Story = {
 
 /** Sans sidebar : layout simple (header + main + footer). */
 export const NoSidebar: Story = {
+  name: 'Sans sidebar',
   render: () => (
     <div style={{ height: 600, border: '1px dashed #d4d4d8' }}>
       <AppShell header={mockHeader} footer={mockFooter}>
@@ -122,6 +124,7 @@ export const NoSidebar: Story = {
 
 /** Drawer mobile : démontre le toggle de la sidebar piloté par l'app. */
 export const SidebarDrawer: Story = {
+  name: 'Sidebar en drawer',
   render: () => {
     const [open, setOpen] = useState(false);
     return (

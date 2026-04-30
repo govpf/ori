@@ -59,13 +59,14 @@ const meta: Meta<ButtonStoryArgs> = {
 export default meta;
 type Story = StoryObj<ButtonStoryArgs>;
 
-export const Primary: Story = {};
+export const Primary: Story = { name: 'Variante primaire' };
 export const Secondary: Story = { args: { variant: 'secondary' } };
 export const Ghost: Story = { args: { variant: 'ghost' } };
 export const Danger: Story = { args: { variant: 'danger', label: 'Supprimer' } };
 export const Disabled: Story = { args: { disabled: true, label: 'Désactivé' } };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: (args: Args) => ({
     props: args,
     template: `
@@ -79,6 +80,7 @@ export const Sizes: Story = {
 };
 
 export const AllVariants: Story = {
+  name: 'Toutes les variantes',
   render: () => ({
     template: `
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">

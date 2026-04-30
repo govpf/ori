@@ -41,9 +41,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: "Telle que figurant sur votre pièce d'identité.",
   },
@@ -52,6 +53,7 @@ export const WithHint: Story = {
 export const Required: Story = { args: { required: true } };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     error: 'Ce champ est obligatoire.',
     required: true,
@@ -59,10 +61,12 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, defaultValue: 'mme' },
 };
 
 export const WithDisabledOption: Story = {
+  name: 'Avec option désactivée',
   args: {
     label: 'Mode de livraison',
     placeholder: 'Choisir un mode',
@@ -75,6 +79,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Select {...args} size="sm" label="Petit" />
@@ -85,6 +90,7 @@ export const Sizes: Story = {
 };
 
 export const Controlled: Story = {
+  name: 'Contrôlé',
   render: (args) => {
     const [value, setValue] = useState('');
     return (

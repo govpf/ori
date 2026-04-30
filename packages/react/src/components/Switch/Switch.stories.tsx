@@ -25,13 +25,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const On: Story = {
   args: { defaultChecked: true },
 };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: "L'envoi est immédiat dès activation.",
     defaultChecked: true,
@@ -39,10 +40,12 @@ export const WithHint: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, defaultChecked: true, label: 'Réglage verrouillé' },
 };
 
 export const Controlled: Story = {
+  name: 'Contrôlé',
   render: () => {
     const [enabled, setEnabled] = useState(false);
     return (
@@ -62,6 +65,7 @@ export const Controlled: Story = {
 };
 
 export const Group: Story = {
+  name: 'Groupe',
   render: () => (
     <fieldset className="ori-choice-group" style={{ border: 0, padding: 0, margin: 0 }}>
       <legend className="ori-field__label">Préférences de confidentialité</legend>

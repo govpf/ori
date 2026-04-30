@@ -27,6 +27,7 @@ export default meta;
 type Story = StoryObj<OriAccordionComponent>;
 
 export const Multiple: Story = {
+  name: 'Multiple',
   render: () => ({
     template: `
       <ori-accordion type="multiple">

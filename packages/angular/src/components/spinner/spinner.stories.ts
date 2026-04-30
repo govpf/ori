@@ -23,10 +23,12 @@ export default meta;
 type Story = StoryObj<OriSpinnerComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { size: 'md', label: 'Chargement…' },
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => ({
     template: `
       <div style="display: flex; align-items: center; gap: 16px;">
@@ -39,6 +41,7 @@ export const Sizes: Story = {
 };
 
 export const InsideButton: Story = {
+  name: 'Dans un bouton',
   render: () => ({
     template: `
       <div style="display: flex; gap: 12px;">
@@ -55,6 +58,7 @@ export const InsideButton: Story = {
 };
 
 export const InlineInText: Story = {
+  name: 'En ligne dans un texte',
   render: () => ({
     template: `
       <p style="display: flex; align-items: center; gap: 8px; margin: 0;">
@@ -66,6 +70,7 @@ export const InlineInText: Story = {
 };
 
 export const CustomColor: Story = {
+  name: 'Couleur personnalisée',
   render: () => ({
     template: `
       <div style="display: flex; align-items: center; gap: 16px; color: #dc2626;">

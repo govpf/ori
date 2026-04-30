@@ -27,6 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <Tabs defaultValue="profile">
       <Tabs.List aria-label="Réglages utilisateur">
@@ -68,6 +69,7 @@ export const WithDisabled: Story = {
 };
 
 export const Controlled: Story = {
+  name: 'Contrôlé',
   render: () => {
     const [value, setValue] = useState('a');
     return (

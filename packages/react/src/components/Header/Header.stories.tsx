@@ -23,14 +23,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { title: 'Polynésie française' },
 };
 
 export const WithSubtitle: Story = {
+  name: 'Avec sous-titre',
   args: { title: 'Polynésie française', subtitle: 'Service en ligne' },
 };
 
 export const WithActions: Story = {
+  name: 'Avec actions',
   render: () => (
     <Header>
       <Header.Brand>

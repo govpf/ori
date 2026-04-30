@@ -89,6 +89,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Cas standard : 47 demandes, filtre + tri + actions + pagination 10 par page. */
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     columns,
     data: demandes,
@@ -104,6 +105,7 @@ export const Default: Story = {
 
 /** Sans actions de ligne : table consultative. */
 export const ReadOnly: Story = {
+  name: 'Consultation seule',
   args: {
     columns,
     data: demandes.slice(0, 15),
@@ -114,6 +116,7 @@ export const ReadOnly: Story = {
 
 /** Sans pagination : affichage compact pour listes courtes (≤ 20 lignes typiquement). */
 export const NoPagination: Story = {
+  name: 'Sans pagination',
   args: {
     columns,
     data: demandes.slice(0, 8),
@@ -125,6 +128,7 @@ export const NoPagination: Story = {
 
 /** État de chargement. */
 export const Loading: Story = {
+  name: 'Chargement',
   args: {
     columns,
     data: [],
@@ -135,6 +139,7 @@ export const Loading: Story = {
 
 /** Aucune donnée correspondante. */
 export const EmptyAfterFilter: Story = {
+  name: 'Vide après filtrage',
   args: {
     columns,
     data: demandes.slice(0, 5),

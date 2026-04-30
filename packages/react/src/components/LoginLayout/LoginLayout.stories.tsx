@@ -33,6 +33,7 @@ const sharedFooter = (
 
 /** Cas standard : login email + mot de passe + lien d'aide. */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <LoginLayout
       logo={<Logo />}
@@ -67,6 +68,7 @@ export const Default: Story = {
 
 /** Avec AuthButton (GOV Connect / Rumia / Microsoft) : pas de formulaire local. */
 export const WithAuthProvider: Story = {
+  name: 'Avec fournisseur d’identité',
   render: () => (
     <LoginLayout
       logo={<Logo />}
@@ -84,6 +86,7 @@ export const WithAuthProvider: Story = {
 
 /** Sans cardFooter ni footer : login minimal. */
 export const Minimal: Story = {
+  name: 'Minimal',
   render: () => (
     <LoginLayout title="Se connecter">
       <Form>

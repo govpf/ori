@@ -62,7 +62,7 @@ const meta: Meta<OriCardComponent> = {
 export default meta;
 type Story = StoryObj<OriCardComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 export const Elevated: Story = { args: { variant: 'elevated' } };
 export const Flat: Story = { args: { variant: 'flat' } };
 

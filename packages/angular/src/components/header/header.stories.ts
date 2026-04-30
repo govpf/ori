@@ -35,6 +35,7 @@ export default meta;
 type Story = StoryObj<OriHeaderComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     template: `
       <ori-header>
@@ -45,6 +46,7 @@ export const Default: Story = {
 };
 
 export const WithSubtitle: Story = {
+  name: 'Avec sous-titre',
   render: () => ({
     template: `
       <ori-header>
@@ -55,6 +57,7 @@ export const WithSubtitle: Story = {
 };
 
 export const WithActions: Story = {
+  name: 'Avec actions',
   render: () => ({
     template: `
       <ori-header>

@@ -29,9 +29,10 @@ const meta: Meta<OriLogoComponent> = {
 export default meta;
 type Story = StoryObj<OriLogoComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithSubtitle: Story = {
+  name: 'Avec sous-titre',
   args: { subtitle: 'Direction des affaires maritimes' },
 };
 
@@ -40,5 +41,6 @@ export const AsLink: Story = {
 };
 
 export const TitleOnly: Story = {
+  name: 'Titre seul',
   args: { hideCrest: true, subtitle: 'Service en ligne' },
 };

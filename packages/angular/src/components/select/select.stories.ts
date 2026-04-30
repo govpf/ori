@@ -56,23 +56,27 @@ const meta: Meta<OriSelectComponent> = {
 export default meta;
 type Story = StoryObj<OriSelectComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: { hint: "Telle que figurant sur votre pièce d'identité." },
 };
 
 export const Required: Story = { args: { required: true } };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: { error: 'Ce champ est obligatoire.', required: true },
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, value: 'mme' },
 };
 
 export const WithDisabledOption: Story = {
+  name: 'Avec option désactivée',
   args: {
     label: 'Mode de livraison',
     placeholder: 'Choisir un mode',
@@ -85,6 +89,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 12px;">

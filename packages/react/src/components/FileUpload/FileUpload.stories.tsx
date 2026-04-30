@@ -34,9 +34,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: 'Formats acceptés : PDF, JPG, PNG. Taille maximale : 5 Mo.',
     accept: '.pdf,image/jpeg,image/png',
@@ -46,6 +47,7 @@ export const WithHint: Story = {
 };
 
 export const Multiple: Story = {
+  name: 'Multiple',
   args: {
     label: 'Pièces justificatives',
     hint: 'Vous pouvez ajouter plusieurs fichiers.',
@@ -56,10 +58,12 @@ export const Multiple: Story = {
 };
 
 export const Required: Story = {
+  name: 'Requis',
   args: { required: true },
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     error: 'Au moins un fichier est obligatoire.',
     required: true,
@@ -67,10 +71,12 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true },
 };
 
 export const Controlled: Story = {
+  name: 'Contrôlé',
   render: (args) => {
     const [files, setFiles] = useState<File[]>([]);
     const [rejected, setRejected] = useState<string | null>(null);

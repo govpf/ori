@@ -32,6 +32,7 @@ export default meta;
 type Story = StoryObj<OriMultiSelectComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       options: services,
@@ -55,6 +56,7 @@ export const Default: Story = {
 };
 
 export const Virtualized5000: Story = {
+  name: '5000 options virtualisées',
   render: () => ({
     props: {
       options: Array.from({ length: 5000 }, (_, i) => ({
@@ -85,6 +87,7 @@ export const Virtualized5000: Story = {
 };
 
 export const WithMaxLimit: Story = {
+  name: 'Avec limite',
   render: () => ({
     props: {
       options: services,
@@ -113,6 +116,7 @@ export const WithMaxLimit: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   render: () => ({
     props: { options: services },
     template: `

@@ -42,6 +42,7 @@ export default meta;
 type Story = StoryObj<OriFormComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     template: `
       <ori-form style="max-width: 480px;">
@@ -71,6 +72,7 @@ export const Default: Story = {
 };
 
 export const MultipleSections: Story = {
+  name: 'Plusieurs sections',
   render: () => ({
     template: `
       <ori-form style="max-width: 560px;">
@@ -127,6 +129,7 @@ export const MultipleSections: Story = {
 };
 
 export const WithErrors: Story = {
+  name: 'Avec erreurs',
   render: () => ({
     template: `
       <ori-form style="max-width: 480px;">

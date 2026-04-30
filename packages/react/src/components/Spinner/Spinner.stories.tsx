@@ -13,10 +13,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { size: 'md', label: 'Chargement…' },
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       <Spinner size="sm" />
@@ -31,6 +33,7 @@ export const Sizes: Story = {
  * pendant une action asynchrone (envoi de formulaire, validation).
  */
 export const InsideButton: Story = {
+  name: 'Dans un bouton',
   render: () => (
     <div style={{ display: 'flex', gap: 12 }}>
       <Button disabled>
@@ -47,6 +50,7 @@ export const InsideButton: Story = {
  * Inline dans un texte : indique un chargement local sans bloquer l'écran.
  */
 export const InlineInText: Story = {
+  name: 'En ligne dans un texte',
   render: () => (
     <p style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0 }}>
       <Spinner size="sm" label="Vérification du numéro fiscal" />
@@ -60,6 +64,7 @@ export const InlineInText: Story = {
  * `currentColor`. Ici, un parent en rouge.
  */
 export const CustomColor: Story = {
+  name: 'Couleur personnalisée',
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16, color: '#dc2626' }}>
       <Spinner size="lg" />

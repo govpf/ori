@@ -31,6 +31,7 @@ const archipels: ComboboxOption[] = [
 ];
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => {
     const [value, setValue] = useState<string | undefined>(undefined);
     return (
@@ -48,6 +49,7 @@ export const Default: Story = {
 };
 
 export const WithDescription: Story = {
+  name: 'Avec description',
   render: () => {
     const [value, setValue] = useState<string | undefined>('soc');
     return (
@@ -65,6 +67,7 @@ export const WithDescription: Story = {
 };
 
 export const WithDisabledOption: Story = {
+  name: 'Avec option désactivée',
   render: () => {
     const [value, setValue] = useState<string | undefined>(undefined);
     const opts: ComboboxOption[] = [
@@ -87,6 +90,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   render: () => (
     <div style={{ width: 360 }}>
       <Combobox options={services} value="dgi" label="Service administratif" disabled />
@@ -95,6 +99,7 @@ export const Disabled: Story = {
 };
 
 export const NoResults: Story = {
+  name: 'Aucun résultat',
   render: () => {
     const [value, setValue] = useState<string | undefined>(undefined);
     return (

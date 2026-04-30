@@ -53,6 +53,7 @@ const moreActions: OriDropdownMenuItem[] = [
 ];
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       items: actions,
@@ -70,6 +71,7 @@ export const Default: Story = {
 };
 
 export const UserMenu: Story = {
+  name: 'Menu utilisateur',
   render: () => ({
     props: {
       items: userActions,
@@ -87,6 +89,7 @@ export const UserMenu: Story = {
 };
 
 export const WithShortcuts: Story = {
+  name: 'Avec raccourcis',
   render: () => ({
     props: {
       items: editActions,
@@ -100,6 +103,7 @@ export const WithShortcuts: Story = {
 };
 
 export const WithDisabledItem: Story = {
+  name: 'Avec élément désactivé',
   render: () => ({
     props: {
       items: moreActions,

@@ -22,6 +22,7 @@ export default meta;
 type Story = StoryObj<OriRadioGroupComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { label: 'Canal de notification préféré', value: 'email' },
   render: (args: Args) => ({
     props: args,
@@ -54,6 +55,7 @@ export const WithHints: Story = {
 };
 
 export const Required: Story = {
+  name: 'Requis',
   args: { label: 'Civilité', required: true },
   render: (args: Args) => ({
     props: args,
@@ -68,6 +70,7 @@ export const Required: Story = {
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     label: 'Civilité',
     required: true,
@@ -86,6 +89,7 @@ export const WithError: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   args: { label: 'Êtes-vous résident polynésien ?', orientation: 'inline', value: 'oui' },
   render: (args: Args) => ({
     props: args,
@@ -104,6 +108,7 @@ export const Inline: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { label: 'Mode de livraison', disabled: true, value: 'standard' },
   render: (args: Args) => ({
     props: args,

@@ -33,6 +33,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,6 +55,7 @@ export const Default: Story = {
 };
 
 export const UserMenu: Story = {
+  name: 'Menu utilisateur',
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -78,6 +80,7 @@ export const UserMenu: Story = {
 };
 
 export const WithShortcuts: Story = {
+  name: 'Avec raccourcis',
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -100,6 +103,7 @@ export const WithShortcuts: Story = {
 };
 
 export const WithDisabledItem: Story = {
+  name: 'Avec élément désactivé',
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -117,6 +121,7 @@ export const WithDisabledItem: Story = {
 };
 
 export const ControlledOpen: Story = {
+  name: 'Contrôlé (ouvert)',
   render: () => {
     const [open, setOpen] = useState(false);
     return (

@@ -32,6 +32,7 @@ export default meta;
 type Story = StoryObj<OriFooterComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     brand: 'Polynésie française',
     description: 'Service en ligne officiel',
@@ -83,5 +84,6 @@ export const WithColumns: Story = {
 };
 
 export const Minimal: Story = {
+  name: 'Minimal',
   args: { brand: 'Polynésie française', legal: '© 2026' },
 };

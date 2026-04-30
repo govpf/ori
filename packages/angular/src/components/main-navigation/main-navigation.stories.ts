@@ -36,6 +36,7 @@ export default meta;
 type Story = StoryObj<OriMainNavigationComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     items: [
       { label: 'Accueil', href: '/' },

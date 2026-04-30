@@ -43,6 +43,7 @@ export const Tip: Story = {
 };
 
 export const Warning: Story = {
+  name: 'Variante avertissement',
   args: {
     variant: 'warning',
     title: 'Attention',
@@ -51,6 +52,7 @@ export const Warning: Story = {
 };
 
 export const Danger: Story = {
+  name: 'Variante danger',
   args: {
     variant: 'danger',
     title: 'À ne pas faire',
@@ -59,10 +61,12 @@ export const Danger: Story = {
 };
 
 export const NoTitle: Story = {
+  name: 'Sans titre',
   args: { title: undefined },
 };
 
 export const AllVariants: Story = {
+  name: 'Toutes les variantes',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
       <Callout variant="note" title="Note">

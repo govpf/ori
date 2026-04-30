@@ -34,6 +34,7 @@ const steps = [
 ];
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { steps, current: 1 },
 };
 

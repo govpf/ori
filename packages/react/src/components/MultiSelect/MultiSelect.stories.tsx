@@ -26,6 +26,7 @@ const services: MultiSelectOption[] = [
 
 /** Cas standard : peu d'options, sans virtualisation perçue. */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => {
     const [values, setValues] = useState<string[]>([]);
     return (
@@ -44,6 +45,7 @@ export const Default: Story = {
 
 /** Cas large : 5 000 options générées, démontre la virtualisation. */
 export const Virtualized5000: Story = {
+  name: '5000 options virtualisées',
   render: () => {
     const opts: MultiSelectOption[] = Array.from({ length: 5000 }, (_, i) => ({
       id: `opt-${i}`,
@@ -70,6 +72,7 @@ export const Virtualized5000: Story = {
 
 /** Limite à 3 sélections : les autres options se grisent quand la limite est atteinte. */
 export const WithMaxLimit: Story = {
+  name: 'Avec limite',
   render: () => {
     const [values, setValues] = useState<string[]>([]);
     return (
@@ -92,6 +95,7 @@ export const WithMaxLimit: Story = {
 };
 
 export const WithDisabledOption: Story = {
+  name: 'Avec option désactivée',
   render: () => {
     const opts: MultiSelectOption[] = [
       { id: 'a', label: 'Option A' },
@@ -114,6 +118,7 @@ export const WithDisabledOption: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   render: () => (
     <div style={{ width: 360 }}>
       <MultiSelect options={services} values={['dgi', 'dge']} label="Services concernés" disabled />

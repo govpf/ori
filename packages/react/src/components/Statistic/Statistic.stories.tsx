@@ -29,7 +29,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const AvecTendance: Story = {
   args: {
@@ -91,6 +91,7 @@ export const VariantInline: Story = {
 };
 
 export const Loading: Story = {
+  name: 'Chargement',
   args: {
     label: 'Calcul en cours…',
     value: 0,
@@ -145,6 +146,7 @@ export const DansUneCard: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxWidth: 320 }}>
       <Statistic variant="inline" label="Démarches en cours" value={2} />

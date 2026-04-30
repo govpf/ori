@@ -39,6 +39,7 @@ export const WithImage: Story = {
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => ({
     template: `
       <div style="display: flex; gap: 12px; align-items: center;">

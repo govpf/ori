@@ -46,6 +46,7 @@ export default meta;
 type Story = StoryObj<OriLoginLayoutComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     template: `
       <ori-login-layout
@@ -85,6 +86,7 @@ export const Default: Story = {
 };
 
 export const WithAuthProvider: Story = {
+  name: 'Avec fournisseur d’identité',
   render: () => ({
     template: `
       <ori-login-layout
@@ -107,6 +109,7 @@ export const WithAuthProvider: Story = {
 };
 
 export const Minimal: Story = {
+  name: 'Minimal',
   render: () => ({
     template: `
       <ori-login-layout title="Se connecter">

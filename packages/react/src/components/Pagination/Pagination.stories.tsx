@@ -20,6 +20,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => {
     const [page, setPage] = useState(1);
     return <Pagination page={page} totalPages={10} onPageChange={setPage} />;

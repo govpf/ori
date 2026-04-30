@@ -36,21 +36,25 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {};
+export const Primary: Story = { name: 'Variante primaire' };
 
 export const Secondary: Story = {
+  name: 'Variante secondaire',
   args: { variant: 'secondary' },
 };
 
 export const Ghost: Story = {
+  name: 'Variante fantôme',
   args: { variant: 'ghost' },
 };
 
 export const Danger: Story = {
+  name: 'Variante danger',
   args: { variant: 'danger', children: 'Supprimer' },
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: (args) => (
     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
       <Button {...args} size="sm">
@@ -67,6 +71,7 @@ export const Sizes: Story = {
 };
 
 export const AllVariants: Story = {
+  name: 'Toutes les variantes',
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <Button variant="primary">Primary</Button>

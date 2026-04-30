@@ -27,6 +27,7 @@ export default meta;
 type Story = StoryObj<OriTabsComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: { active: 'profile' },
     template: `

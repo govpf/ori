@@ -18,6 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Démarche en 3 étapes avec validation simple par étape. */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => {
     const [step, setStep] = useState(0);
     const [nom, setNom] = useState('');
@@ -86,6 +87,7 @@ export const Default: Story = {
 
 /** Wizard avec 5 étapes : démontre le rendu de Steps avec plus de marches. */
 export const FiveSteps: Story = {
+  name: 'Cinq étapes',
   render: () => {
     const [step, setStep] = useState(0);
     return (
@@ -107,6 +109,7 @@ export const FiveSteps: Story = {
 
 /** allowGoBack=false : retour aux étapes précédentes désactivé via Steps. */
 export const NoGoBack: Story = {
+  name: 'Retour arrière désactivé',
   render: () => {
     const [step, setStep] = useState(0);
     return (

@@ -26,33 +26,38 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Checked: Story = {
   args: { defaultChecked: true },
 };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: 'Vous pouvez retirer votre consentement à tout moment depuis vos préférences.',
   },
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     error: 'Vous devez accepter les conditions pour continuer.',
   },
 };
 
 export const Indeterminate: Story = {
+  name: 'Indéterminé',
   args: { indeterminate: true, label: 'Sélectionner toutes les lignes' },
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, defaultChecked: true, label: 'Option verrouillée' },
 };
 
 export const Group: Story = {
+  name: 'Groupe',
   render: () => (
     <fieldset className="ori-choice-group" style={{ border: 0, padding: 0, margin: 0 }}>
       <legend className="ori-field__label">Notifications par email</legend>

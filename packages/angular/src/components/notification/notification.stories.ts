@@ -37,7 +37,7 @@ const meta: Meta<OriNotificationComponent> = {
 export default meta;
 type Story = StoryObj<OriNotificationComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithAction: Story = {
   args: {
@@ -60,6 +60,7 @@ export const WithAction: Story = {
 };
 
 export const Variants: Story = {
+  name: 'Variantes',
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 8px;">

@@ -29,9 +29,10 @@ const meta: Meta<OriTagComponent> = {
 export default meta;
 type Story = StoryObj<OriTagComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Variants: Story = {
+  name: 'Variantes',
   render: () => ({
     template: `
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">

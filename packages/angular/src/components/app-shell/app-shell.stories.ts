@@ -23,6 +23,7 @@ export default meta;
 type Story = StoryObj<OriAppShellComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     template: `
       <div style="height: 600px; border: 1px dashed #d4d4d8;">
@@ -66,6 +67,7 @@ export const Default: Story = {
 };
 
 export const NoSidebar: Story = {
+  name: 'Sans sidebar',
   render: () => ({
     template: `
       <div style="height: 600px; border: 1px dashed #d4d4d8;">
@@ -92,6 +94,7 @@ export const NoSidebar: Story = {
 };
 
 export const SidebarDrawer: Story = {
+  name: 'Sidebar en drawer',
   render: () => ({
     props: {
       open: false,

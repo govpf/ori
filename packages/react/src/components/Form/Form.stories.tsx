@@ -17,6 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Formulaire simple : une section, deux champs, deux actions. */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <Form
       onSubmit={(e) => {
@@ -45,6 +46,7 @@ export const Default: Story = {
 
 /** Plusieurs sections : démontre la séparation visuelle entre groupes de champs. */
 export const MultipleSections: Story = {
+  name: 'Plusieurs sections',
   render: () => (
     <Form style={{ maxWidth: 560 }}>
       <FormSection title="Identité" description="Informations administratives.">
@@ -87,6 +89,7 @@ export const MultipleSections: Story = {
 
 /** Validation : démontre l'affichage d'erreur en rouge sous le champ. */
 export const WithErrors: Story = {
+  name: 'Avec erreurs',
   render: () => {
     const [submitted, setSubmitted] = useState(false);
     return (
@@ -120,6 +123,7 @@ export const WithErrors: Story = {
 
 /** Aligned start : actions à gauche au lieu de droite. */
 export const ActionsAlignedStart: Story = {
+  name: 'Actions alignées à gauche',
   render: () => (
     <Form style={{ maxWidth: 480 }}>
       <FormSection>

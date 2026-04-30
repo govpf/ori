@@ -20,6 +20,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => {
     const [value, setValue] = useState('email');
     return (
@@ -51,6 +52,7 @@ export const WithHints: Story = {
 };
 
 export const Required: Story = {
+  name: 'Requis',
   render: () => {
     const [value, setValue] = useState<string | undefined>(undefined);
     return (
@@ -64,6 +66,7 @@ export const Required: Story = {
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   render: () => (
     <RadioGroup label="Civilité" required error="Vous devez sélectionner une option.">
       <Radio value="mme" label="Madame" />
@@ -74,6 +77,7 @@ export const WithError: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   render: () => {
     const [value, setValue] = useState('oui');
     return (
@@ -91,6 +95,7 @@ export const Inline: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   render: () => (
     <RadioGroup label="Mode de livraison" disabled value="standard">
       <Radio value="standard" label="Standard" />

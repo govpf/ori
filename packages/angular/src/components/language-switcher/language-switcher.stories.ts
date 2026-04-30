@@ -48,6 +48,7 @@ export const FrEn: Story = {
 };
 
 export const WithTahitian: Story = {
+  name: 'Avec Reo Tahiti',
   args: {
     value: 'fr',
     languages: [

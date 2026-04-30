@@ -28,6 +28,7 @@ export default meta;
 type Story = StoryObj<OriEmptyStateComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: { Inbox },
     template: `
@@ -43,6 +44,7 @@ export const Default: Story = {
 };
 
 export const SearchNoResults: Story = {
+  name: 'Recherche sans résultat',
   render: () => ({
     props: { Search },
     template: `
@@ -59,6 +61,7 @@ export const SearchNoResults: Story = {
 };
 
 export const OnboardingLarge: Story = {
+  name: 'Onboarding grande taille',
   render: () => ({
     props: { Users },
     template: `
@@ -78,6 +81,7 @@ export const OnboardingLarge: Story = {
 };
 
 export const Minimal: Story = {
+  name: 'Minimal',
   render: () => ({
     props: { FilePlus },
     template: `
@@ -90,6 +94,7 @@ export const Minimal: Story = {
 };
 
 export const TextOnly: Story = {
+  name: 'Texte seul',
   render: () => ({
     template: `
       <ori-empty-state

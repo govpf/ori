@@ -28,7 +28,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithAction: Story = {
   args: {
@@ -40,6 +40,7 @@ export const WithAction: Story = {
 };
 
 export const Variants: Story = {
+  name: 'Variantes',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <Notification variant="info">

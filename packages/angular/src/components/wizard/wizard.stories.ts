@@ -41,6 +41,7 @@ export default meta;
 type Story = StoryObj<OriWizardComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       step: 0,
@@ -124,6 +125,7 @@ export const Default: Story = {
 };
 
 export const FiveSteps: Story = {
+  name: 'Cinq étapes',
   render: () => ({
     props: {
       step: 0,
@@ -150,6 +152,7 @@ export const FiveSteps: Story = {
 };
 
 export const NoGoBack: Story = {
+  name: 'Retour arrière désactivé',
   render: () => ({
     props: {
       step: 0,
