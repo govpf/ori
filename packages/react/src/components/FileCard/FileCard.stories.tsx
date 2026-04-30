@@ -41,6 +41,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { name: 'Par défaut' };
 
 export const AvecActions: Story = {
+  name: 'Avec actions',
   args: {
     actions: [
       { label: 'Aperçu', icon: <Eye size={16} aria-hidden="true" /> },
@@ -51,6 +52,7 @@ export const AvecActions: Story = {
 };
 
 export const AvecLien: Story = {
+  name: 'Avec lien',
   args: {
     link: { label: 'Lié à 2026-0042', href: '#42' },
     actions: [
@@ -61,6 +63,7 @@ export const AvecLien: Story = {
 };
 
 export const TousLesTypes: Story = {
+  name: 'Tous les types',
   render: () => (
     <div
       style={{
@@ -80,6 +83,7 @@ export const TousLesTypes: Story = {
 };
 
 export const NomLong: Story = {
+  name: 'Nom long',
   args: {
     name: 'Justificatif de domicile - Avenue Pouvanaa a Oopa - Avril 2026.pdf',
     actions: [
@@ -90,6 +94,7 @@ export const NomLong: Story = {
 };
 
 export const SansActions: Story = {
+  name: 'Sans actions',
   args: {
     name: 'Attestation employeur.pdf',
     type: 'pdf',
@@ -99,6 +104,7 @@ export const SansActions: Story = {
 };
 
 export const CollectionLiéeÀUneDemarche: Story = {
+  name: 'Collection liée à une démarche',
   render: () => (
     <div
       style={{
