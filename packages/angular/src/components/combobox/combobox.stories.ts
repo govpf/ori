@@ -21,7 +21,7 @@ const archipels: OriComboboxOption[] = [
 ];
 
 const meta: Meta<OriComboboxComponent> = {
-  title: 'Composants/Inputs/Combobox',
+  title: 'Primitives/Saisie/Combobox',
   component: OriComboboxComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriComboboxComponent] })],

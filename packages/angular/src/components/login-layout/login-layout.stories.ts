@@ -13,7 +13,7 @@ import { OriLogoComponent } from '../logo/logo.component';
 import { OriLinkComponent } from '../link/link.component';
 
 const meta: Meta<OriLoginLayoutComponent> = {
-  title: 'Composants/Layout/LoginLayout',
+  title: 'Compositions/Layout/LoginLayout',
   component: OriLoginLayoutComponent,
   tags: ['autodocs'],
   decorators: [

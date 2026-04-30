@@ -4,7 +4,7 @@ import { OriAppShellComponent } from './app-shell.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriAppShellComponent> = {
-  title: 'Composants/Layout/AppShell',
+  title: 'Compositions/Layout/AppShell',
   component: OriAppShellComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriAppShellComponent, OriButtonComponent] })],

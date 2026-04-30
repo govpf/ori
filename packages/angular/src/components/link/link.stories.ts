@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriLinkComponent } from './link.component';
 
 const meta: Meta<OriLinkComponent> = {
-  title: 'Composants/Actions/Link',
+  title: 'Primitives/Actions/Link',
   component: OriLinkComponent,
   tags: ['autodocs'],
   parameters: {

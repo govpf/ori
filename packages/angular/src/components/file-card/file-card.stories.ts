@@ -4,7 +4,7 @@ import { Download, Eye, Pencil, Trash2 } from 'lucide-angular';
 import { OriFileCardComponent } from './file-card.component';
 
 const meta: Meta<OriFileCardComponent> = {
-  title: 'Composants/Affichage/FileCard',
+  title: 'Compositions/Saisie/FileCard',
   component: OriFileCardComponent,
   tags: ['autodocs'],
   parameters: {

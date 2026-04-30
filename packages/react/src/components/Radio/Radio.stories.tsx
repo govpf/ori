@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Radio, RadioGroup } from './Radio.js';
 
 const meta = {
-  title: 'Composants/Saisie/Radio',
+  title: 'Primitives/Saisie/Radio',
   component: RadioGroup,
   tags: ['autodocs'],
   parameters: {

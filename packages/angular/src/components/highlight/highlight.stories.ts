@@ -4,7 +4,7 @@ import { OriHighlightComponent } from './highlight.component';
 import { OriInputComponent } from '../input/input.component';
 
 const meta: Meta<OriHighlightComponent> = {
-  title: 'Composants/Affichage/Highlight',
+  title: 'Primitives/Affichage/Highlight',
   component: OriHighlightComponent,
   tags: ['autodocs'],
   parameters: {

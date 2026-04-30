@@ -11,7 +11,7 @@ import { Button } from '../Button/Button.js';
 // Pas d'autodocs : Radix Portal rend depuis document.body, le rendu auto-doc
 // en isolation casse. Mêmes contraintes que Dialog / DropdownMenu.
 const meta = {
-  title: 'Composants/Feedback/AlertDialog',
+  title: 'Primitives/Feedback/AlertDialog',
   component: AlertDialog,
   parameters: { layout: 'centered' },
 } satisfies Meta<typeof AlertDialog>;

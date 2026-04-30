@@ -3,7 +3,7 @@ import { ToastProvider, ToastViewport, useToast, type ToastViewportPosition } fr
 import { Button } from '../Button/index.js';
 
 const meta = {
-  title: 'Composants/Feedback/Toast',
+  title: 'Primitives/Feedback/Toast',
   component: ToastProvider,
   tags: ['autodocs'],
   parameters: {

@@ -78,7 +78,7 @@ const rowActions = (row: Demande): DataTableRowAction[] => [
 ];
 
 const meta = {
-  title: 'Composants/Data/DataTable',
+  title: 'Compositions/Données/DataTable',
   component: DataTable,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

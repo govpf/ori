@@ -64,7 +64,7 @@ const rowActions = (row: Demande): OriDataTableRowAction[] => [
 ];
 
 const meta: Meta<OriDataTableComponent<Demande>> = {
-  title: 'Composants/Data/DataTable',
+  title: 'Compositions/Données/DataTable',
   component: OriDataTableComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriDataTableComponent, OriTagComponent] })],

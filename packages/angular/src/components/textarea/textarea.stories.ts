@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriTextareaComponent } from './textarea.component';
 
 const meta: Meta<OriTextareaComponent> = {
-  title: 'Composants/Saisie/Textarea',
+  title: 'Primitives/Saisie/Textarea',
   component: OriTextareaComponent,
   tags: ['autodocs'],
   parameters: {

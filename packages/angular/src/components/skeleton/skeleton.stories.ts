@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriSkeletonComponent } from './skeleton.component';
 
 const meta: Meta<OriSkeletonComponent> = {
-  title: 'Composants/Affichage/Skeleton',
+  title: 'Primitives/Feedback/Skeleton',
   component: OriSkeletonComponent,
   tags: ['autodocs'],
   parameters: {

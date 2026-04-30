@@ -6,7 +6,7 @@ import { Breadcrumb } from '../Breadcrumb/Breadcrumb.js';
 import { Link } from '../Link/Link.js';
 
 const meta = {
-  title: 'Composants/Mise en page/Legal',
+  title: 'Templates/LegalLayout',
   component: LegalLayout,
   tags: ['autodocs'],
   parameters: {

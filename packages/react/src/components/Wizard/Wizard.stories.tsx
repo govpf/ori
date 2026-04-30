@@ -7,7 +7,7 @@ import { Textarea } from '../Textarea/Textarea.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants/Layout/Wizard',
+  title: 'Compositions/Layout/Wizard',
   component: Wizard,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

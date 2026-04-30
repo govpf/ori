@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriTimelineComponent, type OriTimelineItem } from './timeline.component';
 
 const meta: Meta<OriTimelineComponent> = {
-  title: 'Composants/Données/Timeline',
+  title: 'Primitives/Affichage/Timeline',
   component: OriTimelineComponent,
   tags: ['autodocs'],
   parameters: {

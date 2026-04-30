@@ -24,7 +24,7 @@ import {
 // Pas d'autodocs : Radix Portal rend dans document.body, le rendu auto-doc en
 // isolation casse ("Cannot destructure 'document'"). Mêmes contraintes que Dialog.
 const meta = {
-  title: 'Composants/Navigation/DropdownMenu',
+  title: 'Primitives/Navigation/DropdownMenu',
   component: DropdownMenu,
   parameters: { layout: 'centered' },
 } satisfies Meta<typeof DropdownMenu>;

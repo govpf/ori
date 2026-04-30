@@ -5,7 +5,7 @@ import { Tag } from '../Tag/index.js';
 import { Pagination } from '../Pagination/index.js';
 
 const meta = {
-  title: 'Composants/Données/Table',
+  title: 'Primitives/Affichage/Table',
   component: Table,
   tags: ['autodocs'],
   parameters: {

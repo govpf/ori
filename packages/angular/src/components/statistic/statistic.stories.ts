@@ -4,7 +4,7 @@ import { OriCardComponent, OriCardBodyComponent } from '../card/card.component';
 import { OriStatisticComponent } from './statistic.component';
 
 const meta: Meta<OriStatisticComponent> = {
-  title: 'Composants/Affichage/Statistic',
+  title: 'Primitives/Affichage/Statistic',
   component: OriStatisticComponent,
   tags: ['autodocs'],
   parameters: {

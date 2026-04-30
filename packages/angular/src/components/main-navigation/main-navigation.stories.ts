@@ -6,7 +6,7 @@ import { OriLogoComponent } from '../logo/logo.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriMainNavigationComponent> = {
-  title: 'Composants/Navigation/MainNavigation',
+  title: 'Compositions/Navigation/MainNavigation',
   component: OriMainNavigationComponent,
   tags: ['autodocs'],
   parameters: {

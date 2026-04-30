@@ -3,7 +3,7 @@ import { CheckCircle2, Clock, FileText, AlertCircle } from 'lucide-react';
 import { Timeline } from './Timeline.js';
 
 const meta = {
-  title: 'Composants/Données/Timeline',
+  title: 'Primitives/Affichage/Timeline',
   component: Timeline,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import { Spinner } from './Spinner.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants/Status/Spinner',
+  title: 'Primitives/Feedback/Spinner',
   component: Spinner,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

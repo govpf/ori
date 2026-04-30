@@ -13,7 +13,7 @@ const services: OriMultiSelectOption[] = [
 ];
 
 const meta: Meta<OriMultiSelectComponent> = {
-  title: 'Composants/Inputs/MultiSelect',
+  title: 'Primitives/Saisie/MultiSelect',
   component: OriMultiSelectComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriMultiSelectComponent] })],

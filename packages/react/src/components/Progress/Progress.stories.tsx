@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Progress } from './Progress.js';
 
 const meta = {
-  title: 'Composants/Affichage/Progress',
+  title: 'Primitives/Feedback/Progress',
   component: Progress,
   tags: ['autodocs'],
   parameters: {

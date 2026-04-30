@@ -11,7 +11,7 @@ import { OriTextareaComponent } from '../textarea/textarea.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriFormComponent> = {
-  title: 'Composants/Layout/Form',
+  title: 'Compositions/Layout/Form',
   component: OriFormComponent,
   tags: ['autodocs'],
   decorators: [

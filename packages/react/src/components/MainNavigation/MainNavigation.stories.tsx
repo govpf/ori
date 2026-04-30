@@ -4,7 +4,7 @@ import { Header } from '../Header/index.js';
 import { Button } from '../Button/index.js';
 
 const meta = {
-  title: 'Composants/Navigation/MainNavigation',
+  title: 'Compositions/Navigation/MainNavigation',
   component: MainNavigation,
   tags: ['autodocs'],
   parameters: {

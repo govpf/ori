@@ -10,7 +10,7 @@ import { OriInputComponent } from '../input/input.component';
 import { OriTextareaComponent } from '../textarea/textarea.component';
 
 const meta: Meta<OriWizardComponent> = {
-  title: 'Composants/Layout/Wizard',
+  title: 'Compositions/Layout/Wizard',
   component: OriWizardComponent,
   tags: ['autodocs'],
   decorators: [

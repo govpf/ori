@@ -9,7 +9,7 @@ import {
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriCardComponent> = {
-  title: 'Composants/Affichage/Card',
+  title: 'Primitives/Affichage/Card',
   component: OriCardComponent,
   tags: ['autodocs'],
   parameters: {

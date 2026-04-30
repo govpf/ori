@@ -3,7 +3,7 @@ import { Download, Eye, Pencil, Trash2 } from 'lucide-react';
 import { FileCard } from './FileCard.js';
 
 const meta = {
-  title: 'Composants/Affichage/FileCard',
+  title: 'Compositions/Saisie/FileCard',
   component: FileCard,
   tags: ['autodocs'],
   parameters: {

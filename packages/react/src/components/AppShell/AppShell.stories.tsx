@@ -4,7 +4,7 @@ import { AppShell } from './AppShell.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants/Layout/AppShell',
+  title: 'Compositions/Layout/AppShell',
   component: AppShell,
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },

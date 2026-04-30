@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar/index.js';
 import { Tag } from '../Tag/index.js';
 
 const meta = {
-  title: 'Composants/Navigation/Header',
+  title: 'Compositions/Navigation/Header',
   component: Header,
   tags: ['autodocs'],
   parameters: {

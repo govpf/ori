@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriTabsComponent, OriTabComponent } from './tabs.component';
 
 const meta: Meta<OriTabsComponent> = {
-  title: 'Composants/Navigation/Tabs',
+  title: 'Primitives/Navigation/Tabs',
   component: OriTabsComponent,
   tags: ['autodocs'],
   parameters: {

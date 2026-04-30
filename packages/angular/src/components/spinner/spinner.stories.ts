@@ -4,7 +4,7 @@ import { OriSpinnerComponent } from './spinner.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriSpinnerComponent> = {
-  title: 'Composants/Status/Spinner',
+  title: 'Primitives/Feedback/Spinner',
   component: OriSpinnerComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriSpinnerComponent, OriButtonComponent] })],
