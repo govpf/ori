@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@govpf/ori-react';
-import { Moon, Sun, User, Settings, Shield, LogOut, Menu } from 'lucide-react';
+import { Moon, Sun, User, Settings, Shield, LogOut } from 'lucide-react';
 import type { Route } from '../App.js';
 
 // Route interne mappée sur le href des items de nav. Permet d'intercepter
@@ -116,17 +116,6 @@ export function AppShell({ route, onNavigate, children }: AppShellProps) {
       </div>
       <Header>
         <Header.Brand>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setSidebarOpen((v) => !v)}
-            aria-label={
-              sidebarOpen ? 'Masquer la navigation latérale' : 'Afficher la navigation latérale'
-            }
-            aria-expanded={sidebarOpen}
-          >
-            <Menu size={18} aria-hidden="true" />
-          </Button>
           <Logo href="#" title="Polynésie française" subtitle="Mon espace usager" />
         </Header.Brand>
         <Header.Nav>

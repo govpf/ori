@@ -9,6 +9,9 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import { LucideAngularModule, ChevronLeft, ChevronRight } from 'lucide-angular';
+
+type LucideIconData = typeof ChevronLeft;
 
 const MAIN_ID = 'ori-app-shell-main';
 
@@ -40,6 +43,7 @@ const MAIN_ID = 'ori-app-shell-main';
 @Component({
   selector: 'ori-app-shell',
   standalone: true,
+  imports: [LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -59,6 +63,20 @@ const MAIN_ID = 'ori-app-shell-main';
           <aside class="ori-app-shell__sidebar" aria-label="Navigation latérale">
             <ng-content select="[slot=sidebar]"></ng-content>
           </aside>
+          <button
+            type="button"
+            class="ori-app-shell__sidebar-toggle"
+            [attr.aria-label]="sidebarOpen ? collapseSidebarLabel : expandSidebarLabel"
+            [attr.aria-expanded]="sidebarOpen"
+            [attr.aria-controls]="mainId"
+            (click)="toggleSidebar()"
+          >
+            <lucide-icon
+              [img]="sidebarOpen ? ChevronLeftIcon : ChevronRightIcon"
+              [size]="16"
+              aria-hidden="true"
+            ></lucide-icon>
+          </button>
           <div
             class="ori-app-shell__scrim"
             role="button"
@@ -76,13 +94,15 @@ const MAIN_ID = 'ori-app-shell-main';
       </div>
     </div>
   `,
-  // Trick : on duplique les ng-content avec sélecteurs pour pouvoir détecter
-  // si du contenu est projeté (via ContentChild + ElementRef sur les wraps).
-  // Plus propre que des @Input booleans dupliqués qui désynchroniseraient.
 })
 export class OriAppShellComponent {
   @Input() skipLinkLabel: string = 'Aller au contenu principal';
   @Input() closeSidebarLabel: string = 'Fermer le menu';
+  @Input() collapseSidebarLabel: string = 'Masquer la navigation latérale';
+  @Input() expandSidebarLabel: string = 'Afficher la navigation latérale';
+
+  protected readonly ChevronLeftIcon: LucideIconData = ChevronLeft;
+  protected readonly ChevronRightIcon: LucideIconData = ChevronRight;
   /**
    * État de la sidebar. Pilote l'affichage sur tous les viewports :
    * - desktop ≥ 768px : `true` = visible in-flow, `false` = masquée
@@ -118,6 +138,11 @@ export class OriAppShellComponent {
     if (!this.sidebarOpen) return;
     this.sidebarOpen = false;
     this.sidebarOpenChange.emit(false);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+    this.sidebarOpenChange.emit(this.sidebarOpen);
   }
 
   @HostListener('document:keydown.escape')

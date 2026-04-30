@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
  * AppShell : layout d'application.
@@ -23,9 +24,12 @@ import { clsx } from 'clsx';
  * - Mobile < 768px : la sidebar est en drawer hors-flux. `sidebarOpen=true`
  *   l'ouvre par-dessus le scrim, `sidebarOpen=false` la ferme.
  *
- * Le bouton de toggle (hamburger) vit dans le header projeté ; l'app décide
- * où le placer et quand l'afficher. Le drawer mobile ferme aussi sur ESC
- * et au clic sur le scrim.
+ * Sur desktop, le composant rend lui-même un bouton de toggle intégré
+ * (chevron) sur le bord droit de la sidebar quand elle est visible, qui
+ * glisse à gauche du main quand elle est masquée. Le bouton est rendu
+ * uniquement si `onSidebarOpenChange` est fourni (sans callback, le
+ * toggle ne servirait à rien). Sur mobile, le bouton est masqué : le
+ * drawer ferme via le scrim cliquable et la touche Escape.
  *
  * a11y :
  * - skip link en première position, visible au focus uniquement
@@ -55,6 +59,10 @@ export interface AppShellProps {
   onSidebarOpenChange?: (open: boolean) => void;
   /** Label accessible du scrim (lecteur d'écran). */
   closeSidebarLabel?: string;
+  /** Label accessible du bouton de toggle quand la sidebar est ouverte. */
+  collapseSidebarLabel?: string;
+  /** Label accessible du bouton de toggle quand la sidebar est fermée. */
+  expandSidebarLabel?: string;
   className?: string;
 }
 
@@ -70,6 +78,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
     sidebarOpen = true,
     onSidebarOpenChange,
     closeSidebarLabel = 'Fermer le menu',
+    collapseSidebarLabel = 'Masquer la navigation latérale',
+    expandSidebarLabel = 'Afficher la navigation latérale',
     className,
   },
   ref,
@@ -108,6 +118,22 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
             <aside className="ori-app-shell__sidebar" aria-label="Navigation latérale">
               {sidebar}
             </aside>
+            {onSidebarOpenChange && (
+              <button
+                type="button"
+                className="ori-app-shell__sidebar-toggle"
+                aria-label={sidebarOpen ? collapseSidebarLabel : expandSidebarLabel}
+                aria-expanded={sidebarOpen}
+                aria-controls={MAIN_ID}
+                onClick={() => onSidebarOpenChange(!sidebarOpen)}
+              >
+                {sidebarOpen ? (
+                  <ChevronLeft size={16} aria-hidden="true" />
+                ) : (
+                  <ChevronRight size={16} aria-hidden="true" />
+                )}
+              </button>
+            )}
             <div
               className="ori-app-shell__scrim"
               role="button"

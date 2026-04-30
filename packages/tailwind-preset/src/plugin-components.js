@@ -1676,6 +1676,47 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         display: 'none',
       },
     },
+    // Bouton de toggle intégré : sur desktop, frère direct du sidebar et du
+    // main. Sa position dans le flow flex le colle naturellement entre les
+    // deux quand la sidebar est visible, et au début du body quand elle est
+    // masquée. Caché sur mobile (le drawer ferme via le scrim cliquable).
+    '.ori-app-shell__sidebar-toggle': {
+      alignSelf: 'flex-start',
+      flexShrink: '0',
+      marginTop: theme('spacing.4'),
+      width: '1.75rem',
+      height: '1.75rem',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '0',
+      backgroundColor: v('surface-base'),
+      border: `1px solid ${v('border-subtle')}`,
+      borderRadius: '9999px',
+      color: v('text-secondary'),
+      cursor: 'pointer',
+      boxShadow: theme('boxShadow.sm'),
+      transitionProperty: 'background-color, color, border-color, transform',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      // Translate le bouton pour qu'il chevauche pile la frontière
+      // sidebar/main (effet "collé sur le bord droit de la sidebar"
+      // quand ouverte, "collé au bord gauche du main" quand fermée).
+      transform: 'translateX(-50%)',
+      zIndex: '5',
+      '&:hover': {
+        backgroundColor: v('surface-muted'),
+        color: v('text-primary'),
+        borderColor: v('border-default'),
+      },
+      '&:focus-visible': {
+        outline: `2px solid ${v('border-focus')}`,
+        outlineOffset: '2px',
+      },
+      '@media (max-width: 767px)': {
+        display: 'none',
+      },
+    },
     '.ori-app-shell__main': {
       flex: '1 1 auto',
       minWidth: '0',
