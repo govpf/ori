@@ -87,4 +87,4 @@ Toggle via `data-theme="dark"` (ou classe `.dark-theme`) sur `<html>`. Pas de re
 
 ## Licence
 
-[MIT](https://github.com/govpf/ori/blob/main/LICENSE) — Copyright © 2026 Gouvernement de la Polynésie française.
+[MIT](https://github.com/govpf/ori/blob/main/LICENSE) - Copyright © 2026 Gouvernement de la Polynésie française.
