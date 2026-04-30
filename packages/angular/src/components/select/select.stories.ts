@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriSelectComponent } from './select.component';
 
 const meta: Meta<OriSelectComponent> = {
-  title: 'Composants/Saisie/Select',
+  title: 'Primitives/Saisie/Select',
   component: OriSelectComponent,
   tags: ['autodocs'],
   parameters: {

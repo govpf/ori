@@ -4,7 +4,7 @@ import { Button } from '../Button/Button.js';
 import { Inbox, Search, FilePlus, Users } from 'lucide-react';
 
 const meta = {
-  title: 'Composants/Status/EmptyState',
+  title: 'Compositions/État/EmptyState',
   component: EmptyState,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

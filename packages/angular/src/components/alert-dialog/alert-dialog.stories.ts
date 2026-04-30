@@ -4,7 +4,7 @@ import { OriAlertDialogComponent } from './alert-dialog.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriAlertDialogComponent> = {
-  title: 'Composants/Feedback/AlertDialog',
+  title: 'Primitives/Feedback/AlertDialog',
   component: OriAlertDialogComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriAlertDialogComponent, OriButtonComponent] })],

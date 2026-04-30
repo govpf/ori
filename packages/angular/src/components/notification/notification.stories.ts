@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriNotificationComponent } from './notification.component';
 
 const meta: Meta<OriNotificationComponent> = {
-  title: 'Composants/Feedback/Notification',
+  title: 'Primitives/Feedback/Notification',
   component: OriNotificationComponent,
   tags: ['autodocs'],
   parameters: {

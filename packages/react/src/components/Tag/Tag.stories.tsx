@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Tag } from './Tag.js';
 
 const meta = {
-  title: 'Composants/Affichage/Tag',
+  title: 'Primitives/Affichage/Tag',
   component: Tag,
   tags: ['autodocs'],
   parameters: {

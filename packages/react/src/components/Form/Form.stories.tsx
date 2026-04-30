@@ -6,7 +6,7 @@ import { Textarea } from '../Textarea/Textarea.js';
 import { Button } from '../Button/Button.js';
 
 const meta = {
-  title: 'Composants/Layout/Form',
+  title: 'Compositions/Layout/Form',
   component: Form,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

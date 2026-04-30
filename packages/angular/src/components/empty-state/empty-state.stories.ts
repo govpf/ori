@@ -5,7 +5,7 @@ import { OriEmptyStateComponent } from './empty-state.component';
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriEmptyStateComponent> = {
-  title: 'Composants/Status/EmptyState',
+  title: 'Compositions/État/EmptyState',
   component: OriEmptyStateComponent,
   tags: ['autodocs'],
   decorators: [

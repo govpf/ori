@@ -9,7 +9,7 @@ import {
 import { OriBreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 const meta: Meta<OriLegalLayoutComponent> = {
-  title: 'Composants/Mise en page/Legal',
+  title: 'Templates/LegalLayout',
   component: OriLegalLayoutComponent,
   tags: ['autodocs'],
   parameters: {

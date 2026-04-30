@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LanguageSwitcher } from './LanguageSwitcher.js';
 
 const meta = {
-  title: 'Composants/Actions/LanguageSwitcher',
+  title: 'Primitives/Actions/LanguageSwitcher',
   component: LanguageSwitcher,
   tags: ['autodocs'],
   parameters: {

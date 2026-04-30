@@ -5,7 +5,7 @@ import { OriDropdownMenuComponent, type OriDropdownMenuItem } from './dropdown-m
 import { OriButtonComponent } from '../button/button.component';
 
 const meta: Meta<OriDropdownMenuComponent> = {
-  title: 'Composants/Navigation/DropdownMenu',
+  title: 'Primitives/Navigation/DropdownMenu',
   component: OriDropdownMenuComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [OriDropdownMenuComponent, OriButtonComponent] })],

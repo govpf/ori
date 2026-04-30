@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriCheckboxComponent } from './checkbox.component';
 
 const meta: Meta<OriCheckboxComponent> = {
-  title: 'Composants/Saisie/Checkbox',
+  title: 'Primitives/Saisie/Checkbox',
   component: OriCheckboxComponent,
   tags: ['autodocs'],
   parameters: {

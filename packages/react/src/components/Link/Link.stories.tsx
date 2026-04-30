@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Link } from './Link.js';
 
 const meta = {
-  title: 'Composants/Actions/Link',
+  title: 'Primitives/Actions/Link',
   component: Link,
   tags: ['autodocs'],
   parameters: {

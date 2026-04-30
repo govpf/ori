@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Textarea } from './Textarea.js';
 
 const meta = {
-  title: 'Composants/Saisie/Textarea',
+  title: 'Primitives/Saisie/Textarea',
   component: Textarea,
   tags: ['autodocs'],
   parameters: {

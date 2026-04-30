@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriStepsComponent } from './steps.component';
 
 const meta: Meta<OriStepsComponent> = {
-  title: 'Composants/Navigation/Steps',
+  title: 'Primitives/Navigation/Steps',
   component: OriStepsComponent,
   tags: ['autodocs'],
   parameters: {

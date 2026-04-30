@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Combobox, type ComboboxOption } from './Combobox.js';
 
 const meta = {
-  title: 'Composants/Inputs/Combobox',
+  title: 'Primitives/Saisie/Combobox',
   component: Combobox,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriAlertComponent } from './alert.component';
 
 const meta: Meta<OriAlertComponent> = {
-  title: 'Composants/Feedback/Alert',
+  title: 'Primitives/Feedback/Alert',
   component: OriAlertComponent,
   tags: ['autodocs'],
   parameters: {

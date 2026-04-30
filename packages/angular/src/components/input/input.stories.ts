@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriInputComponent } from './input.component';
 
 const meta: Meta<OriInputComponent> = {
-  title: 'Composants/Saisie/Input',
+  title: 'Primitives/Saisie/Input',
   component: OriInputComponent,
   tags: ['autodocs'],
   parameters: {

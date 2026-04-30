@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriBreadcrumbComponent } from './breadcrumb.component';
 
 const meta: Meta<OriBreadcrumbComponent> = {
-  title: 'Composants/Navigation/Breadcrumb',
+  title: 'Primitives/Navigation/Breadcrumb',
   component: OriBreadcrumbComponent,
   tags: ['autodocs'],
   parameters: {

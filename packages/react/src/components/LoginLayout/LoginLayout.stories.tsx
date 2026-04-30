@@ -7,7 +7,7 @@ import { Link } from '../Link/Link.js';
 import { Logo } from '../Logo/Logo.js';
 
 const meta = {
-  title: 'Composants/Layout/LoginLayout',
+  title: 'Compositions/Layout/LoginLayout',
   component: LoginLayout,
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },

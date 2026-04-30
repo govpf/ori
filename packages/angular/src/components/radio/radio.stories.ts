@@ -4,7 +4,7 @@ import { OriRadioComponent } from './radio.component';
 import { OriRadioGroupComponent } from './radio-group.component';
 
 const meta: Meta<OriRadioGroupComponent> = {
-  title: 'Composants/Saisie/Radio',
+  title: 'Primitives/Saisie/Radio',
   component: OriRadioGroupComponent,
   tags: ['autodocs'],
   parameters: {

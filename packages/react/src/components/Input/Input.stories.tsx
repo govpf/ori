@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input.js';
 
 const meta = {
-  title: 'Composants/Saisie/Input',
+  title: 'Primitives/Saisie/Input',
   component: Input,
   tags: ['autodocs'],
   parameters: {

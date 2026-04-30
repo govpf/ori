@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OriFooterComponent } from './footer.component';
 
 const meta: Meta<OriFooterComponent> = {
-  title: 'Composants/Navigation/Footer',
+  title: 'Compositions/Navigation/Footer',
   component: OriFooterComponent,
   tags: ['autodocs'],
   parameters: {
