@@ -15,6 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
@@ -43,6 +44,7 @@ export const Default: Story = {
 };
 
 export const LongContent: Story = {
+  name: 'Contenu long',
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
@@ -68,6 +70,7 @@ export const LongContent: Story = {
 };
 
 export const NoFooter: Story = {
+  name: 'Sans pied',
   render: () => (
     <Dialog>
       <DialogTrigger asChild>

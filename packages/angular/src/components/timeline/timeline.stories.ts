@@ -62,6 +62,7 @@ const defaultItems: OriTimelineItem[] = [
 ];
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { items: defaultItems },
 };
 

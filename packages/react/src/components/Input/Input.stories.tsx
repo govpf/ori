@@ -35,17 +35,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: { hint: "Tel qu'il apparaît sur votre pièce d'identité." },
 };
 
 export const Required: Story = {
+  name: 'Requis',
   args: { required: true },
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     value: '',
     error: 'Ce champ est obligatoire.',
@@ -54,10 +57,12 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, value: 'Valeur verrouillée' },
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Input {...args} size="sm" label="Petit" />

@@ -32,7 +32,7 @@ export function App() {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithFilename: Story = {
   args: { filename: 'src/App.tsx' },

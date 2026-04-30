@@ -27,7 +27,7 @@ const meta: Meta<OriLinkComponent> = {
 export default meta;
 type Story = StoryObj<OriLinkComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Quiet: Story = {
   args: { variant: 'quiet' },
@@ -46,6 +46,7 @@ export const External: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   render: () => ({
     template: `
       <p style="max-width: 480px;">

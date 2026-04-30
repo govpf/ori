@@ -30,6 +30,7 @@ export default meta;
 type Story = StoryObj<OriPaginationComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { page: 1, totalPages: 10 },
 };
 

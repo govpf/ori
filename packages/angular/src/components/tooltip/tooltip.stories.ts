@@ -30,6 +30,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     template: `<ori-button variant="danger" pfTooltip="Action de suppression définitive">Supprimer</ori-button>`,
   }),

@@ -27,6 +27,7 @@ type Story = StoryObj<OriAlertDialogComponent>;
  * sur "Annuler" pour éviter qu'un Entrée accidentel ne déclenche l'action.
  */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       isOpen: false,
@@ -62,6 +63,7 @@ export const Default: Story = {
  * variant standard plutôt que danger.
  */
 export const Logout: Story = {
+  name: 'Déconnexion',
   render: () => ({
     props: {
       isOpen: false,

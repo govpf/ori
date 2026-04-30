@@ -49,7 +49,7 @@ const meta: Meta<OriStatisticComponent> = {
 export default meta;
 type Story = StoryObj<OriStatisticComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const AvecTendance: Story = {
   args: {
@@ -125,6 +125,7 @@ export const DansUneCard: Story = {
 };
 
 export const Inline: Story = {
+  name: 'En ligne',
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 8px; max-width: 320px;">

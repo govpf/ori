@@ -34,6 +34,7 @@ export const WithImage: Story = {
 };
 
 export const Sizes: Story = {
+  name: 'Tailles',
   render: () => (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <Avatar alt="Marie Dupont" size="sm" />

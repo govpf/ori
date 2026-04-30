@@ -26,6 +26,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Multiple: Story = {
+  name: 'Multiple',
   render: () => (
     <Accordion type="multiple">
       <Accordion.Item title="Quelles sont les pièces à fournir ?">

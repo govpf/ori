@@ -43,6 +43,7 @@ export const FrEn: Story = {
 };
 
 export const WithTahitian: Story = {
+  name: 'Avec Reo Tahiti',
   render: () => {
     const [lang, setLang] = useState('fr');
     return (

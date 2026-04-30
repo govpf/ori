@@ -80,6 +80,7 @@ export default meta;
 type Story = StoryObj<ToastDemo>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { position: 'top-right' },
 };
 

@@ -15,6 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 /** Cas standard : taille md, une action principale. */
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     icon: <Inbox size={48} />,
     title: 'Aucune demande en cours',
@@ -26,6 +27,7 @@ export const Default: Story = {
 
 /** Filtre vide : taille sm, ton plus discret. */
 export const SearchNoResults: Story = {
+  name: 'Recherche sans résultat',
   args: {
     icon: <Search size={32} />,
     title: 'Aucun résultat',
@@ -38,6 +40,7 @@ export const SearchNoResults: Story = {
 
 /** Onboarding : taille lg pour une page entière, deux actions. */
 export const OnboardingLarge: Story = {
+  name: 'Onboarding grande taille',
   args: {
     icon: <Users size={64} />,
     title: 'Bienvenue dans votre espace',
@@ -55,6 +58,7 @@ export const OnboardingLarge: Story = {
 
 /** Sans description : titre seul + action. */
 export const Minimal: Story = {
+  name: 'Minimal',
   args: {
     icon: <FilePlus size={48} />,
     title: 'Aucun document',
@@ -64,6 +68,7 @@ export const Minimal: Story = {
 
 /** Sans icône ni action : juste le texte d'absence. */
 export const TextOnly: Story = {
+  name: 'Texte seul',
   args: {
     title: 'Aucune notification',
     description: 'Vous serez prévenu ici de toute nouvelle activité concernant vos dossiers.',

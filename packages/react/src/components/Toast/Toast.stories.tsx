@@ -64,6 +64,7 @@ function Trigger({ position }: { position?: ToastViewportPosition }) {
 }
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <ToastProvider>
       <Trigger />

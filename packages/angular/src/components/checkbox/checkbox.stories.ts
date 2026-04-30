@@ -42,29 +42,34 @@ const meta: Meta<OriCheckboxComponent> = {
 export default meta;
 type Story = StoryObj<OriCheckboxComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Checked: Story = { args: { checked: true } };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: 'Vous pouvez retirer votre consentement à tout moment depuis vos préférences.',
   },
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: { error: 'Vous devez accepter les conditions pour continuer.' },
 };
 
 export const Indeterminate: Story = {
+  name: 'Indéterminé',
   args: { indeterminate: true, label: 'Sélectionner toutes les lignes' },
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, checked: true, label: 'Option verrouillée' },
 };
 
 export const Group: Story = {
+  name: 'Groupe',
   render: () => ({
     template: `
       <fieldset class="ori-choice-group" style="border: 0; padding: 0; margin: 0;">

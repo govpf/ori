@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
  * destructive.
  */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -53,6 +54,7 @@ export const Default: Story = {
  * n'est pas en variant="danger".
  */
 export const Logout: Story = {
+  name: 'Déconnexion',
   render: () => (
     <AlertDialog>
       <AlertDialogTrigger asChild>

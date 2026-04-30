@@ -31,6 +31,7 @@ type Story = StoryObj<OriDialogComponent>;
  * page docs casse la navigation (focus piégé, body non scrollable).
  */
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       isOpen: false,
@@ -65,6 +66,7 @@ export const Default: Story = {
  * le footer restent fixes, seul le body scrolle). Parité avec la story React.
  */
 export const LongContent: Story = {
+  name: 'Contenu long',
   render: () => ({
     props: {
       isOpen: false,
@@ -101,6 +103,7 @@ export const LongContent: Story = {
  * Sans footer : le dialog n'affiche que header + body. Parité avec la story React.
  */
 export const NoFooter: Story = {
+  name: 'Sans pied',
   render: () => ({
     props: {
       isOpen: false,

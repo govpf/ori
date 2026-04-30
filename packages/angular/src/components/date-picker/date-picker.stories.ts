@@ -50,9 +50,10 @@ const meta: Meta<OriDatePickerComponent> = {
 export default meta;
 type Story = StoryObj<OriDatePickerComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: { hint: "Telle qu'elle figure sur votre pièce d'identité." },
 };
 
@@ -72,6 +73,7 @@ export const WithBounds: Story = {
 export const Required: Story = { args: { required: true } };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     error: "Cette date doit être antérieure à aujourd'hui.",
     value: '2030-01-01',
@@ -79,5 +81,6 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, value: '2026-04-25' },
 };

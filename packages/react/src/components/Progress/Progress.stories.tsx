@@ -27,6 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: { value: 60, max: 100 },
 };
 
@@ -35,6 +36,7 @@ export const WithLabel: Story = {
 };
 
 export const Indeterminate: Story = {
+  name: 'Indéterminé',
   args: { label: 'Traitement en cours' },
 };
 

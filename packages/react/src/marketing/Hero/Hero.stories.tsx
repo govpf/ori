@@ -30,9 +30,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithActions: Story = {
+  name: 'Avec actions',
   args: {
     actions: (
       <>
@@ -48,5 +49,6 @@ export const Muted: Story = {
 };
 
 export const TitleOnly: Story = {
+  name: 'Titre seul',
   args: { eyebrow: undefined, subtitle: undefined },
 };

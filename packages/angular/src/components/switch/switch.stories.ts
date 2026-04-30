@@ -39,11 +39,12 @@ const meta: Meta<OriSwitchComponent> = {
 export default meta;
 type Story = StoryObj<OriSwitchComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const On: Story = { args: { checked: true } };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: {
     hint: "L'envoi est immédiat dès activation.",
     checked: true,
@@ -51,10 +52,12 @@ export const WithHint: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, checked: true, label: 'Réglage verrouillé' },
 };
 
 export const Group: Story = {
+  name: 'Groupe',
   render: () => ({
     template: `
       <fieldset class="ori-choice-group" style="border: 0; padding: 0; margin: 0;">

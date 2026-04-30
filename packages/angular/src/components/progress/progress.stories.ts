@@ -30,12 +30,13 @@ const meta: Meta<OriProgressComponent> = {
 export default meta;
 type Story = StoryObj<OriProgressComponent>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithLabel: Story = {
   args: { value: 35, label: 'Téléversement en cours' },
 };
 
 export const Indeterminate: Story = {
+  name: 'Indéterminé',
   args: { value: null, label: 'Traitement en cours' },
 };

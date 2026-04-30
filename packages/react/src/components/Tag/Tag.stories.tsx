@@ -26,9 +26,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const Variants: Story = {
+  name: 'Variantes',
   render: () => (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       <Tag variant="neutral">Brouillon</Tag>

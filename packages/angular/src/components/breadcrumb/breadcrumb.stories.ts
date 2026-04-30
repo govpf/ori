@@ -25,6 +25,7 @@ export default meta;
 type Story = StoryObj<OriBreadcrumbComponent>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   args: {
     items: [
       { label: 'Accueil', href: '/' },

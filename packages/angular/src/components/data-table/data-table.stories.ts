@@ -83,6 +83,7 @@ export default meta;
 type Story = StoryObj<OriDataTableComponent<Demande>>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => ({
     props: {
       columns,
@@ -109,6 +110,7 @@ export const Default: Story = {
 };
 
 export const ReadOnly: Story = {
+  name: 'Consultation seule',
   render: () => ({
     props: {
       columns,
@@ -128,6 +130,7 @@ export const ReadOnly: Story = {
 };
 
 export const NoPagination: Story = {
+  name: 'Sans pagination',
   render: () => ({
     props: {
       columns,
@@ -148,6 +151,7 @@ export const NoPagination: Story = {
 };
 
 export const Loading: Story = {
+  name: 'Chargement',
   render: () => ({
     props: {
       columns,

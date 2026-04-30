@@ -95,6 +95,7 @@ const STATUT_LABEL = {
 } as const;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: () => (
     <Table<Demande>
       caption="Liste des demandes"
@@ -282,6 +283,7 @@ export const Empty: Story = {
 };
 
 export const Loading: Story = {
+  name: 'Chargement',
   render: () => (
     <Table
       columns={[

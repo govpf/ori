@@ -31,6 +31,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  name: 'Par défaut',
   render: (args) => (
     <Card {...args}>
       <CardHeader title="Titre de la card" subtitle="Un sous-titre descriptif" />

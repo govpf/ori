@@ -36,17 +36,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { name: 'Par défaut' };
 
 export const WithHint: Story = {
+  name: 'Avec indication',
   args: { hint: 'Maximum 500 caractères.' },
 };
 
 export const Required: Story = {
+  name: 'Requis',
   args: { required: true },
 };
 
 export const WithError: Story = {
+  name: 'Avec erreur',
   args: {
     value: '',
     error: 'La description est obligatoire.',
@@ -55,6 +58,7 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
+  name: 'Désactivé',
   args: { disabled: true, value: 'Texte verrouillé qui ne peut pas être modifié.' },
 };
 

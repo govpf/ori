@@ -34,9 +34,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Info: Story = {};
+export const Info: Story = { name: 'Variante information' };
 
 export const Success: Story = {
+  name: 'Variante succès',
   args: {
     severity: 'success',
     title: 'Action réalisée',
@@ -45,6 +46,7 @@ export const Success: Story = {
 };
 
 export const Warning: Story = {
+  name: 'Variante avertissement',
   args: {
     severity: 'warning',
     title: 'Attention',
@@ -53,6 +55,7 @@ export const Warning: Story = {
 };
 
 export const Danger: Story = {
+  name: 'Variante danger',
   args: {
     severity: 'danger',
     title: 'Erreur',
@@ -68,6 +71,7 @@ export const Dismissible: Story = {
 };
 
 export const NoTitle: Story = {
+  name: 'Sans titre',
   args: {
     title: undefined,
     children: 'Un message simple, sans titre.',
