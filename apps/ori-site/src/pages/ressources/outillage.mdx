@@ -1,0 +1,86 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Outillage automatisé"
+current: "outillage"
+headerCurrent: "ressources"
+---
+
+# Outillage automatisé
+
+Ori expose plusieurs endpoints conçus pour les agents IA, scripts d'audit
+et outils de scraping qui veulent inspecter le design system sans exécuter
+le JavaScript du Storybook.
+
+## Résumé pour agents IA — `llms.txt`
+
+[https://ori.gov.pf/llms.txt](https://ori.gov.pf/llms.txt) — Markdown
+court suivant la convention [llmstxt.org](https://llmstxt.org). Décrit
+le positionnement d'Ori, liste les packages npm, les principaux
+composants par niveau (Primitive / Composition / Template) et pointe
+vers les autres endpoints utiles.
+
+C'est le point d'entrée recommandé pour un agent qui découvre Ori : un
+seul fichier, lisible en quelques secondes, suffisant pour orienter la
+suite de l'exploration.
+
+## Index Storybook — `index.json`
+
+Storybook 8+ génère automatiquement un index machine-readable de toutes
+les stories à la racine de chaque build statique :
+
+- React : [https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json)
+- Angular : [https://ori.gov.pf/storybook/angular/index.json](https://ori.gov.pf/storybook/angular/index.json)
+
+Format JSON, ~100 ko. Pour chaque story :
+
+```json
+{
+  "id": "composants-inputs-button--default",
+  "title": "Composants/Inputs/Button",
+  "name": "Default",
+  "importPath": "../../packages/react/src/components/Button/Button.stories.tsx",
+  "tags": ["dev", "test", "autodocs"],
+  "type": "story"
+}
+```
+
+L'`importPath` permet de retrouver le fichier source dans le repo
+GitHub. Les `tags` distinguent stories interactives (`type: "story"`)
+et fiches de documentation MDX (`type: "docs"`).
+
+## Récupérer une story spécifique
+
+Une fois un `id` repéré dans `index.json`, deux options :
+
+- **Iframe Storybook** : `https://ori.gov.pf/storybook/react/iframe.html?id={story-id}`
+  rend la story isolée (sans la chrome de la SPA). Le rendu reste piloté
+  par le JS du Storybook, donc l'inspection HTML brute ne fonctionne pas
+  sans un browser headless.
+- **Source dans le repo GitHub** : suivre `importPath` vers
+  `https://github.com/govpf/ori/blob/main/{importPath}`.
+  C'est l'approche recommandée pour analyser le code d'un composant
+  sans dépendre du runtime.
+
+## Source de vérité dans le repo
+
+Pour les agents qui veulent aller plus loin que l'index :
+
+| Chemin                                                                                                  | Contenu                                                                |
+| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [`packages/docs/src/Decisions-A-Prendre.mdx`](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx) | Décisions architecturales tranchées (avec leur statut et conclusion)   |
+| [`packages/docs/src/Validation-Accessibilite.mdx`](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Accessibilite.mdx) | Méthode et couverture a11y (axe-core, WCAG 2.0 AA)                     |
+| [`packages/tokens/src/`](https://github.com/govpf/ori/tree/main/packages/tokens/src)                    | Design tokens W3C DTCG (sources `core.json` et `semantic.json`)        |
+| [`packages/tailwind-preset/src/plugin-components.js`](https://github.com/govpf/ori/blob/main/packages/tailwind-preset/src/plugin-components.js) | Définition de toutes les classes sémantiques `.ori-*`                  |
+
+## Roadmap publique
+
+[https://github.com/orgs/govpf/projects/3](https://github.com/orgs/govpf/projects/3) —
+Board GitHub Projects avec colonnes Backlog / Up next / In progress /
+Done. Filtres par catégorie (Composant, Pattern, A11y, DX, Doc,
+Écosystème, Gouvernance, Sécu), niveau (Primitive, Composition,
+Template), source (Feedback externe, Roadmap interne, Bug remonté,
+Décision tranchée) et size (XS, S, M, L, XL).
+
+L'API GraphQL GitHub Projects permet d'interroger ce board en lecture
+sans authentification interactive (utiliser un PAT avec scope
+`read:project`).
