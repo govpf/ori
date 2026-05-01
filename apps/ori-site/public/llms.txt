@@ -5,7 +5,7 @@
 Positionnement :
 
 - **Service public** : généricité institutionnelle, identité visuelle Polynésie française et non d'un service spécifique
-- **RGAA AA baseline obligatoire** : 406 stories Storybook validées WCAG 2.0 AA en CI à chaque PR (axe-core, 0 violation)
+- **RGAA AA baseline obligatoire** : ensemble des stories Storybook validées WCAG 2.0 AA en CI à chaque PR (axe-core, 0 violation - le compte exact vit dans `index.json`)
 - **Natif d'abord** : éléments HTML natifs privilégiés systématiquement (`<select>`, `<input type="date">`, etc.) pour garantir l'a11y sans audit à recommencer
 - **Bundle minimal** : adapté aux connexions limitées des archipels éloignés
 - **Multi-framework** : même apparence visuelle garantie sur React, Angular, HTML pur depuis une source unique de tokens
@@ -39,13 +39,14 @@ Pour récupérer le contenu d'une story spécifique (HTML rendu) : `https://ori.
 
 Inventaire snapshot avril 2026, classés en 3 niveaux (cf. [décision B.0](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx#b0--classification-des-composants-en-3-niveaux)). L'inventaire à jour vit dans le repo et l'index Storybook ([https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json)).
 
-### Primitives (≈ 35)
+### Primitives (≈ 39)
 
 Briques atomiques, API agnostique du domaine, présentes dans tous les DS de référence.
 
-Inputs : Button, Input, Textarea, Select, Combobox, MultiSelect, Checkbox, Radio, Switch, DatePicker
+Inputs : Button, Input, Textarea, Select, Combobox, MultiSelect, Checkbox, Radio, RichRadio, Switch, DatePicker, PhoneInput, SearchBar
 Feedback : Dialog, AlertDialog, Tooltip, Toast, Notification, Alert, Spinner, Progress, Skeleton
 Navigation : DropdownMenu, Tabs, Accordion, Breadcrumb, Pagination, Steps, Link
+Actions : DownloadButton
 Data : Table, Tag, Avatar, Highlight, Statistic, Timeline, LanguageSwitcher, Logo
 
 ### Compositions (≈ 11)
