@@ -87,12 +87,31 @@ pnpm -r --filter "./packages/*" build
 
 ### Lancer les apps en développement
 
+#### Une app à la fois
+
 ```bash
 pnpm storybook:react       # Storybook React, port 6006
 pnpm storybook:angular     # Storybook Angular, port 6008
 pnpm demo:portail          # Demo end-to-end portail usager, port 5174
+pnpm playground:react      # Playground React, port 5173
+pnpm playground:angular    # Playground Angular, port 4200
 pnpm playground:static     # HTML pur consommant ori-css, port 4173
 ```
+
+#### Toutes les apps en parallèle
+
+Pour valider visuellement une modif sans push (et sans les ~10 min
+d'aller-retour CI + Cloudflare cache), un orchestrateur lance les 7
+apps en parallèle avec live-reload natif et un dashboard HTML qui
+regroupe les URLs et leurs statuts :
+
+```bash
+pnpm dev:all
+```
+
+Ouvre <http://localhost:3000> pour le dashboard. Ctrl+C arrête tout.
+
+Détail : [tools/dev-all/README.md](./tools/dev-all/README.md).
 
 ### Tester la CI en local
 

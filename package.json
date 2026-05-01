@@ -23,6 +23,7 @@
     "playground:angular": "pnpm --filter @govpf/ori-playground-angular run start",
     "playground:react": "pnpm --filter @govpf/ori-playground-react run dev",
     "demo:portail": "pnpm --filter @govpf/ori-demo-portail run dev",
+    "dev:all": "pnpm --filter @govpf/ori-tools-dev-all run start",
     "clean": "rimraf --glob \"**/node_modules\" \"**/dist\" \"**/build\" \"**/.turbo\" \"**/.angular\"",
     "clean:cache": "rimraf --glob \"apps/*/node_modules/.vite\" \"apps/*/node_modules/.cache\" \"apps/*/.angular\" \"apps/*/.storybook/.cache\" \"packages/*/node_modules/.cache\"",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css,scss}\"",

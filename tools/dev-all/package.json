@@ -1,0 +1,14 @@
+{
+  "name": "@govpf/ori-tools-dev-all",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Orchestrateur dev local : lance toutes les apps Ori en parallèle avec live-reload natif et un dashboard HTML",
+  "type": "module",
+  "scripts": {
+    "start": "node dev.mjs"
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1",
+    "http-server": "^14.1.1"
+  }
+}
