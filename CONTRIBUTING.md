@@ -257,9 +257,9 @@ incompatibilités ESM / TypeScript de l'écosystème Angular 20 + pnpm.
 Karma reste fonctionnel mais en EOL annoncé.
 
 La couverture des composants Angular repose pour l'instant sur les
-tests a11y axe-core (193 stories) et sur le fait que la logique est
-miroir de la version React (71 tests Vitest). À ré-évaluer à chaque
-release Angular ou Vitest majeure.
+tests a11y axe-core (snapshot 2026-05-01 : 255 stories Angular) et sur
+le fait que la logique est miroir de la version React (198 tests
+Vitest). À ré-évaluer à chaque release Angular ou Vitest majeure.
 
 #### Tests de parité visuelle React ↔ Angular (à la demande)
 
