@@ -19,9 +19,11 @@ const meta = {
     // travers le select transparent et tombe sur le body blanc plutôt que
     // sur le brand-primary du parent. Validé manuellement : le ratio
     // brand-on-primary/brand-primary (#fff sur #073ca5) est >10:1.
+    // Format `options.rules` (objet) : passé au axe.run du test-runner
+    // pour désactiver une règle ponctuellement.
     a11y: {
-      config: {
-        rules: [{ id: 'color-contrast', enabled: false }],
+      options: {
+        rules: { 'color-contrast': { enabled: false } },
       },
     },
   },

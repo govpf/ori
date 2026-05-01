@@ -32,6 +32,9 @@ const config: TestRunnerConfig = {
           type: 'tag',
           values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'],
         },
+        // Cf. test-runner React : permet aux stories de désactiver une
+        // règle via `parameters.a11y.options.rules` (format `axe.run`).
+        rules: storyContext.parameters?.['a11y']?.options?.rules,
       },
       includedImpacts: ['serious', 'critical'],
     });
