@@ -3719,14 +3719,6 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       alignItems: 'stretch',
       gap: theme('spacing.2'),
       width: '100%',
-      borderBottomWidth: '2px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: v('brand-primary'),
-      transitionProperty: 'border-color',
-      transitionDuration: theme('transitionDuration.fast'),
-      '&:focus-within': {
-        borderBottomColor: v('border-focus'),
-      },
     },
     '.ori-search-bar__input': {
       flex: '1 1 auto',
@@ -3738,10 +3730,22 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       lineHeight: theme('lineHeight.normal'),
       color: v('text-primary'),
       backgroundColor: 'transparent',
-      borderWidth: '0',
+      // L'underline vit sur l'input lui-même : ça évite le « pico » qu'on
+      // voyait dans le coin bas-droit du bouton quand la border était sur
+      // le wrapper et passait sous le radius du bouton.
+      borderTopWidth: '0',
+      borderInlineWidth: '0',
+      borderBottomWidth: '2px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('brand-primary'),
       outline: 'none',
+      transitionProperty: 'border-color',
+      transitionDuration: theme('transitionDuration.fast'),
       '&::placeholder': { color: v('text-muted') },
       '&::-webkit-search-cancel-button': { cursor: 'pointer' },
+      '&:focus-visible, &:focus': {
+        borderBottomColor: v('border-focus'),
+      },
       '&:disabled': {
         cursor: 'not-allowed',
         color: v('text-disabled'),
@@ -3797,7 +3801,11 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-phone-input': {
       display: 'flex',
       alignItems: 'stretch',
-      gap: theme('spacing.2'),
+      // Pas de gap : pill country + input number sont collés et forment
+      // un combo visuel unifié. Les radii asymétriques (left-only sur le
+      // country, right-only sur l'input) donnent l'impression d'un seul
+      // rectangle scindé en deux moitiés.
+      gap: '0',
       width: '100%',
     },
     '.ori-phone-input__country': {
@@ -3812,7 +3820,8 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       fontWeight: theme('fontWeight.medium'),
       color: v('brand-on-primary'),
       backgroundColor: v('brand-primary'),
-      borderRadius: theme('borderRadius.md'),
+      borderTopLeftRadius: theme('borderRadius.md'),
+      borderBottomLeftRadius: theme('borderRadius.md'),
       cursor: 'pointer',
       transitionProperty: 'background-color',
       transitionDuration: theme('transitionDuration.fast'),
@@ -3882,7 +3891,12 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       lineHeight: theme('lineHeight.normal'),
       color: v('text-primary'),
       backgroundColor: v('surface-base'),
-      borderRadius: theme('borderRadius.md'),
+      // Radii asymétriques : seul le bord droit est arrondi pour coller
+      // au pill country à gauche.
+      borderTopLeftRadius: '0',
+      borderBottomLeftRadius: '0',
+      borderTopRightRadius: theme('borderRadius.md'),
+      borderBottomRightRadius: theme('borderRadius.md'),
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: v('border-default'),
