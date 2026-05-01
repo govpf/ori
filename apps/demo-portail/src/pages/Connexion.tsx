@@ -1,4 +1,4 @@
-import { AuthButton, Button, LoginLayout } from '@govpf/ori-react';
+import { AuthButton, Button, LoginLayout, Logo } from '@govpf/ori-react';
 import type { Route } from '../App.js';
 
 interface Props {
@@ -12,29 +12,16 @@ interface Props {
  * réservées aux espaces agent.
  *
  * Page rendue plein écran sans AppShell, comme une vraie mire pré-auth.
- * Utilise <LoginLayout> du DS pour la structure.
+ * Utilise <LoginLayout> du DS pour la structure (logo dans la carte +
+ * titre centré, aligné sur AuthLogin Keycloak).
  */
 export function ConnexionPage({ onNavigate }: Props) {
   return (
     <LoginLayout
-      logo={
-        <div className="connexion-page__logo-block">
-          <img
-            src="/assets/logo-pf.svg"
-            alt=""
-            className="connexion-page__logo"
-            aria-hidden="true"
-          />
-          <div>
-            <strong className="connexion-page__brand">Polynésie française</strong>
-            <p className="connexion-page__tagline">Démarches en ligne</p>
-          </div>
-        </div>
-      }
-      title="Se connecter"
-      description="Accédez à votre espace personnel pour suivre vos démarches, consulter vos documents et recevoir vos notifications."
+      logo={<Logo subtitle="Démarches en ligne" />}
+      title="Connexion"
       cardFooter={
-        <p className="connexion-page__help">
+        <p>
           Pas encore de compte Rumia ?{' '}
           <a href="https://rumia.gov.pf" target="_blank" rel="noreferrer">
             Créer un compte

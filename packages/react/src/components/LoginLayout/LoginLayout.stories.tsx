@@ -31,35 +31,44 @@ const sharedFooter = (
   </>
 );
 
-/** Cas standard : login email + mot de passe + lien d'aide. */
+/**
+ * Cas standard : login identifiant + mot de passe + lien d'aide.
+ *
+ * Aligné sur la mire Keycloak `AuthLogin` : logo dans la carte, titre
+ * centré, bouton de soumission en pleine largeur, lien « mot de passe
+ * oublié ? » sous le champ password.
+ */
 export const Default: Story = {
   name: 'Par défaut',
   render: () => (
     <LoginLayout
-      logo={<Logo />}
-      title="Se connecter"
-      description="Accédez à votre espace personnel."
+      logo={<Logo subtitle="Démarches en ligne" />}
+      title="Connexion"
       cardFooter={
-        <>
-          <Link href="#">Mot de passe oublié ?</Link>
-          <span>
-            Pas encore de compte ? <Link href="#">Créer un compte</Link>
-          </span>
-        </>
+        <span>
+          Pas encore de compte ? <Link href="#">Créer un compte</Link>
+        </span>
       }
       footer={sharedFooter}
     >
       <Form>
         <FormSection>
-          <FormField label="Adresse électronique" required>
-            {(p) => <Input {...p} type="email" placeholder="exemple@administration.gov.pf" />}
+          <FormField label="Identifiant" required>
+            {(p) => <Input {...p} type="text" autoComplete="username" />}
           </FormField>
           <FormField label="Mot de passe" required>
-            {(p) => <Input {...p} type="password" />}
+            {(p) => <Input {...p} type="password" autoComplete="current-password" />}
           </FormField>
         </FormSection>
-        <FormActions align="end">
-          <Button type="submit">Se connecter</Button>
+        <div style={{ marginTop: '-0.25rem', textAlign: 'right' }}>
+          <Link href="#" variant="quiet">
+            Mot de passe oublié ?
+          </Link>
+        </div>
+        <FormActions>
+          <Button type="submit" block>
+            Se connecter
+          </Button>
         </FormActions>
       </Form>
     </LoginLayout>
@@ -71,14 +80,16 @@ export const WithAuthProvider: Story = {
   name: 'Avec fournisseur d’identité',
   render: () => (
     <LoginLayout
-      logo={<Logo />}
+      logo={<Logo subtitle="Démarches en ligne" />}
       title="Connexion administration"
       description="Cette application est réservée aux agents de la fonction publique. Authentifiez-vous via GOV Connect."
       footer={sharedFooter}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <Button>Se connecter avec GOV Connect</Button>
-        <Button variant="secondary">Connexion alternative (Microsoft)</Button>
+        <Button block>Se connecter avec GOV Connect</Button>
+        <Button variant="secondary" block>
+          Connexion alternative (Microsoft)
+        </Button>
       </div>
     </LoginLayout>
   ),
@@ -88,7 +99,7 @@ export const WithAuthProvider: Story = {
 export const Minimal: Story = {
   name: 'Minimal',
   render: () => (
-    <LoginLayout title="Se connecter">
+    <LoginLayout title="Connexion">
       <Form>
         <FormSection>
           <FormField label="Identifiant" required>
@@ -99,7 +110,9 @@ export const Minimal: Story = {
           </FormField>
         </FormSection>
         <FormActions>
-          <Button type="submit">Connexion</Button>
+          <Button type="submit" block>
+            Se connecter
+          </Button>
         </FormActions>
       </Form>
     </LoginLayout>

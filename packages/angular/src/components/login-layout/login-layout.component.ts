@@ -3,18 +3,19 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 /**
  * Login layout générique.
  *
- * Page d'authentification : logo + carte centrée contenant titre /
- * description / contenu (formulaire, AuthButton, etc.) + footer optionnel.
+ * Page d'authentification : carte centrée contenant logo + titre +
+ * contenu (formulaire, AuthButton, etc.) + cardFooter optionnel.
+ * Footer hors carte (mentions légales) optionnel.
  *
- * Volontairement agnostique : le DS pose le layout, l'app projette son
- * contenu d'authentification (formulaire de mot de passe, bouton fournisseur
- * d'identité, sélecteur d'IdP). Pour brancher GOV Connect, glisser un
- * `<ori-auth-button>` dans le slot principal.
+ * Pattern visuel aligné sur la mire Keycloak `AuthLogin.mdx` (décision
+ * K.1) : logo et titre vivent dans la carte pour offrir une expérience
+ * d'authentification cohérente entre la mire SSO et les pages de
+ * connexion d'apps internes.
  *
  * Slots :
- * - `slot="logo"` : logo au-dessus de la carte
- * - `slot="cardFooter"` : pied de carte (mot de passe oublié, créer un compte)
- * - `slot="footer"` : pied de page (mentions légales, copyright)
+ * - `slot="logo"` : logo en haut de la carte (centré)
+ * - `slot="cardFooter"` : pied de carte (créer un compte)
+ * - `slot="footer"` : pied de page sous la carte (mentions légales, copyright)
  * - projection par défaut : contenu principal de la carte (formulaire, boutons)
  */
 @Component({
@@ -25,12 +26,12 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
   template: `
     <div class="ori-login-layout">
       <div class="ori-login-layout__inner">
-        @if (hasLogo) {
-          <div class="ori-login-layout__logo">
-            <ng-content select="[slot=logo]"></ng-content>
-          </div>
-        }
         <div class="ori-login-layout__card">
+          @if (hasLogo) {
+            <div class="ori-login-layout__logo">
+              <ng-content select="[slot=logo]"></ng-content>
+            </div>
+          }
           <header class="ori-login-layout__header">
             <h1 class="ori-login-layout__title">{{ title }}</h1>
             @if (description) {

@@ -1853,8 +1853,9 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
 
     // ─── LoginLayout ────────────────────────────────────────────────────────
     // Page d'authentification : centrage vertical/horizontal d'une carte
-    // contenant le titre + contenu + footer optionnel. Le logo et le footer
-    // de page restent en dehors de la carte.
+    // qui héberge logo + titre + contenu + footer optionnel. Aligné sur
+    // la mire Keycloak (cf. AuthLogin.mdx) pour offrir une expérience de
+    // connexion cohérente entre la mire SSO et les pages d'apps internes.
     '.ori-login-layout': {
       minHeight: '100vh',
       display: 'flex',
@@ -1869,7 +1870,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       maxWidth: '28rem',
       display: 'flex',
       flexDirection: 'column',
-      gap: theme('spacing.6'),
+      gap: theme('spacing.4'),
       alignItems: 'center',
     },
     '.ori-login-layout__logo': {
@@ -1894,6 +1895,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       display: 'flex',
       flexDirection: 'column',
       gap: theme('spacing.1'),
+      textAlign: 'center',
     },
     '.ori-login-layout__title': {
       margin: '0',
@@ -1912,10 +1914,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       flexDirection: 'column',
     },
     '.ori-login-layout__card-footer': {
-      paddingTop: theme('spacing.4'),
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: v('border-subtle'),
+      // Plus de séparateur visuel : aligné avec AuthLogin où la ligne
+      // « Pas encore de compte ? » est juste un paragraphe centré dans
+      // le bas de la carte, sans border-top. L'espacement est géré par
+      // le `gap` du parent `.ori-login-layout__card`.
       display: 'flex',
       flexDirection: 'column',
       gap: theme('spacing.2'),
