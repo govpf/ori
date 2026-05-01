@@ -3799,7 +3799,11 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-phone-input': {
       display: 'flex',
       alignItems: 'stretch',
-      gap: theme('spacing.2'),
+      // Pas de gap : pill country + input number sont collés et forment
+      // un combo visuel unifié. Les radii asymétriques (left-only sur le
+      // country, right-only sur l'input) donnent l'impression d'un seul
+      // rectangle scindé en deux moitiés.
+      gap: '0',
       width: '100%',
     },
     '.ori-phone-input__country': {
@@ -3814,7 +3818,8 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       fontWeight: theme('fontWeight.medium'),
       color: v('brand-on-primary'),
       backgroundColor: v('brand-primary'),
-      borderRadius: theme('borderRadius.md'),
+      borderTopLeftRadius: theme('borderRadius.md'),
+      borderBottomLeftRadius: theme('borderRadius.md'),
       cursor: 'pointer',
       transitionProperty: 'background-color',
       transitionDuration: theme('transitionDuration.fast'),
@@ -3884,7 +3889,12 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       lineHeight: theme('lineHeight.normal'),
       color: v('text-primary'),
       backgroundColor: v('surface-base'),
-      borderRadius: theme('borderRadius.md'),
+      // Radii asymétriques : seul le bord droit est arrondi pour coller
+      // au pill country à gauche.
+      borderTopLeftRadius: '0',
+      borderBottomLeftRadius: '0',
+      borderTopRightRadius: theme('borderRadius.md'),
+      borderBottomRightRadius: theme('borderRadius.md'),
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: v('border-default'),
