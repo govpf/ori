@@ -56,15 +56,15 @@ export const Default: Story = {
           <FormField label="Identifiant" required>
             {(p) => <Input {...p} type="text" autoComplete="username" />}
           </FormField>
-          <FormField label="Mot de passe" required>
-            {(p) => <Input {...p} type="password" autoComplete="current-password" />}
-          </FormField>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <FormField label="Mot de passe" required>
+              {(p) => <Input {...p} type="password" autoComplete="current-password" />}
+            </FormField>
+            <Link href="#" variant="quiet" style={{ alignSelf: 'flex-end', fontSize: '0.8125rem' }}>
+              Mot de passe oublié ?
+            </Link>
+          </div>
         </FormSection>
-        <div style={{ marginTop: '-0.25rem', textAlign: 'right' }}>
-          <Link href="#" variant="quiet">
-            Mot de passe oublié ?
-          </Link>
-        </div>
         <FormActions>
           <Button type="submit" block>
             Se connecter

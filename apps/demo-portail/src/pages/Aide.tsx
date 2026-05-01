@@ -176,8 +176,8 @@ export function AidePage({ onNavigate }: AidePageProps) {
                   buttonLabel="Rechercher"
                 />
               </div>
-              <Button variant="primary" size="lg" onClick={() => setCreateOpen(true)}>
-                <Plus size={18} aria-hidden="true" />
+              <Button variant="primary" onClick={() => setCreateOpen(true)}>
+                <Plus size={16} aria-hidden="true" />
                 Nouveau ticket
               </Button>
             </div>
