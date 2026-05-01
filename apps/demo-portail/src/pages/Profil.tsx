@@ -7,6 +7,7 @@ import {
   CardBody,
   CardHeader,
   Input,
+  PhoneInput,
   Radio,
   RadioGroup,
   Select,
@@ -117,12 +118,11 @@ export function ProfilPage({ onNavigate }: ProfilPageProps) {
               hint="Vous recevrez les notifications sur cette adresse."
               required
             />
-            <Input
+            <PhoneInput
               label="Téléphone"
-              type="tel"
               value={telephone}
-              onChange={(e) => setTelephone(e.target.value)}
-              hint="Format international, ex : +689 87 12 34 56"
+              onChange={(v) => setTelephone(v)}
+              hint="Indicatif Polynésie française fourni par défaut."
             />
           </div>
         </CardBody>

@@ -10,8 +10,9 @@ import {
   DatePicker,
   Textarea,
   Checkbox,
-  RadioGroup,
-  Radio,
+  PhoneInput,
+  RichRadio,
+  RichRadioGroup,
   FileUpload,
   Button,
   Alert,
@@ -21,7 +22,7 @@ import {
   Timeline,
   useToast,
 } from '@govpf/ori-react';
-import { FileText } from 'lucide-react';
+import { FileText, Mail, MessageSquare, Send } from 'lucide-react';
 import { demandes, documents, historique, STATUT_LABEL, STATUT_VARIANT } from '../data/mock.js';
 import type { Route } from '../App.js';
 
@@ -151,25 +152,34 @@ export function DemandeDetailPage({ demandeId, onNavigate }: DemandeDetailPagePr
                   required
                   defaultValue="heitiare.tuheiava@gmail.com"
                 />
-                <Input
+                <PhoneInput
                   label="Téléphone"
-                  type="tel"
-                  defaultValue="+689 87 12 34 56"
+                  defaultValue="87 12 34 56"
                   hint="Numéro mobile de préférence"
                 />
               </div>
 
               <div className="form-stack" style={{ marginTop: '1rem' }}>
-                <RadioGroup
-                  label="Moyen de contact préféré"
-                  value={moyen}
-                  onChange={setMoyen}
-                  orientation="inline"
-                >
-                  <Radio value="email" label="Email" />
-                  <Radio value="sms" label="SMS" />
-                  <Radio value="courrier" label="Courrier postal" />
-                </RadioGroup>
+                <RichRadioGroup label="Moyen de contact préféré" value={moyen} onChange={setMoyen}>
+                  <RichRadio
+                    value="email"
+                    label="Email"
+                    description="Réponse sous 24 h ouvrées sur l'adresse renseignée plus haut."
+                    trailing={<Mail size={28} aria-hidden="true" />}
+                  />
+                  <RichRadio
+                    value="sms"
+                    label="SMS"
+                    description="Notification immédiate sur le numéro renseigné plus haut."
+                    trailing={<MessageSquare size={28} aria-hidden="true" />}
+                  />
+                  <RichRadio
+                    value="courrier"
+                    label="Courrier postal"
+                    description="Envoi sous 5 à 7 jours ouvrés à l'adresse de domiciliation."
+                    trailing={<Send size={28} aria-hidden="true" />}
+                  />
+                </RichRadioGroup>
 
                 <Textarea
                   label="Notes complémentaires"

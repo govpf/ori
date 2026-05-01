@@ -3846,12 +3846,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       pointerEvents: 'none',
       // Couleur explicite plutôt qu'héritée : axe-core analyse les
       // contrastes au niveau du span de texte. On verrouille la couleur
-      // en brand-on-primary (mode pill) et on l'override pour le mode
-      // `--static` (lecture seule, fond transparent) ci-dessous.
+      // en brand-on-primary (le pill garde son fond brand-primary aussi
+      // bien en mode normal qu'en mode `--static` mono-pays). Le mode
+      // `--readonly` retire le fond et bascule la couleur ci-dessous.
       color: v('brand-on-primary'),
-    },
-    '.ori-phone-input__country--static .ori-phone-input__dial-code': {
-      color: v('text-primary'),
     },
     '.ori-phone-input__chevron': {
       flex: '0 0 auto',
@@ -3921,6 +3919,12 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       // contraste WCAG AA correct sur fond surface-base.
       color: v('text-primary'),
       paddingInline: '0',
+    },
+    '.ori-phone-input--readonly .ori-phone-input__dial-code': {
+      // Override de la règle générale `.ori-phone-input__dial-code` qui
+      // verrouille la couleur en brand-on-primary pour le pill bleu.
+      // En readonly, le pill disparaît, on s'aligne sur le texte courant.
+      color: v('text-primary'),
     },
     '.ori-phone-input--readonly .ori-phone-input__number': {
       borderColor: 'transparent',

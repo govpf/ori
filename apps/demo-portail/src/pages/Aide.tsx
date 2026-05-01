@@ -9,6 +9,7 @@ import {
   DialogContent,
   Highlight,
   Input,
+  SearchBar,
   Select,
   Tabs,
   Tag,
@@ -16,7 +17,7 @@ import {
   Tooltip,
   useToast,
 } from '@govpf/ori-react';
-import { BookOpen, Clock, Eye, HelpCircle, MessageCircle, Plus, Search, User } from 'lucide-react';
+import { BookOpen, Clock, Eye, HelpCircle, MessageCircle, Plus, User } from 'lucide-react';
 import {
   articlesAide,
   tickets as ticketsInitiaux,
@@ -167,25 +168,12 @@ export function AidePage({ onNavigate }: AidePageProps) {
             </p>
             <div className="help-hero__search">
               <div className="help-hero__search-input">
-                <Search
-                  size={18}
-                  aria-hidden="true"
-                  style={{
-                    position: 'absolute',
-                    left: '0.875rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--color-text-muted)',
-                    pointerEvents: 'none',
-                  }}
-                />
-                <Input
-                  size="lg"
+                <SearchBar
+                  label="Rechercher dans l'aide"
                   placeholder="Mot-clé, numéro de ticket ou question…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  style={{ paddingLeft: '2.5rem' }}
-                  aria-label="Rechercher dans l'aide"
+                  buttonLabel="Rechercher"
                 />
               </div>
               <Button variant="primary" size="lg" onClick={() => setCreateOpen(true)}>
