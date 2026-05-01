@@ -8,13 +8,13 @@ import {
   DialogContent,
   FileCard,
   FileUpload,
-  Input,
   Pagination,
+  SearchBar,
   Select,
   Tabs,
   useToast,
 } from '@govpf/ori-react';
-import { Download, Eye, FileText, Search, Trash2, Upload } from 'lucide-react';
+import { Download, Eye, FileText, Trash2, Upload } from 'lucide-react';
 import { documents as documentsInitiaux, type Document } from '../data/mock.js';
 import type { Route } from '../App.js';
 
@@ -152,27 +152,16 @@ export function DocumentsPage({ onNavigate }: DocumentsPageProps) {
       </Tabs>
 
       <div className="filters-row">
-        <div className="filters-row__field" style={{ flex: '1 1 280px', position: 'relative' }}>
-          <Search
-            size={16}
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              left: '0.625rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--color-text-muted)',
-              pointerEvents: 'none',
-            }}
-          />
-          <Input
+        <div className="filters-row__field" style={{ flex: '1 1 280px' }}>
+          <SearchBar
             placeholder="Rechercher un document…"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
               setPage(1);
             }}
-            style={{ paddingLeft: '2rem' }}
+            iconOnlyButton
+            buttonAriaLabel="Lancer la recherche"
           />
         </div>
         <div className="filters-row__field" style={{ flex: '0 1 220px' }}>

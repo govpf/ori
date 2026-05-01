@@ -5,7 +5,7 @@ import {
   Card,
   CardBody,
   Highlight,
-  Input,
+  SearchBar,
   Tabs,
   Tag,
   Tooltip,
@@ -90,25 +90,12 @@ export function CatalogueDemarchesPage({ onNavigate }: CatalogueDemarchesPagePro
       <Card variant="flat" className="catalogue-search">
         <CardBody>
           <div className="catalogue-search__input">
-            <Search
-              size={18}
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                left: '0.875rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: 'var(--color-text-muted)',
-                pointerEvents: 'none',
-              }}
-            />
-            <Input
-              size="lg"
+            <SearchBar
+              label="Rechercher dans le catalogue"
               placeholder="Rechercher une démarche (licence, attestation, aide…)"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ paddingLeft: '2.5rem' }}
-              aria-label="Rechercher dans le catalogue"
+              buttonLabel="Rechercher"
             />
           </div>
         </CardBody>

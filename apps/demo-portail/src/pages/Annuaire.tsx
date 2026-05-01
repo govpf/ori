@@ -5,13 +5,13 @@ import {
   Card,
   CardBody,
   Highlight,
-  Input,
   Pagination,
+  SearchBar,
   Select,
   Tag,
   useToast,
 } from '@govpf/ori-react';
-import { Building2, Clock, ExternalLink, Mail, MapPin, Phone, Search } from 'lucide-react';
+import { Building2, Clock, ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
 import {
   servicesAdministratifs,
   SERVICE_SECTEUR_LABEL,
@@ -85,28 +85,15 @@ export function AnnuairePage({ onNavigate }: AnnuairePageProps) {
         <CardBody>
           <div className="annuaire-search__row">
             <div className="annuaire-search__input">
-              <Search
-                size={18}
-                aria-hidden="true"
-                style={{
-                  position: 'absolute',
-                  left: '0.875rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: 'var(--color-text-muted)',
-                  pointerEvents: 'none',
-                }}
-              />
-              <Input
-                size="lg"
+              <SearchBar
+                label="Rechercher dans l'annuaire"
                 placeholder="Rechercher un service, une adresse, un secteur…"
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
                   setPage(1);
                 }}
-                style={{ paddingLeft: '2.5rem' }}
-                aria-label="Rechercher dans l'annuaire"
+                buttonLabel="Rechercher"
               />
             </div>
             <Select

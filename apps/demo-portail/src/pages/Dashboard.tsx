@@ -14,6 +14,7 @@ import {
   Tooltip,
   Input,
   Highlight,
+  DownloadButton,
   type TableSort,
 } from '@govpf/ori-react';
 import { FileText, Image as ImageIcon, FileType, Plus } from 'lucide-react';
@@ -210,9 +211,9 @@ export function DashboardPage({ onNavigate }: DashboardPageProps) {
                 </div>
               </CardBody>
               <CardFooter>
-                <Button variant="ghost" size="sm">
+                <DownloadButton href="#" fileType={doc.type.toUpperCase()} fileSize={doc.taille}>
                   Télécharger
-                </Button>
+                </DownloadButton>
                 <Button variant="ghost" size="sm">
                   Voir
                 </Button>
