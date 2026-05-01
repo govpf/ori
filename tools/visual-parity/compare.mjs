@@ -42,7 +42,12 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const REACT_URL = process.env.REACT_URL || 'http://localhost:6006';
 const ANGULAR_URL = process.env.ANGULAR_URL || 'http://localhost:6008';
 const THRESHOLD = Number(process.env.THRESHOLD || '0.01');
-const PIXEL_THRESHOLD = Number(process.env.PIXEL_THRESHOLD || '0.1');
+// Calibration post run #2 (2026-05-01) : avec 0.1, beaucoup de stories
+// dont le rendu est visuellement identique entre React et Angular
+// remontaient comme divergentes à ~10 % à cause du sub-pixel font
+// rendering différent entre les deux. 0.2 absorbe ce bruit sans masquer
+// les vrais drifts (ex: layouts cassés, classes manquantes).
+const PIXEL_THRESHOLD = Number(process.env.PIXEL_THRESHOLD || '0.2');
 const VIEWPORT_WIDTH = Number(process.env.VIEWPORT_WIDTH || '1280');
 const VIEWPORT_HEIGHT = Number(process.env.VIEWPORT_HEIGHT || '800');
 const SETTLE_MS = Number(process.env.SETTLE_MS || '500');
