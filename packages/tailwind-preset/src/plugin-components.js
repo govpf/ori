@@ -3891,7 +3891,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     },
     '.ori-phone-input--readonly .ori-phone-input__country': {
       backgroundColor: 'transparent',
-      color: v('text-secondary'),
+      // En mode readonly le country n'a plus son fond brand-primary : on
+      // bascule la couleur du texte sur text-primary pour garantir un
+      // contraste WCAG AA correct sur fond surface-base.
+      color: v('text-primary'),
       paddingInline: '0',
     },
     '.ori-phone-input--readonly .ori-phone-input__number': {
