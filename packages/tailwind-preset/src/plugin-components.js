@@ -3717,14 +3717,6 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       alignItems: 'stretch',
       gap: theme('spacing.2'),
       width: '100%',
-      borderBottomWidth: '2px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: v('brand-primary'),
-      transitionProperty: 'border-color',
-      transitionDuration: theme('transitionDuration.fast'),
-      '&:focus-within': {
-        borderBottomColor: v('border-focus'),
-      },
     },
     '.ori-search-bar__input': {
       flex: '1 1 auto',
@@ -3736,10 +3728,22 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       lineHeight: theme('lineHeight.normal'),
       color: v('text-primary'),
       backgroundColor: 'transparent',
-      borderWidth: '0',
+      // L'underline vit sur l'input lui-même : ça évite le « pico » qu'on
+      // voyait dans le coin bas-droit du bouton quand la border était sur
+      // le wrapper et passait sous le radius du bouton.
+      borderTopWidth: '0',
+      borderInlineWidth: '0',
+      borderBottomWidth: '2px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('brand-primary'),
       outline: 'none',
+      transitionProperty: 'border-color',
+      transitionDuration: theme('transitionDuration.fast'),
       '&::placeholder': { color: v('text-muted') },
       '&::-webkit-search-cancel-button': { cursor: 'pointer' },
+      '&:focus-visible, &:focus': {
+        borderBottomColor: v('border-focus'),
+      },
       '&:disabled': {
         cursor: 'not-allowed',
         color: v('text-disabled'),
