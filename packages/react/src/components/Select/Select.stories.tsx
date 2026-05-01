@@ -87,6 +87,11 @@ export const Sizes: Story = {
       <Select {...args} size="lg" label="Grand" />
     </div>
   ),
+  // Tag `skip-visual` : les options React héritent des args du meta
+  // (« Madame / Monsieur / Autre »), alors que la version Angular utilise
+  // des options inline « Option A / Option B » - divergence pédagogique
+  // volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Controlled: Story = {

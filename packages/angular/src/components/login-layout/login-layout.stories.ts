@@ -47,6 +47,11 @@ type Story = StoryObj<OriLoginLayoutComponent>;
 
 export const Default: Story = {
   name: 'Par défaut',
+  // Tag `skip-visual` : title (« Se connecter » Angular vs « Connexion »
+  // React), description (présente côté Angular, absente côté React),
+  // labels des inputs (Adresse électronique Angular vs Identifiant React)
+  // et cardFooter divergent intentionnellement entre les deux frameworks.
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <ori-login-layout
@@ -87,6 +92,11 @@ export const Default: Story = {
 
 export const WithAuthProvider: Story = {
   name: 'Avec fournisseur d’identité',
+  // Tag `skip-visual` : les boutons Angular n'appliquent pas la prop
+  // `block` (pleine largeur) que la version React utilise ; le footer
+  // diffère également (simple « © 2026 Polynésie française » côté
+  // Angular vs footer riche côté React).
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <ori-login-layout
@@ -110,6 +120,10 @@ export const WithAuthProvider: Story = {
 
 export const Minimal: Story = {
   name: 'Minimal',
+  // Tag `skip-visual` : title (« Se connecter » Angular vs « Connexion »
+  // React) et libellé du bouton (« Connexion » Angular vs
+  // « Se connecter » React) divergent volontairement.
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <ori-login-layout title="Se connecter">

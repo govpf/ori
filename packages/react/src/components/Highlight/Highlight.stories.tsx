@@ -26,6 +26,10 @@ export const Direct: Story = {
       Le mot <Highlight>important</Highlight> est mis en évidence dans cette phrase.
     </p>
   ),
+  // Tag `skip-visual` : le texte React se termine par « dans cette
+  // phrase. » alors que la version Angular s'arrête à « est mis en
+  // évidence. » - suffixe textuel divergent.
+  tags: ['skip-visual'],
 };
 
 export const WithQuery: Story = {

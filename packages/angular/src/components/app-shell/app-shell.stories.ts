@@ -24,6 +24,11 @@ type Story = StoryObj<OriAppShellComponent>;
 
 export const Default: Story = {
   name: 'Par défaut',
+  // Tag `skip-visual` : le main Angular n'a que 3 paragraphes simplifiés
+  // sans `<code>` ; la version React contient 8 paragraphes générés en
+  // boucle plus un `<code>` inline - divergence de contenu de
+  // démonstration volontaire.
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <div style="height: 600px; border: 1px dashed #d4d4d8;">
@@ -68,6 +73,11 @@ export const Default: Story = {
 
 export const NoSidebar: Story = {
   name: 'Sans sidebar',
+  // Tag `skip-visual` : le main Angular n'a qu'un seul paragraphe et un
+  // footer « © 2026 » ; la version React contient 8 paragraphes
+  // (réutilise `mockMain`) et un footer « © 2026 Démo Ori » -
+  // divergence de contenu volontaire.
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <div style="height: 600px; border: 1px dashed #d4d4d8;">

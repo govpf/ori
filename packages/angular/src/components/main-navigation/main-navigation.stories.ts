@@ -66,4 +66,9 @@ export const InHeader: Story = {
       </ori-header>
     `,
   }),
+  // Tag `skip-visual` : le brand Angular utilise `<ori-logo brand>` alors
+  // que la version React utilise un `<a class="ori-logo">` JSX custom ;
+  // la story Angular inclut un item « Mes documents » qui n'apparaît pas
+  // dans la version React - divergence d'intégration volontaire.
+  tags: ['skip-visual'],
 };

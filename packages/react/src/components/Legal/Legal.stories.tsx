@@ -84,6 +84,10 @@ export const MentionsLegales: Story = {
 };
 
 export const Accessibilite: Story = {
+  // Tag `skip-visual` : la story React inclut un `<Breadcrumb>` au-dessus
+  // du contenu, alors que la version Angular ne projette pas de
+  // breadcrumb dans cette story - divergence volontaire de structure.
+  tags: ['skip-visual'],
   args: {
     title: "Déclaration d'accessibilité",
     subtitle:

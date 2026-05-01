@@ -38,6 +38,10 @@ export const WithLabel: Story = {
 export const Indeterminate: Story = {
   name: 'Indéterminé',
   args: { label: 'Traitement en cours' },
+  // Tag `skip-visual` : en mode indéterminé la barre est animée, donc la
+  // phase capturée au moment du screenshot diffère systématiquement
+  // entre React et Angular - divergence non corrigeable.
+  tags: ['skip-visual'],
 };
 
 export const Live: Story = {

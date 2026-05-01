@@ -118,6 +118,11 @@ export const Default: Story = {
 };
 
 export const Sortable: Story = {
+  // Tag `skip-visual` : la story React n'a pas de colonne `statut` dans
+  // ses `columns`, alors que la version Angular en inclut une via le
+  // composant `TableDemo` partagé - divergence volontaire de la
+  // configuration de colonnes.
+  tags: ['skip-visual'],
   render: () => {
     const [sort, setSort] = useState<TableSort>({ column: 'date', direction: 'desc' });
     const sortedRows = useMemo(() => {
@@ -146,6 +151,11 @@ export const Sortable: Story = {
 };
 
 export const SingleSelect: Story = {
+  // Tag `skip-visual` : la colonne `statut` est rendue côté React via un
+  // `<Tag>` (la prop `render` retourne JSX), alors que la version Angular
+  // affiche la valeur brute dans la colonne - divergence pédagogique
+  // volontaire.
+  tags: ['skip-visual'],
   render: () => {
     const [selectedId, setSelectedId] = useState<string>('');
     const selected = demandes.find((d) => d.id === selectedId);
@@ -172,6 +182,11 @@ export const SingleSelect: Story = {
 };
 
 export const MultipleSelect: Story = {
+  // Tag `skip-visual` : la colonne `statut` est rendue côté React via un
+  // `<Tag>` (la prop `render` retourne JSX), alors que la version Angular
+  // affiche la valeur brute dans la colonne - divergence pédagogique
+  // volontaire.
+  tags: ['skip-visual'],
   render: () => {
     const [selected, setSelected] = useState<string[]>([]);
     return (
@@ -247,6 +262,11 @@ export const WithPagination: Story = {
 };
 
 export const Striped: Story = {
+  // Tag `skip-visual` : la colonne `statut` est rendue côté React via un
+  // `<Tag>` (la prop `render` retourne JSX), alors que la version Angular
+  // affiche la valeur brute dans la colonne - divergence pédagogique
+  // volontaire.
+  tags: ['skip-visual'],
   render: () => (
     <Table<Demande>
       striped

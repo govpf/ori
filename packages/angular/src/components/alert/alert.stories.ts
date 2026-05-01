@@ -46,16 +46,31 @@ export const Info: Story = { name: 'Variante information' };
 export const Success: Story = {
   name: 'Variante succès',
   args: { severity: 'success', title: 'Action réalisée' },
+  // Tag `skip-visual` : la story Angular hérite du body par défaut du
+  // meta (« Un message contextuel… »), alors que la version React
+  // surcharge `children` avec « Votre demande a été enregistrée… » -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Warning: Story = {
   name: 'Variante avertissement',
   args: { severity: 'warning', title: 'Attention' },
+  // Tag `skip-visual` : la story Angular hérite du body par défaut du
+  // meta, alors que la version React surcharge `children` avec
+  // « Certaines informations sont manquantes… » - divergence
+  // pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Danger: Story = {
   name: 'Variante danger',
   args: { severity: 'danger', title: 'Erreur' },
+  // Tag `skip-visual` : la story Angular hérite du body par défaut du
+  // meta, alors que la version React surcharge `children` avec
+  // « Impossible de traiter votre demande… » - divergence pédagogique
+  // volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Dismissible: Story = {
@@ -65,6 +80,10 @@ export const Dismissible: Story = {
 export const NoTitle: Story = {
   name: 'Sans titre',
   args: { title: '' },
+  // Tag `skip-visual` : la story Angular hérite du body par défaut du
+  // meta, alors que la version React surcharge `children` avec « Un
+  // message simple, sans titre. » - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const AllSeverities: Story = {

@@ -111,4 +111,9 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  // Tag `skip-visual` : les options Angular utilisent des libellés
+  // inline « Option A / Option B », alors que la version React fait
+  // hériter les options du meta (« Madame / Monsieur / Autre ») -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };

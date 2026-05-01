@@ -62,9 +62,26 @@ const meta: Meta<OriCardComponent> = {
 export default meta;
 type Story = StoryObj<OriCardComponent>;
 
-export const Default: Story = { name: 'Par défaut' };
-export const Elevated: Story = { args: { variant: 'elevated' } };
-export const Flat: Story = { args: { variant: 'flat' } };
+export const Default: Story = {
+  name: 'Par défaut',
+  // Tag `skip-visual` : le body Angular cite explicitement les
+  // sous-composants `pf-card-header`/`pf-card-body`/`pf-card-footer`
+  // tandis que la version React mentionne « la typographie du DS » -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
+};
+export const Elevated: Story = {
+  args: { variant: 'elevated' },
+  // Tag `skip-visual` : hérite du render du meta, donc même divergence
+  // pédagogique de body entre Angular et React.
+  tags: ['skip-visual'],
+};
+export const Flat: Story = {
+  args: { variant: 'flat' },
+  // Tag `skip-visual` : hérite du render du meta, donc même divergence
+  // pédagogique de body entre Angular et React.
+  tags: ['skip-visual'],
+};
 
 export const BodyOnly: Story = {
   render: () => ({

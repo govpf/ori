@@ -48,16 +48,27 @@ export const Default: Story = {
       </CardFooter>
     </Card>
   ),
+  // Tag `skip-visual` : le body React mentionne « la typographie du DS »
+  // tandis que la version Angular cite explicitement les sous-composants
+  // `pf-card-header`/`pf-card-body`/`pf-card-footer` - divergence
+  // pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Elevated: Story = {
   args: { variant: 'elevated' },
   render: Default.render,
+  // Tag `skip-visual` : hérite du render de Default, donc même divergence
+  // pédagogique de body entre React et Angular.
+  tags: ['skip-visual'],
 };
 
 export const Flat: Story = {
   args: { variant: 'flat' },
   render: Default.render,
+  // Tag `skip-visual` : hérite du render de Default, donc même divergence
+  // pédagogique de body entre React et Angular.
+  tags: ['skip-visual'],
 };
 
 export const BodyOnly: Story = {

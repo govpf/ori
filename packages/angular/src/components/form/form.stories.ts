@@ -130,6 +130,11 @@ export const MultipleSections: Story = {
 
 export const WithErrors: Story = {
   name: 'Avec erreurs',
+  // Tag `skip-visual` : la story Angular pré-affiche les erreurs
+  // directement et le bouton de soumission a un libellé différent ; la
+  // version React n'affiche les erreurs qu'après submit (état
+  // `submitted`) - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
   render: () => ({
     template: `
       <ori-form style="max-width: 480px;">

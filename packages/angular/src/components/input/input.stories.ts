@@ -82,4 +82,9 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  // Tag `skip-visual` : la story Angular utilise des placeholders
+  // explicites « size=sm/md/lg », alors que la version React fait
+  // hériter les placeholders de « Entrez votre nom » via les args du
+  // meta - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };

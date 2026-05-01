@@ -27,6 +27,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Rumia: Story = {
+  // Tag `skip-visual` : la story React n'inclut pas de logo (props `logo`
+  // non fournie), alors que la version Angular projette le picto Rumia
+  // via la directive `oriAuthLogo` - divergence de présence du logo.
+  tags: ['skip-visual'],
   args: {
     variant: 'rumia',
   },
@@ -82,6 +86,11 @@ export const Microsoft: Story = {
 };
 
 export const PortailUsager: Story = {
+  // Tag `skip-visual` : le logo est passé côté React via prop `logo`
+  // contenant un `<img>` JSX inline, alors que la version Angular utilise
+  // la directive `oriAuthLogo` pour projeter l'image - divergence du
+  // mécanisme de projection du logo.
+  tags: ['skip-visual'],
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '20rem' }}>
       <AuthButton
@@ -106,6 +115,11 @@ export const PortailUsager: Story = {
 };
 
 export const PortailAgent: Story = {
+  // Tag `skip-visual` : le logo est passé côté React via prop `logo`
+  // contenant un `<img>` JSX inline, alors que la version Angular utilise
+  // la directive `oriAuthLogo` pour projeter l'image - divergence du
+  // mécanisme de projection du logo.
+  tags: ['skip-visual'],
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '20rem' }}>
       <AuthButton variant="gov-connect" logo={<img src="/assets/logo-pf.svg" alt="" />} />

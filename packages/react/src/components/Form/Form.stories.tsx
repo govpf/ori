@@ -90,6 +90,11 @@ export const MultipleSections: Story = {
 /** Validation : démontre l'affichage d'erreur en rouge sous le champ. */
 export const WithErrors: Story = {
   name: 'Avec erreurs',
+  // Tag `skip-visual` : la story React n'affiche les erreurs qu'après
+  // submit (état `submitted`) ; la version Angular pré-affiche les
+  // erreurs directement et le bouton de soumission a un libellé
+  // différent - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
   render: () => {
     const [submitted, setSubmitted] = useState(false);
     return (
