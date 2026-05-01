@@ -1,6 +1,7 @@
 packages:
   - "packages/*"
   - "apps/*"
+  - "tools/*"
 
 # pnpm v10 attend `onlyBuiltDependencies` et `overrides` ici, pas dans
 # package.json (sinon : "field will not take effect").

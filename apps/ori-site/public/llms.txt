@@ -6,6 +6,7 @@ Positionnement :
 
 - **Service public** : généricité institutionnelle, identité visuelle Polynésie française et non d'un service spécifique
 - **RGAA AA baseline obligatoire** : ensemble des stories Storybook validées WCAG 2.0 AA en CI à chaque PR (axe-core, 0 violation - le compte exact vit dans `index.json`)
+- **Parité visuelle React ↔ Angular** : test pixel-à-pixel disponible à la demande via le workflow `Visual parity React ↔ Angular` (label `visual-test` sur PR ou `gh workflow run`). Phase d'observation actuellement, non bloquant pour le merge.
 - **Natif d'abord** : éléments HTML natifs privilégiés systématiquement (`<select>`, `<input type="date">`, etc.) pour garantir l'a11y sans audit à recommencer
 - **Bundle minimal** : adapté aux connexions limitées des archipels éloignés
 - **Multi-framework** : même apparence visuelle garantie sur React, Angular, HTML pur depuis une source unique de tokens
@@ -75,6 +76,7 @@ Documentées en MDX dans le repo, source de vérité publique :
 
 - [packages/docs/src/Decisions-A-Prendre.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx) : décisions architecturales tranchées
 - [packages/docs/src/Validation-Accessibilite.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Accessibilite.mdx) : méthode et couverture a11y
+- [packages/docs/src/Validation-Parite-Visuelle.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Parite-Visuelle.mdx) : test de parité visuelle React ↔ Angular (à la demande, non bloquant en phase d'observation)
 
 ## Conventions
 

@@ -1,0 +1,17 @@
+{
+  "name": "@govpf/ori-tools-visual-parity",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Outil interne de test de parité visuelle entre les Storybook React et Angular d'Ori",
+  "type": "module",
+  "scripts": {
+    "compare": "node compare.mjs"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "pixelmatch": "^7.1.0",
+    "playwright": "^1.59.1",
+    "pngjs": "^7.0.0",
+    "wait-on": "^9.0.1"
+  }
+}

@@ -247,6 +247,42 @@ tests a11y axe-core (193 stories) et sur le fait que la logique est
 miroir de la version React (71 tests Vitest). À ré-évaluer à chaque
 release Angular ou Vitest majeure.
 
+#### Tests de parité visuelle React ↔ Angular (à la demande)
+
+Pour chaque story qui existe dans les deux Storybooks (clé `title +
+name`), un job CI dédié peut prendre une capture du `#storybook-root`
+côté React et côté Angular, puis comparer les deux pixel-à-pixel via
+`pixelmatch`. Si la divergence dépasse un seuil (1 % de pixels par
+défaut), le job remonte un fail avec un rapport HTML détaillé en
+artifact.
+
+**Phase actuelle** : test à la demande, **non bloquant** pour le merge.
+Trois manières de le déclencher :
+
+- Bouton **`Run workflow`** dans l'UI GitHub Actions, sur le workflow
+  _Visual parity React ↔ Angular_.
+- CLI : `gh workflow run visual-parity.yml --ref ma-branche`.
+- Poser le label **`visual-test`** sur une PR : déclenche le job
+  automatiquement.
+
+Le rapport HTML est uploadé en artifact (`visual-parity-report`,
+rétention 14 jours) et un commentaire récapitulatif est posté sur la PR
+avec le top 10 des divergences.
+
+Pour exclure une story du test (animation continue, données
+aléatoires…), ajouter le tag `skip-visual` dans son `meta.tags` :
+
+```ts
+const meta = {
+  title: 'Primitives/...',
+  component: ...,
+  tags: ['autodocs', 'skip-visual'],
+};
+```
+
+Documentation et configuration complète : [`tools/visual-parity/README.md`](./tools/visual-parity/README.md)
+et la fiche Storybook _Fondations / Validation parité visuelle_.
+
 ### 4. Conventions de commits
 
 Format **Conventional Commits** :
