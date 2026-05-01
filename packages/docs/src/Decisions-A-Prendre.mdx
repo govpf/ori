@@ -306,17 +306,20 @@ Cette grille évite trois ambiguïtés récurrentes :
 | **Composition** | Assemble plusieurs primitives, paramétrable mais générique                          | Décrit un pattern UI standard (table paginée, formulaire en étapes), pas un domaine  |
 | **Template**    | Orienté un cas d'usage spécifique (souvent administratif ou régalien)               | Le nom porte un domaine ("error page", "legal layout", "audit log") ; pas dans Radix |
 
-**Ori actuel par niveau** (snapshot 2026-04-28) :
+**Ori actuel par niveau** (snapshot 2026-05-01, 54 composants au total) :
 
-- **Primitives** (≈ 30) : `Button`, `Input`, `Select`, `Textarea`, `Checkbox`,
-  `Radio`, `Switch`, `Dialog`, `Tooltip`, `Toast`, `Tabs`, `Accordion`,
-  `Card`, `Tag`, `Avatar`, `Skeleton`, `Spinner`, `Progress`, `Pagination`,
-  `Breadcrumb`, `Link`, `Logo`, `Highlight`, `Steps`, `Statistic`,
-  `Notification`, `Alert`, `Timeline`, `DatePicker`, `Table`,
-  `LanguageSwitcher`.
-- **Compositions** (≈ 5) : `Header`, `Footer`, `MainNavigation`, `SideMenu`,
-  `FileUpload`, `FileCard`.
-- **Templates** (≈ 3) : `ErrorPage`, `LegalLayout`, `AuthButton`.
+- **Primitives** (39) : `Button`, `Link`, `LanguageSwitcher`, `DownloadButton` (Actions) ;
+  `Input`, `Textarea`, `Select`, `Combobox`, `MultiSelect`, `Checkbox`, `Radio`, `RichRadio`,
+  `Switch`, `DatePicker`, `PhoneInput`, `SearchBar` (Saisie) ;
+  `Alert`, `AlertDialog`, `Dialog`, `Notification`, `Toast`, `Tooltip`, `Spinner`,
+  `Progress`, `Skeleton` (Feedback) ;
+  `Breadcrumb`, `Tabs`, `Steps`, `Pagination`, `DropdownMenu`, `Accordion` (Navigation) ;
+  `Card`, `Tag`, `Avatar`, `Logo`, `Highlight`, `Statistic`, `Table`, `Timeline` (Affichage).
+- **Compositions** (12) : `AppShell`, `Form`, `LoginLayout`, `Wizard`, `Header`, `Footer`,
+  `MainNavigation`, `SideMenu`, `FileUpload`, `FileCard`, `DataTable`, `EmptyState`.
+- **Templates** (3) : `ErrorPage`, `LegalLayout`, `AuthButton`.
+
+L'inventaire à jour vit dans le repo (`packages/react/src/components/`) et l'index Storybook (`https://ori.gov.pf/storybook/react/index.json`).
 
 **Roadmap par niveau** (items taggés sur le board) :
 
@@ -540,7 +543,7 @@ peut être ajouté sans changer la chaîne principale.
 
 - **CI** sur chaque PR : Format Prettier, Build packages, Build des 4
   apps (storybook React, storybook Angular, demo-portail, ori-site),
-  A11y axe-core sur les 406 stories (React + Angular), Security audit
+  A11y axe-core sur l'ensemble des stories (React + Angular), Security audit
   global, Security audit ciblé sur les packages publiés (tolérance
   zéro).
 - **Release** sur push main : pattern Changesets bot officiel. Ouvre /
@@ -569,10 +572,10 @@ pnpm workspace, ou retour à un setup Karma maintenu
 Angular du DS, en miroir du setup Vitest+@testing-library/react côté
 React (cf. PR #37) ?
 
-**État au 2026-04-28** : aucun runner branché côté `packages/angular`.
+**État au 2026-05-01** : aucun runner branché côté `packages/angular`.
 Les composants Angular sont couverts par les tests a11y axe-core
-(193 stories) et la galerie visuelle Storybook, mais pas par une
-couche de tests unitaires.
+(255 stories au dernier snapshot) et la galerie visuelle Storybook,
+mais pas par une couche de tests unitaires.
 
 **Options évaluées** :
 
@@ -602,8 +605,8 @@ l'option 3 est de la dette anticipée.
   Angular restent en place et constituent la couche de défense
   principale contre les régressions visibles côté DOM.
 - La logique métier des composants Angular est miroir de la version
-  React, dont la couverture unitaire en Vitest (71 tests sur 5
-  composants) sert de référence comportementale documentée. Une
+  React, dont la couverture unitaire en Vitest (198 tests, snapshot
+  2026-05-01) sert de référence comportementale documentée. Une
   divergence cross-framework remonterait en revue de PR (cf. mémoire
   feedback "sync cross-framework").
 - À chaque release Angular ou Vitest majeure, ré-évaluer si l'un des

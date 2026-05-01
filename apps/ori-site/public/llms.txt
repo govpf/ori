@@ -19,7 +19,7 @@ Tous publiés sous le scope `@govpf/`.
 
 - [@govpf/ori-react](https://www.npmjs.com/package/@govpf/ori-react) : composants React / Next.js
 - [@govpf/ori-angular](https://www.npmjs.com/package/@govpf/ori-angular) : composants Angular standalone (≥ 20)
-- [@govpf/ori-tailwind-preset](https://www.npmjs.com/package/@govpf/ori-tailwind-preset) : preset Tailwind + classes sémantiques `.ori-*`
+- [@govpf/ori-tailwind-preset](https://www.npmjs.com/package/@govpf/ori-tailwind-preset) : preset Tailwind + classes sémantiques `.ori-*` (convention de nommage : voir section Conventions)
 - [@govpf/ori-css](https://www.npmjs.com/package/@govpf/ori-css) : bundle CSS drop-in (intégrations GLPI, emails)
 - [@govpf/ori-tokens](https://www.npmjs.com/package/@govpf/ori-tokens) : design tokens W3C DTCG (CSS variables, JS, SCSS)
 
@@ -30,27 +30,33 @@ Pour explorer le design system programmatiquement sans exécuter le JavaScript d
 - [https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json) : index complet des entrées React (format Storybook v5, ~100 ko, JSON). Contient pour chaque entrée : `id`, `title`, `name`, `importPath`, `tags`, `type`.
 - [https://ori.gov.pf/storybook/angular/index.json](https://ori.gov.pf/storybook/angular/index.json) : équivalent Angular.
 
-L'index contient deux types d'entrées (champ `type`) à filtrer selon l'usage : `type === "story"` pour les stories interactives (~200 entrées), `type === "docs"` pour les fiches autodocs et MDX rattachés (~200 entrées). Pour explorer les composants disponibles, filtrer sur `type === "story"`. Pour lire la documentation rédigée, filtrer sur `type === "docs"`.
-- [https://github.com/govpf/ori](https://github.com/govpf/ori) : code source (sources React/Angular dans `packages/`, MDX docs dans `packages/docs/src/`)
-- [Roadmap publique](https://github.com/orgs/govpf/projects/3) : board GitHub Projects (Backlog, Up next, In progress, Done)
+L'index contient deux types d'entrées (champ `type`) à filtrer selon l'usage : `type === "story"` pour les stories interactives, `type === "docs"` pour les fiches autodocs et MDX rattachés. Pour explorer les composants disponibles, filtrer sur `type === "story"`. Pour lire la documentation rédigée, filtrer sur `type === "docs"`.
 
 Pour récupérer le contenu d'une story spécifique (HTML rendu) : `https://ori.gov.pf/storybook/react/iframe.html?id={story-id}` ou la fiche docs `https://ori.gov.pf/storybook/react/?path=/docs/{story-id}`.
 
+Sources annexes : [code source GitHub](https://github.com/govpf/ori) (sources React/Angular dans `packages/`, MDX dans `packages/docs/src/`) et [roadmap publique](https://github.com/orgs/govpf/projects/3) (Backlog, Up next, In progress, Done).
+
 ## Composants livrés
 
-Inventaire snapshot avril 2026, classés en 3 niveaux (cf. [décision B.0](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx#b0--classification-des-composants-en-3-niveaux)). L'inventaire à jour vit dans le repo et l'index Storybook ([https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json)).
+**54 composants au total** (à ne pas confondre avec les 54 services administratifs PF mentionnés en intro - simple coïncidence numérique). Inventaire snapshot avril 2026, classés en 3 niveaux selon la [décision B.0](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx#b0--classification-des-composants-en-3-niveaux) :
 
-### Primitives (≈ 39)
+- **Primitives** : 39 composants
+- **Compositions** : 12 composants
+- **Templates** : 3 composants
+
+L'inventaire à jour vit dans le repo et l'index Storybook ([https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json)).
+
+### Primitives (39)
 
 Briques atomiques, API agnostique du domaine, présentes dans tous les DS de référence.
 
-Inputs : Button, Input, Textarea, Select, Combobox, MultiSelect, Checkbox, Radio, RichRadio, Switch, DatePicker, PhoneInput, SearchBar
-Feedback : Dialog, AlertDialog, Tooltip, Toast, Notification, Alert, Spinner, Progress, Skeleton
-Navigation : DropdownMenu, Tabs, Accordion, Breadcrumb, Pagination, Steps, Link
-Actions : DownloadButton
-Data : Table, Tag, Avatar, Highlight, Statistic, Timeline, LanguageSwitcher, Logo
+- Actions : Button, Link, LanguageSwitcher, DownloadButton (4)
+- Saisie : Input, Textarea, Select, Combobox, MultiSelect, Checkbox, Radio, RichRadio, Switch, DatePicker, PhoneInput, SearchBar (12)
+- Feedback : Alert, AlertDialog, Dialog, Notification, Toast, Tooltip, Spinner, Progress, Skeleton (9)
+- Navigation : Breadcrumb, Tabs, Steps, Pagination, DropdownMenu, Accordion (6)
+- Affichage : Card, Tag, Avatar, Logo, Highlight, Statistic, Table, Timeline (8)
 
-### Compositions (≈ 11)
+### Compositions (12)
 
 Assemblages de primitives, paramétrables mais génériques.
 
@@ -77,7 +83,7 @@ Documentées en MDX dans le repo, source de vérité publique :
 - [packages/docs/src/Decisions-A-Prendre.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx) : décisions architecturales tranchées
 - [packages/docs/src/Validation-Accessibilite.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Accessibilite.mdx) : méthode et couverture a11y
 - [packages/docs/src/Validation-Parite-Visuelle.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Parite-Visuelle.mdx) : test de parité visuelle React ↔ Angular (à la demande, non bloquant en phase d'observation)
-- [packages/docs/src/Convention-Nommage.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Convention-Nommage.mdx) : convention React PascalCase ↔ CSS kebab-case + tableau de correspondance des 53 composants → classes CSS
+- [packages/docs/src/Convention-Nommage.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Convention-Nommage.mdx) : convention React PascalCase ↔ CSS kebab-case + tableau de correspondance des 54 composants → classes CSS
 
 ## Conventions
 
