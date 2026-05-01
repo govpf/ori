@@ -48,6 +48,10 @@ export * from './components/LanguageSwitcher/index.js';
 export * from './components/ErrorPage/index.js';
 export * from './components/Legal/index.js';
 export * from './components/AuthButton/index.js';
+export * from './components/SearchBar/index.js';
+export * from './components/PhoneInput/index.js';
+export * from './components/RichRadio/index.js';
+export * from './components/DownloadButton/index.js';
 
 // Pas de composants fonctionnels exportés - cf. décision K.1 : les écrans
 // fonctionnels (auth, etc.) sont documentés en HTML+CSS pur dans

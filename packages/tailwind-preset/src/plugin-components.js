@@ -3687,6 +3687,372 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         backgroundColor: '#f5f5f5',
       },
     },
+
+    // ─── SearchBar ─────────────────────────────────────────────────────────
+    '.ori-search-bar': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.1'),
+      width: '100%',
+    },
+    '.ori-search-bar__label': {
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-primary'),
+    },
+    '.ori-search-bar__label--visually-hidden': {
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      border: '0',
+    },
+    '.ori-search-bar__field': {
+      display: 'flex',
+      alignItems: 'stretch',
+      gap: theme('spacing.2'),
+      width: '100%',
+      borderBottomWidth: '2px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('brand-primary'),
+      transitionProperty: 'border-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&:focus-within': {
+        borderBottomColor: v('border-focus'),
+      },
+    },
+    '.ori-search-bar__input': {
+      flex: '1 1 auto',
+      minWidth: '0',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+      backgroundColor: 'transparent',
+      borderWidth: '0',
+      outline: 'none',
+      '&::placeholder': { color: v('text-muted') },
+      '&::-webkit-search-cancel-button': { cursor: 'pointer' },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        color: v('text-disabled'),
+      },
+    },
+    '.ori-search-bar__button': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.semibold'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('brand-on-primary'),
+      backgroundColor: v('brand-primary'),
+      borderWidth: '0',
+      borderRadius: theme('borderRadius.md'),
+      cursor: 'pointer',
+      transitionProperty: 'background-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&:hover:not(:disabled)': {
+        backgroundColor: v('brand-primary-hover'),
+      },
+      '&:active:not(:disabled)': {
+        backgroundColor: v('brand-primary-active'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        opacity: '0.6',
+      },
+    },
+    '.ori-search-bar__button-icon': { flex: '0 0 auto' },
+    '.ori-search-bar__button-label': { whiteSpace: 'nowrap' },
+    '.ori-search-bar--sm .ori-search-bar__input': {
+      paddingInline: theme('spacing.2'),
+      paddingBlock: theme('spacing.1'),
+      fontSize: theme('fontSize.xs'),
+    },
+    '.ori-search-bar--sm .ori-search-bar__button': {
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.1'),
+      fontSize: theme('fontSize.xs'),
+    },
+
+    // ─── PhoneInput ────────────────────────────────────────────────────────
+    '.ori-phone-input': {
+      display: 'flex',
+      alignItems: 'stretch',
+      gap: theme('spacing.2'),
+      width: '100%',
+    },
+    '.ori-phone-input__country': {
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.2'),
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('brand-on-primary'),
+      backgroundColor: v('brand-primary'),
+      borderRadius: theme('borderRadius.md'),
+      cursor: 'pointer',
+      transitionProperty: 'background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&:hover:not([class*="--static"])': {
+        backgroundColor: v('brand-primary-hover'),
+      },
+      '&:focus-within': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-phone-input__country--static': {
+      cursor: 'default',
+    },
+    // Les contenus visibles du pill (drapeau, code, chevron) sont placés
+    // au-dessus du <select> overlay en stacking context, pour qu'axe-core
+    // calcule correctement le contraste de texte contre le fond brand-primary
+    // du parent (et non contre le body blanc qu'il verrait à travers le
+    // select opacity:0). On retire les pointer-events pour laisser les
+    // clics atteindre le select sous-jacent, qui reste focusable au clavier.
+    '.ori-phone-input__flag': {
+      flex: '0 0 auto',
+      fontSize: theme('fontSize.base'),
+      lineHeight: '1',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
+    },
+    '.ori-phone-input__dial-code': {
+      whiteSpace: 'nowrap',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
+      // Couleur explicite plutôt qu'héritée : axe-core analyse les
+      // contrastes au niveau du span de texte. On verrouille la couleur
+      // en brand-on-primary (mode pill) et on l'override pour le mode
+      // `--static` (lecture seule, fond transparent) ci-dessous.
+      color: v('brand-on-primary'),
+    },
+    '.ori-phone-input__country--static .ori-phone-input__dial-code': {
+      color: v('text-primary'),
+    },
+    '.ori-phone-input__chevron': {
+      flex: '0 0 auto',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
+    },
+    '.ori-phone-input__select': {
+      position: 'absolute',
+      inset: '0',
+      width: '100%',
+      height: '100%',
+      opacity: '0',
+      cursor: 'pointer',
+      appearance: 'none',
+      // Le select natif reçoit le focus clavier — c'est lui qui pilote le
+      // glow `:focus-within` sur le wrapper visible.
+      color: 'inherit',
+      backgroundColor: 'transparent',
+    },
+    '.ori-phone-input__number': {
+      flex: '1 1 auto',
+      minWidth: '0',
+      paddingInline: theme('spacing.3'),
+      paddingBlock: theme('spacing.2'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      lineHeight: theme('lineHeight.normal'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderRadius: theme('borderRadius.md'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      transitionProperty: 'border-color, box-shadow',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&::placeholder': { color: v('text-muted') },
+      '&:hover:not(:disabled):not(:read-only)': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-visible, &:focus': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: v('surface-muted'),
+        color: v('text-disabled'),
+      },
+      '&[aria-invalid="true"]': {
+        borderColor: v('feedback-danger'),
+        '&:focus': {
+          boxShadow: `0 0 0 3px ${v('feedback-danger-bg')}`,
+        },
+      },
+    },
+    '.ori-phone-input--disabled .ori-phone-input__country': {
+      backgroundColor: v('surface-muted'),
+      color: v('text-disabled'),
+      cursor: 'not-allowed',
+    },
+    '.ori-phone-input--readonly .ori-phone-input__country': {
+      backgroundColor: 'transparent',
+      // En mode readonly le country n'a plus son fond brand-primary : on
+      // bascule la couleur du texte sur text-primary pour garantir un
+      // contraste WCAG AA correct sur fond surface-base.
+      color: v('text-primary'),
+      paddingInline: '0',
+    },
+    '.ori-phone-input--readonly .ori-phone-input__number': {
+      borderColor: 'transparent',
+      backgroundColor: 'transparent',
+      paddingInline: '0',
+    },
+
+    // ─── RichRadio ─────────────────────────────────────────────────────────
+    '.ori-rich-radio': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme('spacing.4'),
+      paddingInline: theme('spacing.4'),
+      paddingBlock: theme('spacing.3'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      color: v('text-primary'),
+      backgroundColor: v('surface-base'),
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: v('border-default'),
+      borderRadius: theme('borderRadius.md'),
+      cursor: 'pointer',
+      transitionProperty: 'border-color, box-shadow, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&:hover:not(.ori-rich-radio--disabled)': {
+        borderColor: v('border-strong'),
+      },
+      '&:focus-within': {
+        outline: 'none',
+        borderColor: v('border-focus'),
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-rich-radio--checked': {
+      borderColor: v('brand-primary'),
+      // Bordure en 2px sans changer le layout : on absorbe le pixel ajouté
+      // via un inset shadow, plus stable que toggler un border-width.
+      boxShadow: `inset 0 0 0 1px ${v('brand-primary')}`,
+    },
+    '.ori-rich-radio--disabled': {
+      cursor: 'not-allowed',
+      backgroundColor: v('surface-muted'),
+      color: v('text-disabled'),
+    },
+    '.ori-rich-radio--invalid': {
+      borderColor: v('feedback-danger'),
+    },
+    '.ori-rich-radio__control': {
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: theme('spacing.3'),
+      flex: '1 1 auto',
+      minWidth: '0',
+    },
+    '.ori-rich-radio__text': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.125rem',
+      minWidth: '0',
+    },
+    '.ori-rich-radio__label': {
+      fontWeight: theme('fontWeight.medium'),
+      lineHeight: theme('lineHeight.snug'),
+    },
+    '.ori-rich-radio__description': {
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.normal'),
+    },
+    '.ori-rich-radio__trailing': {
+      flex: '0 0 auto',
+      display: 'flex',
+      alignItems: 'center',
+      '&:empty': { display: 'none' },
+    },
+    '.ori-rich-radio-group': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme('spacing.3'),
+    },
+    '.ori-rich-radio-group--horizontal': {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      '& > .ori-rich-radio': {
+        flex: '1 1 16rem',
+      },
+    },
+
+    // ─── DownloadButton ────────────────────────────────────────────────────
+    '.ori-download-button': {
+      display: 'inline-flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '0.125rem',
+    },
+    '.ori-download-button__link': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: theme('spacing.1'),
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      color: v('text-link'),
+      textDecorationLine: 'underline',
+      textDecorationThickness: '1px',
+      textUnderlineOffset: '0.2em',
+      borderRadius: theme('borderRadius.sm'),
+      transitionProperty: 'color, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      '&:hover': {
+        color: v('brand-primary-hover'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `0 0 0 3px ${v('brand-primary-subtle')}`,
+      },
+    },
+    '.ori-download-button__label': {
+      // Wrapper sémantique du libellé pour permettre des évolutions futures
+      // (ex. tronquer en cas de débordement) sans toucher au lien parent.
+    },
+    '.ori-download-button__icon': {
+      flex: '0 0 auto',
+    },
+    '.ori-download-button__meta': {
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.xs'),
+      color: v('text-secondary'),
+      lineHeight: theme('lineHeight.normal'),
+    },
   });
 
   addBase({

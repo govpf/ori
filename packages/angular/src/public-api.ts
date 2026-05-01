@@ -50,6 +50,10 @@ export * from './components/legal-layout';
 export * from './components/legal-section';
 export * from './components/legal-definition-list';
 export * from './components/auth-button';
+export * from './components/search-bar';
+export * from './components/phone-input';
+export * from './components/rich-radio';
+export * from './components/download-button';
 
 // Pas de composants fonctionnels exportés - cf. décision K.1 : les écrans
 // fonctionnels (auth, etc.) sont documentés en HTML+CSS pur dans

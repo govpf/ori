@@ -37,6 +37,13 @@ const config: TestRunnerConfig = {
           type: 'tag',
           values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'],
         },
+        // `axe.run` accepte un objet `{ ruleId: { enabled: false } }` pour
+        // désactiver une règle ponctuellement. Permet aux stories de
+        // contourner un faux positif documenté en posant
+        // `parameters.a11y.options.rules`. Distinct de `config.rules`
+        // (format `Spec` d'axe.configure, tableau) qui sert plutôt à
+        // ajouter ou patcher des règles.
+        rules: storyContext.parameters?.a11y?.options?.rules,
       },
       includedImpacts: ['serious', 'critical'],
     });
