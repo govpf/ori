@@ -3825,18 +3825,29 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-phone-input__country--static': {
       cursor: 'default',
     },
+    // Les contenus visibles du pill (drapeau, code, chevron) sont placés
+    // au-dessus du <select> overlay en stacking context, pour qu'axe-core
+    // calcule correctement le contraste de texte contre le fond brand-primary
+    // du parent (et non contre le body blanc qu'il verrait à travers le
+    // select opacity:0). On retire les pointer-events pour laisser les
+    // clics atteindre le select sous-jacent, qui reste focusable au clavier.
     '.ori-phone-input__flag': {
       flex: '0 0 auto',
       fontSize: theme('fontSize.base'),
       lineHeight: '1',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
     },
     '.ori-phone-input__dial-code': {
       whiteSpace: 'nowrap',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
       // Couleur explicite plutôt qu'héritée : axe-core analyse les
-      // contrastes au niveau du span de texte et ne suit pas toujours la
-      // cascade vers le parent stylé. On verrouille la couleur en
-      // brand-on-primary (vrai pour le mode pill) et on l'override pour
-      // le mode `--static` ci-dessous.
+      // contrastes au niveau du span de texte. On verrouille la couleur
+      // en brand-on-primary (mode pill) et on l'override pour le mode
+      // `--static` (lecture seule, fond transparent) ci-dessous.
       color: v('brand-on-primary'),
     },
     '.ori-phone-input__country--static .ori-phone-input__dial-code': {
@@ -3844,6 +3855,9 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     },
     '.ori-phone-input__chevron': {
       flex: '0 0 auto',
+      position: 'relative',
+      zIndex: '1',
+      pointerEvents: 'none',
     },
     '.ori-phone-input__select': {
       position: 'absolute',
@@ -3855,9 +3869,6 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       appearance: 'none',
       // Le select natif reçoit le focus clavier — c'est lui qui pilote le
       // glow `:focus-within` sur le wrapper visible.
-      // Forcer color/background à `inherit`/`transparent` évite qu'axe-core
-      // ne calcule un faux contraste sur la couleur par défaut du select
-      // (souvent bleu navigateur sur fond surface-base).
       color: 'inherit',
       backgroundColor: 'transparent',
     },
