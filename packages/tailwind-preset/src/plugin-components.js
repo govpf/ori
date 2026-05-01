@@ -33,7 +33,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
 
   addComponents({
     // ─── Button ────────────────────────────────────────────────────────────
-    '.ori-btn': {
+    '.ori-button': {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -62,7 +62,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         opacity: '0.5',
       },
     },
-    '.ori-btn--primary': {
+    '.ori-button--primary': {
       backgroundColor: v('brand-primary'),
       color: v('brand-on-primary'),
       '&:hover:not(:disabled):not([aria-disabled="true"])': {
@@ -72,7 +72,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         backgroundColor: v('brand-primary-active'),
       },
     },
-    '.ori-btn--secondary': {
+    '.ori-button--secondary': {
       backgroundColor: v('surface-base'),
       color: v('text-primary'),
       borderColor: v('border-default'),
@@ -84,7 +84,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         backgroundColor: v('surface-subtle'),
       },
     },
-    '.ori-btn--ghost': {
+    '.ori-button--ghost': {
       backgroundColor: 'transparent',
       color: v('text-secondary'),
       '&:hover:not(:disabled):not([aria-disabled="true"])': {
@@ -92,7 +92,7 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         color: v('text-primary'),
       },
     },
-    '.ori-btn--danger': {
+    '.ori-button--danger': {
       backgroundColor: v('feedback-danger'),
       color: v('brand-on-primary'),
       '&:hover:not(:disabled):not([aria-disabled="true"])': {
@@ -102,17 +102,17 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
         backgroundColor: v('danger-700'),
       },
     },
-    '.ori-btn--sm': {
+    '.ori-button--sm': {
       paddingInline: theme('spacing.3'),
       paddingBlock: theme('spacing.1'),
       fontSize: theme('fontSize.xs'),
     },
-    '.ori-btn--lg': {
+    '.ori-button--lg': {
       paddingInline: theme('spacing.6'),
       paddingBlock: theme('spacing.3'),
       fontSize: theme('fontSize.base'),
     },
-    '.ori-btn--block': {
+    '.ori-button--block': {
       display: 'flex',
       width: '100%',
     },

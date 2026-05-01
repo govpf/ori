@@ -52,7 +52,7 @@
           <h1>Ori</h1>
           <small>Playground statique - HTML + ori.css uniquement</small>
         </div>
-        <button class="ori-btn ori-btn--secondary" id="theme-toggle" aria-pressed="false">
+        <button class="ori-button ori-button--secondary" id="theme-toggle" aria-pressed="false">
           <!-- Icône Lucide "moon" inline (pas de framework JS ici, donc on
                sert le SVG directement). currentColor = règle monochrome A.1. -->
           <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -66,23 +66,23 @@
       <section>
         <h2>Boutons - variantes</h2>
         <div class="row">
-          <button class="ori-btn ori-btn--primary">Primary</button>
-          <button class="ori-btn ori-btn--secondary">Secondary</button>
-          <button class="ori-btn ori-btn--ghost">Ghost</button>
-          <button class="ori-btn ori-btn--danger">Danger</button>
-          <button class="ori-btn ori-btn--primary" disabled>Disabled</button>
+          <button class="ori-button ori-button--primary">Primary</button>
+          <button class="ori-button ori-button--secondary">Secondary</button>
+          <button class="ori-button ori-button--ghost">Ghost</button>
+          <button class="ori-button ori-button--danger">Danger</button>
+          <button class="ori-button ori-button--primary" disabled>Disabled</button>
         </div>
 
         <h2 style="margin-top: 1.25rem">Tailles</h2>
         <div class="row">
-          <button class="ori-btn ori-btn--primary ori-btn--sm">Petit</button>
-          <button class="ori-btn ori-btn--primary">Moyen</button>
-          <button class="ori-btn ori-btn--primary ori-btn--lg">Grand</button>
+          <button class="ori-button ori-button--primary ori-button--sm">Petit</button>
+          <button class="ori-button ori-button--primary">Moyen</button>
+          <button class="ori-button ori-button--primary ori-button--lg">Grand</button>
         </div>
 
         <h2 style="margin-top: 1.25rem">Pleine largeur</h2>
         <div style="max-width: 320px">
-          <button class="ori-btn ori-btn--primary ori-btn--block">Pleine largeur</button>
+          <button class="ori-button ori-button--primary ori-button--block">Pleine largeur</button>
         </div>
       </section>
 
@@ -130,8 +130,8 @@
               </p>
             </div>
             <footer class="ori-card__footer">
-              <button class="ori-btn ori-btn--secondary ori-btn--sm">Annuler</button>
-              <button class="ori-btn ori-btn--primary ori-btn--sm">Valider</button>
+              <button class="ori-button ori-button--secondary ori-button--sm">Annuler</button>
+              <button class="ori-button ori-button--primary ori-button--sm">Valider</button>
             </footer>
           </article>
 
@@ -297,7 +297,7 @@
           Côté React, ce composant utilise Radix pour le focus-trap et l'accessibilité.
           Ici, démo HTML pure avec un toggle vanilla JS pour montrer le rendu.
         </p>
-        <button class="ori-btn ori-btn--primary" id="open-dialog">Ouvrir le dialog</button>
+        <button class="ori-button ori-button--primary" id="open-dialog">Ouvrir le dialog</button>
 
         <div class="demo-dialog-backdrop" id="dialog-backdrop"></div>
         <div class="ori-dialog" role="dialog" aria-modal="true" aria-labelledby="d-title" id="demo-dialog">
@@ -313,8 +313,8 @@
             </p>
           </div>
           <div class="ori-dialog__footer">
-            <button class="ori-btn ori-btn--secondary" data-close>Annuler</button>
-            <button class="ori-btn ori-btn--danger" data-close>Supprimer</button>
+            <button class="ori-button ori-button--secondary" data-close>Annuler</button>
+            <button class="ori-button ori-button--danger" data-close>Supprimer</button>
           </div>
         </div>
       </section>

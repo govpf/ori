@@ -77,11 +77,12 @@ Documentées en MDX dans le repo, source de vérité publique :
 - [packages/docs/src/Decisions-A-Prendre.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx) : décisions architecturales tranchées
 - [packages/docs/src/Validation-Accessibilite.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Accessibilite.mdx) : méthode et couverture a11y
 - [packages/docs/src/Validation-Parite-Visuelle.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Validation-Parite-Visuelle.mdx) : test de parité visuelle React ↔ Angular (à la demande, non bloquant en phase d'observation)
+- [packages/docs/src/Convention-Nommage.mdx](https://github.com/govpf/ori/blob/main/packages/docs/src/Convention-Nommage.mdx) : convention React PascalCase ↔ CSS kebab-case + tableau de correspondance des 53 composants → classes CSS
 
 ## Conventions
 
 - **Tokens DTCG** : pas d'accès direct à un primitif (`color.primary.500`), toujours un alias sémantique (`color.brand.primary`). Permet bascule de palette ou thème sombre sans toucher au code.
-- **Classes sémantiques** : composants stylés via `.ori-btn`, `.ori-card`… définies dans le plugin Tailwind. Les classes consomment des CSS variables → bascule de thème dynamique sans recompilation.
+- **Classes sémantiques** : composants stylés via `.ori-button`, `.ori-card`… définies dans le plugin Tailwind. Convention : nom de dossier React PascalCase → classe CSS kebab-case (ex. `AlertDialog/` → `.ori-alert-dialog`). Les classes consomment des CSS variables → bascule de thème dynamique sans recompilation.
 - **Pas d'utilitaires Tailwind inline dans le DS** : le DS expose des classes nommées. Les utilitaires Tailwind restent disponibles pour la mise en page côté apps consommatrices.
 - **React** : composants standards avec `forwardRef`, `clsx` pour les classes.
 - **Angular** : composants `standalone`, `ChangeDetectionStrategy.OnPush`, `ViewEncapsulation.None`.

@@ -1,0 +1,167 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Fondations/Convention de nommage" />
+
+# Convention de nommage React ↔ CSS
+
+Les composants Ori existent sous **trois formes parallèles** : un composant React (`@govpf/ori-react`), un composant Angular (`@govpf/ori-angular`) et une classe CSS sémantique (`@govpf/ori-tailwind-preset` / `@govpf/ori-css`). Cette page décrit comment ces noms se correspondent et quelques pièges à éviter.
+
+## Règle générale
+
+Le nom du dossier React (en **PascalCase**) se convertit en classe CSS (en **kebab-case**) préfixée par `.ori-`.
+
+```
+PascalCase  ───►  kebab-case
+AlertDialog ───►  alert-dialog
+                   │
+                   └─►  .ori-alert-dialog
+```
+
+Pour les modificateurs et les sous-parties, on utilise la **convention BEM** :
+
+- Bloc principal : `.ori-<composant>` (ex. `.ori-card`)
+- Élément interne : `.ori-<composant>__<part>` (ex. `.ori-card__header`)
+- Modificateur : `.ori-<composant>--<variant>` (ex. `.ori-card--elevated`)
+
+Côté Angular, la convention de **selector** suit le même mapping kebab-case : `<ori-alert-dialog>`, `<ori-dropdown-menu>`, etc.
+
+## Piège classique - lowercase naïf
+
+L'erreur la plus fréquente : tirer la classe CSS en faisant un simple `toLowerCase()` du nom React. Cela écrase les frontières de mot et donne **une classe qui n'existe pas**.
+
+| Dossier React | Classe CSS réelle | Lowercase naïf (faux !) |
+|---|---|---|
+| `AlertDialog/` | `.ori-alert-dialog` ✅ | `.ori-alertdialog` ❌ |
+| `DropdownMenu/` | `.ori-dropdown-menu` ✅ | `.ori-dropdownmenu` ❌ |
+| `LanguageSwitcher/` | `.ori-language-switcher` ✅ | `.ori-languageswitcher` ❌ |
+| `MainNavigation/` | `.ori-main-navigation` ✅ | `.ori-mainnavigation` ❌ |
+
+Si une classe est introuvable, vérifier d'abord qu'on a bien inséré le tiret entre chaque mot.
+
+## Cas particulier - Button
+
+Historiquement, le composant `Button` exposait sa classe sous le nom raccourci `.ori-btn`. Pour rétablir la cohérence avec le reste du DS, le **renommage** a été effectué le 2026-05-01 :
+
+```
+Button/  ───►  .ori-button  ✅ (auparavant .ori-btn)
+```
+
+Toutes les variantes ont été renommées en bloc :
+
+| Avant | Après |
+|---|---|
+| `.ori-btn` | `.ori-button` |
+| `.ori-btn--primary` | `.ori-button--primary` |
+| `.ori-btn--secondary` | `.ori-button--secondary` |
+| `.ori-btn--ghost` | `.ori-button--ghost` |
+| `.ori-btn--danger` | `.ori-button--danger` |
+| `.ori-btn--sm` | `.ori-button--sm` |
+| `.ori-btn--lg` | `.ori-button--lg` |
+| `.ori-btn--block` | `.ori-button--block` |
+
+**Impact** : breaking change pour les apps qui consomment `@govpf/ori-css` en HTML/CSS pur (Keycloak, GLPI, emails) et qui codaient les classes en dur. Migration : remplacer `ori-btn` par `ori-button` partout. Composants `<Button>` React et `<ori-button>` Angular ne sont pas concernés (l'API publique est la même).
+
+## Tableau de correspondance complet
+
+Les 53 composants Ori et leurs classes CSS principales.
+
+### Primitives - Actions
+
+| Composant | Classe CSS |
+|---|---|
+| `Button` | `.ori-button` |
+| `Link` | `.ori-link` |
+| `LanguageSwitcher` | `.ori-language-switcher` |
+| `DownloadButton` | `.ori-download-button` |
+
+### Primitives - Saisie
+
+| Composant | Classe CSS |
+|---|---|
+| `Input` | `.ori-input` |
+| `Textarea` | `.ori-textarea` |
+| `Select` | `.ori-select` |
+| `Combobox` | `.ori-combobox` |
+| `MultiSelect` | `.ori-multi-select` |
+| `Checkbox` | `.ori-checkbox` |
+| `Radio` | `.ori-radio` |
+| `RichRadio` | `.ori-rich-radio` |
+| `Switch` | `.ori-switch` |
+| `DatePicker` | `.ori-date-picker` |
+| `PhoneInput` | `.ori-phone-input` |
+| `SearchBar` | `.ori-search-bar` |
+
+### Primitives - Feedback
+
+| Composant | Classe CSS |
+|---|---|
+| `Alert` | `.ori-alert` |
+| `AlertDialog` | `.ori-alert-dialog` |
+| `Dialog` | `.ori-dialog` |
+| `Notification` | `.ori-notification` |
+| `Toast` | `.ori-toast` |
+| `Tooltip` | `.ori-tooltip` |
+| `Spinner` | `.ori-spinner` |
+| `Progress` | `.ori-progress` |
+| `Skeleton` | `.ori-skeleton` |
+
+### Primitives - Navigation
+
+| Composant | Classe CSS |
+|---|---|
+| `Breadcrumb` | `.ori-breadcrumb` |
+| `Tabs` | `.ori-tabs` |
+| `Steps` | `.ori-steps` |
+| `Pagination` | `.ori-pagination` |
+| `DropdownMenu` | `.ori-dropdown-menu` |
+| `Accordion` | `.ori-accordion` |
+
+### Primitives - Affichage
+
+| Composant | Classe CSS |
+|---|---|
+| `Card` | `.ori-card` |
+| `Tag` | `.ori-tag` |
+| `Avatar` | `.ori-avatar` |
+| `Logo` | `.ori-logo` |
+| `Highlight` | `.ori-highlight` |
+| `Statistic` | `.ori-statistic` |
+| `Table` | `.ori-table` |
+| `Timeline` | `.ori-timeline` |
+
+### Compositions
+
+| Composant | Classe CSS |
+|---|---|
+| `AppShell` | `.ori-app-shell` |
+| `Form` | `.ori-form` |
+| `LoginLayout` | `.ori-login-layout` |
+| `Wizard` | `.ori-wizard` |
+| `Header` | `.ori-header` |
+| `Footer` | `.ori-footer` |
+| `MainNavigation` | `.ori-main-navigation` |
+| `SideMenu` | `.ori-side-menu` |
+| `FileUpload` | `.ori-file-upload` |
+| `FileCard` | `.ori-file-card` |
+| `DataTable` | `.ori-data-table` |
+| `EmptyState` | `.ori-empty-state` |
+
+### Templates
+
+| Composant | Classe CSS |
+|---|---|
+| `ErrorPage` | `.ori-error-page` |
+| `Legal` (LegalLayout) | `.ori-legal-layout` |
+| `AuthButton` | `.ori-auth-button` |
+
+## Comment retrouver la classe d'un composant
+
+Trois méthodes équivalentes :
+
+1. **Cette page** : table de correspondance ci-dessus.
+2. **Le code source** : ouvrir `packages/tailwind-preset/src/plugin-components.js` et chercher la section commentée du composant (ex. `// ─── Button ───`).
+3. **Le DOM** : ouvrir une story Storybook, inspecter le rendu et lire les classes appliquées.
+
+## Source de vérité
+
+L'unique source de vérité des classes CSS Ori est le plugin Tailwind dans `packages/tailwind-preset/src/plugin-components.js`. Tout ajout de composant doit y enregistrer ses classes. Le bundle `@govpf/ori-css/dist/ds.css` est généré automatiquement à partir de ce plugin et reste donc toujours synchronisé.

@@ -22,7 +22,7 @@ export interface ErrorPageProps extends Omit<HTMLAttributes<HTMLElement>, 'title
   /**
    * CTAs : un bouton primaire (retour accueil) + éventuellement un secondaire
    * (réessayer, contacter le support). Projeté via children pour rester libre
-   * sur le contenu (ori-btn ou autre).
+   * sur le contenu (ori-button ou autre).
    */
   actions?: ReactNode;
   /**

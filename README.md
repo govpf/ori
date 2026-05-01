@@ -171,7 +171,7 @@ Depuis la racine `ori/`. `just` liste les recettes disponibles avec un simple
 
 ### Composants
 
-- Stylés via **classes sémantiques** (`.ori-btn`, `.ori-card`…) définies dans `packages/tailwind-preset/src/plugin-components.js`.
+- Stylés via **classes sémantiques** (`.ori-button`, `.ori-card`…) définies dans `packages/tailwind-preset/src/plugin-components.js`.
 - Les classes consomment des **variables CSS** (`var(--color-brand-primary)`) - bascule de thème dynamique sans recompilation.
 - **Aucun utilitaire Tailwind inline** dans le JSX/template du DS. Les utilitaires restent disponibles pour la mise en page applicative dans les projets consommateurs.
 - React : composants standards avec `forwardRef`, `clsx` pour les classes.

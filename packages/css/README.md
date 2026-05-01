@@ -14,7 +14,7 @@ Bundle CSS statique Ori. Livrable autonome pour tout contexte qui n'embarque pas
 
 ```html
 <link rel="stylesheet" href="https://cdn.example.org/Ori/ds.min.css" />
-<button class="ori-btn ori-btn--primary">Envoyer</button>
+<button class="ori-button ori-button--primary">Envoyer</button>
 ```
 
 ## Usage - GLPI 11 (via plugin de thème)
