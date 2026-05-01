@@ -3832,6 +3832,15 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     },
     '.ori-phone-input__dial-code': {
       whiteSpace: 'nowrap',
+      // Couleur explicite plutôt qu'héritée : axe-core analyse les
+      // contrastes au niveau du span de texte et ne suit pas toujours la
+      // cascade vers le parent stylé. On verrouille la couleur en
+      // brand-on-primary (vrai pour le mode pill) et on l'override pour
+      // le mode `--static` ci-dessous.
+      color: v('brand-on-primary'),
+    },
+    '.ori-phone-input__country--static .ori-phone-input__dial-code': {
+      color: v('text-primary'),
     },
     '.ori-phone-input__chevron': {
       flex: '0 0 auto',
@@ -3846,6 +3855,11 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       appearance: 'none',
       // Le select natif reçoit le focus clavier — c'est lui qui pilote le
       // glow `:focus-within` sur le wrapper visible.
+      // Forcer color/background à `inherit`/`transparent` évite qu'axe-core
+      // ne calcule un faux contraste sur la couleur par défaut du select
+      // (souvent bleu navigateur sur fond surface-base).
+      color: 'inherit',
+      backgroundColor: 'transparent',
     },
     '.ori-phone-input__number': {
       flex: '1 1 auto',
