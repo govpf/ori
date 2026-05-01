@@ -34,16 +34,16 @@ Sortie dans `tools/visual-parity/output/` :
 
 ## Variables d'env
 
-| Var               | Default                           | Effet                                                           |
-| ----------------- | --------------------------------- | --------------------------------------------------------------- |
-| `REACT_URL`       | `http://localhost:6006`           | URL du Storybook React                                          |
-| `ANGULAR_URL`     | `http://localhost:6008`           | URL du Storybook Angular                                        |
-| `THRESHOLD`       | `0.01`                            | Tolérance globale (1 % de pixels divergents par story)          |
-| `PIXEL_THRESHOLD` | `0.1`                             | Sensibilité de pixelmatch par pixel (0 = strict, 1 = permissif) |
-| `VIEWPORT_WIDTH`  | `1280`                            | Largeur du viewport                                             |
-| `VIEWPORT_HEIGHT` | `800`                             | Hauteur du viewport                                             |
-| `SETTLE_MS`       | `500`                             | Attente après render avant capture                              |
-| `SKIP_TAGS`       | `skip-visual,docs-only,test-only` | Tags Storybook à exclure                                        |
+| Var               | Default                           | Effet                                                                                                                                               |
+| ----------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REACT_URL`       | `http://localhost:6006`           | URL du Storybook React                                                                                                                              |
+| `ANGULAR_URL`     | `http://localhost:6008`           | URL du Storybook Angular                                                                                                                            |
+| `THRESHOLD`       | `0.01`                            | Tolérance globale (1 % de pixels divergents par story)                                                                                              |
+| `PIXEL_THRESHOLD` | `0.2`                             | Sensibilité de pixelmatch par pixel (0 = strict, 1 = permissif). 0.2 absorbe le bruit de sub-pixel font rendering différent entre React et Angular. |
+| `VIEWPORT_WIDTH`  | `1280`                            | Largeur du viewport                                                                                                                                 |
+| `VIEWPORT_HEIGHT` | `800`                             | Hauteur du viewport                                                                                                                                 |
+| `SETTLE_MS`       | `500`                             | Attente après render avant capture                                                                                                                  |
+| `SKIP_TAGS`       | `skip-visual,docs-only,test-only` | Tags Storybook à exclure                                                                                                                            |
 
 ## Comment exclure une story
 

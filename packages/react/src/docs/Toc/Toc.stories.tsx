@@ -54,4 +54,9 @@ export const NoSubLevels: Story = {
 
 export const Empty: Story = {
   args: { headings: [] },
+  // Tag `skip-visual` : la story ne rend rien (pas de heading), donc le
+  // `#storybook-root` reste hidden et le test de parité visuelle plante
+  // sur le timeout du `waitForSelector`. Pas pertinent à comparer puisque
+  // par construction il n'y a rien à voir.
+  tags: ['skip-visual'],
 };
