@@ -3717,7 +3717,10 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-search-bar__field': {
       display: 'flex',
       alignItems: 'stretch',
-      gap: theme('spacing.2'),
+      // Pas de gap : l'input et le bouton sont collés. La border-bottom
+      // de l'input rejoint le bord gauche du bouton sans interruption,
+      // et le bouton perd son rayon à gauche pour matcher la coupure.
+      gap: '0',
       width: '100%',
     },
     '.ori-search-bar__input': {
@@ -3765,7 +3768,13 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       color: v('brand-on-primary'),
       backgroundColor: v('brand-primary'),
       borderWidth: '0',
-      borderRadius: theme('borderRadius.md'),
+      // Coin gauche carré pour s'aligner avec la coupure droite de
+      // l'input (pas de gap entre les deux). Seul le côté droit reste
+      // arrondi.
+      borderTopLeftRadius: '0',
+      borderBottomLeftRadius: '0',
+      borderTopRightRadius: theme('borderRadius.md'),
+      borderBottomRightRadius: theme('borderRadius.md'),
       cursor: 'pointer',
       transitionProperty: 'background-color, box-shadow',
       transitionDuration: theme('transitionDuration.fast'),
