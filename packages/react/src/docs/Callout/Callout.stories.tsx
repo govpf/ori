@@ -40,6 +40,11 @@ export const Tip: Story = {
     children:
       "Préférer la composition à la configuration : passer un node React via children plutôt qu'un prop spécifique.",
   },
+  // Tag `skip-visual` : le contenu React mentionne explicitement
+  // « passer un node React via children », alors que la version Angular
+  // se contente d'un message générique « Préférer la composition à la
+  // configuration. » - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Warning: Story = {

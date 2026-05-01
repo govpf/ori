@@ -99,7 +99,15 @@ export const VariantInline: Story = {
   },
 };
 
-export const Loading: Story = { name: 'Chargement', args: { loading: true } };
+export const Loading: Story = {
+  name: 'Chargement',
+  args: { loading: true },
+  // Tag `skip-visual` : la story Angular hérite des args par défaut du
+  // meta (« Démarches en cours » + 12), alors que la version React
+  // surcharge `label` et `value` (« Calcul en cours… » + 0) -
+  // divergence de contenu volontaire.
+  tags: ['skip-visual'],
+};
 
 export const DansUneCard: Story = {
   name: 'Dans une carte',

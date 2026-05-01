@@ -104,6 +104,11 @@ export const Loading: Story = {
     value: 0,
     loading: true,
   },
+  // Tag `skip-visual` : la story React surcharge `label` et `value`
+  // (« Calcul en cours… » + 0), alors que la version Angular hérite des
+  // args par défaut du meta (« Démarches en cours » + 12) - divergence
+  // de contenu volontaire.
+  tags: ['skip-visual'],
 };
 
 export const ChargementProgressif: Story = {

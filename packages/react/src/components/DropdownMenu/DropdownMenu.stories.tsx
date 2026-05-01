@@ -52,6 +52,10 @@ export const Default: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+  // Tag `skip-visual` : le trigger React est « Actions » + icône SVG
+  // ChevronDown (lucide-react) ; côté Angular c'est « Actions ▾ » avec
+  // un caractère unicode - divergence de chevron volontaire.
+  tags: ['skip-visual'],
 };
 
 export const UserMenu: Story = {
@@ -77,6 +81,10 @@ export const UserMenu: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+  // Tag `skip-visual` : la story React inclut un Label « Connecté en tant
+  // que Léonard T. » et combine icônes User+ChevronDown SVG ; côté
+  // Angular c'est juste « Mon compte ▾ » sans label.
+  tags: ['skip-visual'],
 };
 
 export const WithShortcuts: Story = {
@@ -100,6 +108,10 @@ export const WithShortcuts: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+  // Tag `skip-visual` : trigger React « Édition » sans chevron, côté
+  // Angular « Édition ▾ » avec caractère unicode - divergence du trigger
+  // volontaire.
+  tags: ['skip-visual'],
 };
 
 export const WithDisabledItem: Story = {
@@ -118,6 +130,10 @@ export const WithDisabledItem: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
+  // Tag `skip-visual` : trigger React « Plus d'options » sans chevron,
+  // côté Angular « Plus d'options ▾ » avec caractère unicode -
+  // divergence du trigger volontaire.
+  tags: ['skip-visual'],
 };
 
 export const ControlledOpen: Story = {

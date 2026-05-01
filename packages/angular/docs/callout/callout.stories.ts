@@ -39,6 +39,11 @@ type Story = StoryObj<CalloutStoryArgs>;
 export const Note: Story = {};
 export const Tip: Story = {
   args: { variant: 'tip', title: 'Astuce', content: 'Préférer la composition à la configuration.' },
+  // Tag `skip-visual` : le contenu Angular se contente d'un message
+  // générique « Préférer la composition à la configuration. », alors que
+  // la version React mentionne explicitement « passer un node React via
+  // children » - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 export const Warning: Story = {
   args: { variant: 'warning', title: 'Attention', content: 'Cette API est dépréciée.' },

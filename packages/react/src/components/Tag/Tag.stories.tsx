@@ -64,4 +64,9 @@ export const Removable: Story = {
       </div>
     );
   },
+  // Tag `skip-visual` : la story React liste 4 tags
+  // (`Maritime`, `Pêche`, `Transport`, `Plaisance`) avec gestion d'état
+  // `onRemove` ; la version Angular n'affiche qu'un seul tag « En cours »
+  // avec le flag `removable`.
+  tags: ['skip-visual'],
 };

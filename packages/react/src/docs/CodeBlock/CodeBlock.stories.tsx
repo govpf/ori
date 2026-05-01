@@ -36,6 +36,10 @@ export const Default: Story = { name: 'Par défaut' };
 
 export const WithFilename: Story = {
   args: { filename: 'src/App.tsx' },
+  // Tag `skip-visual` : la story React montre du code TSX (`src/App.tsx`),
+  // la version Angular du code TS (`app.component.ts`) - divergence
+  // pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const Bash: Story = {
@@ -44,4 +48,7 @@ export const Bash: Story = {
 
 export const NoCopyButton: Story = {
   args: { noCopy: true },
+  // Tag `skip-visual` : code framework-specific (TSX React vs TS Angular)
+  // dans le bloc, divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };

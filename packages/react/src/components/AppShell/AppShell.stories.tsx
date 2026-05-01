@@ -101,6 +101,11 @@ const mockMain = (
 /** Layout complet : header + sidebar + main + footer. */
 export const Default: Story = {
   name: 'Par défaut',
+  // Tag `skip-visual` : le main React contient 8 paragraphes générés en
+  // boucle plus un `<code>` inline ; la version Angular n'a que 3
+  // paragraphes simplifiés sans `<code>` - divergence de contenu de
+  // démonstration volontaire.
+  tags: ['skip-visual'],
   render: () => (
     <div style={{ height: 600, border: '1px dashed #d4d4d8' }}>
       <AppShell header={mockHeader} sidebar={mockSidebar} footer={mockFooter}>
@@ -113,6 +118,11 @@ export const Default: Story = {
 /** Sans sidebar : layout simple (header + main + footer). */
 export const NoSidebar: Story = {
   name: 'Sans sidebar',
+  // Tag `skip-visual` : le main React contient 8 paragraphes (réutilise
+  // `mockMain`) avec un footer « © 2026 Démo Ori » ; la version Angular
+  // n'a qu'un seul paragraphe et un footer « © 2026 » - divergence de
+  // contenu volontaire.
+  tags: ['skip-visual'],
   render: () => (
     <div style={{ height: 600, border: '1px dashed #d4d4d8' }}>
       <AppShell header={mockHeader} footer={mockFooter}>

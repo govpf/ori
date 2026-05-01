@@ -54,6 +54,10 @@ export const WithActions: Story = {
       </Header.Actions>
     </Header>
   ),
+  // Tag `skip-visual` : la zone Brand utilise un `<a class="ori-logo">`
+  // JSX custom côté React, alors que la version Angular utilise
+  // `<ori-logo brand>` - divergence de mécanisme d'intégration du logo.
+  tags: ['skip-visual'],
 };
 
 export const Authenticated: Story = {
@@ -76,4 +80,8 @@ export const Authenticated: Story = {
       </Header.Actions>
     </Header>
   ),
+  // Tag `skip-visual` : la zone Brand utilise un `<a class="ori-logo">`
+  // JSX custom côté React, alors que la version Angular utilise
+  // `<ori-logo brand>` - divergence de mécanisme d'intégration du logo.
+  tags: ['skip-visual'],
 };

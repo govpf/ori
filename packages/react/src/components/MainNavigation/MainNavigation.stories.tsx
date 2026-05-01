@@ -61,4 +61,9 @@ export const InHeader: Story = {
       </Header.Actions>
     </Header>
   ),
+  // Tag `skip-visual` : le brand React utilise un `<a class="ori-logo">`
+  // JSX custom alors que la version Angular utilise `<ori-logo brand>` ;
+  // les listes de liens diffèrent aussi légèrement entre les deux
+  // frameworks - divergence d'intégration volontaire.
+  tags: ['skip-visual'],
 };

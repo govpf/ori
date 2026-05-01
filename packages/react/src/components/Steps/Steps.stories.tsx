@@ -59,6 +59,11 @@ export const Clickable: Story = {
       </div>
     );
   },
+  // Tag `skip-visual` : la story React inclut un paragraphe « Étape
+  // courante : … » sous le composant Steps pour montrer la valeur
+  // courante, alors que la version Angular n'affiche pas ce paragraphe -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const SimpleTitlesOnly: Story = {

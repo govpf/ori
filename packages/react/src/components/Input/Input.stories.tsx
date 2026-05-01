@@ -70,4 +70,9 @@ export const Sizes: Story = {
       <Input {...args} size="lg" label="Grand" />
     </div>
   ),
+  // Tag `skip-visual` : les placeholders React héritent de
+  // « Entrez votre nom » via les args du meta, alors que la version
+  // Angular utilise des placeholders explicites « size=sm/md/lg » -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };

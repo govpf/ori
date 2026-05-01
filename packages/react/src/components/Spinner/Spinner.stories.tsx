@@ -26,6 +26,10 @@ export const Sizes: Story = {
       <Spinner size="lg" />
     </div>
   ),
+  // Tag `skip-visual` : le spinner étant animé, la phase de rotation
+  // capturée au moment du screenshot diffère systématiquement entre
+  // React et Angular - divergence non corrigeable.
+  tags: ['skip-visual'],
 };
 
 /**

@@ -40,6 +40,12 @@ const sharedFooter = (
  */
 export const Default: Story = {
   name: 'Par défaut',
+  // Tag `skip-visual` : title (« Connexion » React vs « Se connecter »
+  // Angular), description (absente côté React, présente côté Angular),
+  // labels des inputs (Identifiant React vs Adresse électronique
+  // Angular) et cardFooter divergent intentionnellement entre les deux
+  // frameworks.
+  tags: ['skip-visual'],
   render: () => (
     <LoginLayout
       logo={<Logo subtitle="Démarches en ligne" />}
@@ -78,6 +84,11 @@ export const Default: Story = {
 /** Avec AuthButton (GOV Connect / Rumia / Microsoft) : pas de formulaire local. */
 export const WithAuthProvider: Story = {
   name: 'Avec fournisseur d’identité',
+  // Tag `skip-visual` : les boutons React utilisent la prop `block`
+  // (pleine largeur), alors que la version Angular n'a pas cette prop
+  // appliquée ; le footer diffère également (footer riche côté React,
+  // simple « © 2026 Polynésie française » côté Angular).
+  tags: ['skip-visual'],
   render: () => (
     <LoginLayout
       logo={<Logo subtitle="Démarches en ligne" />}
@@ -98,6 +109,10 @@ export const WithAuthProvider: Story = {
 /** Sans cardFooter ni footer : login minimal. */
 export const Minimal: Story = {
   name: 'Minimal',
+  // Tag `skip-visual` : title (« Connexion » React vs « Se connecter »
+  // Angular) et libellé du bouton (« Se connecter » React vs
+  // « Connexion » Angular) divergent volontairement.
+  tags: ['skip-visual'],
   render: () => (
     <LoginLayout title="Connexion">
       <Form>

@@ -181,10 +181,34 @@ type Story = StoryObj<TableDemo>;
 
 export const Default: Story = { args: {} };
 
-export const Sortable: Story = { args: { sortable: true } };
+export const Sortable: Story = {
+  args: { sortable: true },
+  // Tag `skip-visual` : la story Angular conserve la colonne `statut`
+  // alors que la version React n'inclut pas cette colonne dans ses
+  // `columns` - divergence volontaire de la configuration de colonnes.
+  tags: ['skip-visual'],
+};
 
-export const SingleSelect: Story = { args: { selectable: 'single' } };
+export const SingleSelect: Story = {
+  args: { selectable: 'single' },
+  // Tag `skip-visual` : la colonne `statut` est affichée comme texte
+  // brut côté Angular, alors que la version React la rend via un `<Tag>`
+  // (prop `render` retournant JSX) - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
+};
 
-export const MultipleSelect: Story = { args: { selectable: 'multiple' } };
+export const MultipleSelect: Story = {
+  args: { selectable: 'multiple' },
+  // Tag `skip-visual` : la colonne `statut` est affichée comme texte
+  // brut côté Angular, alors que la version React la rend via un `<Tag>`
+  // (prop `render` retournant JSX) - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
+};
 
-export const Striped: Story = { args: { striped: true } };
+export const Striped: Story = {
+  args: { striped: true },
+  // Tag `skip-visual` : la colonne `statut` est affichée comme texte
+  // brut côté Angular, alors que la version React la rend via un `<Tag>`
+  // (prop `render` retournant JSX) - divergence pédagogique volontaire.
+  tags: ['skip-visual'],
+};

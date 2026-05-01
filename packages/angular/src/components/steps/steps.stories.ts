@@ -50,6 +50,11 @@ export const LastStep: Story = { args: { steps, current: 3 } };
 
 export const Clickable: Story = {
   args: { steps, current: 2, clickable: true },
+  // Tag `skip-visual` : la story Angular n'affiche pas de paragraphe
+  // d'état sous le composant Steps, alors que la version React inclut un
+  // paragraphe « Étape courante : … » indiquant la valeur courante -
+  // divergence pédagogique volontaire.
+  tags: ['skip-visual'],
 };
 
 export const SimpleTitlesOnly: Story = {
