@@ -36,8 +36,8 @@ ou poursuivre avec un nouveau token.
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <a href="#" className="ori-btn ori-btn--primary ori-btn--block" style={{ textDecoration: 'none' }}>Se reconnecter</a>
-        <a href="#" className="ori-btn ori-btn--secondary ori-btn--block" style={{ textDecoration: 'none' }}>Reprendre où je m'étais arrêté</a>
+        <a href="#" className="ori-button ori-button--primary ori-button--block" style={{ textDecoration: 'none' }}>Se reconnecter</a>
+        <a href="#" className="ori-button ori-button--secondary ori-button--block" style={{ textDecoration: 'none' }}>Reprendre où je m'étais arrêté</a>
       </div>
     </div>
   </div>
@@ -65,8 +65,8 @@ ou poursuivre avec un nouveau token.
       </div>
 
       <div class="pf-auth-actions">
-        <a href="${url.loginRestartFlowUrl}" class="ori-btn ori-btn--primary ori-btn--block">${msg("doClickHere")}</a>
-        <a href="${url.loginAction}" class="ori-btn ori-btn--secondary ori-btn--block">${msg("doContinue")}</a>
+        <a href="${url.loginRestartFlowUrl}" class="ori-button ori-button--primary ori-button--block">${msg("doClickHere")}</a>
+        <a href="${url.loginAction}" class="ori-button ori-button--secondary ori-button--block">${msg("doContinue")}</a>
       </div>
     </div>
   </div>
@@ -109,7 +109,7 @@ template et garder uniquement le bouton "Se reconnecter".
 
 ### Accessibilité
 
-- `<a class="ori-btn">` (pas `<button>`) car ce sont des **liens de
+- `<a class="ori-button">` (pas `<button>`) car ce sont des **liens de
   navigation** vers d'autres URL, pas des actions de formulaire
 - Le titre `<h1>` permet aux lecteurs d'écran d'annoncer la nature
   de la page lors de la navigation

@@ -59,8 +59,10 @@ const preview: Preview = {
           ],
           'Fondations',
           [
+            'Convention de nommage',
             'Iconographie',
             'Validation accessibilité',
+            'Validation parité visuelle',
             'Tokens',
             ['Palette', 'Sémantique', 'Typographie', 'Spacing', 'Radii', 'Shadows'],
           ],

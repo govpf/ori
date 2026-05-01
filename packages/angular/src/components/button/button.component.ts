@@ -8,7 +8,7 @@ export type OriButtonType = 'button' | 'submit' | 'reset';
  * Bouton du design system Ori.
  *
  * - Standalone (pas de NgModule).
- * - ViewEncapsulation.None : les classes `.ori-btn*` sont définies globalement
+ * - ViewEncapsulation.None : les classes `.ori-button*` sont définies globalement
  *   par `@govpf/ori-css` (ou `@govpf/ori-tailwind-preset` côté app).
  * - Le contenu (texte, icône, etc.) est projeté via `<ng-content>` pour
  *   permettre la composition : `<ori-button><ori-icon /> Envoyer</ori-button>`.
@@ -53,10 +53,10 @@ export class OriButtonComponent {
 
   get classes(): string {
     return [
-      'ori-btn',
-      `ori-btn--${this.variant}`,
-      this.size !== 'md' ? `ori-btn--${this.size}` : null,
-      this.block ? 'ori-btn--block' : null,
+      'ori-button',
+      `ori-button--${this.variant}`,
+      this.size !== 'md' ? `ori-button--${this.size}` : null,
+      this.block ? 'ori-button--block' : null,
     ]
       .filter((c): c is string => Boolean(c))
       .join(' ');

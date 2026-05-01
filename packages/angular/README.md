@@ -10,7 +10,7 @@ pnpm add @govpf/ori-angular
 
 ## Configuration Tailwind du projet consommateur
 
-Le composant applique les classes `.ori-btn`, `.ori-btn--primary`… mais ne
+Le composant applique les classes `.ori-button`, `.ori-button--primary`… mais ne
 ship aucune feuille de style. Le projet consommateur doit charger soit :
 
 - **`@govpf/ori-css/dist/ds.css`** - bundle statique drop-in (le plus simple)

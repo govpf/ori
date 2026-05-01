@@ -144,6 +144,20 @@ Pour toute modification d'un composant DS (`packages/react/`,
 - Les classes CSS `.ori-*` doivent rester cohérentes entre les deux
 - Les stories doivent être mises à jour dans les deux Storybooks
 
+#### Convention de nommage React ↔ CSS
+
+Le nom du dossier React (PascalCase) se convertit en classe CSS
+(kebab-case) préfixée par `.ori-`. Exemple : `AlertDialog/` →
+`.ori-alert-dialog`. Les modificateurs et sous-parties suivent BEM
+(`__part`, `--variant`).
+
+Le tableau de correspondance complet vit dans la fiche Storybook
+**Fondations / Convention de nommage** (`packages/docs/src/Convention-Nommage.mdx`).
+
+Piège classique à éviter : ne pas faire un simple `toLowerCase()` du nom
+React pour deviner la classe. `AlertDialog` n'est pas `.ori-alertdialog`
+mais `.ori-alert-dialog`. Toujours respecter le tiret entre les mots.
+
 ### 3. Vérifier localement avant push
 
 ```bash

@@ -35,10 +35,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   ref,
 ) {
   const classes = clsx(
-    'ori-btn',
-    `ori-btn--${variant}`,
-    size !== 'md' && `ori-btn--${size}`,
-    block && 'ori-btn--block',
+    'ori-button',
+    `ori-button--${variant}`,
+    size !== 'md' && `ori-button--${size}`,
+    block && 'ori-button--block',
     className,
   );
 

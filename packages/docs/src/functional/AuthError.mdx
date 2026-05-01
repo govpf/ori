@@ -44,7 +44,7 @@ erreurs hors auth/inscription standard.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <a href="#" className="ori-btn ori-btn--primary ori-btn--block" style={{ textDecoration: 'none' }}>Retour à l'accueil</a>
+        <a href="#" className="ori-button ori-button--primary ori-button--block" style={{ textDecoration: 'none' }}>Retour à l'accueil</a>
         <a href="#" className="ori-link ori-link--quiet" style={{ alignSelf: 'center', fontSize: '0.875rem' }}>Contacter le support</a>
       </div>
     </div>
@@ -85,9 +85,9 @@ erreurs hors auth/inscription standard.
 
       <div class="pf-auth-actions">
         <#if client?? && client.baseUrl?has_content>
-          <a href="${client.baseUrl}" class="ori-btn ori-btn--primary ori-btn--block">${msg("doBackToApplication")}</a>
+          <a href="${client.baseUrl}" class="ori-button ori-button--primary ori-button--block">${msg("doBackToApplication")}</a>
         <#else>
-          <a href="${properties.kcLogoLink!''}" class="ori-btn ori-btn--primary ori-btn--block">${msg("doBackToApplication")}</a>
+          <a href="${properties.kcLogoLink!''}" class="ori-button ori-button--primary ori-button--block">${msg("doBackToApplication")}</a>
         </#if>
         <#if properties.supportUrl?has_content>
           <a href="${properties.supportUrl}" class="ori-link ori-link--quiet pf-auth-support-link">${msg("doContactSupport")}</a>
@@ -159,5 +159,5 @@ Les libellés affichés à l'usager doivent être :
 
 - L'alerte est dans un `<div role="alert">` pour annonce immédiate
 - Le code de référence est dans un `<code>` (typographie monospace)
-- Les boutons sont des liens (`<a class="ori-btn">`) puisqu'ils
+- Les boutons sont des liens (`<a class="ori-button">`) puisqu'ils
   naviguent, pas des `<button>` qui suggèrent une action de formulaire
