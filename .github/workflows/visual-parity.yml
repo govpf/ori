@@ -57,11 +57,16 @@ jobs:
 
       - name: Run visual parity test
         run: |
-          npx http-server apps/storybook-react/storybook-static -p 6006 -s -c-1 &
+          # http-server et wait-on sont déclarés en dépendances du package
+          # interne @govpf/ori-tools-visual-parity. On invoque les binaires
+          # via le `node_modules/.bin` local pour ne pas dépendre du
+          # PATH global du runner ni du cache `npx` qui reste flaky en CI.
+          BIN=tools/visual-parity/node_modules/.bin
+          "$BIN/http-server" apps/storybook-react/storybook-static -p 6006 -s -c-1 &
           REACT_PID=$!
-          npx http-server apps/storybook-angular/storybook-static -p 6008 -s -c-1 &
+          "$BIN/http-server" apps/storybook-angular/storybook-static -p 6008 -s -c-1 &
           ANGULAR_PID=$!
-          npx wait-on tcp:6006 tcp:6008 --timeout 60000
+          "$BIN/wait-on" tcp:6006 tcp:6008 --timeout 60000
           set +e
           node tools/visual-parity/compare.mjs
           STATUS=$?
