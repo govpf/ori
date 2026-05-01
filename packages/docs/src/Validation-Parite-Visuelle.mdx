@@ -1,0 +1,112 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Fondations/Validation parité visuelle" />
+
+# Validation parité visuelle React ↔ Angular
+
+Ori expose les mêmes composants côté React et Angular, animés par les mêmes tokens et les mêmes classes CSS `.ori-*`. La promesse implicite : ce qui rend chez l'un doit rendre **pixel-identiquement** chez l'autre. Cette page décrit comment cette promesse est vérifiée et les limites de la garantie automatisée.
+
+## Pourquoi un test dédié
+
+Les composants React et Angular consomment la même feuille de style à la racine, mais leur templating diffère : balisage HTML structuré différemment, gestion des slots, des classes dynamiques, des states. Sauf bug local, le rendu doit être identique.
+
+Avant ce test, la cohérence reposait uniquement sur la **discipline de revue manuelle** lors des PR. Cette discipline a montré ses limites : on a découvert plusieurs drifts (SearchBar, PhoneInput) au moment où les composants ont été utilisés en production, donc plusieurs jours après le merge.
+
+## Comment ça marche
+
+Pour chaque story qui existe dans les deux Storybooks (clé `title + name`), un test Playwright :
+
+1. Charge l'iframe Storybook React avec la story.
+2. Charge l'iframe Storybook Angular avec la même story.
+3. Capture le `#storybook-root` des deux côtés.
+4. Compare pixel-à-pixel via [`pixelmatch`](https://github.com/mapbox/pixelmatch).
+5. Marque la story `pass` si la divergence reste sous le seuil (1 % de pixels par défaut), `fail` sinon.
+
+Le test produit un rapport HTML lisible (`tools/visual-parity/output/report.html`) avec, par story, un triptyque **React | Angular | diff visuel** pour identifier la zone qui pose souci.
+
+## Statut courant - phase d'observation
+
+<div
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.5rem 0.75rem',
+    borderRadius: '0.375rem',
+    background: 'var(--color-feedback-info-bg)',
+    color: 'var(--color-feedback-info-strong)',
+    border: '1px solid var(--color-feedback-info)',
+    fontWeight: 600,
+  }}
+>
+  ⏳ Phase d'observation : test à la demande, non bloquant
+</div>
+
+Le job CI `Visual parity React ↔ Angular` est en place mais **ne tourne pas systématiquement** sur chaque PR. Il faut le déclencher explicitement de l'une des trois façons suivantes :
+
+- **Bouton manuel** dans l'UI GitHub Actions (`Run workflow` → choisir la branche).
+- **CLI** : `gh workflow run visual-parity.yml --ref ma-branche`.
+- **Label sur PR** : poser le label `visual-test` sur une pull request.
+
+Quand le job échoue, la PR n'est **pas bloquée** : le check apparaît en rouge mais ne fait pas partie des checks requis pour merger.
+
+## Roadmap
+
+La progression vers l'enforcement total se fait en trois phases :
+
+1. **Phase d'observation (actuelle)**  
+   Déclenchement à la demande. On accumule de la confiance sur l'outil, on calibre les thresholds, on identifie les stories instables (animations qui ne stabilisent pas, données aléatoires, etc.).
+
+2. **Phase de stabilisation**  
+   Le job tourne automatiquement sur chaque PR mais avec `continue-on-error: true`. Les divergences sont visibles sans bloquer le merge - feedback informatif pour l'équipe.
+
+3. **Phase de gating**  
+   Retrait de `continue-on-error`. Le check est ajouté à la branch protection. Toute divergence visuelle bloque le merge tant qu'elle n'est pas corrigée ou que le seuil n'est pas explicitement remonté.
+
+Chaque transition se fait en modifiant `.github/workflows/visual-parity.yml` et la branch protection côté GitHub Settings.
+
+## Configuration
+
+Le test est paramétrable par variables d'environnement :
+
+| Variable | Défaut | Effet |
+|---|---|---|
+| `THRESHOLD` | `0.01` | Tolérance globale (1 % de pixels divergents par story). |
+| `PIXEL_THRESHOLD` | `0.1` | Sensibilité de pixelmatch par pixel (`0` = strict, `1` = permissif). |
+| `VIEWPORT_WIDTH` / `VIEWPORT_HEIGHT` | `1280` / `800` | Taille du viewport pour la capture. |
+| `SETTLE_MS` | `500` | Attente après render avant la capture (laisse les animations se poser). |
+| `SKIP_TAGS` | `skip-visual,docs-only,test-only` | Tags Storybook exclus du test. |
+
+## Comment exclure une story
+
+Si une story ne peut pas être stabilisée (animation continue, données générées aléatoirement à chaque render, dépendance externe non maîtrisée), ajouter le tag `skip-visual` dans son `meta.tags` :
+
+```ts
+const meta = {
+  title: 'Primitives/...',
+  component: ...,
+  tags: ['autodocs', 'skip-visual'],
+};
+```
+
+À justifier par un commentaire au-dessus du `tags`.
+
+## Limites assumées
+
+- **Couverture limitée aux paires existantes**  
+  Les stories qui n'existent que d'un côté (par exemple un composant Angular pas encore livré côté React) ne sont pas testables. Le rapport les liste à part dans la section « Stories uniquement côté X ».
+
+- **Pas de couverture multi-viewport**  
+  Le test tourne sur un seul viewport (1280×800). Une régression spécifique mobile peut passer inaperçue. À ajouter dans une itération ultérieure si besoin.
+
+- **Pas de couverture multi-thème**  
+  Le test tourne en thème clair. Le thème sombre est validé par discipline de revue. À renforcer plus tard.
+
+- **Sensibilité au font rendering**  
+  Les fonts peuvent rendre légèrement différemment selon la machine. Le seuil de 1 % absorbe ces micro-différences mais peut masquer un vrai drift sur de petites zones. À ajuster selon les retours.
+
+## Références
+
+- Outil : [`tools/visual-parity/`](https://github.com/govpf/ori/tree/main/tools/visual-parity)
+- Workflow : [`.github/workflows/visual-parity.yml`](https://github.com/govpf/ori/blob/main/.github/workflows/visual-parity.yml)
+- Bibliothèques : [Playwright](https://playwright.dev/), [pixelmatch](https://github.com/mapbox/pixelmatch), [pngjs](https://github.com/lukeapage/pngjs)
