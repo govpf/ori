@@ -30,6 +30,31 @@ const base = import.meta.env.BASE_URL;
     <div class="site-shell">
       <header class="ori-header site-header">
         <div class="site-header__inner">
+          {variant === 'doc' && (
+            <button
+              type="button"
+              class="site-burger"
+              aria-label="Ouvrir le sommaire de la documentation"
+              aria-controls="site-drawer"
+              aria-expanded="false"
+              data-site-burger
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          )}
           <a href={base} class="ori-header__brand site-header__brand">
             <img src={`${base}assets/logo-pf.svg`} alt="" class="site-header__logo" />
             <span>Ori</span>
@@ -106,6 +131,35 @@ const base = import.meta.env.BASE_URL;
           </div>
         </div>
       </footer>
+      {variant === 'doc' && <div class="site-scrim" data-site-scrim hidden></div>}
     </div>
+
+    {variant === 'doc' && (
+      <script is:inline>
+        // Toggle du drawer mobile sur les pages doc. Pilote l'attribut
+        // data-site-drawer="open" sur <body> ; le CSS s'occupe du reste.
+        // Ferme sur clic dans la sidebar (pour ne pas piéger l'utilisateur
+        // après navigation), sur clic du scrim, et sur Escape.
+        (function () {
+          const burger = document.querySelector('[data-site-burger]');
+          const scrim = document.querySelector('[data-site-scrim]');
+          const aside = document.querySelector('.site-aside');
+          if (!burger || !scrim || !aside) return;
+          const setOpen = (open) => {
+            document.body.dataset.siteDrawer = open ? 'open' : '';
+            burger.setAttribute('aria-expanded', String(open));
+            scrim.hidden = !open;
+          };
+          burger.addEventListener('click', () => setOpen(document.body.dataset.siteDrawer !== 'open'));
+          scrim.addEventListener('click', () => setOpen(false));
+          aside.addEventListener('click', (e) => {
+            if (e.target instanceof HTMLAnchorElement) setOpen(false);
+          });
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setOpen(false);
+          });
+        })();
+      </script>
+    )}
   </body>
 </html>
