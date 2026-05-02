@@ -43,6 +43,7 @@ export * from './components/Logo/index.js';
 export * from './components/Header/index.js';
 export * from './components/Footer/index.js';
 export * from './components/MainNavigation/index.js';
+export * from './components/MobileTabBar/index.js';
 export * from './components/SideMenu/index.js';
 export * from './components/LanguageSwitcher/index.js';
 export * from './components/ErrorPage/index.js';

@@ -4082,6 +4082,121 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
       color: v('text-secondary'),
       lineHeight: theme('lineHeight.normal'),
     },
+
+    // ─── MobileTabBar (issue #94) ──────────────────────────────────────────
+    // Barre de navigation fixée en bas d'écran, pattern UX mobile standard
+    // (Material BottomNavigation, iOS TabBar). 3 à 5 items, chacun = icône
+    // au-dessus du label, layout flex équi-réparti. Masquée par défaut au
+    // dessus du breakpoint md (768px) : sur desktop, c'est le Header +
+    // SideMenu qui assument la navigation.
+    '.ori-mobile-tab-bar': {
+      position: 'fixed',
+      insetBlockEnd: '0',
+      insetInline: '0',
+      zIndex: '20',
+      backgroundColor: v('surface-base'),
+      borderBlockStartWidth: '1px',
+      borderBlockStartStyle: 'solid',
+      borderBlockStartColor: v('border-subtle'),
+      // Respecte le safe-area iOS (notch / home indicator).
+      paddingBlockEnd: 'env(safe-area-inset-bottom, 0)',
+      // Masquage automatique au-dessus du breakpoint md. La classe
+      // .ori-mobile-tab-bar--always-visible permet de forcer l'affichage
+      // si l'app le justifie.
+      '@media (min-width: 768px)': {
+        display: 'none',
+      },
+    },
+    '.ori-mobile-tab-bar--always-visible': {
+      '@media (min-width: 768px)': {
+        display: 'block',
+      },
+    },
+    '.ori-mobile-tab-bar__list': {
+      display: 'flex',
+      flexDirection: 'row',
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+    },
+    '.ori-mobile-tab-bar__item': {
+      flex: '1 1 0',
+      display: 'flex',
+    },
+    '.ori-mobile-tab-bar__link': {
+      flex: '1 1 0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme('spacing.1'),
+      paddingBlock: theme('spacing.2'),
+      paddingInline: theme('spacing.1'),
+      // 56px minimum pour respecter le touch target sur la cible tactile,
+      // sans dépendre uniquement de la règle @media (pointer: coarse).
+      minBlockSize: '3.5rem',
+      fontFamily: theme('fontFamily.sans'),
+      fontSize: theme('fontSize.xs'),
+      fontWeight: theme('fontWeight.medium'),
+      lineHeight: theme('lineHeight.tight'),
+      color: v('text-secondary'),
+      backgroundColor: 'transparent',
+      borderWidth: '0',
+      textDecoration: 'none',
+      cursor: 'pointer',
+      position: 'relative',
+      transitionProperty: 'color, background-color',
+      transitionDuration: theme('transitionDuration.fast'),
+      transitionTimingFunction: theme('transitionTimingFunction.standard'),
+      '&:hover:not([aria-current="page"])': {
+        color: v('text-primary'),
+        backgroundColor: v('surface-subtle'),
+      },
+      '&:focus-visible': {
+        outline: 'none',
+        boxShadow: `inset 0 0 0 2px ${v('border-focus')}`,
+      },
+      '&[aria-current="page"]': {
+        color: v('brand-primary'),
+        fontWeight: theme('fontWeight.semibold'),
+      },
+      '&[aria-disabled="true"]': {
+        opacity: '0.5',
+        cursor: 'not-allowed',
+      },
+    },
+    '.ori-mobile-tab-bar__icon': {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '1.5rem',
+      height: '1.5rem',
+      flex: '0 0 auto',
+    },
+    '.ori-mobile-tab-bar__label': {
+      flex: '0 0 auto',
+      // Empêche un libellé long de casser la mise en page : ellipsis.
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    '.ori-mobile-tab-bar__badge': {
+      position: 'absolute',
+      insetBlockStart: theme('spacing.1'),
+      // Décalage horizontal à droite du centre, en débordement de l'icône.
+      insetInlineStart: 'calc(50% + 0.25rem)',
+      minWidth: '1.125rem',
+      height: '1.125rem',
+      paddingInline: theme('spacing.1'),
+      backgroundColor: v('feedback-danger'),
+      color: v('brand-on-primary'),
+      borderRadius: '9999px',
+      fontSize: '0.6875rem',
+      fontWeight: theme('fontWeight.semibold'),
+      lineHeight: '1.125rem',
+      textAlign: 'center',
+    },
   });
 
   // ─── Touch targets (issue #94) ──────────────────────────────────────────

@@ -43,6 +43,7 @@ export * from './components/logo';
 export * from './components/header';
 export * from './components/footer';
 export * from './components/main-navigation';
+export * from './components/mobile-tab-bar';
 export * from './components/side-menu';
 export * from './components/language-switcher';
 export * from './components/error-page';
