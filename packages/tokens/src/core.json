@@ -70,6 +70,13 @@
       "600": { "$value": "#062f88", "$type": "color" }
     }
   },
+  "size": {
+    "$description": "Tailles minimales d'interaction. Cible WAI-ARIA Target Size (Enhanced) 2.5.5 : 44x44 CSS pixels recommandés sur les éléments interactifs en contexte tactile. Appliqué via @media (pointer: coarse) pour ne pas dégrader la densité desktop.",
+    "touchTarget": {
+      "$value": "44px",
+      "$type": "dimension"
+    }
+  },
   "spacing": {
     "0": { "$value": "0", "$type": "dimension" },
     "1": { "$value": "0.25rem", "$type": "dimension" },
