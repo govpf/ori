@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Site documentaire Ori (prototype Astro). Consomme provisoirement les packages workspace @govpf/ori-* en attendant le rebranding global.",
   "scripts": {
-    "dev": "astro dev --port 4321",
+    "dev": "astro dev --port 4321 --host",
     "build": "astro build",
     "preview": "astro preview --port 4321",
     "astro": "astro"

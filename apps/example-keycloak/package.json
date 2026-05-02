@@ -1,0 +1,16 @@
+{
+  "name": "@govpf/ori-example-keycloak",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exemple : 7 mires d'authentification Keycloak rendues en HTML statique. Référence visuelle pour les équipes qui développent le thème Keycloak (login.ftl, register.ftl, etc.).",
+  "scripts": {
+    "copy-css": "node copy-css.mjs",
+    "predev": "pnpm copy-css",
+    "dev": "npx http-server . -p 4174 -c-1",
+    "prebuild": "pnpm copy-css",
+    "build": "echo 'page HTML statique - copy-css fait le job'"
+  },
+  "dependencies": {
+    "@govpf/ori-css": "workspace:*"
+  }
+}

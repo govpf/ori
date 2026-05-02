@@ -87,12 +87,42 @@ pnpm -r --filter "./packages/*" build
 
 ### Lancer les apps en développement
 
+#### Une app à la fois
+
 ```bash
 pnpm storybook:react       # Storybook React, port 6006
 pnpm storybook:angular     # Storybook Angular, port 6008
 pnpm demo:portail          # Demo end-to-end portail usager, port 5174
-pnpm playground:static     # HTML pur consommant ori-css, port 4173
+pnpm example:agent         # Back-office agent (instruction de dossiers), port 5173
+pnpm example:landing       # Landing institutionnelle HTML pur, port 4173
+pnpm example:keycloak      # 7 mires d'authentification HTML pur, port 4174
 ```
+
+#### Toutes les apps en parallèle
+
+Pour valider visuellement une modif sans push (et sans les ~10 min
+d'aller-retour CI + Cloudflare cache), deux modes au choix :
+
+**Mode natif** (rapide, dépend du host) :
+
+```bash
+pnpm dev:all                   # lance les 7 apps + dashboard
+                               # Ctrl+C pour arrêter
+```
+
+**Mode Docker** (kill global propre garanti, environnement reproductible) :
+
+```bash
+pnpm dev:docker                # premier boot : ~3-5 min (build + install)
+                               # lancements suivants : ~30 s
+pnpm dev:docker:down           # arrêt propre, pas de zombies
+pnpm dev:docker:rebuild        # rebuild sans cache après modif Dockerfile
+```
+
+Dans les deux cas, ouvrir <http://localhost:3000> pour le dashboard
+qui regroupe les URLs et le statut de chaque app.
+
+Détail : [tools/dev-all/README.md](./tools/dev-all/README.md).
 
 ### Tester la CI en local
 

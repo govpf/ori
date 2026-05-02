@@ -1,0 +1,191 @@
+<ori-app-shell
+  [hasSidebar]="true"
+  [hasFooter]="true"
+  [sidebarOpen]="sidebarOpen()"
+  (sidebarOpenChange)="sidebarOpen.set($event)"
+>
+  <header slot="header">
+    <ori-header>
+      <ori-logo
+        brand
+        title="Polynésie française"
+        subtitle="Espace agent · Patrimoine"
+        href="#"
+      ></ori-logo>
+      <ng-container nav>
+        <ori-main-navigation [items]="navItems"></ori-main-navigation>
+      </ng-container>
+      <ng-container actions>
+        <ori-button variant="ghost" size="sm">Aide</ori-button>
+        <ori-dropdown-menu
+          [items]="userMenuItems"
+          align="end"
+          ariaLabel="Menu agent"
+          (select)="onUserMenuAction($event)"
+        >
+          <button slot="trigger" type="button" class="avatar-trigger" aria-label="Menu agent">
+            <ori-avatar alt="Heitiare TUHEIAVA" size="sm"></ori-avatar>
+          </button>
+        </ori-dropdown-menu>
+      </ng-container>
+    </ori-header>
+  </header>
+
+  <nav slot="sidebar" aria-label="Navigation latérale">
+    <ori-side-menu [sections]="sideMenuSections"></ori-side-menu>
+  </nav>
+
+  <footer slot="footer">
+    <ori-footer
+      brand="Direction du Patrimoine"
+      description="Espace agent · usage interne uniquement"
+      legal="© 2026 Polynésie française"
+      [utilityLinks]="footerUtilityLinks"
+    ></ori-footer>
+  </footer>
+
+  <div class="app-content">
+    <div class="page-header">
+      <h1 class="page-header__title">File d'instruction</h1>
+      <p class="page-header__subtitle">
+        Suivez et instruisez les dossiers déposés. Les actions sont accessibles via le menu
+        contextuel de chaque ligne.
+      </p>
+    </div>
+
+    @if (notif(); as n) {
+      <ori-notification [variant]="n.variant" [dismissible]="true" (dismiss)="notif.set(null)">
+        {{ n.text }}
+      </ori-notification>
+    }
+
+    <div class="kpi-grid">
+      <ori-card>
+        <ori-card-body>
+          <ori-statistic label="Total dossiers" [value]="kpis().total"></ori-statistic>
+        </ori-card-body>
+      </ori-card>
+      <ori-card>
+        <ori-card-body>
+          <ori-statistic
+            label="À instruire"
+            [value]="kpis().aInstruire"
+            [trend]="trendAInstruire()"
+          ></ori-statistic>
+        </ori-card-body>
+      </ori-card>
+      <ori-card>
+        <ori-card-body>
+          <ori-statistic label="En cours" [value]="kpis().enCours"></ori-statistic>
+        </ori-card-body>
+      </ori-card>
+      <ori-card>
+        <ori-card-body>
+          <ori-statistic label="À compléter" [value]="kpis().aCompleter"></ori-statistic>
+        </ori-card-body>
+      </ori-card>
+    </div>
+
+    <ori-card variant="flat">
+      <ori-card-body>
+        <div class="toolbar">
+          <div class="toolbar__filters" style="flex: 1 1 320px">
+            <ori-search-bar
+              placeholder="Numéro, demandeur, type…"
+              [value]="search()"
+              [iconOnlyButton]="true"
+              buttonAriaLabel="Lancer la recherche"
+              (valueChange)="search.set($event)"
+            ></ori-search-bar>
+          </div>
+          <div class="toolbar__filters">
+            <ori-select
+              [value]="statutFilter()"
+              [options]="statutOptions"
+              (valueChange)="statutFilter.set($event)"
+            ></ori-select>
+            <ori-button variant="ghost" size="sm" (click)="resetFilters()">Réinitialiser</ori-button>
+          </div>
+        </div>
+      </ori-card-body>
+    </ori-card>
+
+    <ori-table
+      [striped]="true"
+      selectable="multiple"
+      [rowKey]="rowKey"
+      [selectedRowIds]="selected()"
+      [sort]="sort()"
+      [columns]="columns()"
+      [rows]="filtered()"
+      [emptyMessage]="emptyMessage()"
+      caption="File d'instruction des dossiers patrimoine"
+      (sortChange)="sort.set($event)"
+      (selectionChange)="selected.set($event)"
+    ></ori-table>
+
+    <ng-template #statutTpl let-row>
+      <ori-tag [variant]="statutVariant(row)">{{ statutLabel(row) }}</ori-tag>
+    </ng-template>
+    <ng-template #agentTpl let-row>
+      @if (row.agent) {
+        {{ row.agent }}
+      } @else {
+        <em style="color: var(--color-text-muted)">non assigné</em>
+      }
+    </ng-template>
+    <ng-template #actionsTpl let-row>
+      <ori-dropdown-menu
+        [items]="actionItemsFor(row)"
+        align="end"
+        [ariaLabel]="'Actions pour ' + row.numero"
+        (select)="onRowAction(row, $event)"
+      >
+        <button
+          slot="trigger"
+          type="button"
+          class="actions-trigger"
+          [attr.aria-label]="'Actions pour ' + row.numero"
+        >
+          ⋯
+        </button>
+      </ori-dropdown-menu>
+    </ng-template>
+
+    @if (selected().length > 0) {
+      <ori-card variant="flat">
+        <ori-card-body>
+          <div class="toolbar">
+            <p style="margin: 0; font-size: 0.875rem">
+              {{ selected().length }} dossier{{ selected().length > 1 ? 's' : '' }} sélectionné{{
+                selected().length > 1 ? 's' : ''
+              }}
+            </p>
+            <div class="toolbar__filters">
+              <ori-button variant="secondary" size="sm">Action groupée…</ori-button>
+              <ori-button variant="ghost" size="sm" (click)="selected.set([])"
+                >Désélectionner</ori-button
+              >
+            </div>
+          </div>
+        </ori-card-body>
+      </ori-card>
+    }
+  </div>
+
+  <ori-alert-dialog
+    [open]="!!confirmReject()"
+    title="Rejeter le dossier ?"
+    (cancel)="confirmReject.set(null)"
+  >
+    @if (confirmReject(); as r) {
+      <p>
+        Le dossier {{ r.numero }} sera marqué comme rejeté. Le demandeur sera notifié par email.
+      </p>
+    }
+    <ng-container slot="footer">
+      <ori-button variant="secondary" (click)="confirmReject.set(null)">Annuler</ori-button>
+      <ori-button variant="danger" (click)="handleConfirmReject()">Rejeter</ori-button>
+    </ng-container>
+  </ori-alert-dialog>
+</ori-app-shell>

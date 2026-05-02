@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mires Keycloak Ori</title>
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./auth.css" />
+  </head>
+  <body>
+    <main class="index-page">
+      <header class="index-page__header">
+        <h1 class="index-page__title">Mires d'authentification Keycloak</h1>
+        <p class="index-page__lead">
+          Référence visuelle des 7 écrans Keycloak rendus avec le design system Ori. Spec
+          détaillée dans
+          <code>packages/docs/src/functional/Auth*.mdx</code>.
+        </p>
+      </header>
+
+      <section class="mires-grid">
+        <a class="mire-link" href="./login.html">
+          <span class="mire-link__id">login.ftl</span>
+          <p class="mire-link__title">Connexion</p>
+          <p class="mire-link__desc">Identifiant + mot de passe + lien création de compte.</p>
+        </a>
+        <a class="mire-link" href="./register.html">
+          <span class="mire-link__id">register.ftl</span>
+          <p class="mire-link__title">Création de compte</p>
+          <p class="mire-link__desc">Champs identité + email + mot de passe + confirmation.</p>
+        </a>
+        <a class="mire-link" href="./reset-password.html">
+          <span class="mire-link__id">login-reset-password.ftl</span>
+          <p class="mire-link__title">Mot de passe oublié</p>
+          <p class="mire-link__desc">Saisie d'email pour recevoir un lien de réinitialisation.</p>
+        </a>
+        <a class="mire-link" href="./update-password.html">
+          <span class="mire-link__id">login-update-password.ftl</span>
+          <p class="mire-link__title">Définir un mot de passe</p>
+          <p class="mire-link__desc">Saisie + confirmation après réception du lien.</p>
+        </a>
+        <a class="mire-link" href="./otp.html">
+          <span class="mire-link__id">login-otp.ftl</span>
+          <p class="mire-link__title">Code à usage unique</p>
+          <p class="mire-link__desc">Saisie d'un code TOTP envoyé par SMS ou email.</p>
+        </a>
+        <a class="mire-link" href="./session-expired.html">
+          <span class="mire-link__id">login-page-expired.ftl</span>
+          <p class="mire-link__title">Session expirée</p>
+          <p class="mire-link__desc">Message d'expiration avec relance de la connexion.</p>
+        </a>
+        <a class="mire-link" href="./error.html">
+          <span class="mire-link__id">error.ftl</span>
+          <p class="mire-link__title">Erreur d'authentification</p>
+          <p class="mire-link__desc">Page d'erreur générique avec retour vers la connexion.</p>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

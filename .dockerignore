@@ -1,0 +1,16 @@
+# Ignorer les artefacts de build et caches lors du `docker build` (ils
+# sont quand même montés en bind mount au runtime, donc inutile de les
+# inclure dans le contexte d'image).
+**/node_modules
+**/dist
+**/.next
+**/.angular/cache
+**/storybook-static
+**/build
+**/.cache
+**/.vite
+**/.turbo
+**/coverage
+.git
+.github/workflows/*.bak
+*.log

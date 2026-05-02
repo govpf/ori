@@ -4,8 +4,8 @@
   "private": false,
   "description": "Composants Angular pour Ori",
   "type": "module",
-  "main": "./dist/fesm2022/Ori-angular.mjs",
-  "module": "./dist/fesm2022/Ori-angular.mjs",
+  "main": "./dist/fesm2022/govpf-ori-angular.mjs",
+  "module": "./dist/fesm2022/govpf-ori-angular.mjs",
   "typings": "./dist/index.d.ts",
   "exports": {
     "./package.json": {
@@ -13,7 +13,7 @@
     },
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/fesm2022/Ori-angular.mjs"
+      "default": "./dist/fesm2022/govpf-ori-angular.mjs"
     },
     "./marketing": {
       "types": "./dist/marketing/index.d.ts",

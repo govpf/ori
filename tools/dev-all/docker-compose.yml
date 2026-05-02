@@ -1,0 +1,62 @@
+# Conteneur dev Ori : lance les 7 apps + le dashboard en parallèle.
+#
+# Avantage par rapport à `pnpm dev:all` natif :
+#   - kill global propre via `docker compose down` (pas de zombies
+#     pnpm/node sur Windows qui survivent à Ctrl+C)
+#   - environnement reproductible (Node 24 + pnpm 10.29.3, identique CI)
+#   - isolation des ports et variables d'env de la machine hôte
+#
+# Inconvénient :
+#   - premier boot lent (build de l'image + pnpm install dans le volume
+#     nommé node_modules) : ~3 à 5 min
+#   - HMR via bind mount + chokidar polling : ~1 s de latence sur Windows
+#     (vs instantané en natif)
+
+services:
+  ori-dev:
+    build:
+      context: ../..
+      dockerfile: tools/dev-all/Dockerfile
+    image: ori-dev:latest
+    container_name: ori-dev
+    init: true
+    ports:
+      - '3000:3000' # Dashboard
+      - '4173:4173' # Example landing (HTML statique)
+      - '4174:4174' # Example mires Keycloak (HTML statique)
+      - '4321:4321' # Site Astro
+      - '5173:5173' # Example agent (React)
+      - '5174:5174' # Demo portail
+      - '6006:6006' # Storybook React
+      - '6008:6008' # Storybook Angular
+    volumes:
+      # Bind mount du repo entier pour live-reload des modifications
+      # côté host. Les sources éditées dans VS Code sont vues par les
+      # bundlers à l'intérieur du conteneur via polling.
+      - ../..:/workspace:cached
+      # Volumes nommés pour les node_modules : évite que les symlinks
+      # pnpm Linux soient écrasés par les éventuels node_modules Windows
+      # de l'host, et conserve le pnpm install à travers les rebuilds.
+      - ori-node-modules:/workspace/node_modules
+      - ori-pnpm-store:/root/.local/share/pnpm
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - WATCHPACK_POLLING=true
+      # Astro et Vite préfèrent ce binding pour exposer correctement
+      # leurs serveurs dans un conteneur.
+      - HOST=0.0.0.0
+      # Variable de convention reconnue par Storybook, Vite (via les
+      # vite.config qui la consultent) et la plupart des outils dev :
+      # désactive l'auto-open du navigateur (xdg-open n'existe pas
+      # dans le conteneur slim et le browser n'est de toute façon pas
+      # joignable depuis l'host via localhost).
+      - CI=true
+    stdin_open: true
+    tty: true
+
+volumes:
+  ori-node-modules:
+    name: ori-node-modules
+  ori-pnpm-store:
+    name: ori-pnpm-store

@@ -1,9 +1,0 @@
-/* Police Inter embarquée + variables CSS Ori (tokens + overrides dark) + Tailwind layers.
-   Chemins relatifs : postcss-import ne résout pas les "exports" de package. */
-@import '../../../packages/tokens/src/fonts.css';
-@import '../../../packages/tokens/build/css/tokens.css';
-@import '../../../packages/tokens/src/dark.css';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

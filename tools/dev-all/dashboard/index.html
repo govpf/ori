@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ori - dev dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="logo" aria-hidden="true">●</span>
+        <div>
+          <h1>Ori - dev dashboard</h1>
+          <p class="subtitle">
+            Toutes les apps Ori, lancées en parallèle avec live-reload natif.
+            Hard refresh inutile : chaque modif des sources rebuild la page concernée.
+          </p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span id="updated"></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="grid" id="apps">
+        <!-- rempli par JS -->
+      </section>
+
+      <section class="legend">
+        <h2>Légende</h2>
+        <ul>
+          <li>
+            <span class="dot up" aria-hidden="true"></span>
+            <strong>up</strong> - l'app répond sur son port
+          </li>
+          <li>
+            <span class="dot starting" aria-hidden="true"></span>
+            <strong>démarrage</strong> - l'app n'a pas encore répondu (build en cours)
+          </li>
+          <li>
+            <span class="dot down" aria-hidden="true"></span>
+            <strong>down</strong> - l'app a planté ou a été arrêtée
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

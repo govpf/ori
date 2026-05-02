@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Créer un compte · Polynésie française</title>
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./auth.css" />
+  </head>
+  <body>
+    <div class="back-bar"><a href="./index.html">← Retour à l'index</a></div>
+
+    <div class="pf-auth-page">
+      <div class="ori-card ori-card--elevated pf-auth-card">
+        <div class="ori-card__body pf-auth-body">
+          <div class="pf-auth-brand">
+            <span class="brand-logo">
+              <img src="./logo-pf.svg" alt="" aria-hidden="true" width="40" height="40" />
+              <span class="brand-logo__text">
+                <span class="brand-logo__title">Polynésie française</span>
+                <span class="brand-logo__subtitle">Démarches en ligne</span>
+              </span>
+            </span>
+          </div>
+
+          <h1 class="pf-auth-title">Créer un compte</h1>
+
+          <form class="pf-auth-form" method="post">
+            <div class="ori-field">
+              <label for="firstName" class="ori-field__label ori-field__label--required"
+                >Prénom</label
+              >
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                autocomplete="given-name"
+                required
+                class="ori-input"
+              />
+            </div>
+            <div class="ori-field">
+              <label for="lastName" class="ori-field__label ori-field__label--required">Nom</label>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                autocomplete="family-name"
+                required
+                class="ori-input"
+              />
+            </div>
+            <div class="ori-field">
+              <label for="email" class="ori-field__label ori-field__label--required"
+                >Adresse email</label
+              >
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="ori-input"
+              />
+            </div>
+            <div class="ori-field">
+              <label for="password" class="ori-field__label ori-field__label--required"
+                >Mot de passe</label
+              >
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+                class="ori-input"
+              />
+              <span class="ori-field__hint">12 caractères minimum, dont chiffre et symbole.</span>
+            </div>
+            <div class="ori-field">
+              <label
+                for="password-confirm"
+                class="ori-field__label ori-field__label--required"
+                >Confirmer le mot de passe</label
+              >
+              <input
+                id="password-confirm"
+                name="password-confirm"
+                type="password"
+                autocomplete="new-password"
+                required
+                class="ori-input"
+              />
+            </div>
+            <button type="submit" class="ori-button ori-button--primary ori-button--block">
+              Créer mon compte
+            </button>
+          </form>
+
+          <p class="pf-auth-register">
+            Déjà un compte ? <a href="./login.html" class="ori-link">Se connecter</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

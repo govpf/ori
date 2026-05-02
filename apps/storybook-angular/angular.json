@@ -29,7 +29,8 @@
             "configDir": ".storybook",
             "browserTarget": "storybook-angular:build",
             "compodoc": false,
-            "port": 6008
+            "port": 6008,
+            "host": "0.0.0.0"
           }
         },
         "build-storybook": {
