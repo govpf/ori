@@ -63,7 +63,7 @@ jobs:
           # les CHANGELOG (sinon les notes des commits anciens manquent).
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v6.0.5
         with:
           version: ${{ env.PNPM_VERSION }}
 
