@@ -9,6 +9,10 @@ export default defineConfig(({ command }) => ({
   plugins: [react()],
   server: {
     port: 5174,
-    open: true,
+    // Auto-open du navigateur désactivé en CI ou en conteneur (où
+    // xdg-open n'existe pas). En local natif, l'ouverture reste
+    // automatique pour le confort dev.
+    open: !process.env.CI,
+    host: true,
   },
 }));
