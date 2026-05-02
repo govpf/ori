@@ -1,0 +1,100 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Catégories de patterns"
+current: "categories"
+headerCurrent: "tokens"
+---
+
+# Catégories de patterns
+
+Ori distingue deux familles de patterns selon le type d'interface
+qu'ils servent. Cette distinction guide quelle classe ou quel composant
+choisir, et quelles attentes typographiques et d'espacement sont
+calibrées par défaut.
+
+## Interfaces applicatives
+
+Apps métier où l'utilisateur **agit sur des données** : back-offices,
+formulaires de démarche, espaces personnels, tableaux d'instruction.
+
+Caractéristiques visuelles :
+
+- typographie sobre et dense (la valeur d'information prime sur l'impact)
+- espacements compacts (utilisation efficace de l'écran)
+- composants riches en interactions (selection, tri, filtres, edition)
+
+Patterns Ori dédiés :
+
+- Layout : `AppShell`, `Header`, `SideMenu`, `MainNavigation`,
+  `MobileTabBar`, `Footer`
+- Saisie : `Input`, `Select`, `Combobox`, `MultiSelect`, `Checkbox`,
+  `Radio`, `Switch`, `Textarea`, `DatePicker`, `FileUpload`,
+  `PhoneInput`, `Form`, `FormField`
+- Affichage de données : `Table`, `DataTable`, `Tag`, `Statistic`,
+  `Highlight`, `Avatar`, `FileCard`
+- Feedback : `Alert`, `AlertDialog`, `Dialog`, `Notification`, `Toast`,
+  `Tooltip`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`
+- Navigation contextuelle : `Tabs`, `Accordion`, `Breadcrumb`,
+  `Pagination`, `Steps`, `Wizard`, `DropdownMenu`
+- Authentification : `LoginLayout`, `AuthButton`
+
+Exemples consommateurs : `apps/example-agent` (back-office Angular),
+`apps/demo-portail` (portail citoyen React).
+
+## Interfaces d'information
+
+Sites institutionnels où l'utilisateur **lit, comprend, s'informe** :
+landing institutionnelle, page d'aide, mentions légales, recrutement,
+catalogue de services.
+
+Caractéristiques visuelles :
+
+- typographie plus généreuse (titres plus impactants, line-height
+  plus aéré pour le confort de lecture)
+- espacements plus larges (sections respirent, blocs séparés)
+- composants éditoriaux (citation, partenaires, hero, témoignage)
+
+Patterns Ori dédiés (livrés et à venir) :
+
+- Composition : `Hero`, `FeatureGrid`, `FeatureCard`
+- En cours d'intégration : `Section`, `PartnerStrip`, `Testimonial`,
+  `LegalLayout` (CSS), variant `Hero` à plus fort impact
+- Structure documentaire : `LegalLayout`, `LegalSection`,
+  `LegalDefinitionList` (existent en React et Angular, équivalent CSS
+  à venir)
+
+Exemples consommateurs : `apps/example-landing` (Direction du
+Patrimoine), pages éditoriales du portail Ori lui-même
+(`ori.gov.pf/decouvrir/...`, `ori.gov.pf/fondations/...`).
+
+## Patterns transverses
+
+Certains composants sont utilisés indistinctement dans les deux
+familles : `Button`, `Link`, `Card`, `Logo`, `Tag`, `Notification`,
+`Skeleton`, `Spinner`, `Toast`. Ils ne nécessitent pas de variant
+spécifique selon la cible.
+
+## Conséquences pratiques
+
+Quand une équipe consomme Ori :
+
+1. **Identifier la cible de l'interface en premier** : applicative ou
+   information ? Ce choix conditionne quels patterns piocher.
+2. **Ne pas mélanger les attentes** : un dashboard d'agent avec une
+   typographie de landing marketing crée du bruit visuel. Une page
+   institutionnelle avec une grille dense rend la lecture pénible.
+3. **Composer dans la même famille** : par exemple sur une landing,
+   utiliser `Hero` et `Section` ensemble, plutôt que de mélanger une
+   chrome `AppShell` avec un contenu marketing.
+
+Pour les apps qui ont les deux (rare mais possible) : isoler
+clairement les zones, par exemple un AppShell pour la zone applicative
+et une section éditoriale dédiée pour les pages d'aide ou les CGU
+intégrées.
+
+## Voir aussi
+
+- [Exemples](/exemples/) : 4 démos exécutables qui couvrent les
+  principaux cas d'usage des deux familles.
+- [Composants](/composants/) : catalogue complet, à filtrer selon la
+  cible.

@@ -4199,6 +4199,90 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     },
   });
 
+  // ─── Skip link (utilitaire a11y transverse) ─────────────────────────────
+  // Lien d'accès direct au contenu principal, masqué par défaut, devient
+  // visible et focusable au clavier (Tab depuis le début de page).
+  // Standard WCAG 2.4.1 Bypass Blocks.
+  addComponents({
+    '.ori-skip-link': {
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      border: '0',
+      '&:focus, &:focus-visible': {
+        position: 'fixed',
+        top: '0.75rem',
+        left: '0.75rem',
+        zIndex: '100',
+        width: 'auto',
+        height: 'auto',
+        padding: '0.5rem 0.75rem',
+        margin: '0',
+        clip: 'auto',
+        background: v('brand-primary'),
+        color: v('brand-on-primary'),
+        borderRadius: theme('borderRadius.md'),
+        fontWeight: theme('fontWeight.semibold'),
+        textDecoration: 'none',
+      },
+    },
+
+    // ─── Demo banner (utilitaire pour démos non-prod uniquement) ────────────
+    // Bandeau jaune fixé en tête de page, signale qu'une démo n'est pas un
+    // service réel. À utiliser uniquement sur les apps de démonstration
+    // (jamais en production), pour éviter qu'un usager confonde la démo
+    // avec un vrai service public.
+    '.ori-demo-banner': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.75rem',
+      flexWrap: 'wrap',
+      padding: '0.5rem 1rem',
+      backgroundColor: v('feedback-warning'),
+      color: v('neutral-900'),
+      fontSize: theme('fontSize.sm'),
+      fontWeight: theme('fontWeight.medium'),
+      textAlign: 'center',
+      borderBottomWidth: '2px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: v('feedback-warning-strong'),
+      '& strong': {
+        display: 'inline-flex',
+        alignItems: 'center',
+        padding: '0.125rem 0.5rem',
+        borderRadius: theme('borderRadius.sm'),
+        backgroundColor: v('neutral-900'),
+        color: v('feedback-warning'),
+        fontSize: theme('fontSize.xs'),
+        fontWeight: theme('fontWeight.bold'),
+        letterSpacing: '0.06em',
+      },
+    },
+    '.ori-demo-banner__link': {
+      flex: '0 0 auto',
+      color: v('neutral-900'),
+      textDecorationLine: 'underline',
+      textDecorationThickness: '1px',
+      textUnderlineOffset: '2px',
+      fontWeight: theme('fontWeight.semibold'),
+      whiteSpace: 'nowrap',
+      '&:hover': {
+        textDecorationThickness: '2px',
+      },
+      '&:focus-visible': {
+        outline: `2px solid ${v('neutral-900')}`,
+        outlineOffset: '2px',
+        borderRadius: '0.125rem',
+      },
+    },
+  });
+
   // ─── Touch targets (issue #94) ──────────────────────────────────────────
   // Sur appareil tactile (pointer: coarse), on garantit 44x44 CSS pixels
   // sur les éléments interactifs principaux, conforme WCAG 2.5.5 niveau AAA.
