@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Erreur d'authentification · Polynésie française</title>
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./auth.css" />
+  </head>
+  <body>
+    <div class="back-bar"><a href="./index.html">← Retour à l'index</a></div>
+
+    <div class="pf-auth-page">
+      <div class="ori-card ori-card--elevated pf-auth-card">
+        <div class="ori-card__body pf-auth-body">
+          <div class="pf-auth-brand">
+            <span class="brand-logo">
+              <img src="./logo-pf.svg" alt="" aria-hidden="true" width="40" height="40" />
+              <span class="brand-logo__text">
+                <span class="brand-logo__title">Polynésie française</span>
+                <span class="brand-logo__subtitle">Démarches en ligne</span>
+              </span>
+            </span>
+          </div>
+
+          <h1 class="pf-auth-title">Une erreur est survenue</h1>
+
+          <div class="ori-alert ori-alert--danger" role="alert">
+            <div class="ori-alert__content">
+              Le service d'authentification est temporairement indisponible. Réessayez dans quelques
+              instants.
+            </div>
+          </div>
+
+          <p style="margin: 0; text-align: center; color: var(--color-text-secondary); font-size: 0.8125rem;">
+            Code de référence : <code>auth-503</code>
+          </p>
+
+          <a
+            href="./login.html"
+            class="ori-button ori-button--primary ori-button--block"
+            style="text-align: center;"
+            >Retour à la connexion</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

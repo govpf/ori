@@ -1,0 +1,181 @@
+/* Classes pf-auth-* utilisées par toutes les mires Keycloak.
+ *
+ * Ces classes ne font pas partie du DS Ori : elles sont propres au
+ * template Keycloak et servent uniquement à positionner les blocs.
+ * Cf. packages/docs/src/functional/AuthLogin.mdx pour la spec
+ * référence.
+ */
+
+body {
+  margin: 0;
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+}
+
+.pf-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background-color: var(--color-surface-muted);
+}
+
+.pf-auth-card {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.pf-auth-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+.pf-auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pf-auth-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pf-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.pf-auth-password-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pf-auth-forgot {
+  align-self: flex-end;
+  font-size: 0.8125rem;
+}
+
+.pf-auth-register {
+  margin: 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* Index : liste des 7 mires */
+.index-page {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.index-page__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.index-page__title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.index-page__lead {
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  margin: 0.5rem 0 0 0;
+}
+.mires-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.875rem;
+}
+.mire-link {
+  display: block;
+  padding: 1.125rem;
+  background: var(--color-surface-base);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: border-color 120ms ease;
+}
+.mire-link:hover {
+  border-color: var(--color-brand-primary);
+}
+.mire-link__id {
+  display: inline-block;
+  font-family: ui-monospace, 'SFMono-Regular', monospace;
+  font-size: 0.6875rem;
+  background: var(--color-surface-muted);
+  padding: 0.0625rem 0.375rem;
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+.mire-link__title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin: 0 0 0.25rem 0;
+}
+.mire-link__desc {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* Bandeau de retour à l'index, présent sur chaque mire */
+.back-bar {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 50;
+}
+.back-bar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--color-surface-base);
+  border: 1px solid var(--color-border-default);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+.back-bar a:hover {
+  border-color: var(--color-brand-primary);
+}
+
+/* Logo SVG simple */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand-logo img,
+.brand-logo svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+}
+.brand-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.brand-logo__title {
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.brand-logo__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}

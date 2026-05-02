@@ -1,0 +1,6 @@
+/* Pas de style propre au composant : encapsulation None côté Ori
+ * gère le rendu visuel. Les règles de layout (.app-content, .kpi-grid,
+ * .toolbar) sont dans src/styles.css pour rester globales. */
+:host {
+  display: block;
+}

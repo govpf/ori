@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Direction du Patrimoine - Polynésie française</title>
+    <meta
+      name="description"
+      content="Site institutionnel de la Direction du Patrimoine, illustrant l'usage du design system Ori en HTML statique sans framework JavaScript."
+    />
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a href="#main" class="visually-hidden-focusable">Aller au contenu principal</a>
+
+    <!--
+      Bandeau d'actualité : utilise .ori-notification du DS pour rester
+      cohérent avec les notifications de la démo portail.
+    -->
+    <div class="ori-notification ori-notification--info top-banner" role="status">
+      <div class="ori-notification__content">
+        <strong>Avis :</strong> consultation publique sur le plan de sauvegarde du reo tahiti
+        ouverte jusqu'au 30 juin.
+        <a href="#actions" class="ori-link" style="margin-left: 0.5rem">Participer →</a>
+      </div>
+    </div>
+
+    <header class="page-header">
+      <div class="page-header__inner">
+        <a href="#" class="ori-logo">
+          <img
+            src="./logo-pf.svg"
+            alt=""
+            class="ori-logo__crest"
+            aria-hidden="true"
+            width="40"
+            height="40"
+          />
+          <span class="ori-logo__text">
+            <span class="ori-logo__title">Polynésie française</span>
+            <span class="ori-logo__subtitle">Direction du Patrimoine</span>
+          </span>
+        </a>
+        <nav aria-label="Navigation principale">
+          <ul class="page-nav">
+            <li><a class="ori-link ori-link--quiet" href="#missions">Missions</a></li>
+            <li><a class="ori-link ori-link--quiet" href="#chiffres">Chiffres clés</a></li>
+            <li><a class="ori-link ori-link--quiet" href="#actualites">Actualités</a></li>
+            <li><a class="ori-link ori-link--quiet" href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="page-header__actions">
+          <a href="#contact" class="ori-button ori-button--secondary ori-button--sm">Nous écrire</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero plein cadre avec motif polynésien en fond (Rumia) -->
+      <section class="hero" aria-label="Présentation">
+        <div class="hero__inner">
+          <div class="hero__content">
+            <span class="ori-tag ori-tag--info">Direction administrative</span>
+            <h1 class="hero__title">
+              Préserver et faire vivre le <em>patrimoine polynésien</em>
+            </h1>
+            <p class="hero__subtitle">
+              La Direction du Patrimoine recense, protège et met en valeur les biens culturels,
+              naturels et immatériels du fenua. Elle accompagne particuliers, communes et
+              associations dans leurs démarches de conservation et de valorisation.
+            </p>
+            <div class="hero__actions">
+              <a href="#missions" class="ori-button ori-button--primary"
+                >Découvrir nos missions</a
+              >
+              <a href="#contact" class="ori-button ori-button--ghost">Nous contacter</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Strip partenaires : confiance institutionnelle -->
+      <section class="trust-strip" aria-label="Partenaires institutionnels">
+        <div class="trust-strip__inner">
+          <p class="trust-strip__heading">En partenariat avec</p>
+          <ul class="trust-strip__list">
+            <li><span class="ori-tag">UNESCO</span></li>
+            <li><span class="ori-tag">Ministère de la Culture</span></li>
+            <li><span class="ori-tag">Université de la Polynésie</span></li>
+            <li><span class="ori-tag">Communes des 5 archipels</span></li>
+            <li><span class="ori-tag">CNRS</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Chiffres clés -->
+      <section id="chiffres" class="section section--muted">
+        <div class="section__inner">
+          <h2 class="section__title">Chiffres clés 2026</h2>
+          <p class="section__lead">
+            Une activité au service du fenua et de la transmission de son héritage.
+          </p>
+          <div class="stats-grid">
+            <div class="ori-card">
+              <div class="ori-card__body">
+                <div class="ori-statistic">
+                  <span class="ori-statistic__label">Sites classés</span>
+                  <span class="ori-statistic__value">412</span>
+                  <span class="ori-statistic__hint">+ 18 cette année</span>
+                </div>
+              </div>
+            </div>
+            <div class="ori-card">
+              <div class="ori-card__body">
+                <div class="ori-statistic">
+                  <span class="ori-statistic__label">Demandes traitées</span>
+                  <span class="ori-statistic__value">1 247</span>
+                  <span class="ori-statistic__hint">98 % sous 30 jours</span>
+                </div>
+              </div>
+            </div>
+            <div class="ori-card">
+              <div class="ori-card__body">
+                <div class="ori-statistic">
+                  <span class="ori-statistic__label">Communes accompagnées</span>
+                  <span class="ori-statistic__value">48</span>
+                  <span class="ori-statistic__hint">Toutes les îles couvertes</span>
+                </div>
+              </div>
+            </div>
+            <div class="ori-card">
+              <div class="ori-card__body">
+                <div class="ori-statistic">
+                  <span class="ori-statistic__label">Subventions versées</span>
+                  <span class="ori-statistic__value">382 M F CFP</span>
+                  <span class="ori-statistic__hint">Restauration & valorisation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Actualités récentes -->
+      <section id="actualites" class="section">
+        <div class="section__inner">
+          <div class="section__heading-row">
+            <div>
+              <h2 class="section__title">Actualités récentes</h2>
+              <p class="section__lead">Les chantiers du moment, île par île.</p>
+            </div>
+            <a href="#" class="ori-link">Voir toutes les actualités →</a>
+          </div>
+          <div class="features-grid">
+            <article class="ori-card">
+              <div class="ori-card__body">
+                <span class="ori-tag ori-tag--success">En cours</span>
+                <h3 class="ori-card__title">Marae Taputapuātea : phase 2</h3>
+                <p class="ori-card__subtitle">Raiatea · 15 avril 2026</p>
+                <p>
+                  Co-pilotage avec l'UNESCO de la deuxième phase du chantier de conservation du
+                  site classé. Achèvement prévu fin 2027.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Lire la suite →</a>
+              </div>
+            </article>
+
+            <article class="ori-card">
+              <div class="ori-card__body">
+                <span class="ori-tag ori-tag--info">Lancement</span>
+                <h3 class="ori-card__title">80 000 photographies en ligne</h3>
+                <p class="ori-card__subtitle">Tahiti · 02 avril 2026</p>
+                <p>
+                  Mise en ligne progressive des collections de la Direction. Accès libre prévu sur
+                  le portail du patrimoine fin 2026.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Lire la suite →</a>
+              </div>
+            </article>
+
+            <article class="ori-card">
+              <div class="ori-card__body">
+                <span class="ori-tag ori-tag--warning">Consultation publique</span>
+                <h3 class="ori-card__title">Plan de sauvegarde du reo tahiti</h3>
+                <p class="ori-card__subtitle">Toutes les îles · 28 mars 2026</p>
+                <p>
+                  Élaboration concertée d'un plan décennal de revitalisation linguistique.
+                  Contributions ouvertes jusqu'au 30 juin.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Participer →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Missions -->
+      <section id="missions" class="section section--muted">
+        <div class="section__inner">
+          <h2 class="section__title">Nos missions</h2>
+          <p class="section__lead">
+            Quatre axes structurent notre action quotidienne, du repérage à la transmission.
+          </p>
+          <div class="features-grid">
+            <article class="ori-card">
+              <div class="ori-card__header">
+                <h3 class="ori-card__title">Inventaire et classement</h3>
+              </div>
+              <div class="ori-card__body">
+                <p>
+                  Recensement scientifique des biens culturels et naturels remarquables. Procédures
+                  de classement et inscription au registre du patrimoine polynésien.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Voir le registre →</a>
+              </div>
+            </article>
+
+            <article class="ori-card">
+              <div class="ori-card__header">
+                <h3 class="ori-card__title">Conservation et restauration</h3>
+              </div>
+              <div class="ori-card__body">
+                <p>
+                  Maîtrise d'œuvre publique, expertise technique, suivi de chantier sur les marae,
+                  bâtiments historiques et œuvres mobilières.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Demander un avis →</a>
+              </div>
+            </article>
+
+            <article class="ori-card">
+              <div class="ori-card__header">
+                <h3 class="ori-card__title">Médiation culturelle</h3>
+              </div>
+              <div class="ori-card__body">
+                <p>
+                  Accompagnement des communes, associations et écoles. Conception d'expositions,
+                  parcours pédagogiques et publications grand public.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Voir nos ressources →</a>
+              </div>
+            </article>
+
+            <article class="ori-card">
+              <div class="ori-card__header">
+                <h3 class="ori-card__title">Patrimoine immatériel</h3>
+              </div>
+              <div class="ori-card__body">
+                <p>
+                  Sauvegarde des langues, savoir-faire et pratiques rituelles polynésiennes.
+                  Coordination avec les détenteurs de tradition orale.
+                </p>
+              </div>
+              <div class="ori-card__footer">
+                <a href="#" class="ori-link">Programme en cours →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Témoignage -->
+      <section id="actions" class="section section--testimonial">
+        <div class="section__inner section__inner--narrow">
+          <figure class="testimonial">
+            <blockquote class="testimonial__quote">
+              « L'accompagnement de la Direction nous a permis de mener à bien un projet
+              d'envergure que nous pensions hors de portée pour une commune des Tuamotu. »
+            </blockquote>
+            <figcaption class="testimonial__author">
+              <strong>Tehei Tuamotu</strong>
+              <span>Maire-adjoint, commune de Rangiroa</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- CTA contact -->
+      <section id="contact" class="section section--cta">
+        <div class="section__inner section__inner--narrow">
+          <h2 class="section__title">Une question, un projet ?</h2>
+          <p>
+            Nos équipes accompagnent chaque demande, qu'elle vienne d'une commune, d'une
+            association ou d'un particulier. Délai de réponse moyen : 8 jours ouvrés.
+          </p>
+          <div class="hero__actions">
+            <a
+              href="mailto:patrimoine@administration.gov.pf"
+              class="ori-button ori-button--primary"
+              >Écrire à l'équipe</a
+            >
+            <a href="tel:+68940461212" class="ori-button ori-button--ghost">+689 40 46 12 12</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <div class="page-footer__inner">
+        <div class="page-footer__brand">
+          <span class="ori-logo">
+            <img
+              src="./logo-pf.svg"
+              alt=""
+              class="ori-logo__crest"
+              aria-hidden="true"
+              width="32"
+              height="32"
+            />
+            <span class="ori-logo__text">
+              <span class="ori-logo__title">Polynésie française</span>
+              <span class="ori-logo__subtitle">Direction du Patrimoine</span>
+            </span>
+          </span>
+          <p class="page-footer__address">
+            Ministère de la Culture · BP 4593, 98713 Papeete · Tahiti
+          </p>
+        </div>
+        <nav aria-label="Liens utiles">
+          <h2 class="page-footer__heading">Liens utiles</h2>
+          <ul class="page-footer__links">
+            <li><a class="ori-link ori-link--quiet" href="#actualites">Actualités</a></li>
+            <li><a class="ori-link ori-link--quiet" href="#missions">Nos missions</a></li>
+            <li>
+              <a
+                class="ori-link ori-link--quiet"
+                href="mailto:marches.publics@administration.gov.pf"
+                >Marchés publics</a
+              >
+            </li>
+            <li>
+              <a class="ori-link ori-link--quiet" href="./recrutement.html">Recrutement</a>
+            </li>
+          </ul>
+        </nav>
+        <nav aria-label="Mentions légales">
+          <h2 class="page-footer__heading">Informations</h2>
+          <ul class="page-footer__links">
+            <li><a class="ori-link ori-link--quiet" href="./legal.html#mentions">Mentions légales</a></li>
+            <li>
+              <a class="ori-link ori-link--quiet" href="./legal.html#accessibilite"
+                >Accessibilité</a
+              >
+            </li>
+            <li>
+              <a class="ori-link ori-link--quiet" href="./legal.html#donnees"
+                >Données personnelles</a
+              >
+            </li>
+            <li><a class="ori-link ori-link--quiet" href="./legal.html#plan">Plan du site</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="page-footer__copyright">
+        <p>© 2026 Polynésie française · Site exemple consommant le design system Ori en HTML pur.</p>
+      </div>
+    </footer>
+  </body>
+</html>

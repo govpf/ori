@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connexion · Polynésie française</title>
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./auth.css" />
+  </head>
+  <body>
+    <div class="back-bar"><a href="./index.html">← Retour à l'index</a></div>
+
+    <div class="pf-auth-page">
+      <div class="ori-card ori-card--elevated pf-auth-card">
+        <div class="ori-card__body pf-auth-body">
+          <div class="pf-auth-brand">
+            <span class="brand-logo">
+              <img src="./logo-pf.svg" alt="" aria-hidden="true" width="40" height="40" />
+              <span class="brand-logo__text">
+                <span class="brand-logo__title">Polynésie française</span>
+                <span class="brand-logo__subtitle">Démarches en ligne</span>
+              </span>
+            </span>
+          </div>
+
+          <h1 class="pf-auth-title">Connexion</h1>
+
+          <form class="pf-auth-form" method="post">
+            <div class="ori-field">
+              <label for="username" class="ori-field__label ori-field__label--required"
+                >Identifiant</label
+              >
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autocomplete="username"
+                required
+                class="ori-input"
+              />
+            </div>
+            <div class="pf-auth-password-block">
+              <div class="ori-field">
+                <label for="password" class="ori-field__label ori-field__label--required"
+                  >Mot de passe</label
+                >
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  class="ori-input"
+                />
+              </div>
+              <a href="./reset-password.html" class="ori-link ori-link--quiet pf-auth-forgot"
+                >Mot de passe oublié ?</a
+              >
+            </div>
+            <button type="submit" class="ori-button ori-button--primary ori-button--block">
+              Se connecter
+            </button>
+          </form>
+
+          <p class="pf-auth-register">
+            Pas encore de compte ? <a href="./register.html" class="ori-link">Créer un compte</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

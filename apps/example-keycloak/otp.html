@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Code à usage unique · Polynésie française</title>
+    <link rel="stylesheet" href="./ori.min.css" />
+    <link rel="stylesheet" href="./auth.css" />
+  </head>
+  <body>
+    <div class="back-bar"><a href="./index.html">← Retour à l'index</a></div>
+
+    <div class="pf-auth-page">
+      <div class="ori-card ori-card--elevated pf-auth-card">
+        <div class="ori-card__body pf-auth-body">
+          <div class="pf-auth-brand">
+            <span class="brand-logo">
+              <img src="./logo-pf.svg" alt="" aria-hidden="true" width="40" height="40" />
+              <span class="brand-logo__text">
+                <span class="brand-logo__title">Polynésie française</span>
+                <span class="brand-logo__subtitle">Démarches en ligne</span>
+              </span>
+            </span>
+          </div>
+
+          <h1 class="pf-auth-title">Code à usage unique</h1>
+
+          <p style="margin: 0; text-align: center; color: var(--color-text-secondary); font-size: 0.875rem;">
+            Un code à 6 chiffres a été envoyé sur votre téléphone. Saisissez-le ci-dessous.
+          </p>
+
+          <form class="pf-auth-form" method="post">
+            <div class="ori-field">
+              <label for="otp" class="ori-field__label ori-field__label--required"
+                >Code à 6 chiffres</label
+              >
+              <input
+                id="otp"
+                name="otp"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]{6}"
+                autocomplete="one-time-code"
+                maxlength="6"
+                required
+                class="ori-input"
+                style="letter-spacing: 0.5rem; text-align: center; font-size: 1.25rem;"
+              />
+              <span class="ori-field__hint">Le code est valable 5 minutes.</span>
+            </div>
+            <button type="submit" class="ori-button ori-button--primary ori-button--block">
+              Valider
+            </button>
+          </form>
+
+          <p class="pf-auth-register">
+            <a href="#" class="ori-link">Renvoyer un code</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
