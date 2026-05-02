@@ -42,7 +42,7 @@ const hasToc = headings.some((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <BaseLayout title={title} description={description} current={headerCurrent ?? 'components'}>
-  <Sidebar current={current} />
+  <Sidebar current={current} headerCurrent={headerCurrent ?? 'components'} />
   <article class="site-content">
     <slot />
   </article>

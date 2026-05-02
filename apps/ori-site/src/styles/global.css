@@ -10,6 +10,13 @@
 
 /* ─── Layout du site ─────────────────────────────────────────────────── */
 
+html,
+body {
+  margin: 0;
+  background-color: var(--color-surface-base);
+  color: var(--color-text-primary);
+}
+
 .site-shell {
   min-height: 100vh;
   display: flex;
@@ -85,6 +92,163 @@
   align-self: start;
   max-height: calc(100vh - 6rem);
   overflow-y: auto;
+}
+
+/* ─── Mobile : burger + drawer + grille mono-colonne ─────────────────────
+   Sur < lg (992px) : la TOC est masquée pour donner toute la place au
+   contenu. La sidebar reste visible.
+   Sur < md (768px) : la sidebar bascule en drawer overlay piloté par le
+   burger du header. Le contenu prend toute la largeur. */
+.site-burger {
+  display: none;
+}
+.site-scrim {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .site-toc {
+    display: none;
+  }
+  .site-main--doc:has(.site-toc) {
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .site-header__inner {
+    gap: 0.75rem;
+    padding-inline: 1rem;
+    justify-content: flex-start;
+  }
+  /* Sur mobile, on masque la nav principale et les actions du header.
+     Les liens correspondants sont relayés en haut du drawer (cf. la
+     section .site-aside__top dans Sidebar.astro). */
+  .site-header__inner > .ori-header__nav,
+  .site-header__inner > .ori-header__actions {
+    display: none;
+  }
+  .site-burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md, 0.375rem);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+  .site-burger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-brand-primary-subtle);
+  }
+  .site-burger svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .site-main--doc {
+    display: block;
+    padding: 1rem 1rem 3rem;
+  }
+
+  /* Sidebar en drawer overlay */
+  .site-aside {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 30;
+    width: min(85%, 20rem);
+    max-width: 100vw;
+    overflow-y: auto;
+    background: var(--color-surface-base);
+    border-inline-end: 1px solid var(--color-border-subtle);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    padding: 1rem 1rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  body[data-site-drawer='open'] .site-aside {
+    transform: translateX(0);
+  }
+  body[data-site-drawer='open'] .site-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  /* Empêche le scroll du body quand le drawer est ouvert */
+  body[data-site-drawer='open'] {
+    overflow: hidden;
+  }
+
+  /* Le contenu doc ne doit jamais déborder horizontalement sous la
+     sidebar fermée. */
+  .site-content {
+    max-width: 100%;
+  }
+}
+
+/* ─── Top du drawer mobile : nav principale dupliquée ────────────────────
+   Sur mobile, le burger ouvre le drawer qui doit contenir la fois la
+   navigation principale (Accueil / Composants / Fondations / Exemples)
+   et la sidebar de doc. .site-aside__top n'est rendu que sur les pages
+   variant=doc (cf. Sidebar.astro). On le masque sur desktop pour ne pas
+   dupliquer la nav du header. */
+.site-aside__top {
+  display: none;
+}
+.site-aside__top-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.site-aside__top-link {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-md, 0.375rem);
+}
+.site-aside__top-link:hover {
+  background-color: var(--color-surface-muted);
+}
+.site-aside__top-link[aria-current='page'] {
+  background-color: var(--color-brand-primary-subtle);
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}
+.site-aside__top-divider {
+  margin: 0 0 1rem;
+  border: 0;
+  border-top: 1px solid var(--color-border-subtle);
+}
+.site-aside__top-external {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-inline-start: auto;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 767.98px) {
+  .site-aside__top {
+    display: block;
+  }
 }
 
 .site-main--landing {
@@ -293,10 +457,14 @@
 
 /* Tableaux markdown alignés sur le visuel .ori-table.
    Le markdown ne peut pas porter de classe - on style donc les éléments
-   nus dans .site-content avec les mêmes choix que le composant Ori. */
+   nus dans .site-content avec les mêmes choix que le composant Ori.
+   `display: block` + `overflow-x: auto` permettent au tableau de scroller
+   horizontalement si ses colonnes débordent du viewport mobile. */
 .site-content table {
+  display: block;
   width: 100%;
   margin: 1rem 0 1.75rem;
+  overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.875rem;
   color: var(--color-text-primary);

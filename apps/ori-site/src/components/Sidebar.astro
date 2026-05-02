@@ -1,10 +1,20 @@
 ---
 interface Props {
   current: string;
+  /** Section principale active (home/components/tokens/examples). Sert
+   *  à mettre l'item actif dans la nav top-mobile du drawer. */
+  headerCurrent?: string;
 }
 
-const { current } = Astro.props;
+const { current, headerCurrent } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+const topNavItems: { label: string; section: string; href: string }[] = [
+  { label: 'Accueil', section: 'home', href: base },
+  { label: 'Composants', section: 'components', href: `${base}composants/` },
+  { label: 'Fondations', section: 'tokens', href: `${base}fondations/palette/` },
+  { label: 'Exemples', section: 'examples', href: `${base}exemples/` },
+];
 
 interface NavSection {
   title: string;
@@ -129,7 +139,34 @@ const sections: NavSection[] = [
 ];
 ---
 
-<aside class="ori-side-menu site-aside" aria-label="Navigation de la documentation">
+<aside id="site-drawer" class="ori-side-menu site-aside" aria-label="Navigation de la documentation">
+  <nav class="site-aside__top" aria-label="Sections principales (mobile)">
+    <ul class="site-aside__top-list" role="list">
+      {topNavItems.map((item) => (
+        <li>
+          <a
+            class="site-aside__top-link"
+            href={item.href}
+            aria-current={headerCurrent === item.section ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a
+          class="site-aside__top-link"
+          href="https://github.com/govpf/ori"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub
+          <span class="site-aside__top-external" aria-hidden="true">↗</span>
+        </a>
+      </li>
+    </ul>
+    <hr class="site-aside__top-divider" />
+  </nav>
   {
     sections.map((section) => (
       <div class="ori-side-menu__section">
