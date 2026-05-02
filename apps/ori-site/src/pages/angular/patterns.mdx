@@ -124,6 +124,133 @@ Muter un objet en place (`this.user.name = 'X'`) puis le passer à
 un composant Ori ne déclenche pas le rendu. Solution : remplacer la
 référence (`this.user = { ...this.user, name: 'X' }`).
 
+## Tableau avec rendu personnalisé par colonne
+
+`<ori-table>` accepte un `cellTemplate` par colonne pour rendre une
+cellule autrement que via `{{ row[col.key] }}`. Le piège : sous
+`strictTemplates`, le contexte du template doit être typé exactement
+`{ $implicit: TRow; index: number }`, et `row` côté template est
+typé `any`, ce qui force à passer par des helpers typés.
+
+```ts
+import {
+  AfterViewInit,
+  Component,
+  TemplateRef,
+  ViewChild,
+  signal,
+} from '@angular/core';
+import {
+  OriTableComponent,
+  OriTagComponent,
+  type OriTableColumn,
+} from '@govpf/ori-angular';
+
+interface Dossier {
+  id: string;
+  numero: string;
+  statut: 'a_instruire' | 'en_cours' | 'valide' | 'rejete';
+}
+
+const VARIANT: Record<Dossier['statut'], 'info' | 'warning' | 'success' | 'danger'> = {
+  a_instruire: 'info',
+  en_cours: 'warning',
+  valide: 'success',
+  rejete: 'danger',
+};
+
+@Component({
+  selector: 'app-dossiers-table',
+  standalone: true,
+  imports: [OriTableComponent, OriTagComponent],
+  template: `
+    <ori-table
+      [columns]="columns()"
+      [rows]="rows"
+      [rowKey]="rowKey"
+    ></ori-table>
+
+    <ng-template #statutTpl let-row>
+      <ori-tag [variant]="variant(row)">{{ row.statut }}</ori-tag>
+    </ng-template>
+  `,
+})
+export class DossiersTableComponent implements AfterViewInit {
+  rows: Dossier[] = [/* ... */];
+  rowKey = (r: Dossier) => r.id;
+
+  // Typage exact requis par OriTableColumn.cellTemplate.
+  @ViewChild('statutTpl', { static: true })
+  statutTpl!: TemplateRef<{ $implicit: Dossier; index: number }>;
+
+  columns = signal<OriTableColumn<Dossier>[]>([]);
+
+  // Helper typé : indispensable, parce que `row` côté template est `any`
+  // et indexer un Record<X, Y> avec `any` est refusé par strictTemplates.
+  variant(row: Dossier) {
+    return VARIANT[row.statut];
+  }
+
+  ngAfterViewInit() {
+    this.columns.set([
+      { key: 'numero', label: 'Numéro', sortable: true },
+      { key: 'statut', label: 'Statut', cellTemplate: this.statutTpl },
+    ]);
+  }
+}
+```
+
+Trois choses qui surprennent la première fois :
+
+1. Le `cellTemplate` est défini côté composant via `@ViewChild`, pas
+   côté template du parent. C'est le pattern `TemplateRef` Angular
+   standard.
+2. Le typage `TemplateRef<{ $implicit: Dossier; index: number }>` doit
+   matcher exactement le `OriTableColumn.cellTemplate` ; un
+   `TemplateRef<unknown>` est refusé.
+3. `let-row` n'hérite pas du typage du `TemplateRef` ; tout accès
+   indexé sur `row` doit passer par une méthode typée.
+
+## Pièges strict-templates récurrents
+
+### Inputs booléens
+
+```html
+<!-- Refusé : passe la string "" au lieu de true -->
+<ori-notification dismissible>
+
+<!-- Bon -->
+<ori-notification [dismissible]="true">
+```
+
+S'applique à tous les inputs booléens : `dismissible`, `iconOnlyButton`,
+`striped`, `loading`, `hideLabel`, `removable`, etc.
+
+### Sélection multiple sur `<ori-table>`
+
+`selectable` est une string union `'none' | 'single' | 'multiple'`,
+pas un booléen. À passer comme attribut littéral ou string-bound :
+
+```html
+<ori-table selectable="multiple" [rowKey]="rowKey" ...>
+```
+
+`rowKey` est obligatoire dès que `selectable !== 'none'`.
+
+### `(select)` du DropdownMenu : l'item peut être un séparateur
+
+```ts
+onMenuAction(item: OriDropdownMenuItem) {
+  // `separator: true` ne déclenche pas (select), mais `id` peut être
+  // undefined sur des items sans handler explicite. Toujours brancher
+  // sur item.id avec une garde.
+  switch (item.id) {
+    case 'voir':    /* ... */ break;
+    case 'editer':  /* ... */ break;
+  }
+}
+```
+
 ## Anti-patterns
 
 - ❌ Surcharger une classe `ori-*` dans le CSS global pour la modifier.
