@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-example-landing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Exemple : landing page institutionnelle d'un service administratif consommant @govpf/ori-css en HTML pur",
   "scripts": {

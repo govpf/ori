@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-demo-portail",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Démonstration visuelle d'un portail usager type, consommant @govpf/ori-react de bout en bout (front uniquement, données mockées).",
   "type": "module",
