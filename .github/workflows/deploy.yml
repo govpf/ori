@@ -8,6 +8,10 @@ name: Deploy to GitHub Pages
 #   /                       -> site Astro (apps/ori-site/)
 #   /storybook/react/       -> Storybook React (test interactif)
 #   /storybook/angular/     -> Storybook Angular (test interactif)
+#   /demo/                  -> demo-portail (parcours usager bout en bout)
+#   /exemples/landing/      -> example-landing (HTML pur + ori-css)
+#   /exemples/keycloak/     -> example-keycloak (mires d'authentification)
+#   /exemples/agent/        -> example-agent (back-office Angular)
 
 on:
   push:
@@ -62,15 +66,29 @@ jobs:
       - name: Build demo-portail
         run: pnpm --filter @govpf/ori-demo-portail build
 
+      - name: Build example-landing
+        run: pnpm --filter @govpf/ori-example-landing build
+
+      - name: Build example-keycloak
+        run: pnpm --filter @govpf/ori-example-keycloak build
+
+      - name: Build example-agent
+        run: pnpm --filter @govpf/ori-example-agent build
+
       - name: Compose dist composé
         run: |
           set -euo pipefail
           mkdir -p dist
           cp -r apps/ori-site/dist/. dist/
           mkdir -p dist/storybook/react dist/storybook/angular dist/demo
+          mkdir -p dist/exemples/landing dist/exemples/keycloak dist/exemples/agent
           cp -r apps/storybook-react/storybook-static/. dist/storybook/react/
           cp -r apps/storybook-angular/storybook-static/. dist/storybook/angular/
           cp -r apps/demo-portail/dist/. dist/demo/
+          cp -r apps/example-landing/dist/. dist/exemples/landing/
+          cp -r apps/example-keycloak/dist/. dist/exemples/keycloak/
+          # Angular CLI (application builder) produit dist/<projet>/browser/
+          cp -r apps/example-agent/dist/example-agent/browser/. dist/exemples/agent/
           # .nojekyll obligatoire pour servir _astro/, _next/, etc.
           touch dist/.nojekyll
           # CNAME pour le custom domain (Astro le copie déjà depuis public/
@@ -79,7 +97,7 @@ jobs:
           echo "=== dist content ==="
           ls -la dist
           echo "=== sizes ==="
-          du -sh dist dist/storybook/react dist/storybook/angular dist/demo dist/_astro 2>/dev/null || true
+          du -sh dist dist/storybook/react dist/storybook/angular dist/demo dist/exemples 2>/dev/null || true
 
       - uses: actions/configure-pages@v6
 

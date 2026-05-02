@@ -8,7 +8,7 @@
     "predev": "pnpm copy-css",
     "dev": "npx http-server . -p 4174 -c-1",
     "prebuild": "pnpm copy-css",
-    "build": "echo 'page HTML statique - copy-css fait le job'"
+    "build": "node build.mjs"
   },
   "dependencies": {
     "@govpf/ori-css": "workspace:*"
