@@ -12,12 +12,13 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "assets"
   ],
   "scripts": {
-    "build": "tailwindcss -i ./src/ori.css -o ./dist/ori.css && tailwindcss -i ./src/ori.css -o ./dist/ori.min.css --minify && cp ../tokens/build/css/tokens.css ./dist/tokens.css",
+    "build": "tailwindcss -i ./src/ori.css -o ./dist/ori.css && tailwindcss -i ./src/ori.css -o ./dist/ori.min.css --minify && cp ../tokens/build/css/tokens.css ./dist/tokens.css && mkdir -p assets/fonts && cp ../tokens/assets/fonts/*.ttf assets/fonts/",
     "watch": "tailwindcss -i ./src/ori.css -o ./dist/ori.css --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist assets"
   },
   "dependencies": {
     "@govpf/ori-tailwind-preset": "workspace:*",
