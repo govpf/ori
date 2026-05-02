@@ -40,6 +40,38 @@ const preview: Preview = {
     },
     backgrounds: { disable: true },
     layout: 'centered',
+    // Viewports calés sur les BreakpointSm/Md/Lg/Xl du DS (500/768/992/1200)
+    // plus 360 et 414 pour cadrer les usages mobiles réels. Synchronisé avec
+    // le preview du Storybook React.
+    viewport: {
+      viewports: {
+        mobile360: {
+          name: 'Mobile S (360x640)',
+          styles: { width: '360px', height: '640px' },
+          type: 'mobile',
+        },
+        mobile414: {
+          name: 'Mobile L (414x896)',
+          styles: { width: '414px', height: '896px' },
+          type: 'mobile',
+        },
+        tablet768: {
+          name: 'Tablet (768x1024)',
+          styles: { width: '768px', height: '1024px' },
+          type: 'tablet',
+        },
+        desktop1280: {
+          name: 'Desktop (1280x800)',
+          styles: { width: '1280px', height: '800px' },
+          type: 'desktop',
+        },
+        desktop1440: {
+          name: 'Desktop L (1440x900)',
+          styles: { width: '1440px', height: '900px' },
+          type: 'desktop',
+        },
+      },
+    },
     options: {
       // Ordre de la sidebar. Doit être inline (Storybook 8 ne suit pas les
       // imports dans cette config). Synchronisé avec le preview React.

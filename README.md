@@ -26,10 +26,10 @@ ori/
     ├── ori-site/            # Site documentaire public (Astro)
     ├── storybook-react/     # Storybook test interactif React
     ├── storybook-angular/   # Storybook test interactif Angular
-    ├── playground-static/   # Démo HTML pur (intégration GLPI, emails)
-    ├── playground-react/    # Démo Vite + React
-    ├── playground-angular/  # Démo Angular CLI
-    └── demo-portail/        # Démo end-to-end portail usager
+    ├── demo-portail/        # Démo end-to-end portail citoyen (React)
+    ├── example-landing/     # Exemple : landing institutionnelle (HTML pur + ori-css)
+    ├── example-keycloak/    # Exemple : 7 mires d'authentification (HTML pur)
+    └── example-agent/       # Exemple : back-office agent (Angular standalone)
 ```
 
 ### Chaîne de production
@@ -119,6 +119,29 @@ just storybook-angular     # Storybook Angular, http://localhost:6008
 just demo-portail          # Demo portail end-to-end, http://localhost:5174
 just site                  # Site Astro, http://localhost:4321
 ```
+
+Les 3 exemples publics, qui démontrent la consommation de chaque livrable
+en conditions réelles (HTML pur, mires d'authentification, back-office
+Angular) :
+
+```bash
+pnpm example:landing       # Landing institutionnelle, http://localhost:4173
+pnpm example:keycloak      # Mires d'authentification, http://localhost:4174
+pnpm example:agent         # Back-office agent (Angular), http://localhost:5173
+```
+
+Tout en parallèle, deux modes au choix :
+
+```bash
+pnpm dev:all               # Orchestrateur natif : 8 apps + dashboard sur :3000
+pnpm dev:docker            # Conteneur Docker reproductible (premier boot 3-5 min,
+                           # ensuite ~30 s, kill global propre via compose down)
+```
+
+Détail dans [tools/dev-all/README.md](./tools/dev-all/README.md).
+
+Les démos sont aussi exposées publiquement sur le portail :
+<https://ori.gov.pf/exemples/>.
 
 ## Commandes
 
