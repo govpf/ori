@@ -4084,6 +4084,29 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     },
   });
 
+  // ─── Touch targets (issue #94) ──────────────────────────────────────────
+  // Sur appareil tactile (pointer: coarse), on garantit 44x44 CSS pixels
+  // sur les éléments interactifs principaux, conforme WCAG 2.5.5 niveau AAA.
+  // Sur souris/trackpad (pointer: fine), on conserve la densité actuelle pour
+  // ne pas surcharger les interfaces denses (back-office, tableaux). La
+  // variable --size-touch-target est définie par @govpf/ori-tokens (44px),
+  // surchargeable par un consommateur si besoin.
+  addComponents({
+    '@media (pointer: coarse)': {
+      '.ori-button, .ori-input, .ori-select, .ori-tabs__tab': {
+        minBlockSize: 'var(--size-touch-target)',
+      },
+      // Pour les form-rows checkbox / radio / switch, c'est le wrapper
+      // .ori-choice (le <label> cliquable qui contient l'input + le texte) qui
+      // fournit la hit-area, via un padding vertical qui amène la rangée au
+      // minimum tactile. Le visuel 18x18 du checkbox/radio reste compact.
+      '.ori-choice': {
+        minBlockSize: 'var(--size-touch-target)',
+        paddingBlock: theme('spacing.2'),
+      },
+    },
+  });
+
   addBase({
     '@keyframes ori-fade-in': {
       from: { opacity: '0' },

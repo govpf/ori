@@ -72,10 +72,32 @@ partir de `768px`, sans rien défaire sur mobile.
 
 ## Touch targets
 
-La règle WAI-ARIA recommande des cibles tactiles d'au moins **44x44px**.
-Le travail est en cours pour appliquer cette règle systématiquement aux
-composants interactifs. Voir la
-[roadmap mobile](https://github.com/govpf/ori/issues/94) pour le suivi.
+WCAG 2.5.5 niveau AAA recommande des cibles tactiles d'au moins
+**44x44px**. Ori expose le token `--size-touch-target` (valeur 44px) et
+l'applique automatiquement aux composants interactifs principaux
+**en contexte tactile uniquement**, via `@media (pointer: coarse)` :
+
+| Élément | Hit-area en `pointer: coarse` |
+|---------|-------------------------------|
+| `.ori-button` (toutes variantes) | `min-block-size: 44px` |
+| `.ori-input` | idem |
+| `.ori-select` | idem |
+| `.ori-tabs__tab` | idem |
+| `.ori-choice` (wrapper checkbox / radio / switch) | idem, padding vertical pour étendre la rangée cliquable autour du visuel 18x18 |
+
+Sur souris ou trackpad (`pointer: fine`), la densité actuelle est
+conservée pour ne pas surcharger les interfaces denses (back-office,
+tableaux d'instruction).
+
+Pour un composant custom qui a besoin de la même règle :
+
+```css
+@media (pointer: coarse) {
+  .mon-bouton-custom {
+    min-block-size: var(--size-touch-target);
+  }
+}
+```
 
 ## Tester en viewport mobile
 
