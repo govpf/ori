@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-example-agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Exemple Angular : back-office agent administratif (instruction de dossiers). Démontre la consommation de @govpf/ori-angular en conditions réelles : AppShell, Table avec sélection multiple, DropdownMenu, AlertDialog, Notification, SearchBar, Statistic.",
