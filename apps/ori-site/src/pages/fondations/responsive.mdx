@@ -1,0 +1,102 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: "Responsive design"
+current: "responsive"
+headerCurrent: "tokens"
+---
+
+# Responsive design
+
+Ori expose 4 breakpoints alignés Tailwind, repris de PF-UI pour rester
+cohérent avec les apps existantes. Le DS suit une logique mobile-first :
+on écrit le style mobile d'abord, puis on l'enrichit aux paliers
+supérieurs avec `min-width`.
+
+## Breakpoints
+
+Les breakpoints sont publiés dans `@govpf/ori-tokens` et exposés en CSS
+via les variables `--breakpoint-*`, en JavaScript via les exports
+`Breakpoint*`, en Tailwind via les screens du preset.
+
+| Token | Valeur | Cible | Quand l'utiliser |
+|-------|--------|-------|------------------|
+| `--breakpoint-sm` | `500px` | Smartphone XL en paysage, petite tablette | Faire passer une grille de 1 à 2 colonnes |
+| `--breakpoint-md` | `768px` | Tablette en portrait | Bascule sidebar drawer vers persistent, header passe en mode complet |
+| `--breakpoint-lg` | `992px` | Tablette en paysage, petit laptop | Apparition d'une troisième colonne, padding plus généreux |
+| `--breakpoint-xl` | `1200px` | Desktop standard | Largeur max conteneur, affichage tableau riche |
+
+## Règle mobile-first
+
+Toujours écrire le style mobile par défaut, puis enrichir avec
+`min-width`. Ne pas utiliser `max-width` sauf cas justifié (masquage
+d'un élément qui n'a pas de sens en grand écran).
+
+```css
+/* OK : mobile-first */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+@media (min-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* À éviter : desktop-first */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 767px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+Avec Tailwind, les utilitaires sont mobile-first par construction :
+`md:grid-cols-4` applique `grid-template-columns: repeat(4, 1fr)` à
+partir de `768px`, sans rien défaire sur mobile.
+
+## Composants déjà responsive
+
+| Composant | Comportement |
+|-----------|--------------|
+| `AppShell` | Sidebar in-flow desktop, drawer overlay sous 768px piloté par la prop `sidebarOpen`. |
+| `SideMenu` | Variant explicite `persistent` (desktop) ou `drawer` (mobile), pas d'auto-bascule. |
+| `Header` | Layout 3 colonnes (brand, nav, actions) qui wrap en mobile. La nav doit être pilotée par l'app si on veut un burger menu. |
+| `Table` / `DataTable` | Pas d'adaptation native pour l'instant. Sur mobile, prévoir un wrapper avec `overflow-x: auto` ou un layout alternatif (cf. roadmap mobile). |
+
+## Touch targets
+
+La règle WAI-ARIA recommande des cibles tactiles d'au moins **44x44px**.
+Le travail est en cours pour appliquer cette règle systématiquement aux
+composants interactifs. Voir la
+[roadmap mobile](https://github.com/govpf/ori/issues/94) pour le suivi.
+
+## Tester en viewport mobile
+
+Les deux Storybooks (React et Angular) exposent 5 viewports prédéfinis
+dans la barre d'outils :
+
+- **Mobile S (360x640)** : smartphone Android entrée de gamme, plus
+  petit dénominateur commun à viser.
+- **Mobile L (414x896)** : iPhone Pro Max et grands smartphones.
+- **Tablet (768x1024)** : iPad mini.
+- **Desktop (1280x800)** et **Desktop L (1440x900)** : écrans laptop
+  courants.
+
+Pour activer un viewport, cliquer sur l'icône loupe dans la barre
+d'outils Storybook puis choisir un format. La story rend dans une
+iframe à la taille demandée, ce qui permet de valider le comportement
+sans redimensionner manuellement la fenêtre.
+
+## Voir aussi
+
+- [Issue #94 - Mobile maturity P1](https://github.com/govpf/ori/issues/94) :
+  les actions court terme sur la dimension mobile.
+- [Tokens](/tokens/) : la liste complète des variables, dont les
+  `--breakpoint-*`.
