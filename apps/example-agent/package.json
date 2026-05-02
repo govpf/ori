@@ -6,7 +6,7 @@
   "description": "Exemple Angular : back-office agent administratif (instruction de dossiers). Démontre la consommation de @govpf/ori-angular en conditions réelles : AppShell, Table avec sélection multiple, DropdownMenu, AlertDialog, Notification, SearchBar, Statistic.",
   "scripts": {
     "dev": "ng serve --host 0.0.0.0 --port 5173",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "preview": "ng serve --host 0.0.0.0 --port 5173 --configuration production"
   },
   "dependencies": {

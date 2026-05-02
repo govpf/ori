@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const examples = [
+  {
+    title: 'Portail usager (parcours bout en bout)',
+    description:
+      'Démo end-to-end du portail PF : authentification fédérée, page d accueil personnalisée, dépôt et suivi de démarches, espace messages. Pendant usager du back-office agent ci-dessous.',
+    href: `${base}demo/`,
+    badge: 'React + Vite',
+    badgeVariant: 'info',
+    surface: 'Tous les composants Ori React, ChatBot d aide intégré',
+  },
+  {
+    title: 'Landing institutionnelle',
+    description:
+      'Site institutionnel d un service administratif (Direction du Patrimoine) en HTML pur, consommant @govpf/ori-css en drop-in. Hero avec motif polynésien, sections trust strip, chiffres clés, actualités, missions. Inclut une page Mentions légales et une page Recrutement.',
+    href: `${base}exemples/landing/`,
+    badge: 'HTML statique',
+    badgeVariant: 'success',
+    surface: 'ori-card, ori-tag, ori-statistic, ori-link, ori-breadcrumb, ori-button',
+  },
+  {
+    title: 'Mires d authentification Keycloak',
+    description:
+      '7 mires HTML pur servant de référence visuelle pour les équipes qui développent un thème Keycloak (login, register, reset-password, update-password, OTP, session-expired, error). Identité Ori cohérente sur l ensemble du parcours d auth.',
+    href: `${base}exemples/keycloak/`,
+    badge: 'HTML statique',
+    badgeVariant: 'success',
+    surface: 'ori-card--elevated, ori-input, ori-button, ori-alert, ori-link',
+  },
+  {
+    title: 'Back-office agent (instruction de dossiers)',
+    description:
+      'Espace agent administratif construit en Angular 20 standalone, démontrant la consommation de @govpf/ori-angular en conditions réelles : sélection multiple, tri, cellTemplate, dropdown contextuel, dialog de confirmation, notifications, recherche et filtres. Pendant agent du portail usager.',
+    href: `${base}exemples/agent/`,
+    badge: 'Angular 20 standalone',
+    badgeVariant: 'warning',
+    surface:
+      'ori-app-shell, ori-table (sélection + tri + cellTemplate), ori-dropdown-menu, ori-alert-dialog, ori-notification, ori-search-bar, ori-statistic',
+  },
+];
+
+const tools = [
+  {
+    title: 'Storybook React',
+    description:
+      'Catalogue interactif de tous les composants @govpf/ori-react, avec variantes, contrôles et documentation autogénérée depuis les types TypeScript.',
+    href: `${base}storybook/react/`,
+  },
+  {
+    title: 'Storybook Angular',
+    description:
+      'Catalogue interactif de tous les composants @govpf/ori-angular, miroir parité du Storybook React.',
+    href: `${base}storybook/angular/`,
+  },
+];
+---
+
+<BaseLayout
+  title="Exemples et démos"
+  current="examples"
+  description="Démos exécutables d Ori : portail usager, landing institutionnelle, mires Keycloak, back-office agent Angular."
+  variant="landing"
+>
+  <section class="page-intro">
+    <div class="page-intro__inner">
+      <p class="page-intro__eyebrow">Exemples et démos</p>
+      <h1 class="page-intro__title">Voir Ori en action</h1>
+      <p class="page-intro__lead">
+        Quatre démos exécutables couvrant les principaux cas d usage des
+        services administratifs PF : portail usager, site institutionnel,
+        authentification fédérée, back-office agent. Toutes consomment les
+        packages publiés <code>@govpf/ori-*</code> sans patch.
+      </p>
+    </div>
+  </section>
+
+  <section class="examples-section">
+    <div class="examples-section__inner">
+      <ul class="examples-grid" role="list">
+        {
+          examples.map((ex) => (
+            <li>
+              <article class="ori-card example-card">
+                <div class="ori-card__body">
+                  <span class={`ori-tag ori-tag--${ex.badgeVariant}`}>{ex.badge}</span>
+                  <h2 class="ori-card__title">{ex.title}</h2>
+                  <p>{ex.description}</p>
+                  <p class="example-card__surface">
+                    <strong>Composants démontrés :</strong> {ex.surface}
+                  </p>
+                </div>
+                <div class="ori-card__footer">
+                  <a class="ori-button ori-button--primary" href={ex.href}>
+                    Ouvrir la démo →
+                  </a>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="examples-section__sub">Outils interactifs</h2>
+      <ul class="examples-grid examples-grid--tools" role="list">
+        {
+          tools.map((tool) => (
+            <li>
+              <article class="ori-card example-card">
+                <div class="ori-card__body">
+                  <h3 class="ori-card__title">{tool.title}</h3>
+                  <p>{tool.description}</p>
+                </div>
+                <div class="ori-card__footer">
+                  <a class="ori-link" href={tool.href}>
+                    Ouvrir →
+                  </a>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-intro {
+    background: var(--color-brand-primary-subtle);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 4rem 1.5rem 3rem;
+  }
+  .page-intro__inner {
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+  .page-intro__eyebrow {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-primary);
+    font-weight: 600;
+  }
+  .page-intro__title {
+    margin: 0 0 1rem 0;
+    font-size: clamp(1.875rem, 1rem + 3vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    color: var(--color-text-primary);
+  }
+  .page-intro__lead {
+    margin: 0;
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .examples-section {
+    padding: 3rem 1.5rem 4rem;
+  }
+  .examples-section__inner {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  .examples-section__sub {
+    margin: 3rem 0 1.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .examples-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+  .examples-grid--tools {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .example-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .example-card .ori-card__body {
+    flex: 1 1 auto;
+  }
+  .example-card__surface {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  .example-card__surface strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+</style>
