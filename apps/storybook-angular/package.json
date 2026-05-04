@@ -16,7 +16,7 @@
     "@angular/compiler": "20.3.18",
     "@angular/core": "20.3.18",
     "@angular/forms": "20.3.18",
-    "@angular/platform-browser": "20.3.18",
+    "@angular/platform-browser": "21.2.11",
     "@angular/platform-browser-dynamic": "20.3.18",
     "@govpf/ori-angular": "workspace:*",
     "@govpf/ori-tailwind-preset": "workspace:*",
