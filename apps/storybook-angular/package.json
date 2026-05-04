@@ -30,7 +30,7 @@
     "@angular-devkit/build-angular": "20.3.19",
     "@angular/cli": "20.3.19",
     "@angular/compiler-cli": "20.3.18",
-    "@storybook/addon-docs": "^8.6.18",
+    "@storybook/addon-docs": "^10.3.6",
     "@storybook/addon-essentials": "^8.6.18",
     "@storybook/addon-themes": "^8.6.18",
     "@storybook/angular": "^8.6.18",
