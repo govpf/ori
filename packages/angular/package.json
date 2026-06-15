@@ -40,7 +40,7 @@
     "@angular/common": "^20.3.18",
     "@angular/compiler": "^20.3.18",
     "@angular/compiler-cli": "^20.3.18",
-    "@angular/core": "^20.3.18",
+    "@angular/core": "^20.3.25",
     "@storybook/angular": "^8.6.18",
     "lucide-angular": "^0.469.0",
     "ng-packagr": "^20.3.2",
