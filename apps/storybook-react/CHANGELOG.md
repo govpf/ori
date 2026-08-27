@@ -1,5 +1,12 @@
 # @govpf/ori-storybook-react
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @govpf/ori-tailwind-preset@0.3.0
+
 ## 0.1.4
 
 ### Patch Changes

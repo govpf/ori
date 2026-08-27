@@ -1,5 +1,12 @@
 # @govpf/ori-site
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @govpf/ori-tailwind-preset@0.3.0
+
 ## 0.0.4
 
 ### Patch Changes
