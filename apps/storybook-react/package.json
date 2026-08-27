@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-storybook-react",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Atelier de développement et documentation interactive Ori",
   "type": "module",

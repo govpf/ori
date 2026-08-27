@@ -1,5 +1,13 @@
 # @govpf/ori-tailwind-preset
 
+## 0.3.0
+
+### Minor Changes
+
+- Ajout de deux classes utilitaires CSS transverses :
+  - `.ori-skip-link` : lien d'évitement clavier conforme WCAG 2.4.1 (Bypass Blocks), visible au focus, positionné avant le contenu principal.
+  - `.ori-demo-banner` / `.ori-demo-banner__link` : bandeau jaune fixe pour signaler une application de démonstration non-prod.
+
 ## 0.2.0
 
 ### Minor Changes
