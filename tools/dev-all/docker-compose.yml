@@ -21,7 +21,7 @@ services:
     container_name: ori-dev
     init: true
     ports:
-      - '3000:3000' # Dashboard
+      - '3001:3000' # Dashboard (3000 occupé par Docker Desktop sur l'hôte)
       - '4173:4173' # Example landing (HTML statique)
       - '4174:4174' # Example mires Keycloak (HTML statique)
       - '4321:4321' # Site Astro

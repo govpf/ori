@@ -10,6 +10,17 @@ Positionnement :
 - **Natif d'abord** : éléments HTML natifs privilégiés systématiquement (`<select>`, `<input type="date">`, etc.) pour garantir l'a11y sans audit à recommencer
 - **Bundle minimal** : adapté aux connexions limitées des archipels éloignés
 - **Multi-framework** : même apparence visuelle garantie sur React, Angular, HTML pur depuis une source unique de tokens
+- **Mobile-first** : breakpoints `sm/md/lg/xl` (500/768/992/1200) exposés en tokens CSS, touch targets 44x44 sur les éléments interactifs en `@media (pointer: coarse)`, composants `MobileTabBar` et `AppShell` (drawer < 768px) dédiés à la navigation mobile
+
+## Catégories de patterns
+
+Ori distingue deux familles selon la cible de l'interface, formalisées dans <https://ori.gov.pf/fondations/categories/> :
+
+- **Interfaces applicatives** (back-offices, formulaires, dashboards) : typographie sobre et dense, layout `AppShell` + `Header` + `SideMenu`, composants riches en interactions (`Table`, `DataTable`, `Form`, `Wizard`, `DropdownMenu`).
+- **Interfaces d'information** (sites institutionnels, landing, mentions légales) : typographie plus généreuse, composants éditoriaux (`Hero`, `FeatureGrid`, `FeatureCard`, `LegalLayout`).
+- **Patterns transverses** : utilisés indistinctement dans les deux familles (`Button`, `Link`, `Card`, `Tag`, `Notification`, `Skeleton`, `Spinner`, `Toast`).
+
+Le choix de la famille en début de projet conditionne quels patterns piocher et évite les contresens (typo marketing impactante sur un dashboard dense, ou layout app-shell sur une page éditoriale).
 
 Versionning : pré-1.0 (cf. [décision C.5](https://ori.gov.pf/storybook/react/?path=/docs/d%C3%A9cisions-d%C3%A9cisions-%C3%A0-prendre--docs)). Patch = backwards-compatible. Minor = breaking changes autorisés. Major (1.0) sortira après stabilisation.
 
@@ -38,10 +49,10 @@ Sources annexes : [code source GitHub](https://github.com/govpf/ori) (sources Re
 
 ## Composants livrés
 
-**54 composants au total** (à ne pas confondre avec les 54 services administratifs PF mentionnés en intro - simple coïncidence numérique). Inventaire snapshot avril 2026, classés en 3 niveaux selon la [décision B.0](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx#b0--classification-des-composants-en-3-niveaux) :
+**55 composants au total** (à ne pas confondre avec les 54 services administratifs PF mentionnés en intro - simple coïncidence numérique). Inventaire snapshot mai 2026, classés en 3 niveaux selon la [décision B.0](https://github.com/govpf/ori/blob/main/packages/docs/src/Decisions-A-Prendre.mdx#b0--classification-des-composants-en-3-niveaux) :
 
 - **Primitives** : 39 composants
-- **Compositions** : 12 composants
+- **Compositions** : 13 composants
 - **Templates** : 3 composants
 
 L'inventaire à jour vit dans le repo et l'index Storybook ([https://ori.gov.pf/storybook/react/index.json](https://ori.gov.pf/storybook/react/index.json)).
@@ -56,7 +67,7 @@ Briques atomiques, API agnostique du domaine, présentes dans tous les DS de ré
 - Navigation : Breadcrumb, Tabs, Steps, Pagination, DropdownMenu, Accordion (6)
 - Affichage : Card, Tag, Avatar, Logo, Highlight, Statistic, Table, Timeline (8)
 
-### Compositions (12)
+### Compositions (13)
 
 Assemblages de primitives, paramétrables mais génériques.
 
@@ -66,7 +77,7 @@ Assemblages de primitives, paramétrables mais génériques.
 - Wizard : workflow multi-étapes
 - DataTable : Table + Pagination + filtre + actions de ligne
 - EmptyState : bloc d'absence de données
-- Header, Footer, MainNavigation, SideMenu, FileUpload, FileCard
+- Header, Footer, MainNavigation, SideMenu, MobileTabBar, FileUpload, FileCard
 
 ### Templates (3)
 
@@ -75,6 +86,13 @@ Orientés cas d'usage administratif spécifique.
 - ErrorPage : page d'erreur 404 / 500 avec brand PF
 - LegalLayout : pages légales (mentions, accessibilité, RGPD, plan du site)
 - AuthButton : bouton fournisseur d'identité (Rumia usagers, GOV Connect agents)
+
+### Utilitaires CSS transverses
+
+Classes utilitaires de l'application consommatrice (HTML pur, React, Angular), pas des composants à part entière.
+
+- `.ori-skip-link` : lien d'évitement clavier conforme WCAG 2.4.1 (« Aller au contenu principal »)
+- `.ori-demo-banner` : bandeau jaune fixe pour signaler une démo non-prod (à utiliser uniquement sur les apps de démonstration)
 
 ## Décisions transverses
 

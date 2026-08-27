@@ -9,6 +9,12 @@ Ori est un design system **multi-framework** (React, Angular, HTML pur) bâti
 autour d'une source unique de design tokens. La même apparence visuelle est
 garantie sur toutes les cibles, quel que soit l'outil consommateur.
 
+Ori distingue deux familles de patterns selon la cible de l'interface :
+**applicative** (back-offices, formulaires, dashboards) et **information**
+(sites institutionnels, landing, mentions légales). Le choix de la famille
+en début de projet conditionne quels composants piocher. Détails et
+inventaire complet sur <https://ori.gov.pf/fondations/categories/>.
+
 ## Architecture
 
 Monorepo pnpm organisé autour de trois axes : **tokens**, **styles**, **composants**.
@@ -59,7 +65,10 @@ complète des composants disponibles et leurs API.
 
 ## Documentation
 
-- **Site documentaire** (à venir) : <https://ori.gov.pf>
+- **Site documentaire** : <https://ori.gov.pf>
+- **Catégories de patterns** (applicatif vs information) : <https://ori.gov.pf/fondations/categories/>
+- **Responsive design** (breakpoints, mobile-first, touch targets) : <https://ori.gov.pf/fondations/responsive/>
+- **Démos exécutables** : <https://ori.gov.pf/exemples/> (portail citoyen React, landing institutionnelle HTML, mires Keycloak, back-office agent Angular)
 - **Storybooks de test interactif** : déployés en sous-chemins du site documentaire
 - **Décisions de design** et **stratégie d'ouverture** : pages MDX dans `packages/docs/`
 - **Roadmap publique** : <https://github.com/orgs/govpf/projects/3> (Backlog, Up next, In progress, Done ; filtres par catégorie, effort, source)
