@@ -1,0 +1,187 @@
+---
+layout: ../../layouts/DocLayout.astro
+title: 'Charte du fascicule'
+current: 'fascicule'
+headerCurrent: 'tokens'
+---
+
+import Callout from '../../components/Callout.astro';
+
+# Charte du fascicule
+
+Le **fascicule** est un livret imprimé de prise en main remis aux
+usagers ou aux agents : guide du nouveau PC, mode d'emploi d'une
+application métier, procédure d'accueil… Il relève de la famille
+**interfaces d'information** (voir [Catégories de patterns](/fondations/categories/)) :
+typographie généreuse, espacements larges, composants éditoriaux.
+
+Cette charte fixe la mise en page d'un fascicule et rattache chaque choix
+à un token Ori. Un exemple complet, _Prendre en main votre nouveau PC_,
+est disponible dans [Exemples](/exemples/fascicule/) (sources :
+`apps/example-fascicule`).
+
+<Callout variant="note" title="Principe">
+  Aucune valeur visuelle n'est codée en dur quand un token existe. La feuille `fascicule.css` ne
+  déclare que des alias `--fasc-*` qui pointent vers les variables CSS de `@govpf/ori-tokens`.
+  Changer un token Ori met à jour tous les fascicules.
+</Callout>
+
+## Formats et pagination
+
+| Format             | Usage                      | Corps de texte                               | Marges `spacing.*` (haut-bas / ext. / reliure) |
+| ------------------ | -------------------------- | -------------------------------------------- | ---------------------------------------------- |
+| **A5** (référence) | livret plié, agrafé au dos | `font.size.sm` · `font.lineHeight.normal`    | 10 / 8 / 10                                    |
+| **A4**             | impression simple, PDF     | `font.size.base` · `font.lineHeight.relaxed` | 16 / 12 / 16                                   |
+
+- **Une feuille HTML = une page imprimée.** Chaque page est un bloc
+  `.sheet` de dimension fixe : l'aperçu à l'écran est exactement ce qui
+  sort de l'imprimante. Le contenu rédigé pour l'A5 tient dans l'A4 sans
+  changer la pagination, le sommaire reste donc juste dans les deux formats.
+- **Recto / verso.** Les pages impaires ont la marge de reliure à gauche,
+  les paires à droite ; le folio est toujours côté extérieur.
+- **Nombre de pages multiple de 4** pour un livret A5 (une feuille A4
+  pliée = 4 pages). Compléter si besoin par une page _Mémo_ ou _Notes_.
+- **Pas d'aplat à fond perdu** : les imprimantes de bureau ne
+  l'impriment pas. Les aplats restent à l'intérieur des marges.
+- Impression livret : imprimer le PDF A5 avec l'option « Livret » du
+  pilote d'impression, sur A4 recto verso, bord court.
+
+## Typographie
+
+Police unique : **Inter** (`font.family.sans`), embarquée par le DS,
+donc identique à l'écran, en PDF et hors-ligne.
+
+| Élément                         | A5               | A4               | Graisse                | Interligne           |
+| ------------------------------- | ---------------- | ---------------- | ---------------------- | -------------------- |
+| Titre de couverture             | `font.size.3xl`  | `font.size.4xl`  | `font.weight.bold`     | `lineHeight.tight`   |
+| Titre de chapitre               | `font.size.2xl`  | `font.size.3xl`  | `font.weight.bold`     | `lineHeight.tight`   |
+| Chapeau (introduction)          | `font.size.base` | `font.size.lg`   | `regular`              | hérité               |
+| Titre de section (h2)           | `font.size.lg`   | `font.size.xl`   | `font.weight.semibold` | `lineHeight.tight`   |
+| Sous-section (h3)               | `font.size.base` | `font.size.lg`   | `font.weight.semibold` | `lineHeight.tight`   |
+| Texte courant                   | `font.size.sm`   | `font.size.base` | `regular`              | `normal` / `relaxed` |
+| Surtitre, légende, pied de page | `font.size.xs`   | `font.size.sm`   | `semibold` (surtitre)  | hérité               |
+
+## Couleurs
+
+On n'utilise que des **alias sémantiques** (`color.text.*`,
+`color.brand.*`, `color.surface.*`, `color.border.*`, `color.feedback.*`) :
+ils garantissent les contrastes AA définis dans
+[Sémantique](/fondations/semantique/).
+
+- **Bleu Ori** (`color.brand.primary`) : surtitres, barres d'accent,
+  pastilles d'étape et d'annotation, numéros du sommaire.
+- **Bleu profond** (`color.brand.primary-active`) : titres de section.
+- **Encre** : `color.text.primary` (texte), `text.secondary` (chapeaux,
+  légendes), `text.muted` (pied de page).
+- **Fonds** : `surface.base` (papier), `surface.muted` (touches, en-têtes
+  de tableau), `brand.primary-subtle` (visuel de couverture).
+
+## Composants de la charte
+
+### Couverture
+
+Bloc marque (`ori-logo` + crest officiel), surtitre « Guide de prise en
+main », titre suivi d'une **barre d'accent** (`spacing.16` × `spacing.1`,
+`brand.primary`, `radius.full`), sous-titre, visuel sur panneau
+`brand.primary-subtle` arrondi `radius.xl`, puis édition et public visé.
+La 4e de couverture porte les contacts du support.
+
+### Sommaire
+
+Chapitres numérotés en `brand.primary`, points de conduite en filet
+pointillé `border.default`, numéros de page en chiffres tabulaires. Les
+numéros sont recalculés à l'affichage depuis la page qui contient chaque
+ancre ; les valeurs écrites dans le HTML servent de repli.
+
+### Ouverture de chapitre
+
+Surtitre « Chapitre N » (`font.size.xs`, `semibold`, capitales,
+`brand.primary`), titre, chapeau en `text.secondary`, puis **filet
+d'accent de 4px** en `brand.primary` (même épaisseur que `.ori-callout`).
+Un chapitre commence toujours sur une nouvelle page.
+
+### Étapes numérotées
+
+Liste `ol.steps` : pastille ronde `brand.primary` / `brand.on-primary`
+(diamètre `spacing.5` en A5, `spacing.6` en A4), première phrase de
+l'étape en `semibold` (`.steps__title`). Une étape = une action ; une
+étape n'est jamais coupée entre deux pages.
+
+### Encadrés
+
+On réutilise le composant éditorial **`.ori-callout`** du DS :
+
+| Encadré   | Classe                 | Couleurs                                   |
+| --------- | ---------------------- | ------------------------------------------ |
+| Astuce    | `ori-callout--tip`     | `feedback.success` / `feedback.success-bg` |
+| À savoir  | `ori-callout--note`    | `brand.primary` / `brand.primary-subtle`   |
+| Attention | `ori-callout--warning` | `feedback.warning` / `feedback.warning-bg` |
+| Important | `ori-callout--danger`  | `feedback.danger` / `feedback.danger-bg`   |
+
+Pas plus de deux encadrés par page : au-delà, ils ne ressortent plus.
+
+### Captures d'écran avec légende
+
+`figure.figure` : cadre `border.default`, `radius.lg`, `shadow.sm`, fond
+`surface.muted`. Légende numérotée automatiquement (« Figure N · … ») en
+`font.size.xs`, `text.secondary`. Les annotations sont des **pastilles
+numérotées** (`.pin`, `brand.primary`, liseré `surface.base`,
+`shadow.md`) posées _à côté_ de l'élément désigné, reprises dans une
+liste `ol.legend`. Les maquettes SVG utilisent des classes `.mock-*`
+colorées par tokens ; une vraie capture se place dans un `<img>`.
+
+### Raccourcis clavier
+
+`<kbd>` : fond `surface.muted`, bordure `border.default` épaissie en bas
+(effet touche), `radius.sm`, Inter `semibold` en `font.size.xs`.
+Une combinaison s'écrit `<span class="keys"><kbd>Ctrl</kbd> + <kbd>C</kbd></span>`
+et ne se coupe jamais en fin de ligne. Les tableaux de raccourcis
+(`table.shortcuts`) ont un en-tête `surface.muted` en capitales
+`font.size.xs`.
+
+### Pied de page
+
+Filet `border.subtle`, titre courant (chapitre) côté reliure, folio
+`semibold` côté extérieur, `font.size.xs`, `text.muted`. Couverture et
+4e de couverture n'ont pas de pied de page mais sont comptées.
+
+## Rédaction
+
+- S'adresser au lecteur (« vous »), phrases courtes, une idée par phrase.
+- Verbes d'action à l'impératif pour les étapes : « Branchez », « Ouvrez ».
+- Nommer les éléments d'interface comme à l'écran, entre guillemets
+  français : « Modifier un mot de passe ».
+- Ne jamais demander d'écrire un mot de passe dans le fascicule.
+
+## Valeurs hors tokens (exceptions assumées)
+
+Ori ne fournit pas de token pour : les **dimensions papier** (148×210 mm,
+210×297 mm), les **épaisseurs de trait** (1px filets, 2px bas de touche,
+4px barres d'accent comme `.ori-callout`) et quelques **ajustements
+optiques en `em`** (interlettrage des surtitres 0.08em, largeur minimale
+d'une touche). Ce sont les seules valeurs littérales de `fascicule.css`.
+
+<Callout variant="tip" title="Vérifier avant d'imprimer">
+  L'aperçu signale en rouge toute page dont le contenu déborde, pour le format affiché (A5 ou A4).
+  Corriger le texte plutôt que réduire la taille des caractères.
+</Callout>
+
+## Tokens utilisés
+
+| Famille     | Tokens                                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------------------- |
+| Police      | `font.family.sans`                                                                                            |
+| Tailles     | `font.size.xs`, `sm`, `base`, `lg`, `xl`, `2xl`, `3xl`, `4xl`                                                 |
+| Graisses    | `font.weight.regular`, `semibold`, `bold`                                                                     |
+| Interlignes | `font.lineHeight.tight`, `normal`, `relaxed`                                                                  |
+| Texte       | `color.text.primary`, `secondary`, `muted`, `inverse`                                                         |
+| Marque      | `color.brand.primary`, `primary-active`, `primary-subtle`, `on-primary` ; `color.primary.400` (illustrations) |
+| Surfaces    | `color.surface.base`, `muted`, `subtle`                                                                       |
+| Bordures    | `color.border.subtle`, `default`                                                                              |
+| Retours     | `color.feedback.success`, `success-bg`, `warning`, `warning-bg`, `danger`, `danger-bg` (via `.ori-callout`)   |
+| Espacements | `spacing.1`, `2`, `3`, `4`, `5`, `6`, `8`, `10`, `12`, `16`                                                   |
+| Rayons      | `radius.sm`, `lg`, `xl`, `full`                                                                               |
+| Ombres      | `shadow.sm`, `md` (impression) ; `shadow.lg` (aperçu écran)                                                   |
+
+Composants Ori réutilisés : `.ori-callout`, `.ori-logo`, `.ori-button`
+(barre d'aperçu), `.ori-demo-banner`.

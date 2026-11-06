@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# Artefacts copiés depuis les packages du monorepo par copy-assets.mjs
+css/
+assets/

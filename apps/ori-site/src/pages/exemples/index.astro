@@ -32,6 +32,15 @@ const examples = [
     surface: 'ori-card--elevated, ori-input, ori-button, ori-alert, ori-link',
   },
   {
+    title: 'Fascicule imprimable (guide utilisateur)',
+    description:
+      'Livret « Prendre en main votre nouveau PC » en HTML pur, imprimable en A5 (livret) ou A4 : couverture, sommaire paginé, chapitres, étapes numérotées, encadrés, captures annotées, raccourcis clavier. Illustre la charte du fascicule.',
+    href: `${base}exemples/fascicule/`,
+    badge: 'HTML + impression',
+    badgeVariant: 'success',
+    surface: 'ori-callout, ori-logo, tokens typographie, espacements et couleurs sémantiques',
+  },
+  {
     title: 'Back-office agent (instruction de dossiers)',
     description:
       'Espace agent administratif construit en Angular 20 standalone. Démontre la consommation de @govpf/ori-angular en conditions réelles : sélection multiple, tri, cellTemplate, menus, dialog de confirmation, notifications, recherche et filtres.',
@@ -62,7 +71,7 @@ const tools = [
 <BaseLayout
   title="Exemples et démos"
   current="examples"
-  description="Démos exécutables d Ori : portail citoyen, landing institutionnelle, mires Keycloak, back-office agent Angular."
+  description="Démos exécutables d Ori : portail citoyen, landing institutionnelle, mires Keycloak, back-office agent Angular, fascicule imprimable."
   variant="landing"
 >
   <section class="page-intro">
@@ -70,9 +79,9 @@ const tools = [
       <p class="page-intro__eyebrow">Exemples et démos</p>
       <h1 class="page-intro__title">Voir Ori en action</h1>
       <p class="page-intro__lead">
-        Quatre démos couvrent les principaux cas d usage des services
+        Cinq démos couvrent les principaux cas d usage des services
         administratifs PF : portail citoyen, site institutionnel,
-        authentification fédérée, back-office agent. Toutes consomment les
+        authentification fédérée, back-office agent, guide imprimé. Toutes consomment les
         packages <code>@govpf/ori-*</code> publiés, sans modification.
       </p>
     </div>
