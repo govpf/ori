@@ -1,5 +1,12 @@
 # @govpf/ori-example-landing
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [ee96e60]
+  - @govpf/ori-css@0.2.2
+
 ## 0.1.2
 
 ### Patch Changes

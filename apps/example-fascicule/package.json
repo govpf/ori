@@ -1,6 +1,6 @@
 {
   "name": "@govpf/ori-example-fascicule",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Exemple : fascicule imprimable (A5/A4) « Prendre en main votre nouveau PC » bâti sur les tokens Ori, en HTML/CSS pur",
   "scripts": {
