@@ -1,5 +1,13 @@
 # @govpf/ori-storybook-angular
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [ee96e60]
+  - @govpf/ori-angular@0.2.1
+  - @govpf/ori-tailwind-preset@0.3.1
+
 ## 0.1.5
 
 ### Patch Changes
