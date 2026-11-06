@@ -38,12 +38,8 @@ export interface OriStepItem {
           [attr.aria-current]="status === 'current' ? 'step' : null"
         >
           @if (isClickable) {
-            <button
-              type="button"
-              class="ori-steps__button"
-              [attr.aria-label]="'Revenir à l\\'étape ' + (i + 1)"
-              (click)="stepClick.emit(i)"
-            >
+            <button type="button" class="ori-steps__button" (click)="stepClick.emit(i)">
+              <span class="ori-steps__sr-only">Revenir à l'étape {{ i + 1 }} : </span>
               <span class="ori-steps__marker" aria-hidden="true">
                 @if (status === 'completed') {
                   <lucide-icon [img]="CheckIcon" [size]="16"></lucide-icon>

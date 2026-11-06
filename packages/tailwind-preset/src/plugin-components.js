@@ -1256,6 +1256,20 @@ export function componentsPlugin({ addComponents, addBase, theme }) {
     '.ori-steps__item--completed + .ori-steps__separator': {
       backgroundColor: v('feedback-success'),
     },
+    '.ori-steps__sr-only': {
+      // Préfixe « Revenir à l'étape N : » lu par les lecteurs d'écran et
+      // masqué visuellement : le nom accessible du bouton contient ainsi
+      // son texte visible (WCAG 2.5.3, règle axe label-content-name-mismatch).
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      border: '0',
+    },
     '.ori-steps__button': {
       // En mode clickable, le bouton englobe le dot + label. Même
       // structure verticale que l'item non-clickable pour cohérence.

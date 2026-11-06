@@ -62,8 +62,8 @@ export function Steps({ steps, current, clickable, onStepClick, className }: Ste
                   type="button"
                   className="ori-steps__button"
                   onClick={() => onStepClick?.(index)}
-                  aria-label={`Revenir à l'étape ${index + 1}`}
                 >
+                  <span className="ori-steps__sr-only">{`Revenir à l'étape ${index + 1} : `}</span>
                   {marker}
                   {label}
                 </button>

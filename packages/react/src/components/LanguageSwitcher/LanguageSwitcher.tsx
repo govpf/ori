@@ -16,7 +16,11 @@ export interface LanguageSwitcherProps extends Omit<HTMLAttributes<HTMLDivElemen
   value: string;
   /** Callback de changement. */
   onChange: (code: string) => void;
-  /** Étiquette ARIA du bouton (lecteur d'écran). */
+  /**
+   * Action annoncée par le lecteur d'écran. Le nom accessible du bouton
+   * la compose avec la langue courante : « fr, Changer la langue »
+   * (WCAG 2.5.3 : le nom accessible commence par le texte visible).
+   */
   triggerAriaLabel?: string;
 }
 
@@ -69,7 +73,7 @@ export function LanguageSwitcher({
         className="ori-language-switcher__trigger"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={triggerAriaLabel}
+        aria-label={`${value}, ${triggerAriaLabel}`}
         onClick={() => setOpen((o) => !o)}
       >
         <Globe size={14} aria-hidden="true" />
