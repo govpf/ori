@@ -26,6 +26,62 @@ est disponible dans [Exemples](/exemples/fascicule/) (sources :
   Changer un token Ori met à jour tous les fascicules.
 </Callout>
 
+## Modèle Word
+
+La plupart des fascicules sont rédigés sous Word. Le modèle applique la
+même charte : styles nommés, thème (couleurs et police) aligné sur les
+tokens, format A5, couverture, sommaire automatique, en-tête de l'entité
+émettrice, pied de page avec titre du chapitre et folio, 4e de couverture.
+
+- [Télécharger le modèle Word (.dotx)](/telechargements/modele-fascicule.dotx) : 8 pages qui
+  présentent chaque style, à remplacer par votre contenu.
+- [Télécharger l'exemple « Prendre en main votre nouveau PC » (.docx)](/telechargements/exemple-fascicule-nouveau-pc.docx) :
+  le même fascicule que l'[exemple HTML](/exemples/fascicule/), rédigé avec le modèle.
+
+### Utiliser le modèle
+
+1. Installez la police [Inter](https://fonts.google.com/specimen/Inter) si
+   elle ne l'est pas : sans elle, Word la remplace par une police proche et
+   la pagination peut bouger.
+2. Double-cliquez sur `modele-fascicule.dotx` : Word ouvre un nouveau
+   document fondé sur le modèle, qui reste intact.
+3. Remplacez les textes de la couverture et l'illustration. Pour changer
+   l'entité émettrice, double-cliquez en haut d'une page paire, puis d'une
+   page impaire.
+4. Rédigez uniquement avec les styles (Accueil > Styles), jamais avec la
+   mise en forme directe (police, couleur, taille).
+5. Avant d'imprimer : clic droit dans le sommaire > « Mettre à jour les
+   champs » > « Mettre à jour toute la table ». Visez un nombre de pages
+   multiple de 4, puis imprimez en A5 avec l'option « Livret » du pilote,
+   sur A4 recto verso.
+
+| Style Word                                                                                                          | Élément de la charte                                        | Tokens                                                                        |
+| ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Numéro de chapitre**                                                                                              | « Chapitre N », calculé, ouvre une nouvelle page            | `font.size.xs` · `color.brand.primary`                                        |
+| **Titre 1** (alias _Titre de chapitre_)                                                                             | titre de chapitre, repris au sommaire et en pied de page    | `font.size.2xl` · `bold` · barre `color.brand.primary`                        |
+| **Titre 2** (_Titre de section_), **Titre 3** (_Sous-titre_)                                                        | section, sous-section                                       | `font.size.lg` · `color.brand.primary-active` ; `font.size.base`              |
+| **Chapeau**                                                                                                         | phrase d'ouverture                                          | `font.size.base` · `color.text.secondary`                                     |
+| **Étape numérotée**, **Étape, suite**                                                                               | procédure, une action par étape                             | `color.brand.primary` · retrait `spacing.8`                                   |
+| **Liste à puces**, **Repère numéroté**                                                                              | énumération ; légende d'une capture annotée                 | `color.brand.primary` ; `color.brand.primary-active`                          |
+| **Encadré Astuce / À savoir / Attention / Important** (styles de tableau), **Titre d'encadré**, **Texte d'encadré** | encadrés : tableau d'une cellule, à copier depuis le modèle | `feedback.success` / `brand.primary` / `feedback.warning` / `feedback.danger` |
+| **Capture**, **Légende** (alias _Légende de capture_)                                                               | figure centrée, « Figure N · » numéroté automatiquement     | `font.size.xs` · `color.text.secondary`                                       |
+| **Touche** (style de caractère)                                                                                     | touche du clavier                                           | `color.border.default` · `color.surface.muted`                                |
+| **Tableau fascicule** (style de tableau), **Texte de tableau**                                                      | tableaux                                                    | en-tête `color.surface.muted`, filets `color.border.subtle`                   |
+| **Mention**, **Ligne de notes**                                                                                     | précision discrète ; page _Notes_                           | `color.text.muted` ; `color.border.default`                                   |
+
+Écarts avec la version HTML, propres à Word : le demi-gras
+(`font.weight.semibold`) est rendu en gras, les étapes et les repères sont
+des chiffres cerclés (une numérotation Word ne dessine pas de pastille
+pleine), et les coins arrondis (`radius.*`) ne sont pas reproduits. Le
+modèle est réglé pour l'A5 ; pour un A4, imprimez le PDF A5 ajusté à la
+page.
+
+<Callout variant="note" title="Régénérer les fichiers Word">
+  Le modèle et l'exemple sont produits par `apps/example-fascicule/word/build-word.mjs`, à partir
+  des mêmes valeurs de tokens que `fascicule.css` (`charte.mjs`). Sous Windows avec Word,
+  `finalize-word.ps1` met ensuite à jour le sommaire et les numéros de figure.
+</Callout>
+
 ## Formats et pagination
 
 | Format             | Usage                      | Corps de texte                               | Marges `spacing.*` (haut-bas / ext. / reliure) |

@@ -30,6 +30,30 @@ du pilote, sur A4 recto verso.
 | `copy-assets.mjs` | Copie `ori.min.css` dans `css/`, les polices Inter dans `assets/fonts/` et le crest dans `assets/` (fichiers ignorés par git).       |
 | `build.mjs`       | Produit `dist/`, publié sous `/exemples/fascicule/`.                                                                                 |
 
+## Modèle Word
+
+Le dossier `word/` produit la même charte pour Word, publiée sur le site
+sous `/telechargements/` :
+
+- `modele-fascicule.dotx` : modèle A5 avec styles nommés, thème aligné
+  sur les tokens, couverture, sommaire automatique, en-tête et pied de page ;
+- `exemple-fascicule-nouveau-pc.docx` : cet exemple, rédigé avec le modèle.
+
+```bash
+pnpm --filter @govpf/ori-example-fascicule build:word     # génère les deux fichiers
+pnpm --filter @govpf/ori-example-fascicule finalize:word  # Windows + Word : sommaire et champs à jour
+```
+
+| Fichier                          | Rôle                                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------------------- |
+| `word/charte.mjs`                | Tokens convertis en unités Word, styles, thème, numérotations, en-têtes et pieds de page. |
+| `word/document.mjs`              | Assemblage : couverture, chapitres, encadrés, captures, tableaux, 4e de couverture.       |
+| `word/build-word.mjs`            | Contenu du modèle et de l'exemple.                                                        |
+| `word/ooxml.mjs`                 | Briques OOXML et archive ZIP, sans dépendance.                                            |
+| `word/finalize-word.ps1`         | Met à jour sommaire, numéros de figure et titres courants avec Word.                      |
+| `word/capture-illustrations.mjs` | Recapture les illustrations de l'exemple HTML en PNG (Edge headless) dans `word/images/`. |
+| `word/render-blason.mjs`         | Rend le blason en PNG opaque, sans ombre, depuis le logo SVG du site (Edge headless).     |
+
 ## Réutiliser la charte pour un autre fascicule
 
 1. Copier `fascicule.css` et `fascicule.js`, charger `@govpf/ori-css` avant.

@@ -8,7 +8,9 @@
     "predev": "pnpm copy-assets",
     "dev": "npx http-server . -p 4175 -c-1",
     "prebuild": "pnpm copy-assets",
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "build:word": "node word/build-word.mjs",
+    "finalize:word": "powershell -NoProfile -ExecutionPolicy Bypass -File word/finalize-word.ps1"
   },
   "dependencies": {
     "@govpf/ori-css": "workspace:*"
