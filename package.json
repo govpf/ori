@@ -52,7 +52,8 @@
   },
   "pnpm": {
     "overrides": {
-      "shell-quote": ">=1.8.4"
+      "shell-quote": ">=1.11.0",
+      "postcss-selector-parser@6": "^6.1.5"
     }
   }
 }
