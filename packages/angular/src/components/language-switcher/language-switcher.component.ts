@@ -35,7 +35,7 @@ export interface OriLanguageOption {
         class="ori-language-switcher__trigger"
         aria-haspopup="listbox"
         [attr.aria-expanded]="open"
-        [attr.aria-label]="triggerAriaLabel"
+        [attr.aria-label]="value + ', ' + triggerAriaLabel"
         (click)="toggle()"
       >
         <lucide-icon [img]="GlobeIcon" [size]="14" aria-hidden="true"></lucide-icon>
@@ -65,6 +65,11 @@ export interface OriLanguageOption {
 export class OriLanguageSwitcherComponent {
   @Input() languages: OriLanguageOption[] = [];
   @Input() value: string = '';
+  /**
+   * Action annoncée par le lecteur d'écran. Le nom accessible du bouton
+   * la compose avec la langue courante : « fr, Changer la langue »
+   * (WCAG 2.5.3 : le nom accessible commence par le texte visible).
+   */
   @Input() triggerAriaLabel: string = 'Changer la langue';
 
   @Output() languageChange = new EventEmitter<string>();
