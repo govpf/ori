@@ -84,6 +84,14 @@ const APPS = [
     color: 'gray',
     command: 'pnpm --filter @govpf/ori-example-keycloak dev',
   },
+  {
+    short: 'FASC',
+    name: 'Fascicule imprimable (HTML)',
+    port: 4175,
+    url: 'http://localhost:4175',
+    color: 'blue',
+    command: 'pnpm --filter @govpf/ori-example-fascicule dev',
+  },
 ];
 
 // Génère la config consommée par le dashboard (pour la liste des apps

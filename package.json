@@ -23,6 +23,7 @@
     "example:landing": "pnpm --filter @govpf/ori-example-landing run dev",
     "example:keycloak": "pnpm --filter @govpf/ori-example-keycloak run dev",
     "example:agent": "pnpm --filter @govpf/ori-example-agent run dev",
+    "example:fascicule": "pnpm --filter @govpf/ori-example-fascicule run dev",
     "dev:all": "pnpm --filter @govpf/ori-tools-dev-all run start",
     "dev:docker": "docker compose -f tools/dev-all/docker-compose.yml up --build",
     "dev:docker:down": "docker compose -f tools/dev-all/docker-compose.yml down",

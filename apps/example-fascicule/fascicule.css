@@ -1,0 +1,784 @@
+/**
+ * Charte « fascicule » Ori
+ * ------------------------------------------------------------------
+ * Livret de prise en main destiné aux usagers et agents (guide
+ * utilisateur, mode d'emploi d'un poste, d'une application…).
+ *
+ * Famille : interface d'INFORMATION (cf. /fondations/categories/) :
+ * typographie généreuse, espacements larges, composants éditoriaux.
+ *
+ * Règle d'or : aucune valeur visuelle codée en dur quand un token Ori
+ * existe. Ce fichier ne déclare que des alias `--fasc-*` qui pointent
+ * vers les variables générées par @govpf/ori-tokens (chargées via
+ * ori.min.css). Exceptions assumées, faute de token équivalent :
+ *   - dimensions papier (mm) : 148×210 (A5), 210×297 (A4) ;
+ *   - épaisseurs de trait : 1px (filets), 2px (bas des touches),
+ *     4px (barre d'accent, identique à .ori-callout) ;
+ *   - ajustements optiques relatifs au texte (em) : interlettrage des
+ *     surtitres (0.08em), largeur mini d'une touche (1.6em), calage
+ *     vertical de la case à cocher (0.15em).
+ *
+ * Structure attendue :
+ *   <main class="fascicule" data-format="a5|a4">
+ *     <section class="sheet sheet--cover">…</section>
+ *     <section class="sheet" data-running="Chapitre 2 · …">
+ *       <div class="sheet__body">…</div>
+ *       <footer class="sheet__foot">…</footer>
+ *     </section>
+ *   </main>
+ *
+ * Chaque .sheet est UNE page imprimée (mise en page déterministe :
+ * ce que l'on voit à l'écran est ce qui sort de l'imprimante).
+ */
+
+/* ──────────────────────────────────────────────────────────────────
+ * 1. Alias de charte -> tokens Ori
+ * ────────────────────────────────────────────────────────────────── */
+.fascicule {
+  /* Typographie */
+  --fasc-font: var(--font-family-sans);
+  --fasc-weight-regular: var(--font-weight-regular);
+  --fasc-weight-strong: var(--font-weight-semibold);
+  --fasc-weight-title: var(--font-weight-bold);
+  --fasc-leading-title: var(--font-line-height-tight);
+
+  /* Couleurs (alias sémantiques uniquement, sauf accent-strong) */
+  --fasc-ink: var(--color-text-primary);
+  --fasc-ink-soft: var(--color-text-secondary);
+  --fasc-ink-muted: var(--color-text-muted);
+  --fasc-accent: var(--color-brand-primary);
+  --fasc-accent-strong: var(--color-brand-primary-active);
+  --fasc-accent-subtle: var(--color-brand-primary-subtle);
+  --fasc-on-accent: var(--color-brand-on-primary);
+  --fasc-paper: var(--color-surface-base);
+  --fasc-tint: var(--color-surface-muted);
+  --fasc-tint-strong: var(--color-surface-subtle);
+  --fasc-rule: var(--color-border-subtle);
+  --fasc-rule-strong: var(--color-border-default);
+
+  /* Formes */
+  --fasc-radius-key: var(--radius-sm);
+  --fasc-radius-box: var(--radius-lg);
+  --fasc-radius-panel: var(--radius-xl);
+  --fasc-radius-pin: var(--radius-full);
+
+  /* Format A5 par défaut (format de référence du livret) */
+  --fasc-sheet-w: 148mm;
+  --fasc-sheet-h: 210mm;
+  --fasc-margin-block: var(--spacing-10);
+  --fasc-margin-outer: var(--spacing-8);
+  --fasc-margin-inner: var(--spacing-10); /* petit fond : côté reliure */
+  --fasc-text: var(--font-size-sm);
+  --fasc-small: var(--font-size-xs);
+  --fasc-leading: var(--font-line-height-normal);
+  --fasc-h-cover: var(--font-size-3xl);
+  --fasc-h-chapter: var(--font-size-2xl);
+  --fasc-h-section: var(--font-size-lg);
+  --fasc-h-sub: var(--font-size-base);
+  --fasc-lead: var(--font-size-base);
+  --fasc-flow: var(--spacing-3); /* entre deux blocs de texte */
+  --fasc-gap-section: var(--spacing-5); /* avant un titre de section */
+  --fasc-pin: var(--spacing-5); /* pastilles d'étape et d'annotation */
+
+  font-family: var(--fasc-font);
+  font-size: var(--fasc-text);
+  line-height: var(--fasc-leading);
+  color: var(--fasc-ink);
+  counter-reset: folio figure;
+}
+
+/* Format A4 : on monte d'un cran toute l'échelle typographique et les
+   marges. Le contenu rédigé pour l'A5 tient dans l'A4 sans changer la
+   pagination, ce qui garde le sommaire valable pour les deux formats. */
+.fascicule[data-format='a4'] {
+  --fasc-sheet-w: 210mm;
+  --fasc-sheet-h: 297mm;
+  --fasc-margin-block: var(--spacing-16);
+  --fasc-margin-outer: var(--spacing-12);
+  --fasc-margin-inner: var(--spacing-16);
+  --fasc-text: var(--font-size-base);
+  --fasc-small: var(--font-size-sm);
+  --fasc-leading: var(--font-line-height-relaxed);
+  --fasc-h-cover: var(--font-size-4xl);
+  --fasc-h-chapter: var(--font-size-3xl);
+  --fasc-h-section: var(--font-size-xl);
+  --fasc-h-sub: var(--font-size-lg);
+  --fasc-lead: var(--font-size-lg);
+  --fasc-flow: var(--spacing-4);
+  --fasc-gap-section: var(--spacing-8);
+  --fasc-pin: var(--spacing-6);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 2. Feuille (= une page imprimée)
+ * ────────────────────────────────────────────────────────────────── */
+.sheet {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--fasc-sheet-w);
+  height: var(--fasc-sheet-h);
+  overflow: hidden;
+  /* Recto (impair) : la reliure est à gauche. */
+  padding-block: var(--fasc-margin-block);
+  padding-inline: var(--fasc-margin-inner) var(--fasc-margin-outer);
+  background: var(--fasc-paper);
+  counter-increment: folio;
+  page: fasc-a5;
+}
+.fascicule[data-format='a4'] .sheet {
+  page: fasc-a4;
+}
+/* Verso (pair) : la reliure passe à droite. */
+.sheet:nth-child(even) {
+  padding-inline: var(--fasc-margin-outer) var(--fasc-margin-inner);
+}
+
+.sheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* En-tête courant : entité émettrice, posée dans la marge de tête (ne
+   prend pas de place au contenu), alignée côté extérieur. */
+.sheet__head {
+  position: absolute;
+  top: var(--spacing-4);
+  left: var(--fasc-margin-inner);
+  right: var(--fasc-margin-outer);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink-muted);
+  text-align: right;
+}
+.sheet:nth-child(even) .sheet__head {
+  left: var(--fasc-margin-outer);
+  right: var(--fasc-margin-inner);
+  text-align: left;
+}
+
+/* Pied de page : titre courant côté reliure, folio côté extérieur. */
+.sheet__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--fasc-rule);
+  font-size: var(--fasc-small);
+  color: var(--fasc-ink-muted);
+}
+.sheet:nth-child(even) .sheet__foot {
+  flex-direction: row-reverse;
+}
+.sheet__folio {
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink);
+  font-variant-numeric: tabular-nums;
+}
+.sheet__folio::before {
+  content: counter(folio);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 3. Couverture et 4e de couverture
+ * ────────────────────────────────────────────────────────────────── */
+.sheet.sheet--cover,
+.sheet.sheet--cover:nth-child(even) {
+  /* Couverture et 4e : marges symétriques, pas de pied de page. */
+  padding-inline: var(--fasc-margin-inner);
+}
+.cover {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-6);
+}
+.cover__brand {
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--fasc-rule);
+}
+.cover__visual {
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  border-radius: var(--fasc-radius-panel);
+  background: var(--fasc-accent-subtle);
+}
+.cover__visual svg {
+  width: 70%;
+  height: auto;
+  max-height: 100%;
+}
+.cover__eyebrow {
+  margin: 0 0 var(--spacing-2);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-strong);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fasc-accent);
+}
+.cover__title {
+  margin: 0;
+  font-size: var(--fasc-h-cover);
+  font-weight: var(--fasc-weight-title);
+  line-height: var(--fasc-leading-title);
+  color: var(--fasc-ink);
+}
+/* Barre d'accent sous le titre : signature visuelle de la charte. */
+.cover__title::after {
+  content: '';
+  display: block;
+  width: var(--spacing-16);
+  height: var(--spacing-1);
+  margin-top: var(--spacing-4);
+  border-radius: var(--fasc-radius-pin);
+  background: var(--fasc-accent);
+}
+.cover__subtitle {
+  margin: var(--spacing-4) 0 0;
+  font-size: var(--fasc-lead);
+  color: var(--fasc-ink-soft);
+}
+.cover__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--fasc-rule);
+  font-size: var(--fasc-small);
+  color: var(--fasc-ink-muted);
+}
+
+.backcover {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 4. Titres : chapitre, section, sous-section
+ * ────────────────────────────────────────────────────────────────── */
+.chapter {
+  margin-bottom: var(--fasc-gap-section);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 4px solid var(--fasc-accent);
+}
+.chapter__num {
+  display: block;
+  margin-bottom: var(--spacing-1);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-strong);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fasc-accent);
+}
+.fascicule .chapter__title {
+  margin: 0;
+  font-size: var(--fasc-h-chapter);
+  font-weight: var(--fasc-weight-title);
+  line-height: var(--fasc-leading-title);
+  color: var(--fasc-ink);
+}
+.chapter__lead {
+  margin: var(--spacing-3) 0 0;
+  font-size: var(--fasc-lead);
+  color: var(--fasc-ink-soft);
+}
+
+.fascicule h2 {
+  margin: var(--fasc-gap-section) 0 var(--spacing-2);
+  font-size: var(--fasc-h-section);
+  font-weight: var(--fasc-weight-strong);
+  line-height: var(--fasc-leading-title);
+  color: var(--fasc-accent-strong);
+  break-after: avoid;
+}
+.fascicule .chapter + h2,
+.fascicule .sheet__body > h2:first-child {
+  margin-top: 0;
+}
+.fascicule h3 {
+  margin: var(--fasc-flow) 0 var(--spacing-1);
+  font-size: var(--fasc-h-sub);
+  font-weight: var(--fasc-weight-strong);
+  line-height: var(--fasc-leading-title);
+  break-after: avoid;
+}
+.fascicule p,
+.fascicule ul,
+.fascicule ol {
+  margin: 0 0 var(--fasc-flow);
+}
+.fascicule ul,
+.fascicule ol {
+  padding-left: var(--spacing-5);
+}
+.fascicule li + li {
+  margin-top: var(--spacing-1);
+}
+.fascicule strong {
+  font-weight: var(--fasc-weight-strong);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 5. Sommaire
+ * ────────────────────────────────────────────────────────────────── */
+.fascicule .toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.toc__chapter + .toc__chapter {
+  margin-top: var(--spacing-4);
+}
+.toc__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  color: inherit;
+  text-decoration: none;
+}
+.toc__chapter > .toc__row {
+  font-weight: var(--fasc-weight-strong);
+  font-size: var(--fasc-h-sub);
+}
+.toc__num {
+  flex: 0 0 var(--spacing-6);
+  color: var(--fasc-accent);
+  font-weight: var(--fasc-weight-title);
+  font-variant-numeric: tabular-nums;
+}
+.toc__leader {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--fasc-rule-strong);
+}
+.toc__page {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fasc-weight-strong);
+}
+.fascicule .toc__sections {
+  list-style: none;
+  margin: var(--spacing-1) 0 0;
+  padding-left: calc(var(--spacing-6) + var(--spacing-2));
+  color: var(--fasc-ink-soft);
+}
+.toc__sections .toc__page {
+  font-weight: var(--fasc-weight-regular);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 6. Étapes numérotées
+ * ────────────────────────────────────────────────────────────────── */
+.fascicule .steps {
+  list-style: none;
+  padding: 0;
+  counter-reset: step;
+}
+.steps > li {
+  position: relative;
+  min-height: var(--fasc-pin);
+  padding-left: calc(var(--fasc-pin) + var(--spacing-3));
+  counter-increment: step;
+  break-inside: avoid;
+}
+.steps > li + li {
+  margin-top: var(--fasc-flow);
+}
+.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--fasc-pin);
+  height: var(--fasc-pin);
+  border-radius: var(--fasc-radius-pin);
+  background: var(--fasc-accent);
+  color: var(--fasc-on-accent);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-title);
+  line-height: 1;
+}
+.steps__title {
+  display: block;
+  font-weight: var(--fasc-weight-strong);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 7. Encadrés : on réutilise .ori-callout du DS
+ *    Astuce -> --tip · À savoir -> --note · Attention -> --warning
+ *    Important -> --danger
+ * ────────────────────────────────────────────────────────────────── */
+.fascicule .ori-callout {
+  margin-block: var(--fasc-flow);
+  break-inside: avoid;
+}
+.fascicule .ori-callout p {
+  margin-bottom: var(--spacing-1);
+}
+/* Grille d'encadrés courts (ex. légende « Comment lire ce guide »). */
+.callout-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-2) var(--spacing-3);
+  margin-block: var(--fasc-flow);
+}
+.fascicule .callout-grid .ori-callout {
+  margin: 0;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 8. Captures d'écran avec légende
+ * ────────────────────────────────────────────────────────────────── */
+.figure {
+  margin: var(--fasc-flow) 0;
+  counter-increment: figure;
+  break-inside: avoid;
+}
+.figure__frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--fasc-rule-strong);
+  border-radius: var(--fasc-radius-box);
+  background: var(--fasc-tint);
+  box-shadow: var(--shadow-sm);
+}
+.figure__frame > svg,
+.figure__frame > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.figure figcaption {
+  margin-top: var(--spacing-2);
+  font-size: var(--fasc-small);
+  color: var(--fasc-ink-soft);
+}
+.figure figcaption::before {
+  content: 'Figure ' counter(figure) ' · ';
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink);
+}
+
+/* Pastilles d'annotation posées sur la capture (positionnées en %). */
+.pin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--fasc-pin);
+  height: var(--fasc-pin);
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--fasc-paper);
+  border-radius: var(--fasc-radius-pin);
+  background: var(--fasc-accent);
+  color: var(--fasc-on-accent);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-title);
+  line-height: 1;
+  box-shadow: var(--shadow-md);
+}
+.fascicule .legend {
+  list-style: none;
+  padding: 0;
+  counter-reset: legend;
+}
+.legend > li {
+  position: relative;
+  padding-left: calc(var(--fasc-pin) + var(--spacing-2));
+  counter-increment: legend;
+}
+.legend > li::before {
+  content: counter(legend);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--fasc-pin);
+  height: var(--fasc-pin);
+  border-radius: var(--fasc-radius-pin);
+  background: var(--fasc-accent-subtle);
+  color: var(--fasc-accent-strong);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-title);
+  line-height: 1;
+}
+
+/* Maquettes d'écran en SVG : couleurs portées par les tokens. */
+.mock-screen {
+  fill: var(--fasc-tint-strong);
+}
+.mock-wallpaper {
+  fill: var(--fasc-accent);
+}
+.mock-wallpaper-soft {
+  fill: var(--color-primary-400);
+}
+.mock-panel {
+  fill: var(--fasc-paper);
+}
+.mock-bar {
+  fill: var(--fasc-tint);
+}
+.mock-line {
+  fill: var(--fasc-rule-strong);
+}
+.mock-accent {
+  fill: var(--fasc-accent);
+}
+.mock-ink {
+  fill: var(--fasc-ink);
+}
+.mock-stroke {
+  fill: none;
+  stroke: var(--fasc-rule-strong);
+}
+.mock-text {
+  fill: var(--fasc-ink);
+  font-family: var(--fasc-font);
+}
+.mock-text--inverse {
+  fill: var(--fasc-on-accent);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 9. Raccourcis clavier
+ * ────────────────────────────────────────────────────────────────── */
+.fascicule kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 var(--spacing-1);
+  border: 1px solid var(--fasc-rule-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--fasc-radius-key);
+  background: var(--fasc-tint);
+  color: var(--fasc-ink);
+  font-family: var(--fasc-font);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-strong);
+  line-height: var(--fasc-leading);
+  text-align: center;
+  white-space: nowrap;
+}
+/* Combinaison de touches : <span class="keys"><kbd>Ctrl</kbd> + <kbd>C</kbd></span> */
+.keys {
+  white-space: nowrap;
+}
+
+.shortcuts {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--fasc-flow);
+}
+.shortcuts th,
+.shortcuts td {
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: 1px solid var(--fasc-rule);
+  text-align: left;
+  vertical-align: middle;
+}
+.shortcuts thead th {
+  background: var(--fasc-tint);
+  border-bottom-color: var(--fasc-rule-strong);
+  font-size: var(--fasc-small);
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.shortcuts td:first-child {
+  width: 42%;
+}
+.shortcuts tr {
+  break-inside: avoid;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 10. Blocs utilitaires
+ * ────────────────────────────────────────────────────────────────── */
+.contact-card {
+  padding: var(--spacing-5);
+  border: 1px solid var(--fasc-rule);
+  border-left: 4px solid var(--fasc-accent);
+  border-radius: var(--fasc-radius-box);
+  background: var(--fasc-tint);
+}
+.contact-card dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-2) var(--spacing-4);
+  margin: 0;
+}
+.contact-card dt {
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink-soft);
+}
+.contact-card dd {
+  margin: 0;
+}
+
+.fascicule .checklist {
+  list-style: none;
+  padding: 0;
+}
+.checklist > li {
+  position: relative;
+  padding-left: calc(var(--spacing-5) + var(--spacing-2));
+}
+.checklist > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+  border: 2px solid var(--fasc-accent);
+  border-radius: var(--fasc-radius-key);
+}
+
+.muted {
+  color: var(--fasc-ink-muted);
+}
+
+/* Tableau « à compléter » (mémo) : en-têtes de ligne. */
+.shortcuts tbody th {
+  width: 45%;
+  font-weight: var(--fasc-weight-strong);
+  color: var(--fasc-ink-soft);
+}
+.form-table td {
+  height: var(--spacing-8);
+}
+
+/* Page de notes lignée. */
+.sheet__body--notes {
+  display: flex;
+  flex-direction: column;
+}
+.notes-lines {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+/* Lignes en vrais filets (bordures) : les dégradés répétés sont mal
+   restitués par certains pilotes d'impression et lecteurs PDF. */
+.notes-lines > span {
+  flex: 1 1 0;
+  border-bottom: 1px solid var(--fasc-rule-strong);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 11. Aperçu écran (hors impression)
+ * ────────────────────────────────────────────────────────────────── */
+@media screen {
+  body {
+    margin: 0;
+    background: var(--color-surface-subtle);
+  }
+  .fascicule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-8);
+    padding: var(--spacing-8) var(--spacing-4) var(--spacing-16);
+  }
+  .sheet {
+    box-shadow: var(--shadow-lg);
+  }
+  /* Signalement d'un débordement (ajouté par fascicule.js). */
+  .sheet--overflow {
+    outline: 4px solid var(--color-feedback-danger);
+    outline-offset: 2px;
+  }
+  .sheet--overflow::after {
+    content: 'Contenu trop long pour la page';
+    position: absolute;
+    right: var(--spacing-2);
+    bottom: var(--spacing-2);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-feedback-danger);
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+}
+
+/* Barre d'outils d'aperçu (jamais imprimée). */
+.preview-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-base);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+.preview-bar__group {
+  display: inline-flex;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+.preview-bar [aria-pressed='true'] {
+  background: var(--color-brand-primary-subtle);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * 12. Impression
+ * ────────────────────────────────────────────────────────────────── */
+@page fasc-a5 {
+  size: A5 portrait;
+  margin: 0;
+}
+@page fasc-a4 {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    margin: 0;
+    background: none;
+  }
+  .preview-bar,
+  .ori-demo-banner,
+  .ori-skip-link {
+    display: none !important;
+  }
+  .fascicule {
+    display: block;
+    padding: 0;
+  }
+  .sheet {
+    box-shadow: none;
+    break-after: page;
+  }
+  .sheet:last-child {
+    break-after: auto;
+  }
+  /* Conserver les aplats de couleur (encadrés, pastilles, couverture). */
+  .fascicule,
+  .fascicule * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .fascicule a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

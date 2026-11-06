@@ -12,6 +12,7 @@ name: Deploy to GitHub Pages
 #   /exemples/landing/      -> example-landing (HTML pur + ori-css)
 #   /exemples/keycloak/     -> example-keycloak (mires d'authentification)
 #   /exemples/agent/        -> example-agent (back-office Angular)
+#   /exemples/fascicule/    -> example-fascicule (fascicule imprimable A5/A4)
 
 on:
   push:
@@ -75,18 +76,22 @@ jobs:
       - name: Build example-agent
         run: pnpm --filter @govpf/ori-example-agent build
 
+      - name: Build example-fascicule
+        run: pnpm --filter @govpf/ori-example-fascicule build
+
       - name: Compose dist composé
         run: |
           set -euo pipefail
           mkdir -p dist
           cp -r apps/ori-site/dist/. dist/
           mkdir -p dist/storybook/react dist/storybook/angular dist/demo
-          mkdir -p dist/exemples/landing dist/exemples/keycloak dist/exemples/agent
+          mkdir -p dist/exemples/landing dist/exemples/keycloak dist/exemples/agent dist/exemples/fascicule
           cp -r apps/storybook-react/storybook-static/. dist/storybook/react/
           cp -r apps/storybook-angular/storybook-static/. dist/storybook/angular/
           cp -r apps/demo-portail/dist/. dist/demo/
           cp -r apps/example-landing/dist/. dist/exemples/landing/
           cp -r apps/example-keycloak/dist/. dist/exemples/keycloak/
+          cp -r apps/example-fascicule/dist/. dist/exemples/fascicule/
           # Angular CLI (application builder) produit dist/<projet>/browser/
           cp -r apps/example-agent/dist/example-agent/browser/. dist/exemples/agent/
           # .nojekyll obligatoire pour servir _astro/, _next/, etc.
